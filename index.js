@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ================================================================
   // 📌 Key စာရင်းများ
   // ================================================================
-  const EIGHT_CHAR_KEYS = [
-    'KEY-1A-A4', 'MEP-1E-6B', 'HUB-1F-4C', 'KEY-2B-B5', 'MEP-2F-7C',
-    'HUB-2G-5D', 'KEY-3C-C6', 'MEP-3G-8D', 'HUB-3H-6E', 'KEY-4D-D7',
-    'MEP-4H-9E', 'HUB-4I-7F', 'KEY-5E-E8', 'MEP-5I-0F', 'HUB-5J-8G',
-    'KEY-6F-F9', 'MEP-6J-1G', 'HUB-6K-9H', 'KEY-7G-G0', 'MEP-7K-2H',
-    'HUB-7L-0A', 'KEY-8H-H1', 'MEP-8L-3I', 'HUB-8M-1B', 'KEY-9I-I2',
-    'MEP-9M-4J', 'HUB-9N-2C', 'KEY-10-J3', 'MEP-10-K5', 'HUB-10-L4'
+ const EIGHT_CHAR_KEYS = [
+    'KEY1AAAA', 'MEPT1011', 'HUB11A89', 'KEY2BBBB', 'MEPT2022',
+    'HUB22B90', 'KEY3CCCC', 'MEPT3033', 'HUB33C01', 'KEY4DDDD',
+    'MEPT4044', 'HUB44D12', 'KEY5EEEE', 'MEPT5055', 'HUB55E23',
+    'KEY6FFFF', 'MEPT6066', 'HUB66F34', 'KEY7GGGG', 'MEPT7077',
+    'HUB77G45', 'KEY8HHHH', 'MEPT8088', 'HUB88H56', 'KEY9IIII',
+    'MEPT9099', 'HUB99I67', 'KEY10JJJ', 'MEPT1010', 'HUB100J8'
   ];
   const TEN_CHAR_KEYS = [
     'TENKEY11KKK', 'TENKEY12LLL', 'TENKEY13MMM', 'TENKEY14NNN', 'TENKEY15OOO',
