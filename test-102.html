@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Mock Test 102 – MEPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 16px 14px 24px;
+            box-shadow: 0 8px 30px rgba(0, 20, 50, 0.08);
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .top-bar h2 {
+            font-size: 18px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-bar h2 i { color: #1a4d8f; }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-back:active { transform: scale(0.95); background: #dce3ed; }
+
+        .timer-bar {
+            background: #f8fafc;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .timer-bar i { color: #1a4d8f; }
+
+        /* ===== SECTION ===== */
+        .section {
+            background: #f8faff;
+            border-radius: 16px;
+            padding: 14px 12px;
+            margin-bottom: 16px;
+            border-left: 5px solid #1a4d8f;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i { color: #1a4d8f; width: 22px; text-align: center; }
+
+        .question {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .question:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .q-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 5px;
+        }
+        .q-text .q-label { font-weight: 400; color: #64748b; font-size: 13px; }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding-left: 4px;
+        }
+        .options label {
+            font-size: 14px;
+            color: #1f3a5f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 3px 0;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4d8f;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ===== READING ===== */
+        .passage {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .passage strong { color: #0a2a4a; }
+
+        /* ===== LISTENING ===== */
+        .listening-script {
+            background: #fef9e7;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #fdebd0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #5b3e00;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .listening-script i { color: #d4891e; }
+
+        .audio-container {
+            background: #f1f5f9;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+        .audio-container audio {
+            flex: 1;
+            min-width: 180px;
+            height: 40px;
+            width: 100%;
+        }
+        .play-status {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a4d8f;
+            background: #fff;
+            padding: 4px 16px;
+            border-radius: 50px;
+            border: 1px solid #d1d9e6;
+            white-space: nowrap;
+        }
+        .play-status.limited {
+            color: #dc2626;
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+
+        /* ===== SPEAKING ===== */
+        .speaking-card {
+            border: 2px solid #f0b429;
+            background: #fefcf5;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 6px;
+        }
+        .speaking-card .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .speaking-card .timer-display {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f4c75;
+        }
+        .speak-btn {
+            background: #0f4c75;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            touch-action: manipulation;
+        }
+        .speak-btn:active { transform: scale(0.95); }
+        .speak-btn.playing { background: #e53e3e; }
+        .speak-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .speaking-prompt-box {
+            background: #f1f5f9;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #f0b429;
+            transition: all 0.3s ease;
+        }
+        .speaking-prompt-box strong {
+            color: #0a2a4a;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        .speaking-prompt-box p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1f3a5f;
+        }
+
+        .speaking-card textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #d1d9e6;
+            font-family: inherit;
+            font-size: 14px;
+            background: #fafcff;
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* ===== WRITING ===== */
+        .writing-option {
+            background: #fff;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 8px;
+        }
+        .writing-option h5 { color: #0a2a4a; font-size: 14px; margin-bottom: 3px; }
+        .writing-option p { font-size: 13px; color: #475569; margin-bottom: 6px; }
+        .writing-option textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d9e6;
+            font-family: inherit;
+            font-size: 13px;
+            background: #fafcff;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-submit {
+            background: #1a4d8f;
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 8px 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+        .btn-submit:active { transform: scale(0.97); background: #0f3a6b; }
+
+        .btn-reset {
+            background: #eef2f7;
+            color: #1f3a5f;
+            border: none;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 4px 0;
+            touch-action: manipulation;
+        }
+        .btn-reset:active { transform: scale(0.97); background: #dce3ed; }
+
+        /* ===== RESULTS ===== */
+        #resultsContainer {
+            display: none;
+            animation: fadeIn 0.4s ease;
+            margin-top: 16px;
+        }
+        #resultsContainer.show { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-section {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 5px solid #1a4d8f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .result-section .label { font-weight: 600; font-size: 14px; color: #0a2a4a; }
+        .result-section .grade {
+            font-weight: 800;
+            font-size: 18px;
+            padding: 2px 14px;
+            border-radius: 50px;
+        }
+        .grade-a { background: #dcfce7; color: #166534; }
+        .grade-b { background: #fef9e7; color: #92400e; }
+        .grade-c { background: #fee2e2; color: #991b1b; }
+
+        .overall-result {
+            background: #1a4d8f;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .overall-result.fail { background: #991b1b; }
+        .overall-result .sub { font-weight: 400; font-size: 13px; opacity: 0.9; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .container { padding: 12px 10px 16px; }
+            .top-bar h2 { font-size: 16px; }
+            .section { padding: 12px 10px; }
+            .section-title { font-size: 15px; }
+            .q-text { font-size: 13px; }
+            .options label { font-size: 13px; }
+            .passage { font-size: 13px; padding: 8px 10px; }
+            .listening-script { font-size: 13px; padding: 10px 12px; }
+            .speaking-prompt-box p { font-size: 14px; }
+            .speaking-card textarea { font-size: 13px; }
+            .writing-option textarea { font-size: 13px; }
+            .btn-submit { font-size: 15px; padding: 12px 0; }
+            .audio-container audio { min-width: 120px; }
+        }
+
+        @media (max-width: 380px) {
+            .result-section { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .timer-bar { justify-content: center; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #f0f4f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #b8c9e0; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <h2><i class="fas fa-vial"></i> Mock Test 102</h2>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span class="timer-bar" id="timerDisplay"><i class="fas fa-clock"></i> 120:00</span>
+                <a href="mocktest.html" class="btn-back"><i class="fas fa-arrow-left"></i> Hub</a>
+            </div>
+        </div>
+
+        <!-- EXAM FORM -->
+        <form id="testForm" onsubmit="return false;">
+
+            <!-- ===== GRAMMAR (40) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-book"></i> Grammar (40 Qs)</div>
+                <div id="grammarQuestions"></div>
+            </div>
+
+            <!-- ===== READING (20) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-book-open"></i> Reading (20 Qs)</div>
+                <div id="readingQuestions"></div>
+            </div>
+
+            <!-- ===== LISTENING (20) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-headphones"></i> Listening (20 Qs)</div>
+                <div id="listeningQuestions"></div>
+            </div>
+
+            <!-- ===== WRITING ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-pen-fancy"></i> Writing</div>
+                <div id="writingQuestions"></div>
+            </div>
+
+            <!-- ===== SPEAKING ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-comment"></i> Speaking (7 Qs)</div>
+                <div id="speakingQuestions"></div>
+            </div>
+
+            <!-- BUTTONS -->
+            <button type="button" class="btn-submit" id="submitBtn"><i class="fas fa-check-circle"></i> Submit & Grade</button>
+            <button type="button" class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> Reset All</button>
+        </form>
+
+        <!-- ===== RESULTS ===== -->
+        <div id="resultsContainer">
+            <div id="resultsContent"></div>
+            <button type="button" class="btn-reset" onclick="window.location.reload();"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 0. LISTENING TRACKER (2 plays limit)
+        // ================================================================
+        let listeningPlayCount = 0;
+        const MAX_LISTENING_PLAYS = 2;
+
+        // ================================================================
+        // 1. GRAMMAR DATA (40 NEW questions)
+        // ================================================================
+        const GRAMMAR_DATA = [
+            { q: "The ship ________ in Singapore next Monday.", opts: ["a) arrive", "b) arrives", "c) arriving"], ans: "b" },
+            { q: "They ________ the cargo when the storm started.", opts: ["a) loading", "b) were loading", "c) load"], ans: "b" },
+            { q: "All lifejackets ________ checked before departure.", opts: ["a) must be", "b) must", "c) must have"], ans: "a" },
+            { q: "The captain ________ the crew about the weather now.", opts: ["a) informs", "b) is informing", "c) informed"], ans: "b" },
+            { q: "If the fog clears, we ________ the port.", opts: ["a) will enter", "b) enter", "c) would enter"], ans: "a" },
+            { q: "The bosun told me ________ the ropes immediately.", opts: ["a) to secure", "b) secure", "c) securing"], ans: "a" },
+            { q: "The pilot ________ the ship safely through the channel yesterday.", opts: ["a) guides", "b) guided", "c) guiding"], ans: "b" },
+            { q: "The crew ________ enough food for the long voyage.", opts: ["a) have", "b) has", "c) having"], ans: "a" },
+            { q: "The engine room ________ very hot all day.", opts: ["a) is", "b) are", "c) was"], ans: "c" },
+            { q: "The officer ________ the radar every 15 minutes.", opts: ["a) checks", "b) check", "c) checking"], ans: "a" },
+            { q: "You ________ wear your lifejacket on deck.", opts: ["a) should", "b) shouldn't", "c) might"], ans: "a" },
+            { q: "The lifeboat ________ launched by the crew.", opts: ["a) is", "b) was", "c) were"], ans: "b" },
+            { q: "The deck ________ by the crew right now.", opts: ["a) is being cleaned", "b) cleans", "c) cleaning"], ans: "a" },
+            { q: "The vessel ________ the port yet.", opts: ["a) hasn't left", "b) haven't left", "c) didn't leave"], ans: "a" },
+            { q: "The meeting is scheduled ________ 10 a.m.", opts: ["a) at", "b) on", "c) in"], ans: "a" },
+            { q: "The crew worked ________ to finish the job.", opts: ["a) hard", "b) hardly", "c) hardness"], ans: "a" },
+            { q: "There are ________ containers on the deck.", opts: ["a) many", "b) much", "c) a lot"], ans: "a" },
+            { q: "The engineers ________ repaired the generator.", opts: ["a) have", "b) has", "c) having"], ans: "a" },
+            { q: "Remember ________ the fire alarm before leaving.", opts: ["a) to test", "b) test", "c) testing"], ans: "a" },
+            { q: "The crew ________ finished the safety drill.", opts: ["a) have", "b) has", "c) haven't"], ans: "a" },
+            { q: "The third officer ________ the watch every midnight.", opts: ["a) takes", "b) take", "c) taking"], ans: "a" },
+            { q: "All equipment ________ ready for the voyage.", opts: ["a) were", "b) was", "c) is"], ans: "b" },
+            { q: "The ship will dock ________ the port tomorrow.", opts: ["a) at", "b) in", "c) on"], ans: "a" },
+            { q: "The bosun ________ the deck crew every morning.", opts: ["a) inspects", "b) inspect", "c) inspecting"], ans: "a" },
+            { q: "You ________ use your phone in the engine room.", opts: ["a) should not", "b) shouldn't", "c) might"], ans: "a" },
+            { q: "The captain ________ to the port authorities now.", opts: ["a) talks", "b) is talking", "c) talk"], ans: "b" },
+            { q: "The cargo ________ in the containers.", opts: ["a) is stored", "b) stores", "c) storing"], ans: "a" },
+            { q: "The fire drill ________ once a month.", opts: ["a) conducts", "b) is conducted", "c) conducting"], ans: "b" },
+            { q: "I ________ to work on a cruise ship.", opts: ["a) want", "b) wants", "c) wanting"], ans: "a" },
+            { q: "The lifeboat ________ capacity for 50 people.", opts: ["a) has", "b) have", "c) having"], ans: "a" },
+            { q: "The chief officer ________ the schedule next week.", opts: ["a) reviews", "b) will review", "c) reviewing"], ans: "b" },
+            { q: "The mooring lines ________ by the bosun.", opts: ["a) checks", "b) are checked", "c) checking"], ans: "b" },
+            { q: "The vessel ________ at dawn.", opts: ["a) departs", "b) depart", "c) departing"], ans: "a" },
+            { q: "The officers ________ the navigation plan carefully.", opts: ["a) study", "b) studies", "c) studying"], ans: "a" },
+            { q: "All safety equipment ________ tested regularly.", opts: ["a) are", "b) is", "c) being"], ans: "b" },
+            { q: "The pump ________ down for repairs.", opts: ["a) is shut", "b) shuts", "c) shutting"], ans: "a" },
+            { q: "The crew ________ drills to stay prepared.", opts: ["a) conducts", "b) conduct", "c) conducting"], ans: "b" },
+            { q: "The voyage ________ about two weeks.", opts: ["a) lasts", "b) last", "c) lasting"], ans: "a" },
+            { q: "The second officer ________ the logbook now.", opts: ["a) reads", "b) is reading", "c) read"], ans: "b" },
+            { q: "The cargo ________ to be loaded tomorrow.", opts: ["a) is scheduled", "b) schedules", "c) scheduling"], ans: "a" }
+        ];
+
+        // ================================================================
+        // 2. READING DATA (4 NEW passages)
+        // ================================================================
+        const READING_DATA = [{
+            title: "Weather at Sea",
+            text: "Weather plays a crucial role in maritime navigation. Storms, fog, and high waves can make voyages dangerous. Seafarers rely on weather forecasts from shore stations and satellite imagery to plan safe routes. The captain and officers monitor barometric pressure and wind speed constantly. If a storm is approaching, the crew will secure all loose equipment, reduce speed, and change course if necessary. Understanding weather patterns is essential for the safety of the ship and crew.",
+            questions: [
+                { q: "Weather is not important for maritime navigation.", ans: "F" },
+                { q: "Seafarers use weather forecasts to plan routes.", ans: "T" },
+                { q: "The captain monitors wind speed and pressure.", ans: "T" },
+                { q: "Crew members ignore approaching storms.", ans: "F" },
+                { q: "Understanding weather is essential for safety.", ans: "T" }
+            ]
+        }, {
+            title: "The Role of a Chief Engineer",
+            text: "The Chief Engineer is the head of the engine department. He is responsible for the operation and maintenance of all machinery on the ship, including the main engine, generators, and pumps. He ensures that the engine room runs safely and efficiently. The Chief Engineer supervises the engineering officers and ratings. He also monitors fuel consumption and maintains logs of all repairs. A good Chief Engineer is knowledgeable, decisive, and calm under pressure.",
+            questions: [
+                { q: "The Chief Engineer supervises the engine department.", ans: "T" },
+                { q: "The Chief Engineer does not monitor fuel consumption.", ans: "F" },
+                { q: "The Chief Engineer works only in the deck department.", ans: "F" },
+                { q: "A good Chief Engineer stays calm under pressure.", ans: "T" },
+                { q: "The Chief Engineer maintains repair logs.", ans: "T" }
+            ]
+        }, {
+            title: "Navigational Aids",
+            text: "Navigational aids are devices that help ships find their way safely. The Global Positioning System (GPS) provides accurate location data. Radar helps detect other vessels, land, and obstacles in poor visibility. Electronic Chart Display and Information Systems (ECDIS) show digital maps and routes. Traditional methods like compasses and paper charts are still used as backups. All these tools work together to ensure the ship navigates safely from port to port.",
+            questions: [
+                { q: "GPS provides accurate location data.", ans: "T" },
+                { q: "Radar is used only during daylight.", ans: "F" },
+                { q: "ECDIS shows digital maps and routes.", ans: "T" },
+                { q: "Compasses are no longer used on ships.", ans: "F" },
+                { q: "Navigational aids help ships travel safely.", ans: "T" }
+            ]
+        }, {
+            title: "Lifeboat Maintenance",
+            text: "Lifeboats are critical for survival in emergencies. They must be maintained and inspected regularly. The crew tests the engine, checks the fuel level, and ensures the lifeboat is in good condition. Safety equipment inside the lifeboat, such as food, water, flares, and first aid kits, must also be checked. Regular lifeboat drills are held so that everyone knows how to board and launch the lifeboat quickly. Proper maintenance saves lives.",
+            questions: [
+                { q: "Lifeboats do not need regular maintenance.", ans: "F" },
+                { q: "The engine and fuel must be checked.", ans: "T" },
+                { q: "Lifeboats contain first aid kits.", ans: "T" },
+                { q: "Drills are not required for lifeboats.", ans: "F" },
+                { q: "Proper maintenance is essential for safety.", ans: "T" }
+            ]
+        }];
+
+        // ================================================================
+        // 3. LISTENING DATA (20 questions based on Party Invitation)
+        // ================================================================
+        const LISTENING_SCRIPT = `Automated message: You have two new messages. Message number one, received today at 3.45 p.m.
+
+        Hi, it's me. How's it going? I guess you're at work and you don't have your phone on, right? First of all, thank you, THANK YOU for the birthday card and message. I received it this morning. That's so nice of you. I'm organising a little party for my birthday. It's nothing very big – only a few of my best and closest friends. That means you too! We're going to have it at my cousin's house. She lives in the countryside in a nice big house with a swimming pool. I'd love to see you there. It's going to be this Friday. I'll send you the instructions on how to get there later, OK? 
+
+        Anyway, have fun at work. Don't work too hard, OK? Talk soon.
+
+        Automated message: You have two new messages. Message number two, received today at 5.15 p.m.
+
+        Aw, you're still not answering your phone! OK, here are the instructions to get to my cousin's house for the party. Are you going to take your car? If you take the car, drive straight on Forest Road until you get to the motorway. Drive past Brownsville and take exit 13A. That's 13A. You drive down the road there and turn left. It's the first big house on the right. OK? If you're taking a bus, you can get the number 80 to Brownsville. Call me when you get there and somebody can pick you up in a car. I can't wait. This is going to be so great!`;
+
+        const LISTENING_DATA = [
+            { q: "What time was the first message received?", opts: ["A. 3:15 p.m.", "B. 3:45 p.m.", "C. 5:15 p.m."], ans: "B" },
+            { q: "What did the speaker receive from the listener?", opts: ["A. A present", "B. A birthday card and message", "C. A phone call"], ans: "B" },
+            { q: "Where is the party going to be held?", opts: ["A. At the speaker's house", "B. At a restaurant", "C. At the cousin's house"], ans: "C" },
+            { q: "What does the cousin's house have?", opts: ["A. A garden", "B. A swimming pool", "C. A big garage"], ans: "B" },
+            { q: "When is the party?", opts: ["A. This Saturday", "B. This Friday", "C. Next Friday"], ans: "B" },
+            { q: "What type of event is the party?", opts: ["A. A big formal event", "B. A small gathering with close friends", "C. A work party"], ans: "B" },
+            { q: "Why does the speaker think the listener didn't answer?", opts: ["A. They are asleep", "B. They are at work and phone is off", "C. They are driving"], ans: "B" },
+            { q: "How did the speaker feel about the card?", opts: ["A. Angry", "B. Thankful / Nice", "C. Indifferent"], ans: "B" },
+            { q: "What time was the second message sent?", opts: ["A. 3:45 p.m.", "B. 4:15 p.m.", "C. 5:15 p.m."], ans: "C" },
+            { q: "If driving, which road should you take first?", opts: ["A. Forest Road", "B. Brownsville Road", "C. Motorway"], ans: "A" },
+            { q: "Which exit should you take on the motorway?", opts: ["A. 12A", "B. 13A", "C. 14A"], ans: "B" },
+            { q: "After exiting, what should you do?", opts: ["A. Turn right", "B. Turn left", "C. Go straight"], ans: "B" },
+            { q: "Which house is it on the right?", opts: ["A. The second house", "B. The first big house", "C. The last house"], ans: "B" },
+            { q: "If taking the bus, which number bus should you take?", opts: ["A. Number 18", "B. Number 80", "C. Number 8"], ans: "B" },
+            { q: "Where does the bus go?", opts: ["A. To the motorway", "B. To Brownsville", "C. To the cousin's house"], ans: "B" },
+            { q: "What should the listener do when they arrive at Brownsville by bus?", opts: ["A. Walk to the house", "B. Call the speaker to get picked up", "C. Take a taxi"], ans: "B" },
+            { q: "Where does the cousin live?", opts: ["A. In the city", "B. In the countryside", "C. Near the office"], ans: "B" },
+            { q: "Is the listener's phone on?", opts: ["A. Yes", "B. No", "C. Not mentioned"], ans: "B" },
+            { q: "What does the speaker say about the party size?", opts: ["A. It's very big", "B. It's nothing very big", "C. It's for the whole town"], ans: "B" },
+            { q: "What is the speaker's overall mood?", opts: ["A. Angry", "B. Sad", "C. Excited / Happy"], ans: "C" }
+        ];
+
+        // ================================================================
+        // 4. SPEAKING DATA (7 NEW questions)
+        // ================================================================
+        const SPEAKING_DATA = [
+            { type: "Short Answer", timeLimit: 60, prompt: "Describe the daily routine of a deck cadet on a cargo ship." },
+            { type: "Short Answer", timeLimit: 60, prompt: "What are the main responsibilities of a Chief Engineer on a vessel?" },
+            { type: "Short Answer", timeLimit: 60, prompt: "How do you communicate effectively with multinational crew members?" },
+            { type: "Short Answer", timeLimit: 60, prompt: "Why is it important to maintain the ship's engine room logbook accurately?" },
+            { type: "Short Answer", timeLimit: 60, prompt: "What actions would you take if you saw a crew member acting unsafely?" },
+            { type: "Picture Description", timeLimit: 150, prompt: "Look at the picture of a man overboard drill. Describe what the crew is doing and explain the steps to rescue a person who has fallen overboard.", image: "102.png" },
+            { type: "Debate", timeLimit: 150, prompt: "Debate: 'Automated systems on modern ships have made the role of the deck watch officer less critical.' Defend or oppose this statement." }
+        ];
+
+        // ================================================================
+        // 5. WRITING DATA (NEW prompts)
+        // ================================================================
+        const WRITING_PART1 = [
+            { id: 'A', title: "Report a Damaged Fire Hose", task: "Write a short message to the Safety Officer about a fire hose that has a visible crack. Explain why it needs replacement. (approx. 25 words)" },
+            { id: 'B', title: "Request for Extra Paint", task: "Write a short message to the Bosun requesting more paint for the deck rails. Mention where the paint is needed. (approx. 25 words)" },
+            { id: 'C', title: "Report a Malfunctioning Light", task: "Write a short message to the Chief Officer about a navigation light that is not working properly. (approx. 25 words)" },
+            { id: 'D', title: "Request for Cleaning Supplies", task: "Write a short message to the Chief Steward requesting more cleaning supplies for the crew quarters. (approx. 25 words)" }
+        ];
+        const WRITING_PART2 = [
+            { id: 'A', title: "A Time You Faced Danger", task: "Describe a time you faced danger on board. What happened and how did you overcome it? (80-100 words)" },
+            { id: 'B', title: "Importance of Safety Equipment", task: "Explain why safety equipment like life jackets and fire extinguishers are crucial on ships. (80-100 words)" },
+            { id: 'C', title: "A New Challenge", task: "Write about a new challenge you faced at sea and how you adapted to it. (80-100 words)" },
+            { id: 'D', title: "My Dream Ship", task: "Describe your dream ship. What type is it, what does it have, and what would you do on it? (80-100 words)" }
+        ];
+
+        // ================================================================
+        // 6. TIMER
+        // ================================================================
+        let timerInterval;
+        let timeLeft = 120 * 60;
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timerDisplay').innerHTML = `<i class="fas fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ အချိန်ပြည့်ပါပြီ။');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // ================================================================
+        // 7. RENDER FUNCTIONS
+        // ================================================================
+
+        function renderGrammar() {
+            const container = document.getElementById('grammarQuestions');
+            let html = '';
+            GRAMMAR_DATA.forEach((q, i) => {
+                html += `<div class="question"><div class="q-text"><span class="q-label">Q${i+1}.</span> ${q.q}</div><div class="options">`;
+                q.opts.forEach(opt => {
+                    const val = opt.charAt(0);
+                    html += `<label><input type="radio" name="gq${i}" value="${val}"> ${opt}</label>`;
+                });
+                html += `</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderReading() {
+            const container = document.getElementById('readingQuestions');
+            let html = '', qNum = 1;
+            READING_DATA.forEach(pass => {
+                html += `<div class="passage"><strong>${pass.title}</strong>\n${pass.text}</div>`;
+                pass.questions.forEach(q => {
+                    html += `<div class="question"><div class="q-text"><span class="q-label">Q${qNum}.</span> ${q.q}</div>
+                        <div class="options" style="flex-direction:row; gap:16px;">
+                            <label><input type="radio" name="rq${qNum-1}" value="T"> True</label>
+                            <label><input type="radio" name="rq${qNum-1}" value="F"> False</label>
+                        </div></div>`;
+                    qNum++;
+                });
+            });
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 7b. RENDER LISTENING (with MP3 and 2-play limit)
+        // ================================================================
+      // ================================================================
+//  LISTENING RENDER (AI Voice - 2 Plays Limit)
+// ================================================================
+function renderListening() {
+    const container = document.getElementById('listeningQuestions');
+    if (!container) return;
+
+    // Reset play count when rendering
+    listeningPlayCount = 0;
+
+    // Build HTML - Remove audio tag, add Play Script button
+    let html = `
+        <div class="listening-script" id="listeningScript"><i class="fas fa-file-alt"></i> <strong>Transcript (Reference):</strong>\n${LISTENING_SCRIPT}</div>
+        
+        <div style="background: #f1f5f9; padding: 12px 14px; border-radius: 12px; margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+            <button class="play-btn" id="listeningPlayBtn" onclick="playListeningScript()" style="background: #1a4d8f; color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; touch-action: manipulation;">
+                <i class="fas fa-volume-up"></i> 🔈 Play Script (0/${MAX_LISTENING_PLAYS})
+            </button>
+            <span id="listeningStatus" style="font-weight: 600; font-size: 14px; color: #1a4d8f; background: #fff; padding: 4px 16px; border-radius: 50px; border: 1px solid #d1d9e6;">▶️ 0 / ${MAX_LISTENING_PLAYS}</span>
+        </div>
+        <div style="font-size:12px; color:#64748b; margin-bottom:10px;">
+            <i class="fas fa-info-circle"></i> နားဆင်ပြီး မေးခွန်းများကို ဖြေပါ။ (Audio ကို <strong>${MAX_LISTENING_PLAYS} ကြိမ်</strong>သာ ဖွင့်နိုင်ပါသည်။)
+        </div>
+    `;
+
+    // Add questions
+    LISTENING_DATA.forEach((q, i) => {
+        html += `<div class="question"><div class="q-text"><span class="q-label">Q${i+1}.</span> ${q.q}</div><div class="options">`;
+        q.opts.forEach(opt => {
+            const val = opt.charAt(0);
+            html += `<label><input type="radio" name="lq${i}" value="${val}"> ${opt}</label>`;
+        });
+        html += `</div></div>`;
+    });
+    container.innerHTML = html;
+
+    // Update the status badge to reflect current count
+    const status = document.getElementById('listeningStatus');
+    if (status) {
+        status.textContent = `▶️ ${listeningPlayCount} / ${MAX_LISTENING_PLAYS}`;
+        if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+            status.classList.add('limited');
+            status.style.color = '#dc2626';
+            status.style.background = '#fee2e2';
+            status.style.borderColor = '#dc2626';
+        }
+    }
+}
+
+// ================================================================
+//  PLAY LISTENING SCRIPT (AI Voice with 2-play limit)
+// ================================================================
+function playListeningScript() {
+    const btn = document.getElementById('listeningPlayBtn');
+    const status = document.getElementById('listeningStatus');
+    if (!btn || !status) return;
+
+    // If currently speaking, stop it
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+        btn.classList.remove('playing');
+        return;
+    }
+
+    // Check play limit
+    if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+        alert(`⚠️ ဤအသံဖိုင် (Audio) ကို ${MAX_LISTENING_PLAYS} ကြိမ်သာ ဖွင့်နိုင်ပါသည်။`);
+        return;
+    }
+
+    // Increment count
+    listeningPlayCount++;
+    btn.innerHTML = `<i class="fas fa-stop"></i> ⏹️ Playing... (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+    btn.classList.add('playing');
+
+    // Update status badge
+    status.textContent = `▶️ ${listeningPlayCount} / ${MAX_LISTENING_PLAYS}`;
+    if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+        status.classList.add('limited');
+        status.style.color = '#dc2626';
+        status.style.background = '#fee2e2';
+        status.style.borderColor = '#dc2626';
+    } else {
+        status.classList.remove('limited');
+        status.style.color = '#1a4d8f';
+        status.style.background = '#fff';
+        status.style.borderColor = '#d1d9e6';
+    }
+
+    // Prepare the text to speak (clean up whitespace)
+    const text = LISTENING_SCRIPT.replace(/\s+/g, ' ').trim();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    // Try to use a good voice (Google or Samantha for iOS)
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha'))) || 
+                     voices.find(v => v.lang.startsWith('en')) || null;
+    if (preferred) utterance.voice = preferred;
+
+    // When speech ends
+    utterance.onend = function() {
+        btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+        btn.classList.remove('playing');
+        if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btn.style.transform = 'none !important';
+        }
+    };
+
+    utterance.onerror = function(event) {
+        if (event.error !== 'canceled') {
+            btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+            btn.classList.remove('playing');
+            alert('AI Voice ဖွင့်ရာတွင် အမှားရှိသည်။');
+        }
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
+
+        // ================================================================
+        // 8. WRITING RENDER
+        // ================================================================
+        function renderWriting() {
+            const container = document.getElementById('writingQuestions');
+            let html = `<div style="font-weight:600; color:#0a2a4a; margin-bottom:8px;">Part 1 (approx. 25 words) – Choose ONE</div>`;
+            WRITING_PART1.forEach(w => {
+                html += `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w1${w.id}" rows="3" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            html += `<div style="font-weight:600; color:#0a2a4a; margin:12px 0 8px;">Part 2 (80–100 words) – Choose ONE</div>`;
+            WRITING_PART2.forEach(w => {
+                html += `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w2${w.id}" rows="5" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 9. SPEAKING SYSTEM
+        // ================================================================
+        let speakingTimer = null;
+        let speakingTimeLeft = 60;
+        let speakingPlayCount = 0;
+        const MAX_SPEAKING_PLAYS = 2;
+        let currentSpeakingIndex = 0;
+        let speakingAnswers = new Array(SPEAKING_DATA.length).fill('');
+        let isSpeakingTimeUp = false;
+        let speakingTimerStarted = false;
+
+        function showSpeakingQuestion(index) {
+            if (index >= SPEAKING_DATA.length) {
+                document.getElementById('speakingContainer').innerHTML = `
+                    <div style="text-align:center; padding:30px; background:#f0fdf4; border-radius:12px;">
+                        <h3 style="color:#166534;">✅ Speaking Completed!</h3>
+                        <p style="color:#64748b;">All 7 questions answered.</p>
+                        <button class="btn-submit" style="margin-top:12px; background:#166534;" onclick="document.getElementById('submitBtn').click();">Submit Exam</button>
+                    </div>
+                `;
+                document.getElementById('speakingProgress').textContent = `${SPEAKING_DATA.length}/${SPEAKING_DATA.length}`;
+                return;
+            }
+            clearInterval(speakingTimer);
+            speakingTimerStarted = false;
+            isSpeakingTimeUp = false;
+            currentSpeakingIndex = index;
+            const q = SPEAKING_DATA[index];
+            const total = SPEAKING_DATA.length;
+            const timeLimit = q.timeLimit || 60;
+            speakingPlayCount = 0;
+            document.getElementById('speakingProgress').textContent = `${index + 1}/${total}`;
+            document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${timeLimit}s`;
+            document.getElementById('speakingTimerDisplay').style.color = '#0f4c75';
+            const container = document.getElementById('speakingContainer');
+            const typeLabel = q.type === 'Picture Description' ? '🖼️ Picture Description' :
+                             q.type === 'Debate' ? '🎯 Debate' : '💬 Short Answer';
+            
+            let imageHtml = '';
+            if (q.image) {
+                imageHtml = `
+                    <div style="text-align:center; margin:12px 0;">
+                        <img src="${q.image}" alt="Speaking Image" 
+                             style="max-width:100%; max-height:220px; border-radius:12px; border:2px solid #e2e8f0; padding:8px; background:white; box-shadow:0 2px 8px rgba(0,0,0,0.06);" 
+                             onerror="this.style.display='none'">
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div style="border:2px solid #f0b429; border-radius:14px; padding:14px; background:#fefcf5;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+                        <div>
+                            <span style="font-weight:600; color:#0f4c75;">Question ${index+1} of ${total}</span>
+                            <span style="margin-left:8px; font-size:0.75rem; background:#f0b42920; padding:2px 12px; border-radius:20px; color:#92400e;">${typeLabel}</span>
+                        </div>
+                        <span id="speakingTimerDisplay" style="font-weight:700; font-size:1.1rem; color:#0f4c75;">⏱️ ${timeLimit}s</span>
+                    </div>
+                    <div style="text-align:center; padding:8px 0;">
+                        <button class="speak-btn" id="speakBtnCurrent" onclick="playSpeakingQuestion(${index})">
+                            🔊 Play Question (0/${MAX_SPEAKING_PLAYS})
+                        </button>
+                        <p style="font-size:0.8rem; color:#64748b; margin-top:6px;">
+                            ${q.type === 'Picture Description' ? 'Listen, then describe what you see' : 
+                              q.type === 'Debate' ? 'Listen, state your position and argue' : 
+                              'Listen, then type your answer'}
+                            <br><span style="color:#dc2626; font-weight:600;">(Text prompt will disappear after the 2nd play)</span>
+                        </p>
+                    </div>
+                    ${imageHtml}
+                    <div class="speaking-prompt-box" id="speakingPromptBox">
+                        <strong>📌 Question Prompt:</strong>
+                        <p>${q.prompt}</p>
+                    </div>
+                    <div>
+                        <label style="font-weight:500; display:block; margin-bottom:4px; font-size:14px;">Your Answer:</label>
+                        <textarea id="sp_${index}" rows="${q.type === 'Picture Description' || q.type === 'Debate' ? 5 : 3}" placeholder="Type your answer here..." style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d1d9e6; font-family:inherit; font-size:14px; background:#fafcff; resize:vertical;">${speakingAnswers[index] || ''}</textarea>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end; flex-wrap:wrap;">
+                        <button class="btn-submit" style="background:#0f4c75; padding:8px 20px; font-size:14px; width:auto;" onclick="saveSpeakingAndNext(${index})">Save & Next →</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function playSpeakingQuestion(index) {
+            const btn = document.getElementById('speakBtnCurrent');
+            if (!btn) return;
+
+            if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                alert('❌ This question has been played the maximum times (2). The text prompt has been hidden.');
+                return;
+            }
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                return;
+            }
+
+            const q = SPEAKING_DATA[index];
+            speakingPlayCount++;
+            btn.textContent = `🔊 Playing... (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+            btn.classList.add('playing');
+
+            if (speakingPlayCount === MAX_SPEAKING_PLAYS) {
+                const promptBox = document.getElementById('speakingPromptBox');
+                if (promptBox) {
+                    promptBox.style.display = 'none';
+                }
+            }
+
+            const utterance = new SpeechSynthesisUtterance(q.prompt);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha'))) || 
+                             voices.find(v => v.lang.startsWith('en')) || null;
+            if (preferred) utterance.voice = preferred;
+            
+            const timeLimit = q.timeLimit || 60;
+            if (!speakingTimerStarted && !isSpeakingTimeUp) {
+                speakingTimeLeft = timeLimit;
+                speakingTimerStarted = true;
+                document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${speakingTimeLeft}s`;
+                document.getElementById('speakingTimerDisplay').style.color = '#0f4c75';
+                clearInterval(speakingTimer);
+                speakingTimer = setInterval(() => {
+                    speakingTimeLeft--;
+                    document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${speakingTimeLeft}s`;
+                    if (speakingTimeLeft <= 10) document.getElementById('speakingTimerDisplay').style.color = '#e53e3e';
+                    if (speakingTimeLeft <= 0) {
+                        clearInterval(speakingTimer);
+                        speakingTimerStarted = false;
+                        isSpeakingTimeUp = true;
+                        document.getElementById('speakingTimerDisplay').textContent = '⏱️ Time\'s Up!';
+                        document.getElementById('speakingTimerDisplay').style.color = '#e53e3e';
+                        const textarea = document.getElementById(`sp_${index}`);
+                        if (textarea) speakingAnswers[index] = textarea.value;
+                        setTimeout(() => { saveSpeakingAndNext(index); }, 1500);
+                    }
+                }, 1000);
+            }
+
+            utterance.onend = function() {
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.textContent = `🔊 Locked (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                }
+            };
+            utterance.onerror = function() {
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.textContent = `🔊 Locked (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                }
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function saveSpeakingAndNext(index) {
+            const textarea = document.getElementById(`sp_${index}`);
+            if (textarea) speakingAnswers[index] = textarea.value;
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+            clearInterval(speakingTimer);
+            speakingTimerStarted = false;
+            isSpeakingTimeUp = false;
+            showSpeakingQuestion(index + 1);
+        }
+
+        function renderSpeaking() {
+            const container = document.getElementById('speakingQuestions');
+            container.innerHTML = `
+                <div class="speaking-card">
+                    <div style="font-size:13px; color:#64748b; margin-bottom:10px; line-height:1.6;">
+                        <strong>Instructions:</strong> 
+                        • Click <strong>🔊 Play Question</strong> to listen (max 2 plays)<br>
+                        • Timer starts automatically when you play<br>
+                        • <strong>⚠️ On the 2nd play, the text prompt will disappear.</strong> Listen carefully!<br>
+                        • <strong>Short Answer:</strong> 60s &nbsp;|&nbsp; <strong>Picture/Debate:</strong> 150s<br>
+                        • <strong>Time's Up:</strong> Auto-saves and moves to next<br>
+                        • Click <strong>"Save & Next"</strong> to move on manually
+                    </div>
+                    <div class="progress-bar">
+                        <span style="font-weight:600;">Progress: <span id="speakingProgress">0/${SPEAKING_DATA.length}</span></span>
+                        <span id="speakingTimerDisplay" style="font-weight:700; font-size:1.1rem; color:#0f4c75;">⏱️ 60s</span>
+                    </div>
+                    <div id="speakingContainer">
+                        <div style="text-align:center; padding:20px; color:#64748b;">
+                            <p>Press "Start Speaking" to begin.</p>
+                            <button class="btn-submit" style="background:#0f4c75; padding:10px 24px; width:auto; font-size:15px;" onclick="showSpeakingQuestion(0)">🎤 Start Speaking</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ================================================================
+        // 10. SUBMIT & GRADE
+        // ================================================================
+        function getGrade(pct) {
+            if (pct >= 90) return { grade: 'A', class: 'grade-a' };
+            if (pct >= 70) return { grade: 'B', class: 'grade-b' };
+            return { grade: 'C', class: 'grade-c' };
+        }
+
+        function submitExam() {
+            if (timerInterval) clearInterval(timerInterval);
+            if (speakingTimer) clearInterval(speakingTimer);
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+
+            let total = 0, max = 0;
+
+            // ---- Grammar (40) ----
+            let gScore = 0;
+            const gAnswers = GRAMMAR_DATA.map(q => q.ans);
+            gAnswers.forEach((ans, i) => {
+                const sel = document.querySelector(`input[name="gq${i}"]:checked`);
+                if (sel && sel.value === ans) gScore++;
+            });
+            total += gScore; max += 40;
+
+            // ---- Reading (20 x 1.5 = 30) ----
+            let rScore = 0;
+            const rAnswers = READING_DATA.flatMap(p => p.questions.map(q => q.ans));
+            rAnswers.forEach((ans, idx) => {
+                const sel = document.querySelector(`input[name="rq${idx}"]:checked`);
+                if (sel && sel.value === ans) rScore += 1.5;
+            });
+            total += rScore; max += 30;
+
+            // ---- Listening (20 x 1.25 = 25) ----
+            let lScore = 0;
+            const lAnswers = LISTENING_DATA.map(q => q.ans);
+            lAnswers.forEach((ans, i) => {
+                const sel = document.querySelector(`input[name="lq${i}"]:checked`);
+                if (sel && sel.value === ans) lScore += 1.25;
+            });
+            total += lScore; max += 25;
+
+            // ---- Writing (Part1:10, Part2:15) ----
+            let wScore = 0;
+            let p1Text = '';
+            WRITING_PART1.forEach(w => {
+                const text = document.getElementById(`w1${w.id}`)?.value || '';
+                if (text.length > p1Text.length) p1Text = text;
+            });
+            const wc1 = p1Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(10, Math.floor(wc1 / 3));
+            if (wc1 >= 20) wScore = 10;
+
+            let p2Text = '';
+            WRITING_PART2.forEach(w => {
+                const text = document.getElementById(`w2${w.id}`)?.value || '';
+                if (text.length > p2Text.length) p2Text = text;
+            });
+            const wc2 = p2Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(15, Math.floor(wc2 / 5));
+            if (wc2 >= 60) wScore = 15;
+            total += wScore; max += 25;
+
+            // ---- Speaking (scale to 15) ----
+            let rawSpeaking = 0, rawMax = 0;
+            SPEAKING_DATA.forEach((_, i) => {
+                const text = speakingAnswers[i] || document.getElementById(`sp_${i}`)?.value || '';
+                const wc = text.split(/\s+/).filter(w => w.length > 0).length;
+                rawSpeaking += Math.min(1, Math.floor(wc / 3));
+                rawMax += 1;
+            });
+            let sScore = rawMax > 0 ? Math.round((rawSpeaking / rawMax) * 15) : 0;
+            total += sScore; max += 15;
+
+            const pct = Math.round((total / max) * 100);
+            const lGrade = getGrade(Math.round((lScore / 25) * 100));
+            const sGrade = getGrade(Math.round((sScore / 15) * 100));
+            const finalPass = !(lGrade.grade === 'C' || sGrade.grade === 'C');
+
+            let html = `<div style="font-size:17px; font-weight:700; margin-bottom:12px; color:#0a2a4a;"><i class="fas fa-chart-pie"></i> Test Results</div>`;
+
+            const sections = [
+                { label: 'Grammar', score: gScore, max: 40 },
+                { label: 'Reading', score: rScore, max: 30 },
+                { label: 'Listening', score: lScore, max: 25 },
+                { label: 'Writing', score: wScore, max: 25 },
+                { label: 'Speaking', score: sScore, max: 15 }
+            ];
+
+            sections.forEach(sec => {
+                const p = Math.round((sec.score / sec.max) * 100);
+                const g = getGrade(p);
+                html += `
+                    <div class="result-section">
+                        <span class="label">${sec.label}</span>
+                        <span class="grade ${g.class}">${g.grade} (${sec.score}/${sec.max})</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="overall-result ${finalPass ? '' : 'fail'}">
+                    <div>Overall: ${finalPass ? 'PASS' : 'FAIL'}</div>
+                    <div class="sub">${finalPass ? 'All sections passed' : 'Fail: Listening or Speaking grade is C'}</div>
+                    <div style="font-size:14px; font-weight:400; margin-top:4px;">Score: ${total}/${max} (${pct}%)</div>
+                </div>
+            `;
+
+            document.getElementById('resultsContent').innerHTML = html;
+            document.getElementById('resultsContainer').classList.add('show');
+            document.getElementById('testForm').style.display = 'none';
+        }
+
+        // ================================================================
+        // 11. RESET
+        // ================================================================
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (timerInterval) clearInterval(timerInterval);
+            if (speakingTimer) clearInterval(speakingTimer);
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+            document.getElementById('testForm').reset();
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.getElementById('testForm').style.display = 'block';
+            timeLeft = 120 * 60;
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            speakingAnswers = new Array(SPEAKING_DATA.length).fill('');
+            currentSpeakingIndex = 0;
+            renderSpeaking();
+            renderListening();
+        });
+
+        // ================================================================
+        // 12. INIT
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGrammar();
+            renderReading();
+            renderListening();
+            renderWriting();
+            renderSpeaking();
+            startTimer();
+
+            if (window.speechSynthesis) {
+                setTimeout(() => { window.speechSynthesis.getVoices(); }, 100);
+            }
+
+            document.getElementById('submitBtn').addEventListener('click', submitExam);
+        });
+
+        console.log('✅ Mock Test 102 loaded - All questions are NEW and different from Test 101');
+        console.log('🎵 Listening: invitation_to_a_party.mp3 (2 plays max)');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Listening – MEPT Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header h2 i {
+            color: #1e7e34;
+            font-size: 22px;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #dce3ed;
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== SUB TABS ===== */
+        .sub-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 4px;
+        }
+
+        .sub-tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 14px;
+            color: #6b7a8f;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .sub-tab-btn:active {
+            transform: scale(0.96);
+        }
+
+        .sub-tab-btn.active {
+            background: #1e7e34;
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .sub-tab-btn:hover:not(.active) {
+            background: #f0f4f9;
+            color: #1a4d8f;
+        }
+
+        .sub-tab-btn i {
+            font-size: 14px;
+        }
+
+        .sub-content {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .sub-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== LISTENING CARD ===== */
+        .listening-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 6px solid #1e7e34;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .listening-tag {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .listening-card h3 {
+            font-size: 17px;
+            color: #0a2a4a;
+            margin-bottom: 4px;
+        }
+
+        .listening-card .desc {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        /* ===== AUDIO PLAYER ===== */
+        .audio-player-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #f8faff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 1px solid #e8edf5;
+        }
+
+        .audio-player-wrapper audio {
+            flex: 1;
+            min-width: 160px;
+            height: 40px;
+            width: 100%;
+        }
+
+        .play-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e7e34;
+            background: #dcfce7;
+            padding: 4px 14px;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+
+        /* ===== QUESTIONS ===== */
+        .listening-question-item {
+            background: #f8faff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e8edf5;
+        }
+
+        .listening-question-item .q-text {
+            font-weight: 600;
+            font-size: 15px;
+            color: #0a2a4a;
+            margin-bottom: 8px;
+        }
+
+        .listening-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .listening-options .opt {
+            padding: 6px 16px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1f3a5f;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .listening-options .opt:active {
+            transform: scale(0.95);
+        }
+
+        .listening-options .opt.selected {
+            border-color: #1a4d8f;
+            background: #dbeafe;
+        }
+
+        .listening-options .opt.correct-show {
+            border-color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .listening-options .opt.wrong-show {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .feedback {
+            font-size: 13px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* ===== CHECK BUTTON ===== */
+        .check-answers-btn {
+            background: #1e7e34;
+            border: none;
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .check-answers-btn:active {
+            background: #146b2a;
+            transform: scale(0.97);
+        }
+
+        .check-answers-btn:disabled {
+            background: #a0b3cc;
+            cursor: not-allowed;
+        }
+
+        /* ===== TASK 4 CARD (info card) ===== */
+        .task4-card {
+            background: #f0fdf4;
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 2px dashed #1e7e34;
+            margin-top: 10px;
+        }
+
+        .task4-card .icon-big {
+            font-size: 48px;
+            color: #1e7e34;
+            margin-bottom: 12px;
+        }
+
+        .task4-card h3 {
+            font-size: 20px;
+            color: #0a2a4a;
+            margin-bottom: 8px;
+        }
+
+        .task4-card p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .task4-btn {
+            background: #1e7e34;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .task4-btn:active {
+            background: #146b2a;
+            transform: scale(0.96);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 2px solid #eef2f7;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer i {
+            color: #1e7e34;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .listening-card {
+                padding: 14px 12px;
+            }
+            .listening-card h3 {
+                font-size: 15px;
+            }
+            .listening-question-item .q-text {
+                font-size: 14px;
+            }
+            .listening-options .opt {
+                font-size: 13px;
+                padding: 5px 14px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .audio-player-wrapper audio {
+                min-width: 120px;
+            }
+            .sub-tab-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+            .task4-card {
+                padding: 18px 14px;
+            }
+            .task4-btn {
+                font-size: 14px;
+                padding: 10px 24px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .listening-options .opt {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+            .sub-tab-btn {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h2><i class="fas fa-headphones"></i> Listening</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== SUB TABS ===== -->
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" data-tab="regular">
+                <i class="fas fa-microphone"></i> Regular
+            </button>
+            <a href="listeningtask4.html" class="sub-tab-btn">
+                <i class="fas fa-tasks"></i> Task 4
+            </a>
+        </div>
+
+        <!-- ===== REGULAR CONTENT ===== -->
+        <div id="regularContent" class="sub-content active">
+            <div id="listeningList"></div>
+        </div>
+
+        <!-- ===== TASK 4 CONTENT (info + link) ===== -->
+        <div id="task4Content" class="sub-content">
+            <div class="task4-card">
+                <div class="icon-big">📋</div>
+                <h3>Task 4 Listening</h3>
+                <p>
+                    This section contains dedicated Task 4 listening exercises.
+                    These are longer conversations with more detailed questions to test your comprehension.
+                </p>
+                <a href="listeningtask4.html" class="task4-btn">
+                    <i class="fas fa-arrow-right"></i> Go to Task 4
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-check-circle"></i> Regular: 10 exercises &bull; Task 4: dedicated page &bull; MEPT
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // TAB TOGGLE (Regular vs Task 4)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const subTabs = document.querySelectorAll('.sub-tab-btn');
+            const contents = {
+                regular: document.getElementById('regularContent'),
+                task4: document.getElementById('task4Content')
+            };
+
+            // Handle click on regular tab (the anchor tag handles itself)
+            subTabs.forEach(tab => {
+                if (tab.tagName === 'BUTTON') {
+                    tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Remove active from all tabs
+                        subTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+
+                        // Show regular content, hide task4
+                        contents.regular.classList.add('active');
+                        contents.task4.classList.remove('active');
+                    });
+                }
+            });
+
+            // If the user clicks the Task 4 link, it navigates away, so we don't need to handle it here.
+            // But if they somehow land here, the tab state is managed by the anchor default behavior.
+            // We'll just ensure regular is active by default (which it is).
+        });
+
+        // ============================================================
+        // LISTENING DATA (10 exercises – same as before)
+        // ============================================================
+        const LISTENING_DATA = [{
+            id: 1,
+            type: "short",
+            title: "Exercise 1: Morning Briefing (Part 1)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen to the morning briefing between the bosun and the deckhand.",
+            questions: [{
+                id: 1,
+                question: "1. What is the first task for today?",
+                options: ["a) Clean the deck and check mooring ropes", "b) Check the lifeboat", "c) Have a safety meeting"],
+                correct: "a) Clean the deck and check mooring ropes"
+            }, {
+                id: 2,
+                question: "2. What time should the deck be cleaned?",
+                options: ["a) Before 08:00", "b) Before 09:00", "c) Before 10:00"],
+                correct: "b) Before 09:00"
+            }, {
+                id: 3,
+                question: "3. What time will the chief officer inspect?",
+                options: ["a) 08:30", "b) 09:00", "c) 09:30"],
+                correct: "c) 09:30"
+            }]
+        }, {
+            id: 2,
+            type: "short",
+            title: "Exercise 2: Morning Briefing (Part 2)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen again to the morning briefing and answer these questions.",
+            questions: [{
+                id: 4,
+                question: "4. What will happen at 10:00?",
+                options: ["a) The deck will be cleaned", "b) The lifeboat maintenance will start", "c) The safety meeting will begin"],
+                correct: "b) The lifeboat maintenance will start"
+            }, {
+                id: 5,
+                question: "5. What equipment needs to be checked for the lifeboat?",
+                options: ["a) Engine, steering system, and lifejackets", "b) Mooring ropes and deck", "c) Radar and GPS"],
+                correct: "a) Engine, steering system, and lifejackets"
+            }, {
+                id: 6,
+                question: "6. Who will inform the team?",
+                options: ["a) The bosun", "b) The deckhand", "c) The captain"],
+                correct: "b) The deckhand"
+            }]
+        }, {
+            id: 3,
+            type: "short",
+            title: "Exercise 3: Morning Briefing (Part 3)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen again and focus on the weather and safety meeting.",
+            questions: [{
+                id: 7,
+                question: "7. What does the weather forecast say?",
+                options: ["a) Heavy rain", "b) Strong wind", "c) Fog"],
+                correct: "b) Strong wind"
+            }, {
+                id: 8,
+                question: "8. What must they do because of the strong wind?",
+                options: ["a) Stay in the cabin", "b) Secure all loose equipment", "c) Stop working"],
+                correct: "b) Secure all loose equipment"
+            }, {
+                id: 9,
+                question: "9. Where will the safety meeting be held?",
+                options: ["a) On the bridge", "b) In the conference room", "c) On the boat deck"],
+                correct: "b) In the conference room"
+            }]
+        }, {
+            id: 4,
+            type: "short",
+            title: "Exercise 4: Morning Briefing (Part 4)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen again and answer these questions.",
+            questions: [{
+                id: 10,
+                question: "10. What time is the safety meeting?",
+                options: ["a) 13:00", "b) 14:00", "c) 15:00"],
+                correct: "b) 14:00"
+            }, {
+                id: 11,
+                question: "11. Who wants the safety meeting?",
+                options: ["a) The bosun", "b) The chief officer", "c) The captain"],
+                correct: "c) The captain"
+            }, {
+                id: 12,
+                question: "12. What must all crew members attend?",
+                options: ["a) The morning briefing", "b) The safety meeting", "c) The lifeboat drill"],
+                correct: "b) The safety meeting"
+            }]
+        }, {
+            id: 5,
+            type: "short",
+            title: "Exercise 5: Morning Briefing (Part 5)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Final set of questions from the morning briefing.",
+            questions: [{
+                id: 13,
+                question: "13. What is the bosun's final instruction?",
+                options: ["a) Start the work and stay safe", "b) Have lunch together", "c) Go to the bridge"],
+                correct: "a) Start the work and stay safe"
+            }, {
+                id: 14,
+                question: "14. What did the bosun say about the lifeboat maintenance time?",
+                options: ["a) It will be at 09:00", "b) It will be at 10:00", "c) It will be at 11:00"],
+                correct: "b) It will be at 10:00"
+            }, {
+                id: 15,
+                question: "15. What should the crew do about loose equipment?",
+                options: ["a) Report to the captain", "b) Secure it properly", "c) Remove it from the deck"],
+                correct: "b) Secure it properly"
+            }]
+        }, {
+            id: 6,
+            type: "short",
+            title: "Exercise 6: Cargo Operation",
+            audioUrl: "listening_ex6.mp3",
+            description: "Listen to the conversation between the Chief Officer and the Bosun about cargo loading.",
+            questions: [{
+                id: 16,
+                question: "16. How many containers are they expecting?",
+                options: ["a) 50 containers", "b) 100 containers", "c) 150 containers"],
+                correct: "b) 100 containers"
+            }, {
+                id: 17,
+                question: "17. How many containers will be loaded?",
+                options: ["a) 25", "b) 50", "c) 75"],
+                correct: "b) 50"
+            }, {
+                id: 18,
+                question: "18. What must the bosun check carefully after loading?",
+                options: ["a) The mooring ropes", "b) The lashings", "c) The lifeboat"],
+                correct: "b) The lashings"
+            }]
+        }, {
+            id: 7,
+            type: "short",
+            title: "Exercise 7: Safety Drill",
+            audioUrl: "listening_ex7.mp3",
+            description: "Listen to the conversation between the Captain and the Chief Engineer about the fire drill.",
+            questions: [{
+                id: 19,
+                question: "19. What time will the fire drill be?",
+                options: ["a) 10:00", "b) 11:00", "c) 12:00"],
+                correct: "b) 11:00"
+            }, {
+                id: 20,
+                question: "20. Who will inform the engine room team?",
+                options: ["a) The captain", "b) The chief engineer", "c) The bosun"],
+                correct: "b) The chief engineer"
+            }, {
+                id: 21,
+                question: "21. What equipment must be tested before the drill?",
+                options: ["a) The lifeboat", "b) The fire pumps and alarm system", "c) The navigation lights"],
+                correct: "b) The fire pumps and alarm system"
+            }]
+        }, {
+            id: 8,
+            type: "short",
+            title: "Exercise 8: Watchkeeping Duty",
+            audioUrl: "listening_ex8.mp3",
+            description: "Listen to the conversation between the Officer and the Lookout.",
+            questions: [{
+                id: 22,
+                question: "22. How is the visibility?",
+                options: ["a) Poor", "b) Good", "c) Very good"],
+                correct: "b) Good"
+            }, {
+                id: 23,
+                question: "23. How far is the fishing boat from the ship?",
+                options: ["a) 1 mile", "b) 2 miles", "c) 3 miles"],
+                correct: "c) 3 miles"
+            }, {
+                id: 24,
+                question: "24. What is the fishing boat's speed?",
+                options: ["a) 3 knots", "b) 5 knots", "c) 7 knots"],
+                correct: "b) 5 knots"
+            }]
+        }, {
+            id: 9,
+            type: "long",
+            title: "Exercise 9: Galley Hygiene (Long)",
+            audioUrl: "listening_ex9.mp3",
+            description: "Listen to the detailed conversation about galley hygiene between the Chief Steward and the Cook.",
+            questions: [{
+                id: 25,
+                question: "25. What does the chief steward need to check?",
+                options: ["a) The engine room", "b) The galley hygiene", "c) The lifeboat"],
+                correct: "b) The galley hygiene"
+            }, {
+                id: 26,
+                question: "26. What is the condition of the garbage bins?",
+                options: ["a) They are full", "b) They are covered with lids and emptied", "c) They are broken"],
+                correct: "b) They are covered with lids and emptied"
+            }, {
+                id: 27,
+                question: "27. What should the crew members do before eating?",
+                options: ["a) Wear a uniform", "b) Wash their hands", "c) Report to the chief steward"],
+                correct: "b) Wash their hands"
+            }, {
+                id: 28,
+                question: "28. What did the cook say about the refrigerator temperatures?",
+                options: ["a) They are too cold", "b) They are perfect", "c) They are too warm"],
+                correct: "b) They are perfect"
+            }, {
+                id: 29,
+                question: "29. What is the chief steward's final instruction?",
+                options: ["a) Check the food quality", "b) Remind crew to wash hands", "c) Clean the kitchen again"],
+                correct: "b) Remind crew to wash hands"
+            }]
+        }, {
+            id: 10,
+            type: "long",
+            title: "Exercise 10: Mooring Operation (Long)",
+            audioUrl: "listening_ex10.mp3",
+            description: "Listen to the detailed conversation about mooring operation.",
+            questions: [{
+                id: 30,
+                question: "30. What are the crew preparing for?",
+                options: ["a) Cargo loading", "b) Mooring operation", "c) Safety drill"],
+                correct: "b) Mooring operation"
+            }, {
+                id: 31,
+                question: "31. What must the crew wear?",
+                options: ["a) Lifejacket and helmet", "b) Gloves and hard hat", "c) Safety glasses and coveralls"],
+                correct: "b) Gloves and hard hat"
+            }, {
+                id: 32,
+                question: "32. What time will the pilot arrive?",
+                options: ["a) 14:30", "b) 15:00", "c) 15:30"],
+                correct: "c) 15:30"
+            }, {
+                id: 33,
+                question: "33. What is the bosun's warning to the crew?",
+                options: ["a) Work quickly", "b) Never stand in the bight of a rope", "c) Check the engine"],
+                correct: "b) Never stand in the bight of a rope"
+            }, {
+                id: 34,
+                question: "34. What should the team do when the pilot is on board?",
+                options: ["a) Start the cargo operation", "b) Start the mooring operation", "c) Have a meeting"],
+                correct: "b) Start the mooring operation"
+            }]
+        }];
+
+        // ============================================================
+        // STATE: selected answers per exercise
+        // ============================================================
+        const selectedAnswers = {};
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderListening() {
+            const container = document.getElementById('listeningList');
+            if (!container) return;
+
+            container.innerHTML = LISTENING_DATA.map(ex => {
+                const typeLabel = ex.type === 'short' ? 'Short Conversation (3 Qs)' : 'Long Conversation (5 Qs)';
+                return `
+                    <div class="listening-card" data-exercise="${ex.id}">
+                        <span class="listening-tag"><i class="fas fa-tag"></i> ${typeLabel}</span>
+                        <h3><i class="fas fa-headphones"></i> ${ex.title}</h3>
+                        <div class="desc">${ex.description}</div>
+
+                        <div class="audio-player-wrapper">
+                            <audio id="audio_${ex.id}" src="${ex.audioUrl}" controls preload="metadata"></audio>
+                            <span class="play-badge"><i class="fas fa-play"></i> Unlimited</span>
+                        </div>
+
+                        <div class="listening-questions" id="questions_${ex.id}">
+                            ${ex.questions.map((q, idx) => `
+                                <div class="listening-question-item" id="q_${ex.id}_${q.id}">
+                                    <div class="q-text">${q.question}</div>
+                                    <div class="listening-options" data-ex="${ex.id}" data-qid="${q.id}">
+                                        ${q.options.map(opt => `
+                                            <span class="opt" data-opt="${opt}" onclick="selectOption(${ex.id}, ${q.id}, '${opt}')">
+                                                ${opt}
+                                            </span>
+                                        `).join('')}
+                                    </div>
+                                    <div class="feedback" id="feedback_${ex.id}_${q.id}"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <button class="check-answers-btn" id="checkBtn_${ex.id}" onclick="checkAnswers(${ex.id})">
+                            <i class="fas fa-check-circle"></i> Check Answers
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Initialize selected answers state
+            LISTENING_DATA.forEach(ex => {
+                selectedAnswers[ex.id] = {};
+                ex.questions.forEach(q => {
+                    selectedAnswers[ex.id][q.id] = null;
+                });
+            });
+        }
+
+        // ============================================================
+        // SELECT OPTION
+        // ============================================================
+        function selectOption(exId, qId, optText) {
+            const container = document.querySelector(`#q_${exId}_${qId}`);
+            if (!container) return;
+
+            const options = container.querySelectorAll('.opt');
+            const feedback = container.querySelector(`#feedback_${exId}_${qId}`);
+
+            // Clear previous selection
+            options.forEach(opt => opt.classList.remove('selected', 'correct-show', 'wrong-show'));
+
+            // Mark selected
+            let selectedEl = null;
+            options.forEach(opt => {
+                if (opt.dataset.opt === optText) {
+                    opt.classList.add('selected');
+                    selectedEl = opt;
+                }
+            });
+
+            // Store selection
+            selectedAnswers[exId][qId] = optText;
+
+            // Clear feedback
+            if (feedback) feedback.textContent = '';
+        }
+
+        // ============================================================
+        // CHECK ANSWERS
+        // ============================================================
+        function checkAnswers(exId) {
+            const exercise = LISTENING_DATA.find(e => e.id === exId);
+            if (!exercise) return;
+
+            const btn = document.getElementById(`checkBtn_${exId}`);
+            if (btn) btn.disabled = true;
+
+            let allAnswered = true;
+            let correctCount = 0;
+
+            exercise.questions.forEach(q => {
+                const selected = selectedAnswers[exId]?.[q.id] || null;
+                const container = document.querySelector(`#q_${exId}_${q.id}`);
+                if (!container) return;
+
+                const options = container.querySelectorAll('.opt');
+                const feedback = container.querySelector(`#feedback_${exId}_${q.id}`);
+
+                // Reset styles
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct-show', 'wrong-show');
+                });
+
+                if (!selected) {
+                    allAnswered = false;
+                    if (feedback) {
+                        feedback.textContent = '⚠️ Please select an answer.';
+                        feedback.style.color = '#dc2626';
+                    }
+                    return;
+                }
+
+                // Check correctness
+                const isCorrect = selected === q.correct;
+                if (isCorrect) correctCount++;
+
+                options.forEach(opt => {
+                    const optText = opt.dataset.opt;
+                    if (optText === q.correct) {
+                        opt.classList.add('correct-show');
+                    } else if (optText === selected && !isCorrect) {
+                        opt.classList.add('wrong-show');
+                    }
+                    if (optText === selected) {
+                        opt.classList.add('selected');
+                    }
+                });
+
+                if (feedback) {
+                    if (isCorrect) {
+                        feedback.textContent = '✅ Correct!';
+                        feedback.style.color = '#16a34a';
+                    } else {
+                        feedback.textContent = `❌ Incorrect. Correct answer: ${q.correct}`;
+                        feedback.style.color = '#dc2626';
+                    }
+                }
+            });
+
+            // Show summary
+            const total = exercise.questions.length;
+            const summary = document.querySelector(`#questions_${exId}`);
+            if (summary) {
+                let summaryEl = summary.querySelector('.summary-feedback');
+                if (!summaryEl) {
+                    summaryEl = document.createElement('div');
+                    summaryEl.className = 'summary-feedback';
+                    summaryEl.style.cssText = 'margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-weight: 600; text-align: center; background: #f8faff; border: 1px solid #e8edf5;';
+                    summary.appendChild(summaryEl);
+                }
+                if (!allAnswered) {
+                    summaryEl.textContent = `⚠️ Some questions unanswered. Score: ${correctCount}/${total}`;
+                    summaryEl.style.color = '#d97706';
+                    summaryEl.style.background = '#fef3c7';
+                    summaryEl.style.borderColor = '#fde68a';
+                } else {
+                    summaryEl.textContent = `✅ Score: ${correctCount}/${total} (${Math.round(correctCount/total*100)}%)`;
+                    summaryEl.style.color = '#0a2a4a';
+                    summaryEl.style.background = '#dcfce7';
+                    summaryEl.style.borderColor = '#86efac';
+                }
+            }
+
+            setTimeout(() => {
+                if (btn) btn.disabled = false;
+            }, 800);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderListening);
+    </script>
+
+</body>
+</html>

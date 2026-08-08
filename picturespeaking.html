@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Picture Speaking – MEPT Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header h2 i {
+            color: #2563eb;
+            font-size: 22px;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #dce3ed;
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== SPEAKING CARD ===== */
+        .speaking-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 6px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: 0.15s;
+        }
+
+        .speaking-tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .speaking-card h3 {
+            font-size: 17px;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .speaking-card h3 i {
+            color: #2563eb;
+            margin-right: 6px;
+        }
+
+        /* ===== PICTURE CONTAINER ===== */
+        .picture-container {
+            margin: 12px 0;
+            text-align: center;
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px dashed #bfdbfe;
+        }
+
+        .picture-container img {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .picture-container .img-placeholder {
+            display: none;
+            padding: 20px;
+            background: #fef2f2;
+            border-radius: 8px;
+            color: #dc2626;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* ===== DESCRIPTION ===== */
+        .description-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1f3a5f;
+            background: #f8faff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e8edf5;
+            margin-bottom: 12px;
+        }
+
+        /* ===== BULLET LIST ===== */
+        .bullet-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 10px 0 12px;
+            padding-left: 8px;
+        }
+
+        .bullet-item {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1f3a5f;
+            padding: 6px 12px;
+            background: #f8faff;
+            border-radius: 6px;
+            border-left: 3px solid #2563eb;
+        }
+
+        .bullet-item strong {
+            color: #1e40af;
+        }
+
+        /* ===== VOCAB BOX ===== */
+        .vocab-box {
+            background: #eff6ff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #1f3a5f;
+            margin: 10px 0 4px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            border: 1px solid #dbeafe;
+        }
+
+        .vocab-box strong {
+            color: #2563eb;
+            margin-right: 4px;
+            font-size: 12px;
+        }
+
+        .vocab-box span {
+            background: #fff;
+            padding: 2px 12px;
+            border-radius: 50px;
+            border: 1px solid #bfdbfe;
+            font-size: 12px;
+            color: #1e3a5f;
+        }
+
+        /* ===== REVEAL BUTTON ===== */
+        .reveal-trigger-btn {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2563eb;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 4px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .reveal-trigger-btn:active {
+            background: #dce3ed;
+            transform: scale(0.97);
+        }
+
+        /* ===== DETAILS BOX ===== */
+        .details-box {
+            display: none;
+            margin-top: 14px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #bfdbfe;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .details-box.show {
+            display: flex;
+        }
+
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 4px 0;
+            border-bottom: 1px solid #e2edf7;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 2px solid #eef2f7;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer i {
+            color: #2563eb;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .speaking-card {
+                padding: 14px 12px;
+            }
+            .speaking-card h3 {
+                font-size: 15px;
+            }
+            .description-text {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .bullet-item {
+                font-size: 13px;
+                padding: 5px 10px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .picture-container img {
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .vocab-box span {
+                font-size: 11px;
+                padding: 1px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h2><i class="fas fa-image"></i> Picture Speaking</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div id="pictureSpeakingList"></div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-check-circle"></i> 14 picture topics &bull; MEPT
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // PICTURE SPEAKING TOPICS (14 topics)
+        // ============================================================
+        const PICTURE_SPEAKING_TOPICS = [{
+            id: 1,
+            title: "Fire Extinguisher",
+            description: "A fire extinguisher is a vital safety device used to put out small, controllable fires on board a ship. Every crew member must know its location and how to operate it safely using the PASS method—Pull, Aim, Squeeze, and Sweep. Using the correct type of extinguisher for electrical, oil, or paper fires is essential to prevent accidents.",
+            bullets: [
+                "In this picture, I can see a red fire extinguisher mounted on the wall.",
+                "The person is checking the pressure gauge to ensure it is ready for use.",
+                "<strong>This is important</strong> because quick access to a working extinguisher can stop a small fire from spreading."
+            ],
+            vocab: "fire extinguisher, PASS method, pressure gauge, electrical fires, oil fires, safety device"
+        }, {
+            id: 2,
+            title: "Man Overboard (MOB)",
+            description: "A Man Overboard situation is a critical life-threatening emergency at sea. When someone falls into the water, the immediate priority is to alert the crew, mark the location, and keep continuous visual contact with the person. Quick action and teamwork are crucial to saving a life in rough ocean conditions.",
+            bullets: [
+                "In this picture, I can see a lifebuoy being thrown into the water.",
+                "The crew member is shouting 'Man Overboard' and pointing directly at the person in the sea.",
+                "<strong>This is important</strong> because keeping visual contact is essential to locate and rescue the victim quickly."
+            ],
+            vocab: "Man Overboard, lifebuoy, visual contact, rescue, emergency, teamwork"
+        }, {
+            id: 3,
+            title: "Abandon Ship",
+            description: "Abandoning ship is the final emergency action taken only under direct orders from the Master when the vessel cannot be saved. Crew members must act calmly, wear warm clothing, put on their lifejackets or immersion suits, and gather at their designated muster stations with essential survival gear.",
+            bullets: [
+                "In this picture, I can see crew members wearing lifejackets and gathering at the muster station.",
+                "They are preparing to launch the lifeboat under the officer's command.",
+                "<strong>This is important</strong> because strict discipline and order save lives during a total evacuation."
+            ],
+            vocab: "Abandon Ship, Master, muster station, immersion suits, lifeboat, evacuation"
+        }, {
+            id: 4,
+            title: "Restricted Area",
+            description: "Restricted areas on a ship are specific zones, such as the Navigation Bridge, Engine Control Room, and Cargo Control Room, where entry is controlled. To comply with ISPS security rules, unauthorized personnel are strictly prohibited from entering these areas without explicit permission from duty officers.",
+            bullets: [
+                "In this picture, I can see a warning sign that says 'Restricted Area - No Unauthorized Entry.'",
+                "An officer is checking the identity badge of a person before allowing entry.",
+                "<strong>This is important</strong> because securing critical spaces prevents accidents, unauthorized operations, and security threats."
+            ],
+            vocab: "Restricted Area, ISPS, Navigation Bridge, unauthorized, identity badge, security"
+        }, {
+            id: 5,
+            title: "Oil Pollution",
+            description: "Oil pollution poses a severe environmental threat to marine life and coastal ecosystems. Ships must comply strictly with MARPOL Annex I regulations during bunkering, cargo operations, and sludge transfer to prevent any oil spills into the sea.",
+            bullets: [
+                "In this picture, I can see an oil spill spreading on the deck during bunkering.",
+                "The crew members are using SOPEP absorbent pads and booms to clean up the oil.",
+                "<strong>This is important</strong> because preventing oil from reaching the sea protects marine life and avoids heavy legal fines."
+            ],
+            vocab: "Oil Pollution, MARPOL, bunkering, SOPEP, absorbent pads, marine life"
+        }, {
+            id: 6,
+            title: "Alcohol Policy",
+            description: "To maintain safety at sea, shipping companies enforce a strict alcohol policy, often maintaining zero tolerance. Alcohol impairs judgment and physical coordination, significantly increasing the risk of accidents during watches and hazardous operations.",
+            bullets: [
+                "In this picture, I can see a safety officer conducting a breathalyzer test on a crew member.",
+                "The seafarer is blowing into the testing device before starting his watch duty.",
+                "<strong>This is important</strong> because working under the influence of alcohol endangers the safety of the entire ship."
+            ],
+            vocab: "Alcohol Policy, zero tolerance, breathalyzer, watch duty, judgment, safety"
+        }, {
+            id: 7,
+            title: "Heavy Weather",
+            description: "Heavy weather conditions present severe operational challenges, including high waves, strong winds, and heavy vessel rolling. Before entering rough seas, crew members must secure all loose gear, double-check cargo lashings, and seal all weather-tight doors to keep the vessel stable and safe.",
+            bullets: [
+                "In this picture, I can see massive ocean waves crashing against the ship's main deck.",
+                "The crew is securing loose equipment and tightening lashings in advance.",
+                "<strong>This is important</strong> because proper preparation prevents cargo shift, structural damage, and crew injuries."
+            ],
+            vocab: "Heavy Weather, rolling, lashings, weather-tight, cargo shift, structural damage"
+        }, {
+            id: 8,
+            title: "Garbage Management Plan",
+            description: "Under MARPOL Annex V, every ship must maintain a Garbage Management Plan to properly collect, store, and dispose of waste. Plastics must never be discharged into the sea, and all garbage must be strictly segregated into designated bins on board.",
+            bullets: [
+                "In this picture, I can see color-coded garbage bins labeled for plastics, food waste, and paper.",
+                "A crew member is sorting waste items into the correct disposal bins.",
+                "<strong>This is important</strong> because proper waste management keeps the sea clean and complies with international maritime law."
+            ],
+            vocab: "Garbage Management, MARPOL, color-coded bins, plastics, segregation, maritime law"
+        }, {
+            id: 9,
+            title: "Personal Protective Equipment (PPE)",
+            description: "Personal Protective Equipment (PPE) is the primary defense against workplace injuries on board. Standard PPE includes safety helmets, steel-toe boots, protective gloves, goggles, coveralls, and hearing protection, which must be worn depending on the job risks.",
+            bullets: [
+                "In this picture, I can see a worker wearing a safety helmet, coveralls, gloves, and safety boots.",
+                "The person is inspecting his gear before beginning a deck maintenance task.",
+                "<strong>This is important</strong> because wearing appropriate PPE prevents serious injuries from falling objects, chemicals, and mechanical hazards."
+            ],
+            vocab: "PPE, safety helmet, coveralls, goggles, maintenance, mechanical hazards"
+        }, {
+            id: 10,
+            title: "Oil Leak",
+            description: "An oil leak in the engine room or on deck creates serious fire and slip hazards. Immediate corrective actions involve stopping the machinery, containing the leak with a drip tray, and reporting the incident to the duty engineer or officer.",
+            bullets: [
+                "In this picture, I can see oil leaking from a pipe flange onto the engine room floor.",
+                "An engineer is placing a drip tray beneath the leak and tightening the pipe fitting.",
+                "<strong>This is important</strong> because prompt action prevents slip accidents, environmental contamination, and potential fire hazards."
+            ],
+            vocab: "Oil Leak, engine room, drip tray, pipe flange, contamination, fire hazards"
+        }, {
+            id: 11,
+            title: "Explosion",
+            description: "An explosion on board can cause catastrophic damage, fires, and immediate structural danger to the vessel. In the event of an explosion, crew members must immediately raise the general alarm, report the location, and follow emergency response procedures.",
+            bullets: [
+                "In this picture, I can see heavy smoke and flame rising from a compartment on board.",
+                "The fire squad is advancing with a fire hose line to fight the fire.",
+                "<strong>This is important</strong> because fast emergency response isolates the damage and prevents further explosions."
+            ],
+            vocab: "Explosion, catastrophic damage, general alarm, fire squad, emergency response"
+        }, {
+            id: 12,
+            title: "First Aid",
+            description: "First aid is the immediate care given to an injured or ill crew member before professional medical help is available. Seafarers trained in first aid use basic techniques like CPR, wound dressing, and fracture stabilization to preserve life and prevent condition worsening.",
+            bullets: [
+                "In this picture, I can see a trained crew member applying a clean bandage to a colleague's injured arm.",
+                "The first responder is checking the casualty's breathing and pulse carefully.",
+                "<strong>This is important</strong> because timely first aid stabilizes the patient's condition until medical assistance arrives."
+            ],
+            vocab: "First Aid, CPR, wound dressing, fracture, first responder, casualty"
+        }, {
+            id: 13,
+            title: "Lifejacket",
+            description: "A lifejacket is an essential life-saving appliance designed to keep an unconscious person afloat with their mouth and nose clear of the water. Crew members must ensure their lifejackets are in good working condition, fitted with a working light, whistle, and retro-reflective tape.",
+            bullets: [
+                "In this picture, I can see an orange lifejacket equipped with a whistle and automatic light.",
+                "The seafarer is tightening the waist straps to ensure a secure and proper fit.",
+                "<strong>This is important</strong> because a correctly fitted lifejacket keeps a person afloat during water immersion emergencies."
+            ],
+            vocab: "Lifejacket, unconscious, retro-reflective tape, waist straps, immersion, emergency"
+        }, {
+            id: 14,
+            title: "Enclosed Space Entry",
+            description: "Enclosed spaces such as ballast tanks, cargo holds, and chain lockers pose high risks of oxygen depletion and toxic gas accumulation. Entry is strictly regulated and requires an Entry Permit, thorough atmosphere testing, continuous ventilation, and a designated standby person at the entrance.",
+            bullets: [
+                "In this picture, I can see an officer testing the air inside a manhole using a gas detector.",
+                "A standby crew member is holding a communication radio outside the entrance.",
+                "<strong>This is important</strong> because testing the atmosphere prevents fatal accidents caused by toxic gases or lack of oxygen."
+            ],
+            vocab: "Enclosed Space, Entry Permit, gas detector, oxygen depletion, toxic gas, standby person"
+        }];
+
+        // ============================================================
+        // IMAGE FILENAME MAPPING (root directory, no folder)
+        // ============================================================
+        const imageFiles = {
+            "Fire Extinguisher": "FireExtinguisher.png",
+            "Man Overboard (MOB)": "ManOverboard.png",
+            "Abandon Ship": "AbandonShip.png",
+            "Restricted Area": "RestrictedArea.png",
+            "Oil Pollution": "OilPollution.png",
+            "Alcohol Policy": "AlcoholPolicy.png",
+            "Heavy Weather": "HeavyWeather.png",
+            "Garbage Management Plan": "GarbageManagement.png",
+            "Personal Protective Equipment (PPE)": "PPE.png",
+            "Oil Leak": "OilLeak.png",
+            "Explosion": "Explosion.png",
+            "First Aid": "FirstAid.png",
+            "Lifejacket": "Lifejacket.png",
+            "Enclosed Space Entry": "EnclosedSpaceEntry.png"
+        };
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderPictureSpeaking() {
+            const container = document.getElementById('pictureSpeakingList');
+            if (!container) return;
+
+            container.innerHTML = PICTURE_SPEAKING_TOPICS.map(t => {
+                const imageSrc = imageFiles[t.title] || '';
+                return `
+                <div class="speaking-card">
+                    <span class="speaking-tag"><i class="fas fa-image"></i> Picture Description</span>
+                    <h3><i class="fas fa-camera"></i> ${t.title}</h3>
+                    
+                    <!-- ===== PICTURE ===== -->
+                    <div class="picture-container">
+                        <img src="${imageSrc}" alt="${t.title}" 
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                        <div class="img-placeholder">
+                            <i class="fas fa-image" style="font-size: 24px; display: block; margin-bottom: 8px;"></i>
+                            Image not found: ${imageSrc}<br>
+                            <span style="font-size: 12px; font-weight: normal;">Place the image in the same folder as this HTML file.</span>
+                        </div>
+                    </div>
+
+                    <div class="description-text">
+                        ${t.description}
+                    </div>
+
+                    <button class="reveal-trigger-btn" onclick="toggleDetails(this)">
+                        <i class="fas fa-plus-circle"></i> Show Details & Vocabulary
+                    </button>
+
+                    <div class="details-box">
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-list-ul"></i> Key Points</span>
+                            <div class="bullet-list">
+                                ${t.bullets.map(b => `<div class="bullet-item">${b}</div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-book"></i> Vocabulary</span>
+                            <div class="vocab-box">
+                                ${t.vocab.split(',').map(v => `<span>${v.trim()}</span>`).join(' ')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // ============================================================
+        // TOGGLE DETAILS
+        // ============================================================
+        function toggleDetails(btn) {
+            const box = btn.nextElementSibling;
+            if (!box || !box.classList.contains('details-box')) return;
+            const isShowing = box.classList.contains('show');
+            // close all others
+            document.querySelectorAll('.details-box.show').forEach(b => b.classList.remove('show'));
+            if (!isShowing) {
+                box.classList.add('show');
+                btn.innerHTML = '<i class="fas fa-minus-circle"></i> Hide Details & Vocabulary';
+            } else {
+                box.classList.remove('show');
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Show Details & Vocabulary';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderPictureSpeaking);
+    </script>
+
+</body>
+</html>

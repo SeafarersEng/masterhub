@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Writing – MEPT Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header h2 i {
+            color: #d4891e;
+            font-size: 22px;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #dce3ed;
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== WRITING CARD ===== */
+        .writing-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 6px solid #d4891e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: 0.15s;
+        }
+
+        .writing-tag {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .writing-card h3 {
+            font-size: 16px;
+            color: #0a2a4a;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .prompt-box {
+            background: #fff8f0;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #fdebd0;
+            font-size: 14px;
+            color: #1f3a5f;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .prompt-box i {
+            color: #d4891e;
+            margin-right: 6px;
+            opacity: 0.7;
+        }
+
+        /* ===== REVEAL BUTTON ===== */
+        .reveal-trigger-btn {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a4d8f;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 2px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .reveal-trigger-btn:active {
+            background: #dce3ed;
+            transform: scale(0.97);
+        }
+
+        /* ===== EXPLANATION BOX ===== */
+        .explanation-box {
+            display: none;
+            margin-top: 14px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #d4e2f0;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .explanation-box.show {
+            display: flex;
+        }
+
+        .exp-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 5px 0;
+            border-bottom: 1px solid #e2edf7;
+        }
+
+        .exp-row:last-child {
+            border-bottom: none;
+        }
+
+        .exp-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #d4891e;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .exp-row .text-content {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1f3a5f;
+        }
+
+        .exp-row .blueprint-content {
+            background: #ffffff;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 3px solid #d4891e;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1f3a5f;
+            white-space: pre-wrap;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 2px solid #eef2f7;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer i {
+            color: #d4891e;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .writing-card {
+                padding: 14px 12px;
+            }
+            .prompt-box {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .exp-row .text-content,
+            .exp-row .blueprint-content {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .writing-card h3 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h2><i class="fas fa-pen-fancy"></i> Writing</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div id="writingList"></div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-check-circle"></i> 15 topics &bull; MEPT
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // WRITING TOPICS (15 topics – data kept as provided)
+        // ============================================================
+        const WRITING_TOPICS = [{
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 1: Introduce Yourself",
+            prompt: "Write 3-4 sentences about yourself. Include your name, your job on board, and why you like working at sea.",
+            strategy: "ဤအပိုင်းသည် အတိုချုံး မိတ်ဆက်စာသားဖြစ်သောကြောင့် **အချက်သုံးချက် (Name, Job, Reason)** ကို ရှင်းရှင်းလင်းလင်း တိုတိုတုတ်တုတ် ရေးသားရမည်။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>My name is Kyaw Zin and I am 25 years old.</i> (အမည်)<br>• <i>I work as an ordinary seaman on a cargo ship.</i> (အလုပ်အကိုင်)<br>• <i>I love working at sea because I enjoy the fresh air and seeing new places.</i> (ဘာလို့ကြိုက်လဲ)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 2: Your Daily Routine",
+            prompt: "Write 3-4 sentences about your daily routine on board. What time do you wake up and what is your first task?",
+            strategy: "နေ့စဉ်လုပ်ရိုးလုပ်စဉ်ကို ဖော်ပြရန် အချိန်ဇယားအတိုင်း (First/Then/After) ဆက်စပ်ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>I wake up at 6:00 a.m. every morning.</i> (ဘယ်အချိန်နိုးလဲ)<br>• <i>After breakfast, I go to the deck and start cleaning.</i> (ပထမဆုံးလုပ်ငန်း)<br>• <i>I work until 12:00 p.m. and then I have lunch.</i> (နောက်လုပ်ဆောင်ချက်)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 3: Your Cabin",
+            prompt: "Describe your cabin on the ship. What does it look like and what do you have in it?",
+            strategy: "အခန်း၏ အရွယ်အစား၊ ပရိဘောဂများနှင့် သင်အကြိုက်ဆုံး အစိတ်အပိုင်းကို ဖော်ပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>My cabin is small but comfortable.</i> (အရွယ်အစား)<br>• <i>I have a bed, a desk, and a small wardrobe.</i> (ပစ္စည်းများ)<br>• <i>My favorite thing is the window where I can see the sea.</i> (အကြိုက်ဆုံး)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 4: Your Favorite Food on Board",
+            prompt: "Write about the food on your ship. What is your favorite meal and why?",
+            strategy: "သင်္ဘောပေါ်က အစားအစာ အမျိုးအစားနှင့် သင်အကြိုက်ဆုံး ဟင်းလျာကို ရှင်းပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>The cook prepares delicious meals every day.</i> (အစားအစာအကြောင်း)<br>• <i>My favorite meal is chicken curry with rice.</i> (ကြိုက်တဲ့ဟင်း)<br>• <i>It reminds me of home and gives me energy for my work.</i> (ဘာလို့ကြိုက်လဲ)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 5: Safety Equipment You Use",
+            prompt: "Write 3-4 sentences about safety equipment you use on deck. What do you wear and why?",
+            strategy: "PPE ပစ္စည်းများနှင့် ၎င်းတို့၏ အရေးပါပုံကို ဖော်ပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>I always wear a hard hat and safety boots on deck.</i> (ဘာဝတ်လဲ)<br>• <i>I also wear a high-visibility vest so others can see me.</i> (နောက်ထပ်ပစ္စည်း)<br>• <i>This equipment protects me from injuries while working.</i> (ဘာလို့ဝတ်လဲ)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 6: Your First Impressions of the Ship",
+            prompt: "What did you think when you first saw your ship? How did you feel?",
+            strategy: "ပထမဆုံး သင်္ဘောပေါ်တက်တုန်းက ခံစားချက်ကို ရိုးသားစွာ ဖော်ပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>When I first saw the ship, I was amazed by its size.</i> (မြင်တဲ့အခါ ခံစားချက်)<br>• <i>It was much bigger than I had imagined.</i> (ဘာကိုသတိထားမိလဲ)<br>• <i>I felt excited but also a little nervous.</i> (ခံစားချက်)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 7: Your Best Friend on Board",
+            prompt: "Write about a friend you have made on the ship. Who are they and why are they a good friend?",
+            strategy: "သင်္ဘောပေါ်က သူငယ်ချင်းအကြောင်း၊ သူတို့ရဲ့ အလုပ်နှင့် ဘာလို့ ခင်မင်ရသလဲ ဆိုတာကို ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>My best friend on board is the cook.</i> (ဘယ်သူလဲ)<br>• <i>He is always friendly and makes me laugh.</i> (သူ့ရဲ့အရည်အသွေး)<br>• <i>We eat together and talk about our families.</i> (ဘာတွေလုပ်ကြလဲ)"
+        }, {
+            part: "Part 1 – Short Writing (approx. 25 words)",
+            title: "Topic 8: A Message to Your Family",
+            prompt: "Write a short message to your family at home. Tell them about your day and say you miss them.",
+            strategy: "မိသားစုထံ ပေးပို့သည့် ခံစားချက်ပါသော စာတိုတစ်စောင် ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Dear family, I hope you are all well.</i> (စတင်မေးမြန်းခြင်း)<br>• <i>Today was a busy day but everything is fine.</i> (နေ့စဉ်ဖြစ်ရပ်)<br>• <i>I miss you all very much and I will see you soon.</i> (လွမ်းကြောင်းပြောခြင်း)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 9: A Memorable Day at Sea",
+            prompt: "Describe a day you remember well on board. What happened and how did you feel?",
+            strategy: "ဤအပိုင်းသည် ကိုယ်တွေ့ အတွေ့အကြုံကို ပြန်လည်ဖော်ပြသည့် စာစီစာကုံးဖြစ်သည်။ **ဖြစ်ရပ် (What happened)** နှင့် **ခံစားချက် (How you felt)** ကို အဓိကထားရေးသားရမည်။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>One of the most memorable days was when we had a heavy storm.</i> (နိဒါန်း)<br>• <i>The waves were very high and the ship was rolling a lot. I stayed on the bridge with the captain and helped with the navigation.</i> (ဘာဖြစ်ခဲ့လဲ)<br>• <i>I was scared at first, but the captain stayed calm. After the storm, I felt proud and strong.</i> (ခံစားချက်နှင့် နိဂုံး)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 10: A Fire Drill Experience",
+            prompt: "Describe a fire drill you participated in. What did you do and what did you learn?",
+            strategy: "မီးဘေးလေ့ကျင့်ခန်း၏ အဆင့်များနှင့် သင်ယူခဲ့ရသည့် သင်ခန်းစာကို အစီအစဉ်တကျ ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Last week, we had a fire drill on board.</i> (ဘယ်အချိန်ကလဲ)<br>• <i>I put on my lifejacket and went to my muster station. The bosun showed us how to use a fire extinguisher properly.</i> (ဘာလုပ်ခဲ့လဲ)<br>• <i>I learned that staying calm is the most important thing during an emergency.</i> (သင်ခန်းစာ)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 11: Why Teamwork is Important on a Ship",
+            prompt: "Explain why teamwork is important for seafarers. Give an example from your experience.",
+            strategy: "သင်္ဘောပေါ်တွင် အဖွဲ့လိုက်လုပ်ဆောင်ခြင်း၏ အရေးပါပုံကို သင်တွေ့ကြုံခဲ့သည့် ဥပမာတစ်ခုဖြင့် ရှင်းပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Teamwork is very important on a ship because everyone depends on each other.</i> (အရေးပါပုံ)<br>• <i>For example, during mooring, we must work together to pull the ropes.</i> (ဥပမာ)<br>• <i>If one person makes a mistake, it can be dangerous. Good teamwork makes the ship safe and efficient.</i> (နိဂုံး)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 12: Your First Day on Board",
+            prompt: "Describe your first day on your first ship. What did you see and how did you feel?",
+            strategy: "ပထမဆုံးနေ့၏ အတွေ့အကြုံကို အသေးစိတ်ဖော်ပြပါ။ မြင်ရသော မြင်ကွင်း၊ ကြားရသော အသံများနှင့် ခံစားချက်ကို ထည့်သွင်းရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>I still remember my first day on board. The ship was huge and everything was new to me.</i> (နိဒါန်း)<br>• <i>I saw the engine room and the bridge. I felt overwhelmed because there were so many things to learn.</i> (မြင်ရသည်များ)<br>• <i>But my colleagues were friendly and helped me. Now I feel at home on the ship.</i> (ခံစားချက်နှင့်အဆုံး)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 13: Keeping the Deck Clean",
+            prompt: "Explain why it is important to keep the deck clean and how you do it.",
+            strategy: "သန့်ရှင်းရေး၏ အရေးပါပုံ၊ လုပ်ဆောင်ရမည့် အဆင့်များနှင့် ဘေးကင်းရေးအတွက် အကျိုးကျေးဇူးကို ဆက်စပ်ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Keeping the deck clean is very important for safety.</i> (အရေးပါပုံ)<br>• <i>I sweep the deck every morning and wash it with water.</i> (ဘယ်လိုလုပ်လဲ)<br>• <i>A clean deck prevents slipping accidents and makes the ship look professional.</i> (အကျိုးကျေးဇူး)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 14: Working in Bad Weather",
+            prompt: "Describe a time you had to work in bad weather. How did you manage it?",
+            strategy: "ရာသီဥတုဆိုးရွားစဉ် အလုပ်လုပ်ရသည့် အတွေ့အကြုံ၊ ကြုံတွေ့ရသည့် အခက်အခဲများနှင့် ဖြေရှင်းနည်းကို ရေးပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Last month, we worked in heavy rain while mooring.</i> (အခြေအနေ)<br>• <i>The deck was very slippery, so we had to be extra careful. I wore my waterproof jacket and held the ropes tightly.</i> (ဘယ်လိုဖြေရှင်းလဲ)<br>• <i>It was difficult, but we finished our work safely. Teamwork helped us manage the bad weather.</i> (ရလဒ်)"
+        }, {
+            part: "Part 2 – Long Writing (80–100 words)",
+            title: "Topic 15: Life at Sea vs. Life on Land",
+            prompt: "Compare working at sea with working on land. What are the differences and which do you prefer?",
+            strategy: "ပင်လယ်နှင့် ကုန်းပေါ်အလုပ်အကိုင် ကွာခြားချက်များနှင့် သင်ပိုနှစ်သက်သည့် တစ်ခုကို ရွေးချယ်ဖော်ပြပါ။",
+            blueprint: "<b>[ရေးထုံးပုံစံ]:</b><br>• <i>Working at sea is very different from working on land.</i> (နိဒါန်း)<br>• <i>On a ship, I work long hours and stay away from my family. On land, people have more free time.</i> (ကွာခြားချက်)<br>• <i>However, I prefer the sea because I love the ocean and the sense of adventure.</i> (ဦးစားပေးမှု)"
+        }];
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderWriting() {
+            const container = document.getElementById('writingList');
+            if (!container) return;
+
+            container.innerHTML = WRITING_TOPICS.map(t => `
+                <div class="writing-card">
+                    <span class="writing-tag"><i class="fas fa-tag"></i> ${t.part}</span>
+                    <h3>${t.title}</h3>
+                    <div class="prompt-box">
+                        <i class="fas fa-quote-left"></i> ${t.prompt}
+                    </div>
+                    <button class="reveal-trigger-btn" onclick="toggleExplanation(this)">Show Writing Template</button>
+                    <div class="explanation-box">
+                        <div class="exp-row">
+                            <span class="exp-label"><i class="fas fa-lightbulb"></i> Strategy</span>
+                            <div class="text-content">${t.strategy}</div>
+                        </div>
+                        <div class="exp-row">
+                            <span class="exp-label"><i class="fas fa-pencil-alt"></i> Blueprint</span>
+                            <div class="blueprint-content">${t.blueprint}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // TOGGLE
+        // ============================================================
+        function toggleExplanation(btn) {
+            const box = btn.nextElementSibling;
+            if (!box || !box.classList.contains('explanation-box')) return;
+            const isShowing = box.classList.contains('show');
+            // close all others
+            document.querySelectorAll('.explanation-box.show').forEach(b => b.classList.remove('show'));
+            if (!isShowing) {
+                box.classList.add('show');
+                btn.textContent = 'Hide Writing Template';
+            } else {
+                box.classList.remove('show');
+                btn.textContent = 'Show Writing Template';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderWriting);
+    </script>
+
+</body>
+</html>

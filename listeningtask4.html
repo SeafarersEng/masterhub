@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listening Ordering - 5 Exercises</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 880px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 28px 30px;
+            transition: 0.3s;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 16px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a202c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header h1 small {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #edf2f7;
+            padding: 6px 12px;
+            border-radius: 60px;
+        }
+        .nav-btn {
+            background: white;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: 0.2s;
+            color: #2d3748;
+        }
+        .nav-btn:hover {
+            background: #3182ce;
+            color: white;
+            transform: scale(1.05);
+        }
+        .ex-counter {
+            font-weight: 700;
+            font-size: 18px;
+            color: #2d3748;
+            min-width: 60px;
+            text-align: center;
+        }
+        .ex-title {
+            font-weight: 600;
+            color: #2b6cb0;
+            background: #ebf8ff;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .audio-panel {
+            background: #2d3748;
+            border-radius: 18px;
+            padding: 18px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .audio-panel .left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-audio {
+            background: #48bb78;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+        .btn-audio:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+        .btn-audio:active {
+            transform: scale(0.96);
+        }
+        .btn-audio.playing {
+            background: #e53e3e;
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+        }
+        .btn-audio:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .transcript-toggle {
+            background: #4a5568;
+            border: none;
+            color: #e2e8f0;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .transcript-toggle:hover {
+            background: #718096;
+        }
+        .transcript-box {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.8;
+            max-height: 220px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+            border-left: 4px solid #48bb78;
+        }
+        .transcript-box.show {
+            display: block;
+        }
+        .transcript-box .speaker-highlight {
+            color: #90cdf4;
+            font-weight: 700;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .toolbar-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn {
+            border: none;
+            padding: 9px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #e2e8f0;
+            color: #2d3748;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(49, 130, 206, 0.25);
+        }
+        .btn-success {
+            background: #38a169;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(56, 161, 105, 0.25);
+        }
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #dd6b20;
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #cbd5e0;
+        }
+        .btn-outline:hover {
+            background: #edf2f7;
+        }
+        .counter-badge {
+            background: #edf2f7;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        #sentence-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sentence-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f7fafc;
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.15s ease;
+            cursor: grab;
+            user-select: none;
+        }
+        .sentence-item:active {
+            cursor: grabbing;
+        }
+        .sentence-item.dragging {
+            opacity: 0.4;
+            border-style: dashed;
+        }
+        .sentence-item.drag-over {
+            border-color: #3182ce;
+            background: #ebf8ff;
+            transform: scale(1.01);
+        }
+        .sentence-item.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+        .sentence-item.wrong {
+            border-color: #fc8181;
+            background: #fff5f5;
+        }
+        .sentence-item .drag-icon {
+            color: #a0aec0;
+            font-size: 22px;
+            cursor: grab;
+            flex-shrink: 0;
+        }
+        .sentence-item .sentence-text {
+            flex: 1;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2d3748;
+            font-weight: 500;
+        }
+        .sentence-item .sentence-text .speaker {
+            font-weight: 700;
+            color: #2b6cb0;
+        }
+        .sentence-item .order-input {
+            width: 54px;
+            height: 46px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            border: 2px solid #cbd5e0;
+            border-radius: 12px;
+            background: white;
+            color: #2d3748;
+            transition: 0.2s;
+            flex-shrink: 0;
+            outline: none;
+        }
+        .sentence-item .order-input:focus {
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+        }
+        .sentence-item .order-input.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+        .sentence-item .order-input.wrong {
+            border-color: #fc8181;
+            background: #fff5f5;
+        }
+        .sentence-item .status-badge {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        #result-message {
+            margin-top: 22px;
+            padding: 16px 22px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            text-align: center;
+            display: none;
+            background: #edf2f7;
+        }
+        #result-message.show {
+            display: block;
+        }
+        #result-message.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 2px solid #48bb78;
+        }
+        #result-message.fail {
+            background: #fed7d7;
+            color: #9b2c2c;
+            border: 2px solid #fc8181;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 14px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .nav-controls {
+                justify-content: center;
+                padding: 6px 12px;
+            }
+            .audio-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .audio-panel .left {
+                justify-content: center;
+            }
+            .sentence-item {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px;
+            }
+            .sentence-item .sentence-text {
+                order: 1;
+                flex-basis: 100%;
+                font-size: 14px;
+            }
+            .sentence-item .drag-icon {
+                order: 0;
+            }
+            .sentence-item .order-input {
+                order: 2;
+                width: 48px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .sentence-item .status-badge {
+                order: 3;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .toolbar-left {
+                justify-content: center;
+            }
+            .btn {
+                justify-content: center;
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                🎧 Listening Order
+                <small>Exercise</small>
+            </h1>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prevExBtn">◀</button>
+                <span class="ex-counter" id="exCounter">1 / 5</span>
+                <button class="nav-btn" id="nextExBtn">▶</button>
+                <span class="ex-title" id="exTitle">Morning Briefing</span>
+            </div>
+        </div>
+
+        <!-- Audio Panel -->
+        <div class="audio-panel">
+            <div class="left">
+                <button class="btn-audio" id="playAudioBtn">🔊 နားထောင်မည်</button>
+                <span style="color:#a0aec0; font-size:14px;">(AI Voice ဖြင့် ဖတ်ပြမည်)</span>
+            </div>
+            <button class="transcript-toggle" id="toggleTranscriptBtn">📖 စာသားပြရန်</button>
+        </div>
+
+        <!-- Transcript Box -->
+        <div class="transcript-box" id="transcriptBox"></div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button class="btn btn-primary" id="checkBtn">✅ စစ်ဆေးမည်</button>
+                <button class="btn btn-warning" id="showAnswerBtn">🔍 အဖြေကြည့်</button>
+                <button class="btn btn-outline" id="shuffleBtn">🔄 ပြန်ဖောက်</button>
+                <button class="btn btn-danger" id="resetBtn">🗑️ ရှင်းမည်</button>
+            </div>
+            <span class="counter-badge" id="progressCounter">၀ / ၀</span>
+        </div>
+
+        <!-- Sentence List -->
+        <ul id="sentence-list"></ul>
+
+        <!-- Result -->
+        <div id="result-message"></div>
+    </div>
+
+    <script>
+        (function() {
+            // ============================================================
+            //  EXERCISE DATA (၅ ခု)
+            // ============================================================
+            const EXERCISES = [{
+                title: "Morning Briefing",
+                sentences: [
+                    "Hi, everyone. I know you're all busy so I'll keep this briefing quick.",
+                    "I have some important information about a change in the management team.",
+                    "As you already know, our head of department, James Watson, is leaving his position at the end of this week.",
+                    "His replacement is starting at the end of the next month.",
+                    "In the meantime, we'll continue with our projects as usual.",
+                    "I have two more quick points.",
+                    "Firstly, there will be some improvements made to the staff car park next month for a few weeks.",
+                    "It will be closed during that time.",
+                    "Don't worry, we've found a solution.",
+                    "We can use the local church car park until our own one is ready.",
+                    "If you arrive before 8.30 a.m., please use our small car park on Brown Street, and if you arrive after that, you should go directly to the church car park.",
+                    "It's only a five-minute walk away.",
+                    "But they need it in the evenings, so you have to leave before 6 p.m.",
+                    "Sorry about that – I know how much you all love working late!",
+                    "The other thing I wanted to tell you about is that the canteen has now introduced a cashless payment system.",
+                    "So, you can't use cash for payments any more.",
+                    "You can pay directly with your smartphone or you can pay using your company ID card.",
+                    "The total amount put on your company ID card comes off your salary at the end of each month.",
+                    "OK. That's it? Are there any questions?"
+                ]
+            }, {
+                title: "Party Invitation",
+                sentences: [
+                    "Automated message: You have two new messages. Message number one, received today at 3.45 p.m.",
+                    "Hi, it's me. How's it going?",
+                    "I guess you're at work and you don't have your phone on, right?",
+                    "First of all, thank you, THANK YOU for the birthday card and message.",
+                    "I received it this morning.",
+                    "That's so nice of you.",
+                    "I'm organising a little party for my birthday.",
+                    "It's nothing very big – only a few of my best and closest friends.",
+                    "That means you too!",
+                    "We're going to have it at my cousin's house.",
+                    "She lives in the countryside in a nice big house with a swimming pool.",
+                    "I'd love to see you there.",
+                    "It's going to be this Friday.",
+                    "I'll send you the instructions on how to get there later, OK?",
+                    "Anyway, have fun at work.",
+                    "Don't work too hard, OK?",
+                    "Talk soon.",
+                    "Automated message: You have two new messages. Message number two, received today at 5.15 p.m.",
+                    "Aw, you're still not answering your phone!",
+                    "OK, here are the instructions to get to my cousin's house for the party.",
+                    "Are you going to take your car?",
+                    "If you take the car, drive straight on Forest Road until you get to the motorway.",
+                    "Drive past Brownsville and take exit 13A. That's 13A.",
+                    "You drive down the road there and turn left.",
+                    "It's the first big house on the right. OK?",
+                    "If you're taking a bus, you can get the number 80 to Brownsville.",
+                    "Call me when you get there and somebody can pick you up in a car.",
+                    "I can't wait. This is going to be so great!"
+                ]
+            }, {
+                title: "Changing Meeting Time",
+                sentences: [
+                    "Lucy: Hi, Anna. Do you have a minute to talk about the meeting next Tuesday?",
+                    "Anna: Sure. We said 11, didn't we?",
+                    "Lucy: Yeah, we did. But I have a bit of a problem with the time. Would it be possible to move it?",
+                    "Anna: Oh, I see. We could postpone it to the afternoon, to 1 p.m., for example. Or bring it forward to earlier in the morning. What would suit you?",
+                    "Lucy: Could we make it 9 o'clock? That would really help me. I have another important meeting in the central office at 12.",
+                    "Anna: No problem. It's important you're there.",
+                    "Lucy: Thanks a lot, Anna.",
+                    "Anna: Do you need help with any preparation? Did you get the agenda I sent out?",
+                    "Lucy: Yes, I did. And no, that's all fine, thanks. My report is ready and I'm looking forward to presenting it.",
+                    "Anna: Great.",
+                    "Lucy: I can tell Sven about the time change. I'll see him later.",
+                    "Anna: Don't worry about telling Sven. I'll send an email to everyone to confirm the time has changed and with an updated meeting invite.",
+                    "Lucy: Great. Thanks, Anna.",
+                    "Anna: OK. I'm happy that works for you. We really need you there and it's good we don't have to cancel it.",
+                    "Lucy: See you then. Have a good weekend in the meantime.",
+                    "Anna: You too."
+                ]
+            }, {
+                title: "Transport Announcements",
+                sentences: [
+                    "The next train to arrive at Platform 2 is the 12.20 to Bristol Temple Meads, calling at Reading, Oxford and Bristol Parkway.",
+                    "Platform 2 for the 12.20 to Bristol. First class is in the rear carriage.",
+                    "This is a platform announcement for passengers for the 12.20 service to Bristol Temple Meads. This train is delayed by approximately 8 minutes.",
+                    "The train will now depart from Platform 9. Passengers for the 12.20 train to Bristol, please make your way to Platform 9.",
+                    "Passengers for Flight EB380 to Paris please make your way to Gate 13 for boarding.",
+                    "Gate 13 for flight EB380 to Paris. Please have your passports and boarding passes ready.",
+                    "Your flight is ready to board.",
+                    "This is a London Underground service to Liverpool Street. The next station is Liverpool Street.",
+                    "Upon arrival, the first set of doors will not open.",
+                    "Customers in the first carriage, please move towards the rear doors to leave the train.",
+                    "The next station is Liverpool Street. Change here for Central Line, Circle Line, Hammersmith & City Line and Metropolitan Line and Main Line Suburban rail services.",
+                    "Please mind the gap between the train and the platform.",
+                    "This train terminates at Redbridge."
+                ]
+            }, {
+                title: "Who's Who in Office",
+                sentences: [
+                    "Jani: Welcome to the department, Yuki. Let me show you around and tell you about your new colleagues.",
+                    "I'll introduce you to them all later.",
+                    "Yuki: Great. Thanks. So, who are those people over there?",
+                    "Jani: That's the order management team. Luciana deals with the new orders. She's the one with short, dark hair.",
+                    "Yuki: In the purple dress?",
+                    "Jani: Yeah, that's right. You'll probably work closely with her while you are learning about our ordering process.",
+                    "Yuki: Got it, thanks. And who's that over there? The guy who's on the phone?",
+                    "Jani: Oh, you mean the one by the window? In the green shirt? Ah, that's Ian. He's the marketing director. And that's Maria beside him. She's responsible for the internal IT systems.",
+                    "Yuki: OK, I'll try to remember all of this. I should probably be taking notes!",
+                    "Jani: Don't worry about it. For now it's just good to put some faces to names.",
+                    "Yuki: OK, great – and who do I talk to about setting up my mobile phone with email access? Is that also Maria?",
+                    "Jani: No, you need to talk to Sebastian who works in communications. He can help you. That's him over there, next to the printer.",
+                    "Yuki: Thanks. I'll introduce myself to him later."
+                ]
+            }
+            ];
+
+            // ============================================================
+            //  STATE
+            // ============================================================
+            let currentExIndex = 0;
+            let currentItems = [];
+            let isAnswerRevealed = false;
+            let isTranscriptVisible = false;
+            let isPlaying = false;
+
+            const listEl = document.getElementById('sentence-list');
+            const checkBtn = document.getElementById('checkBtn');
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
+            const shuffleBtn = document.getElementById('shuffleBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const resultMsg = document.getElementById('result-message');
+            const progressCounter = document.getElementById('progressCounter');
+            const exCounter = document.getElementById('exCounter');
+            const exTitle = document.getElementById('exTitle');
+            const prevBtn = document.getElementById('prevExBtn');
+            const nextBtn = document.getElementById('nextExBtn');
+            const playBtn = document.getElementById('playAudioBtn');
+            const toggleTranscriptBtn = document.getElementById('toggleTranscriptBtn');
+            const transcriptBox = document.getElementById('transcriptBox');
+
+            // ============================================================
+            //  HELPERS
+            // ============================================================
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function getCurrentExercise() {
+                return EXERCISES[currentExIndex];
+            }
+
+            // ============================================================
+            //  RENDER
+            // ============================================================
+            function updateHeader() {
+                const ex = getCurrentExercise();
+                exCounter.textContent = `${currentExIndex + 1} / ${EXERCISES.length}`;
+                exTitle.textContent = ex.title;
+            }
+
+            function renderList() {
+                listEl.innerHTML = '';
+                currentItems.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'sentence-item';
+                    li.draggable = true;
+                    li.dataset.index = index;
+                    li.dataset.id = item.id;
+
+                    const icon = document.createElement('span');
+                    icon.className = 'drag-icon';
+                    icon.textContent = '⠿';
+                    li.appendChild(icon);
+
+                    const textSpan = document.createElement('span');
+                    textSpan.className = 'sentence-text';
+                    const parts = item.text.split(': ');
+                    if (parts.length === 2) {
+                        textSpan.innerHTML = `<span class="speaker">${parts[0]}</span>: ${parts[1]}`;
+                    } else {
+                        textSpan.textContent = item.text;
+                    }
+                    li.appendChild(textSpan);
+
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'order-input';
+                    input.min = 1;
+                    input.max = currentItems.length;
+                    input.placeholder = '?';
+                    input.dataset.id = item.id;
+
+                    if (isAnswerRevealed) {
+                        input.value = item.id + 1;
+                        input.classList.add('correct');
+                    }
+
+                    input.addEventListener('input', function() {
+                        resultMsg.classList.remove('show', 'success', 'fail');
+                        resultMsg.textContent = '';
+                        this.classList.remove('correct', 'wrong');
+                        const parent = this.closest('.sentence-item');
+                        parent.classList.remove('correct', 'wrong');
+                        updateCounter();
+                    });
+
+                    li.appendChild(input);
+
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge';
+                    badge.textContent = '';
+                    li.appendChild(badge);
+
+                    // Drag & Drop
+                    li.addEventListener('dragstart', function(e) {
+                        dragSrcIndex = parseInt(this.dataset.index);
+                        this.classList.add('dragging');
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', this.dataset.index);
+                    });
+
+                    li.addEventListener('dragend', function(e) {
+                        this.classList.remove('dragging');
+                        document.querySelectorAll('.sentence-item').forEach(el => el.classList.remove(
+                        'drag-over'));
+                    });
+
+                    li.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        this.classList.add('drag-over');
+                    });
+
+                    li.addEventListener('dragleave', function(e) {
+                        this.classList.remove('drag-over');
+                    });
+
+                    li.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('drag-over');
+                        const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+                        const toIndex = parseInt(this.dataset.index);
+                        if (fromIndex === toIndex) return;
+
+                        const [movedItem] = currentItems.splice(fromIndex, 1);
+                        currentItems.splice(toIndex, 0, movedItem);
+
+                        if (isAnswerRevealed) isAnswerRevealed = false;
+                        renderList();
+                        updateCounter();
+                        resultMsg.classList.remove('show', 'success', 'fail');
+                        resultMsg.textContent = '';
+                    });
+
+                    listEl.appendChild(li);
+                });
+                updateCounter();
+                updateTranscript();
+            }
+
+            function updateCounter() {
+                const inputs = document.querySelectorAll('.order-input');
+                let count = 0;
+                inputs.forEach(inp => {
+                    const val = parseInt(inp.value);
+                    if (!isNaN(val) && val >= 1 && val <= currentItems.length) count++;
+                });
+                progressCounter.textContent = `${count} / ${currentItems.length}`;
+            }
+
+            function updateTranscript() {
+                const ex = getCurrentExercise();
+                let html = ex.sentences.map(s => {
+                    const parts = s.split(': ');
+                    if (parts.length === 2) {
+                        return `<span class="speaker-highlight">${parts[0]}</span>: ${parts[1]}`;
+                    }
+                    return s;
+                }).join('<br>');
+                transcriptBox.innerHTML = html;
+            }
+
+            // ============================================================
+            //  STOP AUDIO (AI Voice)
+            // ============================================================
+            function stopAudio() {
+                if (window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                }
+                isPlaying = false;
+                playBtn.textContent = '🔊 နားထောင်မည်';
+                playBtn.classList.remove('playing');
+            }
+
+            // ============================================================
+            //  LOAD EXERCISE
+            // ============================================================
+            function loadExercise(index) {
+                const ex = EXERCISES[index];
+                if (!ex) return;
+
+                // Stop any playing audio
+                stopAudio();
+
+                currentExIndex = index;
+                currentItems = ex.sentences.map((text, idx) => ({ id: idx, text }));
+                isAnswerRevealed = false;
+                isTranscriptVisible = false;
+                transcriptBox.classList.remove('show');
+                toggleTranscriptBtn.textContent = '📖 စာသားပြရန်';
+                shuffleArray(currentItems);
+                updateHeader();
+                renderList();
+                resultMsg.classList.remove('show', 'success', 'fail');
+                resultMsg.textContent = '';
+            }
+
+            // ============================================================
+            //  CHECK / REVEAL / RESET / SHUFFLE
+            // ============================================================
+            function checkOrder() {
+                const inputs = document.querySelectorAll('.order-input');
+                let allCorrect = true;
+                let hasEmpty = false;
+                const total = currentItems.length;
+
+                inputs.forEach(inp => {
+                    inp.classList.remove('correct', 'wrong');
+                    const parent = inp.closest('.sentence-item');
+                    parent.classList.remove('correct', 'wrong');
+                    const badge = parent.querySelector('.status-badge');
+                    badge.textContent = '';
+                });
+
+                const userOrderMap = new Map();
+                inputs.forEach(inp => {
+                    const val = parseInt(inp.value);
+                    const id = parseInt(inp.dataset.id);
+                    if (isNaN(val) || val < 1 || val > total) {
+                        hasEmpty = true;
+                        inp.classList.add('wrong');
+                        const parent = inp.closest('.sentence-item');
+                        parent.classList.add('wrong');
+                        allCorrect = false;
+                        return;
+                    }
+                    if (userOrderMap.has(val)) {
+                        allCorrect = false;
+                        inp.classList.add('wrong');
+                        const parent = inp.closest('.sentence-item');
+                        parent.classList.add('wrong');
+                        const badge = parent.querySelector('.status-badge');
+                        badge.textContent = '❌';
+                    } else {
+                        userOrderMap.set(val, id);
+                    }
+                });
+
+                if (hasEmpty) {
+                    resultMsg.textContent = `⚠️ နံပါတ် (၁ မှ ${total}) အကုန်လုံးကို ထည့်ပေးပါ။`;
+                    resultMsg.className = 'show fail';
+                    return;
+                }
+
+                if (userOrderMap.size !== total) {
+                    resultMsg.textContent = `⚠️ နံပါတ် (၁ မှ ${total}) အကုန်လုံးကို တစ်ခါသာ ထည့်ပါ။ (နံပါတ်ထပ်နေသည်)`;
+                    resultMsg.className = 'show fail';
+                    const seen = new Set();
+                    inputs.forEach(inp => {
+                        const val = parseInt(inp.value);
+                        if (!isNaN(val) && seen.has(val)) {
+                            inp.classList.add('wrong');
+                            const parent = inp.closest('.sentence-item');
+                            parent.classList.add('wrong');
+                            const badge = parent.querySelector('.status-badge');
+                            badge.textContent = '❌';
+                        }
+                        seen.add(val);
+                    });
+                    return;
+                }
+
+                let correctCount = 0;
+                inputs.forEach(inp => {
+                    const val = parseInt(inp.value);
+                    const id = parseInt(inp.dataset.id);
+                    const expectedId = val - 1;
+                    const parent = inp.closest('.sentence-item');
+                    const badge = parent.querySelector('.status-badge');
+
+                    if (id === expectedId) {
+                        inp.classList.add('correct');
+                        parent.classList.add('correct');
+                        badge.textContent = '✅';
+                        correctCount++;
+                    } else {
+                        inp.classList.add('wrong');
+                        parent.classList.add('wrong');
+                        badge.textContent = '❌';
+                        allCorrect = false;
+                    }
+                });
+
+                if (allCorrect && correctCount === total) {
+                    resultMsg.textContent = '🎉 ဂုဏ်ယူပါတယ်! အားလုံး မှန်ကန်ပါတယ်။';
+                    resultMsg.className = 'show success';
+                } else {
+                    resultMsg.textContent = `❌ မှားယွင်းမှု ${total - correctCount} ခုရှိပါသည်။ ပြန်စစ်ပါ။`;
+                    resultMsg.className = 'show fail';
+                }
+            }
+
+            function revealAnswer() {
+                isAnswerRevealed = true;
+                const inputs = document.querySelectorAll('.order-input');
+                inputs.forEach(inp => {
+                    const id = parseInt(inp.dataset.id);
+                    inp.value = id + 1;
+                    inp.classList.add('correct');
+                    inp.classList.remove('wrong');
+                    const parent = inp.closest('.sentence-item');
+                    parent.classList.add('correct');
+                    parent.classList.remove('wrong');
+                    const badge = parent.querySelector('.status-badge');
+                    badge.textContent = '✅';
+                });
+                resultMsg.textContent = '🔍 အဖြေမှန်များကို ပြသပေးထားပါသည်။';
+                resultMsg.className = 'show success';
+                updateCounter();
+            }
+
+            function resetInputs() {
+                isAnswerRevealed = false;
+                const inputs = document.querySelectorAll('.order-input');
+                inputs.forEach(inp => {
+                    inp.value = '';
+                    inp.classList.remove('correct', 'wrong');
+                    const parent = inp.closest('.sentence-item');
+                    parent.classList.remove('correct', 'wrong');
+                    const badge = parent.querySelector('.status-badge');
+                    badge.textContent = '';
+                });
+                resultMsg.classList.remove('show', 'success', 'fail');
+                resultMsg.textContent = '';
+                updateCounter();
+            }
+
+            // ============================================================
+            //  PLAY AUDIO (AI Voice)
+            // ============================================================
+            function playAudio() {
+                // Check if speech synthesis is supported
+                if (!window.speechSynthesis) {
+                    alert('သင့်ဘရောက်ဆာသည် AI Voice ကို မထောက်ပံ့ပါ။ (Chrome, Edge, Safari သုံးပါ)');
+                    return;
+                }
+
+                // If already playing, stop
+                if (isPlaying) {
+                    stopAudio();
+                    return;
+                }
+
+                const ex = getCurrentExercise();
+                // Combine all sentences into one full script with clear breaks
+                const fullScript = ex.sentences.join('. ');
+
+                if (!fullScript.trim()) {
+                    alert('ဤလေ့ကျင့်ခန်းအတွက် စာသားမရှိပါ။');
+                    return;
+                }
+
+                // Cancel any ongoing speech just in case
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(fullScript);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; // Slightly slower for better comprehension
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                // Try to get a good quality English voice (prefer Google or Samantha on iOS)
+                const voices = window.speechSynthesis.getVoices();
+                const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes(
+                    'Samantha'))) || voices.find(v => v.lang.startsWith('en')) || null;
+                if (preferred) utterance.voice = preferred;
+
+                isPlaying = true;
+                playBtn.textContent = '⏹ ရပ်မည်';
+                playBtn.classList.add('playing');
+
+                utterance.onend = function() {
+                    isPlaying = false;
+                    playBtn.textContent = '🔊 နားထောင်မည်';
+                    playBtn.classList.remove('playing');
+                };
+
+                utterance.onerror = function(event) {
+                    console.error('Speech error:', event);
+                    isPlaying = false;
+                    playBtn.textContent = '🔊 နားထောင်မည်';
+                    playBtn.classList.remove('playing');
+                    // Don't alert on cancel (error code 15 is usually cancel)
+                    if (event.error !== 'canceled') {
+                        alert('AI Voice ဖွင့်ရာတွင် အမှားရှိသည်။ နောက်တစ်ခါ စမ်းကြည့်ပါ။');
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            // ============================================================
+            //  NAVIGATION
+            // ============================================================
+            function goToPrev() {
+                if (currentExIndex > 0) loadExercise(currentExIndex - 1);
+                else alert('ပထမဆုံး လေ့ကျင့်ခန်းပါ။');
+            }
+
+            function goToNext() {
+                if (currentExIndex < EXERCISES.length - 1) loadExercise(currentExIndex + 1);
+                else alert('နောက်ဆုံး လေ့ကျင့်ခန်းပါ။');
+            }
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+            let dragSrcIndex = null;
+
+            function init() {
+                // Load voices early for iOS compatibility
+                if (window.speechSynthesis) {
+                    window.speechSynthesis.getVoices();
+                    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+                }
+
+                loadExercise(0);
+
+                checkBtn.addEventListener('click', checkOrder);
+                showAnswerBtn.addEventListener('click', revealAnswer);
+
+                shuffleBtn.addEventListener('click', function() {
+                    shuffleArray(currentItems);
+                    if (isAnswerRevealed) isAnswerRevealed = false;
+                    renderList();
+                    resultMsg.classList.remove('show', 'success', 'fail');
+                    resultMsg.textContent = '';
+                });
+
+                resetBtn.addEventListener('click', resetInputs);
+                prevBtn.addEventListener('click', goToPrev);
+                nextBtn.addEventListener('click', goToNext);
+
+                // Audio play button (AI Voice)
+                playBtn.addEventListener('click', playAudio);
+
+                // Transcript toggle
+                toggleTranscriptBtn.addEventListener('click', function() {
+                    isTranscriptVisible = !isTranscriptVisible;
+                    transcriptBox.classList.toggle('show', isTranscriptVisible);
+                    this.textContent = isTranscriptVisible ? '📖 စာသားဖျောက်ရန်' : '📖 စာသားပြရန်';
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowLeft') goToPrev();
+                    if (e.key === 'ArrowRight') goToNext();
+                    if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                        e.preventDefault();
+                        playAudio();
+                    }
+                });
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>

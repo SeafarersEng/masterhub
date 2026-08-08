@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Mock Test 104 – MEPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 16px 14px 24px;
+            box-shadow: 0 8px 30px rgba(0, 20, 50, 0.08);
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .top-bar h2 {
+            font-size: 18px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-bar h2 i { color: #1a4d8f; }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-back:active { transform: scale(0.95); background: #dce3ed; }
+
+        .timer-bar {
+            background: #f8fafc;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .timer-bar i { color: #1a4d8f; }
+
+        /* ===== SECTION ===== */
+        .section {
+            background: #f8faff;
+            border-radius: 16px;
+            padding: 14px 12px;
+            margin-bottom: 16px;
+            border-left: 5px solid #1a4d8f;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i { color: #1a4d8f; width: 22px; text-align: center; }
+
+        .question {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .question:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .q-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 5px;
+        }
+        .q-text .q-label { font-weight: 400; color: #64748b; font-size: 13px; }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding-left: 4px;
+        }
+        .options label {
+            font-size: 14px;
+            color: #1f3a5f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 3px 0;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4d8f;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ===== READING ===== */
+        .passage {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .passage strong { color: #0a2a4a; }
+
+        /* ===== LISTENING ===== */
+        .listening-script {
+            background: #fef9e7;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #fdebd0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #5b3e00;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .listening-script i { color: #d4891e; }
+
+        .audio-container {
+            background: #f1f5f9;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+        .audio-container audio {
+            flex: 1;
+            min-width: 180px;
+            height: 40px;
+            width: 100%;
+        }
+        .play-status {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a4d8f;
+            background: #fff;
+            padding: 4px 16px;
+            border-radius: 50px;
+            border: 1px solid #d1d9e6;
+            white-space: nowrap;
+        }
+        .play-status.limited {
+            color: #dc2626;
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+
+        /* ===== SPEAKING ===== */
+        .speaking-card {
+            border: 2px solid #f0b429;
+            background: #fefcf5;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 6px;
+        }
+        .speaking-card .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .speaking-card .timer-display {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f4c75;
+        }
+        .speak-btn {
+            background: #0f4c75;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            touch-action: manipulation;
+        }
+        .speak-btn:active { transform: scale(0.95); }
+        .speak-btn.playing { background: #e53e3e; }
+        .speak-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .speaking-prompt-box {
+            background: #f1f5f9;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #f0b429;
+            transition: all 0.3s ease;
+        }
+        .speaking-prompt-box strong {
+            color: #0a2a4a;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        .speaking-prompt-box p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1f3a5f;
+        }
+
+        .speaking-card textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #d1d9e6;
+            font-family: inherit;
+            font-size: 14px;
+            background: #fafcff;
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* ===== WRITING ===== */
+        .writing-option {
+            background: #fff;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 8px;
+        }
+        .writing-option h5 { color: #0a2a4a; font-size: 14px; margin-bottom: 3px; }
+        .writing-option p { font-size: 13px; color: #475569; margin-bottom: 6px; }
+        .writing-option textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d9e6;
+            font-family: inherit;
+            font-size: 13px;
+            background: #fafcff;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-submit {
+            background: #1a4d8f;
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 8px 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+        .btn-submit:active { transform: scale(0.97); background: #0f3a6b; }
+
+        .btn-reset {
+            background: #eef2f7;
+            color: #1f3a5f;
+            border: none;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 4px 0;
+            touch-action: manipulation;
+        }
+        .btn-reset:active { transform: scale(0.97); background: #dce3ed; }
+
+        /* ===== RESULTS ===== */
+        #resultsContainer {
+            display: none;
+            animation: fadeIn 0.4s ease;
+            margin-top: 16px;
+        }
+        #resultsContainer.show { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-section {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 5px solid #1a4d8f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .result-section .label { font-weight: 600; font-size: 14px; color: #0a2a4a; }
+        .result-section .grade {
+            font-weight: 800;
+            font-size: 18px;
+            padding: 2px 14px;
+            border-radius: 50px;
+        }
+        .grade-a { background: #dcfce7; color: #166534; }
+        .grade-b { background: #fef9e7; color: #92400e; }
+        .grade-c { background: #fee2e2; color: #991b1b; }
+
+        .overall-result {
+            background: #1a4d8f;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .overall-result.fail { background: #991b1b; }
+        .overall-result .sub { font-weight: 400; font-size: 13px; opacity: 0.9; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .container { padding: 12px 10px 16px; }
+            .top-bar h2 { font-size: 16px; }
+            .section { padding: 12px 10px; }
+            .section-title { font-size: 15px; }
+            .q-text { font-size: 13px; }
+            .options label { font-size: 13px; }
+            .passage { font-size: 13px; padding: 8px 10px; }
+            .listening-script { font-size: 13px; padding: 10px 12px; }
+            .speaking-prompt-box p { font-size: 14px; }
+            .speaking-card textarea { font-size: 13px; }
+            .writing-option textarea { font-size: 13px; }
+            .btn-submit { font-size: 15px; padding: 12px 0; }
+            .audio-container audio { min-width: 120px; }
+        }
+
+        @media (max-width: 380px) {
+            .result-section { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .timer-bar { justify-content: center; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #f0f4f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #b8c9e0; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <h2><i class="fas fa-vial"></i> Mock Test 104</h2>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span class="timer-bar" id="timerDisplay"><i class="fas fa-clock"></i> 120:00</span>
+                <a href="mocktest.html" class="btn-back"><i class="fas fa-arrow-left"></i> Hub</a>
+            </div>
+        </div>
+
+        <!-- EXAM FORM -->
+        <form id="testForm" onsubmit="return false;">
+
+            <!-- ===== GRAMMAR (40) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-book"></i> Grammar (40 Qs)</div>
+                <div id="grammarQuestions"></div>
+            </div>
+
+            <!-- ===== READING (20) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-book-open"></i> Reading (20 Qs)</div>
+                <div id="readingQuestions"></div>
+            </div>
+
+            <!-- ===== LISTENING (20) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-headphones"></i> Listening (20 Qs)</div>
+                <div id="listeningQuestions"></div>
+            </div>
+
+            <!-- ===== WRITING ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-pen-fancy"></i> Writing</div>
+                <div id="writingQuestions"></div>
+            </div>
+
+            <!-- ===== SPEAKING (PERSONAL INFORMATION & PICTURE) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-comment"></i> Speaking (7 Qs)</div>
+                <div id="speakingQuestions"></div>
+            </div>
+
+            <!-- BUTTONS -->
+            <button type="button" class="btn-submit" id="submitBtn"><i class="fas fa-check-circle"></i> Submit & Grade</button>
+            <button type="button" class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> Reset All</button>
+        </form>
+
+        <!-- ===== RESULTS ===== -->
+        <div id="resultsContainer">
+            <div id="resultsContent"></div>
+            <button type="button" class="btn-reset" onclick="window.location.reload();"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 0. LISTENING TRACKER (2 plays limit)
+        // ================================================================
+        let listeningPlayCount = 0;
+        const MAX_LISTENING_PLAYS = 2;
+
+        // ================================================================
+        // 1. GRAMMAR DATA (40 NEW questions for Test 104)
+        // ================================================================
+        const GRAMMAR_DATA = [
+            { q: "She ________ to school every day.", opts: ["a) go", "b) goes", "c) going"], ans: "b" },
+            { q: "They ________ a new car last month.", opts: ["a) buy", "b) bought", "c) buying"], ans: "b" },
+            { q: "You ________ finish your homework before you go out.", opts: ["a) must", "b) may", "c) can"], ans: "a" },
+            { q: "The children ________ in the garden now.", opts: ["a) play", "b) plays", "c) are playing"], ans: "c" },
+            { q: "If it rains, we ________ stay at home.", opts: ["a) will", "b) would", "c) shall"], ans: "a" },
+            { q: "She asked me ________ the door.", opts: ["a) to close", "b) close", "c) closing"], ans: "a" },
+            { q: "The teacher ________ the students carefully.", opts: ["a) listened", "b) listened to", "c) listening"], ans: "b" },
+            { q: "We ________ finished our work already.", opts: ["a) have", "b) has", "c) having"], ans: "a" },
+            { q: "The weather ________ very nice today.", opts: ["a) is", "b) are", "c) was"], ans: "a" },
+            { q: "He ________ his keys every morning.", opts: ["a) forgets", "b) forget", "c) forgetting"], ans: "a" },
+            { q: "You ________ touch that. It's dangerous.", opts: ["a) must not", "b) must", "c) might"], ans: "a" },
+            { q: "The letter ________ yesterday.", opts: ["a) is sent", "b) was sent", "c) sent"], ans: "b" },
+            { q: "The house ________ painted right now.", opts: ["a) is being", "b) is", "c) was"], ans: "a" },
+            { q: "She ________ arrived at the station yet.", opts: ["a) hasn't", "b) haven't", "c) didn't"], ans: "a" },
+            { q: "I will meet you ________ 6 o'clock.", opts: ["a) at", "b) on", "c) in"], ans: "a" },
+            { q: "She sings very ________.", opts: ["a) beautiful", "b) beautifully", "c) beauty"], ans: "b" },
+            { q: "There are ________ apples in the basket.", opts: ["a) many", "b) much", "c) a lot"], ans: "a" },
+            { q: "The workers ________ fixed the road.", opts: ["a) have", "b) has", "c) having"], ans: "a" },
+            { q: "Remember ________ the lights when you leave.", opts: ["a) to turn off", "b) turn off", "c) turning off"], ans: "a" },
+            { q: "The team ________ won the match.", opts: ["a) have", "b) has", "c) haven't"], ans: "a" },
+            { q: "The train ________ at 8 p.m.", opts: ["a) departs", "b) depart", "c) departing"], ans: "a" },
+            { q: "All the guests ________ here by now.", opts: ["a) were", "b) was", "c) is"], ans: "a" },
+            { q: "The book is ________ the shelf.", opts: ["a) at", "b) in", "c) on"], ans: "c" },
+            { q: "The manager ________ the staff yesterday.", opts: ["a) praised", "b) praise", "c) praising"], ans: "a" },
+            { q: "You ________ eat too much sugar.", opts: ["a) should not", "b) shouldn't", "c) might"], ans: "a" },
+            { q: "The baby ________ right now.", opts: ["a) sleeps", "b) is sleeping", "c) sleep"], ans: "b" },
+            { q: "The money ________ in the safe.", opts: ["a) is kept", "b) keeps", "c) keeping"], ans: "a" },
+            { q: "The meeting ________ held every Friday.", opts: ["a) is", "b) was", "c) has"], ans: "a" },
+            { q: "I ________ to become a doctor.", opts: ["a) want", "b) wants", "c) wanting"], ans: "a" },
+            { q: "The bag ________ 10 kilograms.", opts: ["a) weighs", "b) weigh", "c) weighing"], ans: "a" },
+            { q: "The manager ________ the report tomorrow.", opts: ["a) reads", "b) will read", "c) reading"], ans: "b" },
+            { q: "The windows ________ cleaned every week.", opts: ["a) are", "b) is", "c) being"], ans: "a" },
+            { q: "The plane ________ at 6 a.m.", opts: ["a) takes off", "b) take off", "c) taking off"], ans: "a" },
+            { q: "The students ________ the exam carefully.", opts: ["a) prepared", "b) prepare", "c) preparing"], ans: "a" },
+            { q: "All the files ________ checked yesterday.", opts: ["a) were", "b) was", "c) being"], ans: "a" },
+            { q: "The machine ________ for repairs now.", opts: ["a) is shut down", "b) shuts down", "c) shutting down"], ans: "a" },
+            { q: "The children ________ happy with their toys.", opts: ["a) look", "b) looks", "c) looking"], ans: "a" },
+            { q: "The movie ________ for two hours.", opts: ["a) lasts", "b) last", "c) lasting"], ans: "a" },
+            { q: "The chef ________ the food right now.", opts: ["a) prepares", "b) is preparing", "c) prepare"], ans: "b" },
+            { q: "The flowers ________ to be watered daily.", opts: ["a) need", "b) needs", "c) needing"], ans: "a" }
+        ];
+
+        // ================================================================
+        // 2. READING DATA (4 NEW passages - General Topics)
+        // ================================================================
+        const READING_DATA = [{
+            title: "The Importance of Sleep",
+            text: "Sleep is essential for good health. Adults need about 7 to 9 hours of sleep each night. During sleep, the body repairs itself and the brain processes information. Lack of sleep can cause health problems like stress, weight gain, and poor concentration. To sleep better, you should avoid screens before bedtime, keep your room dark and quiet, and try to go to bed at the same time every night. Good sleep helps you feel energetic and focused during the day.",
+            questions: [
+                { q: "Adults need about 7 to 9 hours of sleep.", ans: "T" },
+                { q: "Sleep is not important for health.", ans: "F" },
+                { q: "Lack of sleep can cause stress.", ans: "T" },
+                { q: "You should use your phone before sleeping.", ans: "F" },
+                { q: "Good sleep helps you feel focused.", ans: "T" }
+            ]
+        }, {
+            title: "Electric Vehicles",
+            text: "Electric vehicles (EVs) are becoming more popular around the world. They are better for the environment because they produce no exhaust emissions. EVs are also cheaper to run than petrol cars because electricity costs less than fuel. However, they have some disadvantages, such as limited driving range and long charging times. Many governments are encouraging people to buy EVs by offering tax reductions and building more charging stations. The future of transport is likely to be electric.",
+            questions: [
+                { q: "Electric vehicles produce exhaust emissions.", ans: "F" },
+                { q: "EVs are cheaper to run than petrol cars.", ans: "T" },
+                { q: "EVs have unlimited driving range.", ans: "F" },
+                { q: "Governments are offering tax reductions for EVs.", ans: "T" },
+                { q: "The future of transport is likely electric.", ans: "T" }
+            ]
+        }, {
+            title: "Social Media and Communication",
+            text: "Social media has changed the way we communicate. Platforms like Facebook, Instagram, and Twitter allow us to connect with friends and family instantly. People share photos, news, and ideas online. However, social media can also have negative effects. It can be addictive, and it sometimes spreads false information. To use social media wisely, you should limit your screen time, check facts before sharing, and remember to communicate face-to-face as well.",
+            questions: [
+                { q: "Social media allows instant connection with others.", ans: "T" },
+                { q: "Social media is always good and has no negative effects.", ans: "F" },
+                { q: "It can be addictive.", ans: "T" },
+                { q: "You should share everything you see online.", ans: "F" },
+                { q: "Face-to-face communication is not important anymore.", ans: "F" }
+            ]
+        }, {
+            title: "Healthy Eating Habits",
+            text: "Eating a balanced diet is important for maintaining good health. A healthy meal should include vegetables, fruits, whole grains, and protein. It is best to avoid too much sugar, salt, and processed food. Drinking plenty of water is also essential. Many people find it difficult to eat healthily because of busy lifestyles, but planning meals in advance can help. Small changes, like choosing water instead of soda, can make a big difference to your health.",
+            questions: [
+                { q: "A balanced diet includes vegetables and fruits.", ans: "T" },
+                { q: "You should eat a lot of sugar and salt.", ans: "F" },
+                { q: "Drinking water is important for health.", ans: "T" },
+                { q: "Planning meals does not help.", ans: "F" },
+                { q: "Small changes can improve your health.", ans: "T" }
+            ]
+        }];
+
+        // ================================================================
+        // 3. LISTENING DATA (20 questions based on "who_in_the_office.mp3")
+        // ================================================================
+        const LISTENING_SCRIPT = `Jani: Welcome to the department, Yuki. Let me show you around and tell you about your new colleagues. I'll introduce you to them all later.
+
+        Yuki: Great. Thanks. So, who are those people over there?
+
+        Jani: That's the order management team. Luciana deals with the new orders. She's the one with short, dark hair.
+
+        Yuki: In the purple dress?
+
+        Jani: Yeah, that's right. You'll probably work closely with her while you are learning about our ordering process.
+
+        Yuki: Got it, thanks. And who's that over there? The guy who's on the phone?
+
+        Jani: Oh, you mean the one by the window? In the green shirt? Ah, that's Ian. He's the marketing director. And that's Maria beside him. She's responsible for the internal IT systems.
+
+        Yuki: OK, I'll try to remember all of this. I should probably be taking notes!
+
+        Jani: Don't worry about it. For now it's just good to put some faces to names.
+
+        Yuki: OK, great – and who do I talk to about setting up my mobile phone with email access? Is that also Maria?
+
+        Jani: No, you need to talk to Sebastian who works in communications. He can help you. That's him over there, next to the printer.  
+
+        Yuki: Thanks. I'll introduce myself to him later.`;
+
+        const LISTENING_DATA = [
+            { q: "What is the name of the new person being welcomed?", opts: ["A. Jani", "B. Yuki", "C. Luciana"], ans: "B" },
+            { q: "Who is showing Yuki around the department?", opts: ["A. Yuki", "B. Luciana", "C. Jani"], ans: "C" },
+            { q: "Who deals with the new orders?", opts: ["A. Ian", "B. Luciana", "C. Maria"], ans: "B" },
+            { q: "What does Luciana look like?", opts: ["A. Short, dark hair", "B. Blonde hair", "C. Long, red hair"], ans: "A" },
+            { q: "What color is Luciana's dress?", opts: ["A. Green", "B. Purple", "C. Blue"], ans: "B" },
+            { q: "Which team does Luciana work in?", opts: ["A. Marketing", "B. IT", "C. Order management"], ans: "C" },
+            { q: "Who is the marketing director?", opts: ["A. Ian", "B. Maria", "C. Sebastian"], ans: "A" },
+            { q: "Where is Ian sitting/standing?", opts: ["A. Next to the printer", "B. By the window", "C. In the corner"], ans: "B" },
+            { q: "What color shirt is Ian wearing?", opts: ["A. Purple", "B. Blue", "C. Green"], ans: "C" },
+            { q: "Who is responsible for the internal IT systems?", opts: ["A. Ian", "B. Maria", "C. Sebastian"], ans: "B" },
+            { q: "Who is sitting beside Ian?", opts: ["A. Luciana", "B. Maria", "C. Sebastian"], ans: "B" },
+            { q: "Who helps with setting up mobile phone and email access?", opts: ["A. Maria", "B. Ian", "C. Sebastian"], ans: "C" },
+            { q: "Where is Sebastian located?", opts: ["A. By the window", "B. Next to the printer", "C. In the order management team"], ans: "B" },
+            { q: "Which department does Sebastian work in?", opts: ["A. IT", "B. Marketing", "C. Communications"], ans: "C" },
+            { q: "What does Yuki say she should probably do?", opts: ["A. Take photos", "B. Take notes", "C. Make a call"], ans: "B" },
+            { q: "What does Jani say is good for now?", opts: ["A. Learn the process", "B. Put some faces to names", "C. Read the manual"], ans: "B" },
+            { q: "Who does Yuki ask about setting up the email?", opts: ["A. Ian", "B. Jani", "C. Sebastian"], ans: "B" },
+            { q: "What is the main purpose of the conversation?", opts: ["A. Discussing a project", "B. Introducing colleagues to Yuki", "C. Having a meeting"], ans: "B" },
+            { q: "Will Yuki probably work closely with Luciana?", opts: ["A. Yes", "B. No", "C. Not mentioned"], ans: "A" },
+            { q: "What is the marketing director's name?", opts: ["A. Ian", "B. Sebastian", "C. Jani"], ans: "A" }
+        ];
+
+        // ================================================================
+        // 4. SPEAKING DATA (7 NEW questions - Personal Info & Picture)
+        // ================================================================
+        const SPEAKING_DATA = [
+            { type: "Personal Information", timeLimit: 60, prompt: "Tell me about yourself. What is your name, age, and where are you from?" },
+            { type: "Personal Information", timeLimit: 60, prompt: "Describe your hometown. What is it famous for and what do you like about it?" },
+            { type: "Personal Information", timeLimit: 60, prompt: "What do you like to do in your free time? Do you have any hobbies or interests?" },
+            { type: "Personal Information", timeLimit: 60, prompt: "Describe your house or apartment. What does it look like and what rooms does it have?" },
+            { type: "Personal Information", timeLimit: 60, prompt: "Tell me about a memorable journey or holiday you have had. What did you do and enjoy?" },
+            { type: "Picture Description", timeLimit: 150, prompt: "Look at the picture of a family having dinner together. Describe the scene, the people, and what they are doing.", image: "104.png" },
+            { type: "Debate", timeLimit: 150, prompt: "Some people think technology is making our lives easier and more convenient. Others think it is making us lazy. What is your opinion?" }
+        ];
+
+        // ================================================================
+        // 5. WRITING DATA (NEW prompts - General)
+        // ================================================================
+        const WRITING_PART1 = [
+            { id: 'A', title: "Invitation to a Party", task: "Write a short message to your friend inviting them to your birthday party. Mention the time and place. (approx. 25 words)" },
+            { id: 'B', title: "Thank You Note", task: "Write a short thank you note to a colleague who helped you with a project. (approx. 25 words)" },
+            { id: 'C', title: "Lost Item Report", task: "Write a short message to the Lost and Found office about a bag you lost at the shopping mall. (approx. 25 words)" },
+            { id: 'D', title: "Request for Leave", task: "Write a short message to your supervisor requesting a day off next Friday. (approx. 25 words)" }
+        ];
+        const WRITING_PART2 = [
+            { id: 'A', title: "An Unforgettable Event", task: "Describe an unforgettable event in your life. What happened and why was it so memorable? (80-100 words)" },
+            { id: 'B', title: "The Importance of Education", task: "Explain why education is important for a person's future. (80-100 words)" },
+            { id: 'C', title: "My Favorite Book or Movie", task: "Describe your favorite book or movie. What is it about and why do you like it? (80-100 words)" },
+            { id: 'D', title: "How to Stay Healthy", task: "Write about the things people should do to stay healthy and fit. (80-100 words)" }
+        ];
+
+        // ================================================================
+        // 6. TIMER
+        // ================================================================
+        let timerInterval;
+        let timeLeft = 120 * 60;
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timerDisplay').innerHTML = `<i class="fas fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ အချိန်ပြည့်ပါပြီ။');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // ================================================================
+        // 7. RENDER FUNCTIONS
+        // ================================================================
+
+        function renderGrammar() {
+            const container = document.getElementById('grammarQuestions');
+            let html = '';
+            GRAMMAR_DATA.forEach((q, i) => {
+                html += `<div class="question"><div class="q-text"><span class="q-label">Q${i+1}.</span> ${q.q}</div><div class="options">`;
+                q.opts.forEach(opt => {
+                    const val = opt.charAt(0);
+                    html += `<label><input type="radio" name="gq${i}" value="${val}"> ${opt}</label>`;
+                });
+                html += `</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderReading() {
+            const container = document.getElementById('readingQuestions');
+            let html = '', qNum = 1;
+            READING_DATA.forEach(pass => {
+                html += `<div class="passage"><strong>${pass.title}</strong>\n${pass.text}</div>`;
+                pass.questions.forEach(q => {
+                    html += `<div class="question"><div class="q-text"><span class="q-label">Q${qNum}.</span> ${q.q}</div>
+                        <div class="options" style="flex-direction:row; gap:16px;">
+                            <label><input type="radio" name="rq${qNum-1}" value="T"> True</label>
+                            <label><input type="radio" name="rq${qNum-1}" value="F"> False</label>
+                        </div></div>`;
+                    qNum++;
+                });
+            });
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 7b. RENDER LISTENING (with MP3 and 2-play limit)
+        // ================================================================
+        // ================================================================
+//  LISTENING RENDER (AI Voice - 2 Plays Limit)
+// ================================================================
+function renderListening() {
+    const container = document.getElementById('listeningQuestions');
+    if (!container) return;
+
+    // Reset play count when rendering
+    listeningPlayCount = 0;
+
+    // Build HTML - Remove audio tag, add Play Script button
+    let html = `
+        <div class="listening-script" id="listeningScript"><i class="fas fa-file-alt"></i> <strong>Transcript (Reference):</strong>\n${LISTENING_SCRIPT}</div>
+        
+        <div style="background: #f1f5f9; padding: 12px 14px; border-radius: 12px; margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+            <button class="play-btn" id="listeningPlayBtn" onclick="playListeningScript()" style="background: #1a4d8f; color: #fff; border: none; padding: 10px 20px; border-radius: 50px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; touch-action: manipulation;">
+                <i class="fas fa-volume-up"></i> 🔈 Play Script (0/${MAX_LISTENING_PLAYS})
+            </button>
+            <span id="listeningStatus" style="font-weight: 600; font-size: 14px; color: #1a4d8f; background: #fff; padding: 4px 16px; border-radius: 50px; border: 1px solid #d1d9e6;">▶️ 0 / ${MAX_LISTENING_PLAYS}</span>
+        </div>
+        <div style="font-size:12px; color:#64748b; margin-bottom:10px;">
+            <i class="fas fa-info-circle"></i> နားဆင်ပြီး မေးခွန်းများကို ဖြေပါ။ (Audio ကို <strong>${MAX_LISTENING_PLAYS} ကြိမ်</strong>သာ ဖွင့်နိုင်ပါသည်။)
+        </div>
+    `;
+
+    // Add questions
+    LISTENING_DATA.forEach((q, i) => {
+        html += `<div class="question"><div class="q-text"><span class="q-label">Q${i+1}.</span> ${q.q}</div><div class="options">`;
+        q.opts.forEach(opt => {
+            const val = opt.charAt(0);
+            html += `<label><input type="radio" name="lq${i}" value="${val}"> ${opt}</label>`;
+        });
+        html += `</div></div>`;
+    });
+    container.innerHTML = html;
+
+    // Update the status badge to reflect current count
+    const status = document.getElementById('listeningStatus');
+    if (status) {
+        status.textContent = `▶️ ${listeningPlayCount} / ${MAX_LISTENING_PLAYS}`;
+        if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+            status.classList.add('limited');
+            status.style.color = '#dc2626';
+            status.style.background = '#fee2e2';
+            status.style.borderColor = '#dc2626';
+        }
+    }
+}
+
+// ================================================================
+//  PLAY LISTENING SCRIPT (AI Voice with 2-play limit)
+// ================================================================
+function playListeningScript() {
+    const btn = document.getElementById('listeningPlayBtn');
+    const status = document.getElementById('listeningStatus');
+    if (!btn || !status) return;
+
+    // If currently speaking, stop it
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+        btn.classList.remove('playing');
+        return;
+    }
+
+    // Check play limit
+    if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+        alert(`⚠️ ဤအသံဖိုင် (Audio) ကို ${MAX_LISTENING_PLAYS} ကြိမ်သာ ဖွင့်နိုင်ပါသည်။`);
+        return;
+    }
+
+    // Increment count
+    listeningPlayCount++;
+    btn.innerHTML = `<i class="fas fa-stop"></i> ⏹️ Playing... (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+    btn.classList.add('playing');
+
+    // Update status badge
+    status.textContent = `▶️ ${listeningPlayCount} / ${MAX_LISTENING_PLAYS}`;
+    if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+        status.classList.add('limited');
+        status.style.color = '#dc2626';
+        status.style.background = '#fee2e2';
+        status.style.borderColor = '#dc2626';
+    } else {
+        status.classList.remove('limited');
+        status.style.color = '#1a4d8f';
+        status.style.background = '#fff';
+        status.style.borderColor = '#d1d9e6';
+    }
+
+    // Prepare the text to speak (clean up whitespace)
+    const text = LISTENING_SCRIPT.replace(/\s+/g, ' ').trim();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    // Try to use a good voice (Google or Samantha for iOS)
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha'))) || 
+                     voices.find(v => v.lang.startsWith('en')) || null;
+    if (preferred) utterance.voice = preferred;
+
+    // When speech ends
+    utterance.onend = function() {
+        btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+        btn.classList.remove('playing');
+        if (listeningPlayCount >= MAX_LISTENING_PLAYS) {
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btn.style.transform = 'none !important';
+        }
+    };
+
+    utterance.onerror = function(event) {
+        if (event.error !== 'canceled') {
+            btn.innerHTML = `<i class="fas fa-volume-up"></i> 🔈 Play Script (${listeningPlayCount}/${MAX_LISTENING_PLAYS})`;
+            btn.classList.remove('playing');
+            alert('AI Voice ဖွင့်ရာတွင် အမှားရှိသည်။');
+        }
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
+        // ================================================================
+        // 8. WRITING RENDER
+        // ================================================================
+        function renderWriting() {
+            const container = document.getElementById('writingQuestions');
+            let html = `<div style="font-weight:600; color:#0a2a4a; margin-bottom:8px;">Part 1 (approx. 25 words) – Choose ONE</div>`;
+            WRITING_PART1.forEach(w => {
+                html += `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w1${w.id}" rows="3" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            html += `<div style="font-weight:600; color:#0a2a4a; margin:12px 0 8px;">Part 2 (80–100 words) – Choose ONE</div>`;
+            WRITING_PART2.forEach(w => {
+                html += `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w2${w.id}" rows="5" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 9. SPEAKING SYSTEM
+        // ================================================================
+        let speakingTimer = null;
+        let speakingTimeLeft = 60;
+        let speakingPlayCount = 0;
+        const MAX_SPEAKING_PLAYS = 2;
+        let currentSpeakingIndex = 0;
+        let speakingAnswers = new Array(SPEAKING_DATA.length).fill('');
+        let isSpeakingTimeUp = false;
+        let speakingTimerStarted = false;
+
+        function showSpeakingQuestion(index) {
+            if (index >= SPEAKING_DATA.length) {
+                document.getElementById('speakingContainer').innerHTML = `
+                    <div style="text-align:center; padding:30px; background:#f0fdf4; border-radius:12px;">
+                        <h3 style="color:#166534;">✅ Speaking Completed!</h3>
+                        <p style="color:#64748b;">All 7 questions answered.</p>
+                        <button class="btn-submit" style="margin-top:12px; background:#166534;" onclick="document.getElementById('submitBtn').click();">Submit Exam</button>
+                    </div>
+                `;
+                document.getElementById('speakingProgress').textContent = `${SPEAKING_DATA.length}/${SPEAKING_DATA.length}`;
+                return;
+            }
+            clearInterval(speakingTimer);
+            speakingTimerStarted = false;
+            isSpeakingTimeUp = false;
+            currentSpeakingIndex = index;
+            const q = SPEAKING_DATA[index];
+            const total = SPEAKING_DATA.length;
+            const timeLimit = q.timeLimit || 60;
+            speakingPlayCount = 0;
+            document.getElementById('speakingProgress').textContent = `${index + 1}/${total}`;
+            document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${timeLimit}s`;
+            document.getElementById('speakingTimerDisplay').style.color = '#0f4c75';
+            const container = document.getElementById('speakingContainer');
+            const typeLabel = q.type === 'Picture Description' ? '🖼️ Picture Description' :
+                             q.type === 'Debate' ? '🎯 Debate' : '💬 Personal Information';
+            
+            let imageHtml = '';
+            if (q.image) {
+                imageHtml = `
+                    <div style="text-align:center; margin:12px 0;">
+                        <img src="${q.image}" alt="Speaking Image" 
+                             style="max-width:100%; max-height:220px; border-radius:12px; border:2px solid #e2e8f0; padding:8px; background:white; box-shadow:0 2px 8px rgba(0,0,0,0.06);" 
+                             onerror="this.style.display='none'">
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div style="border:2px solid #f0b429; border-radius:14px; padding:14px; background:#fefcf5;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+                        <div>
+                            <span style="font-weight:600; color:#0f4c75;">Question ${index+1} of ${total}</span>
+                            <span style="margin-left:8px; font-size:0.75rem; background:#f0b42920; padding:2px 12px; border-radius:20px; color:#92400e;">${typeLabel}</span>
+                        </div>
+                        <span id="speakingTimerDisplay" style="font-weight:700; font-size:1.1rem; color:#0f4c75;">⏱️ ${timeLimit}s</span>
+                    </div>
+                    <div style="text-align:center; padding:8px 0;">
+                        <button class="speak-btn" id="speakBtnCurrent" onclick="playSpeakingQuestion(${index})">
+                            🔊 Play Question (0/${MAX_SPEAKING_PLAYS})
+                        </button>
+                        <p style="font-size:0.8rem; color:#64748b; margin-top:6px;">
+                            ${q.type === 'Picture Description' ? 'Listen, then describe what you see' : 
+                              q.type === 'Debate' ? 'Listen, then share your opinion' : 
+                              'Listen, then introduce yourself / talk about the topic'}
+                            <br><span style="color:#dc2626; font-weight:600;">(Text prompt will disappear after the 2nd play)</span>
+                        </p>
+                    </div>
+                    ${imageHtml}
+                    <div class="speaking-prompt-box" id="speakingPromptBox">
+                        <strong>📌 Question Prompt:</strong>
+                        <p>${q.prompt}</p>
+                    </div>
+                    <div>
+                        <label style="font-weight:500; display:block; margin-bottom:4px; font-size:14px;">Your Answer:</label>
+                        <textarea id="sp_${index}" rows="5" placeholder="Type your answer here..." style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d1d9e6; font-family:inherit; font-size:14px; background:#fafcff; resize:vertical;">${speakingAnswers[index] || ''}</textarea>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end; flex-wrap:wrap;">
+                        <button class="btn-submit" style="background:#0f4c75; padding:8px 20px; font-size:14px; width:auto;" onclick="saveSpeakingAndNext(${index})">Save & Next →</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function playSpeakingQuestion(index) {
+            const btn = document.getElementById('speakBtnCurrent');
+            if (!btn) return;
+
+            if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                alert('❌ This question has been played the maximum times (2). The text prompt has been hidden.');
+                return;
+            }
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                return;
+            }
+
+            const q = SPEAKING_DATA[index];
+            speakingPlayCount++;
+            btn.textContent = `🔊 Playing... (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+            btn.classList.add('playing');
+
+            if (speakingPlayCount === MAX_SPEAKING_PLAYS) {
+                const promptBox = document.getElementById('speakingPromptBox');
+                if (promptBox) {
+                    promptBox.style.display = 'none';
+                }
+            }
+
+            const utterance = new SpeechSynthesisUtterance(q.prompt);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha'))) || 
+                             voices.find(v => v.lang.startsWith('en')) || null;
+            if (preferred) utterance.voice = preferred;
+            
+            const timeLimit = q.timeLimit || 60;
+            if (!speakingTimerStarted && !isSpeakingTimeUp) {
+                speakingTimeLeft = timeLimit;
+                speakingTimerStarted = true;
+                document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${speakingTimeLeft}s`;
+                document.getElementById('speakingTimerDisplay').style.color = '#0f4c75';
+                clearInterval(speakingTimer);
+                speakingTimer = setInterval(() => {
+                    speakingTimeLeft--;
+                    document.getElementById('speakingTimerDisplay').textContent = `⏱️ ${speakingTimeLeft}s`;
+                    if (speakingTimeLeft <= 10) document.getElementById('speakingTimerDisplay').style.color = '#e53e3e';
+                    if (speakingTimeLeft <= 0) {
+                        clearInterval(speakingTimer);
+                        speakingTimerStarted = false;
+                        isSpeakingTimeUp = true;
+                        document.getElementById('speakingTimerDisplay').textContent = '⏱️ Time\'s Up!';
+                        document.getElementById('speakingTimerDisplay').style.color = '#e53e3e';
+                        const textarea = document.getElementById(`sp_${index}`);
+                        if (textarea) speakingAnswers[index] = textarea.value;
+                        setTimeout(() => { saveSpeakingAndNext(index); }, 1500);
+                    }
+                }, 1000);
+            }
+
+            utterance.onend = function() {
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.textContent = `🔊 Locked (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                }
+            };
+            utterance.onerror = function() {
+                btn.textContent = `🔊 Play Question (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                btn.classList.remove('playing');
+                if (speakingPlayCount >= MAX_SPEAKING_PLAYS) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.textContent = `🔊 Locked (${speakingPlayCount}/${MAX_SPEAKING_PLAYS})`;
+                }
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function saveSpeakingAndNext(index) {
+            const textarea = document.getElementById(`sp_${index}`);
+            if (textarea) speakingAnswers[index] = textarea.value;
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+            clearInterval(speakingTimer);
+            speakingTimerStarted = false;
+            isSpeakingTimeUp = false;
+            showSpeakingQuestion(index + 1);
+        }
+
+        function renderSpeaking() {
+            const container = document.getElementById('speakingQuestions');
+            container.innerHTML = `
+                <div class="speaking-card">
+                    <div style="font-size:13px; color:#64748b; margin-bottom:10px; line-height:1.6;">
+                        <strong>Instructions:</strong> 
+                        • Click <strong>🔊 Play Question</strong> to listen (max 2 plays)<br>
+                        • Timer starts automatically when you play<br>
+                        • <strong>⚠️ On the 2nd play, the text prompt will disappear.</strong> Listen carefully!<br>
+                        • <strong>Answer:</strong> 60s &nbsp;|&nbsp; <strong>Picture/Debate:</strong> 150s<br>
+                        • <strong>Time's Up:</strong> Auto-saves and moves to next<br>
+                        • Click <strong>"Save & Next"</strong> to move on manually
+                    </div>
+                    <div class="progress-bar">
+                        <span style="font-weight:600;">Progress: <span id="speakingProgress">0/${SPEAKING_DATA.length}</span></span>
+                        <span id="speakingTimerDisplay" style="font-weight:700; font-size:1.1rem; color:#0f4c75;">⏱️ 60s</span>
+                    </div>
+                    <div id="speakingContainer">
+                        <div style="text-align:center; padding:20px; color:#64748b;">
+                            <p>Press "Start Speaking" to begin.</p>
+                            <button class="btn-submit" style="background:#0f4c75; padding:10px 24px; width:auto; font-size:15px;" onclick="showSpeakingQuestion(0)">🎤 Start Speaking</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ================================================================
+        // 10. SUBMIT & GRADE
+        // ================================================================
+        function getGrade(pct) {
+            if (pct >= 90) return { grade: 'A', class: 'grade-a' };
+            if (pct >= 70) return { grade: 'B', class: 'grade-b' };
+            return { grade: 'C', class: 'grade-c' };
+        }
+
+        function submitExam() {
+            if (timerInterval) clearInterval(timerInterval);
+            if (speakingTimer) clearInterval(speakingTimer);
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+
+            let total = 0, max = 0;
+
+            // ---- Grammar (40) ----
+            let gScore = 0;
+            const gAnswers = GRAMMAR_DATA.map(q => q.ans);
+            gAnswers.forEach((ans, i) => {
+                const sel = document.querySelector(`input[name="gq${i}"]:checked`);
+                if (sel && sel.value === ans) gScore++;
+            });
+            total += gScore; max += 40;
+
+            // ---- Reading (20 x 1.5 = 30) ----
+            let rScore = 0;
+            const rAnswers = READING_DATA.flatMap(p => p.questions.map(q => q.ans));
+            rAnswers.forEach((ans, idx) => {
+                const sel = document.querySelector(`input[name="rq${idx}"]:checked`);
+                if (sel && sel.value === ans) rScore += 1.5;
+            });
+            total += rScore; max += 30;
+
+            // ---- Listening (20 x 1.25 = 25) ----
+            let lScore = 0;
+            const lAnswers = LISTENING_DATA.map(q => q.ans);
+            lAnswers.forEach((ans, i) => {
+                const sel = document.querySelector(`input[name="lq${i}"]:checked`);
+                if (sel && sel.value === ans) lScore += 1.25;
+            });
+            total += lScore; max += 25;
+
+            // ---- Writing (Part1:10, Part2:15) ----
+            let wScore = 0;
+            let p1Text = '';
+            WRITING_PART1.forEach(w => {
+                const text = document.getElementById(`w1${w.id}`)?.value || '';
+                if (text.length > p1Text.length) p1Text = text;
+            });
+            const wc1 = p1Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(10, Math.floor(wc1 / 3));
+            if (wc1 >= 20) wScore = 10;
+
+            let p2Text = '';
+            WRITING_PART2.forEach(w => {
+                const text = document.getElementById(`w2${w.id}`)?.value || '';
+                if (text.length > p2Text.length) p2Text = text;
+            });
+            const wc2 = p2Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(15, Math.floor(wc2 / 5));
+            if (wc2 >= 60) wScore = 15;
+            total += wScore; max += 25;
+
+            // ---- Speaking (scale to 15) ----
+            let rawSpeaking = 0, rawMax = 0;
+            SPEAKING_DATA.forEach((_, i) => {
+                const text = speakingAnswers[i] || document.getElementById(`sp_${i}`)?.value || '';
+                const wc = text.split(/\s+/).filter(w => w.length > 0).length;
+                rawSpeaking += Math.min(1, Math.floor(wc / 3));
+                rawMax += 1;
+            });
+            let sScore = rawMax > 0 ? Math.round((rawSpeaking / rawMax) * 15) : 0;
+            total += sScore; max += 15;
+
+            const pct = Math.round((total / max) * 100);
+            const lGrade = getGrade(Math.round((lScore / 25) * 100));
+            const sGrade = getGrade(Math.round((sScore / 15) * 100));
+            const finalPass = !(lGrade.grade === 'C' || sGrade.grade === 'C');
+
+            let html = `<div style="font-size:17px; font-weight:700; margin-bottom:12px; color:#0a2a4a;"><i class="fas fa-chart-pie"></i> Test Results</div>`;
+
+            const sections = [
+                { label: 'Grammar', score: gScore, max: 40 },
+                { label: 'Reading', score: rScore, max: 30 },
+                { label: 'Listening', score: lScore, max: 25 },
+                { label: 'Writing', score: wScore, max: 25 },
+                { label: 'Speaking', score: sScore, max: 15 }
+            ];
+
+            sections.forEach(sec => {
+                const p = Math.round((sec.score / sec.max) * 100);
+                const g = getGrade(p);
+                html += `
+                    <div class="result-section">
+                        <span class="label">${sec.label}</span>
+                        <span class="grade ${g.class}">${g.grade} (${sec.score}/${sec.max})</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="overall-result ${finalPass ? '' : 'fail'}">
+                    <div>Overall: ${finalPass ? 'PASS' : 'FAIL'}</div>
+                    <div class="sub">${finalPass ? 'All sections passed' : 'Fail: Listening or Speaking grade is C'}</div>
+                    <div style="font-size:14px; font-weight:400; margin-top:4px;">Score: ${total}/${max} (${pct}%)</div>
+                </div>
+            `;
+
+            document.getElementById('resultsContent').innerHTML = html;
+            document.getElementById('resultsContainer').classList.add('show');
+            document.getElementById('testForm').style.display = 'none';
+        }
+
+        // ================================================================
+        // 11. RESET
+        // ================================================================
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (timerInterval) clearInterval(timerInterval);
+            if (speakingTimer) clearInterval(speakingTimer);
+            if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+            document.getElementById('testForm').reset();
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.getElementById('testForm').style.display = 'block';
+            timeLeft = 120 * 60;
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            speakingAnswers = new Array(SPEAKING_DATA.length).fill('');
+            currentSpeakingIndex = 0;
+            renderSpeaking();
+            renderListening();
+        });
+
+        // ================================================================
+        // 12. INIT
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGrammar();
+            renderReading();
+            renderListening();
+            renderWriting();
+            renderSpeaking();
+            startTimer();
+
+            if (window.speechSynthesis) {
+                setTimeout(() => { window.speechSynthesis.getVoices(); }, 100);
+            }
+
+            document.getElementById('submitBtn').addEventListener('click', submitExam);
+        });
+
+        console.log('✅ Mock Test 104 updated - Listening: who_in_the_office.mp3');
+        console.log('🎵 Listening: 2 plays max');
+        console.log('📝 Picture: 104.png (Family dinner)');
+    </script>
+
+</body>
+</html>

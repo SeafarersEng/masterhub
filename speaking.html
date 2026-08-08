@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Speaking – MEPT Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header h2 i {
+            color: #6c3483;
+            font-size: 22px;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #dce3ed;
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== SPEAKING CARD ===== */
+        .speaking-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 6px solid #6c3483;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: 0.15s;
+        }
+
+        .speaking-tag {
+            display: inline-block;
+            background: #f3e8ff;
+            color: #6c3483;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .speaking-card h3 {
+            font-size: 15px;
+            color: #0a2a4a;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .speaking-card h3 i {
+            color: #6c3483;
+            margin-right: 6px;
+        }
+
+        .speaking-prompt {
+            background: #f8faff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            border: 1px solid #e8edf5;
+        }
+
+        .speaking-prompt strong {
+            color: #6c3483;
+        }
+
+        .vocab-box {
+            background: #f0f7ff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            border: 1px solid #e2edf7;
+        }
+
+        .vocab-box strong {
+            color: #6c3483;
+            margin-right: 4px;
+            font-size: 12px;
+        }
+
+        .vocab-box span {
+            background: #fff;
+            padding: 2px 12px;
+            border-radius: 50px;
+            border: 1px solid #d4e2f0;
+            font-size: 12px;
+            color: #1f3a5f;
+        }
+
+        /* ===== REVEAL BUTTON ===== */
+        .reveal-trigger-btn {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c3483;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 2px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .reveal-trigger-btn:active {
+            background: #dce3ed;
+            transform: scale(0.97);
+        }
+
+        /* ===== EXPLANATION BOX ===== */
+        .explanation-box {
+            display: none;
+            margin-top: 14px;
+            background: #f8f0ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #e0d0ed;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .explanation-box.show {
+            display: flex;
+        }
+
+        .exp-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 5px 0;
+            border-bottom: 1px solid #e8ddf0;
+        }
+
+        .exp-row:last-child {
+            border-bottom: none;
+        }
+
+        .exp-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6c3483;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .exp-row .text-content {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1f3a5f;
+        }
+
+        .sample-answer-box {
+            background: #ffffff;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 3px solid #6c3483;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1f3a5f;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 2px solid #eef2f7;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer i {
+            color: #6c3483;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .speaking-card {
+                padding: 14px 12px;
+            }
+            .speaking-card h3 {
+                font-size: 14px;
+            }
+            .speaking-prompt {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .exp-row .text-content,
+            .sample-answer-box {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .vocab-box span {
+                font-size: 11px;
+                padding: 1px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h2><i class="fas fa-comment"></i> Speaking</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== CONTENT ===== -->
+        <div id="speakingList"></div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-check-circle"></i> 50 topics &bull; MEPT
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SPEAKING TOPICS (50 exercises – no picture topics)
+        // ============================================================
+        const SPEAKING_TOPICS = [{
+            id: 1,
+            category: "Personal Information",
+            question: "Can you tell me a little about yourself? (Name, Age, Nationality)",
+            sample_answer: "My name is Aung Kyaw Moe. I am 28 years old and I come from Yangon, Myanmar. I currently work as an Ordinary Seaman on a container ship.",
+            strategy: "အရင်ဆုံး ကိုယ်နာမည်၊ အသက်၊ နိုင်ငံသားကို ပြောပါ။ ပြီးရင် လက်ရှိအလုပ်အကိုင်ကို ဆက်ပြောပါ။",
+            vocabulary: "Ordinary Seaman, container ship, nationality"
+        }, {
+            id: 2,
+            category: "Personal Information",
+            question: "Describe your family. Do you have a wife or children?",
+            sample_answer: "Yes, I am married and I have two children, a son and a daughter. My wife is a teacher. I miss them a lot when I am at sea.",
+            strategy: "မိသားစုအကြောင်း ရိုးရိုးရှင်းရှင်း ပြောပါ။ အိမ်ထောင်ရှိ/မရှိ၊ ကလေးရှိ/မရှိ၊ သူတို့နဲ့ ဘယ်လိုဆက်သွယ်လဲ ဆိုတာကို ဖြည့်စွက်ပြောပါ။",
+            vocabulary: "married, children, teacher, miss"
+        }, {
+            id: 3,
+            category: "Personal Information",
+            question: "Where is your hometown? Can you describe it?",
+            sample_answer: "My hometown is in Pathein, Ayeyarwady Region. It is a peaceful place near the river. The people there are friendly and the food is delicious.",
+            strategy: "ကိုယ်မွေးရပ်မြေရဲ့ တည်နေရာ၊ ထူးခြားချက်နဲ့ သင်ကြိုက်တဲ့ အချက်ကို ဖော်ပြပါ။",
+            vocabulary: "hometown, peaceful, river, friendly, delicious"
+        }, {
+            id: 4,
+            category: "Personal Information",
+            question: "Why did you choose a career at sea? (Why)",
+            sample_answer: "I chose a career at sea because I love the ocean and traveling. Also, the salary is good and it helps me support my family financially.",
+            strategy: "'Because' ဆိုတဲ့ စကားလုံးကို သုံးပြီး အကြောင်းပြချက် ရှင်းရှင်းလင်းလင်း ပြောပါ။",
+            vocabulary: "career, ocean, traveling, salary, support"
+        }, {
+            id: 5,
+            category: "Personal Information",
+            question: "How many years have you worked at sea?",
+            sample_answer: "I have worked at sea for about 3 years now. I started my career as a cadet and now I am an Ordinary Seaman.",
+            strategy: "အလုပ်လုပ်ခဲ့တဲ့ နှစ်အရေအတွက်ကို အတိအကျပြောပြီး ဘယ်လိုရာထူးတွေ တက်လာလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "worked, career, cadet, Ordinary Seaman"
+        }, {
+            id: 6,
+            category: "Personal Information",
+            question: "What ships have you worked on before?",
+            sample_answer: "I have worked on two ships before. The first was a bulk carrier and the second was a container ship. Both were good experiences.",
+            strategy: "အလုပ်လုပ်ခဲ့ဖူးတဲ့ သင်္ဘောအမျိုးအစားတွေကို စာရင်းပြုပြီး အတွေ့အကြုံကို အတိုချုံးပြောပါ။",
+            vocabulary: "bulk carrier, container ship, experience"
+        }, {
+            id: 7,
+            category: "Personal Information",
+            question: "Do you have any hobbies or free time activities on board?",
+            sample_answer: "In my free time, I like to read books and watch movies. I also exercise in the gym to stay healthy and fit.",
+            strategy: "အားလပ်ချိန်မှာ ဘာတွေလုပ်လေ့ရှိလဲ ဆိုတာကို ရိုးရိုးရှင်းရှင်း ပြောပါ။",
+            vocabulary: "hobbies, free time, read books, watch movies, exercise, gym"
+        }, {
+            id: 8,
+            category: "Personal Information",
+            question: "What is your rank on the current ship?",
+            sample_answer: "My current rank is Ordinary Seaman. I work under the bosun and I am responsible for deck maintenance and cleaning duties.",
+            strategy: "လက်ရှိရာထူးကို အတိအကျပြောပြီး ဘယ်သူ့လက်အောက်မှာ အလုပ်လုပ်ရလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "rank, Ordinary Seaman, bosun, responsible, deck maintenance"
+        }, {
+            id: 9,
+            category: "Personal Information",
+            question: "How do you communicate with your family while at sea?",
+            sample_answer: "I communicate with my family using satellite communication and WhatsApp when there is internet. I call them every weekend.",
+            strategy: "ဘယ်လိုနည်းပညာတွေ သုံးပြီး ဆက်သွယ်လဲ ဆိုတာကို ပြောပြီး ဘယ်နှစ်ကြိမ်လောက် ဆက်သွယ်လဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "communicate, satellite communication, internet, WhatsApp"
+        }, {
+            id: 10,
+            category: "Personal Information",
+            question: "What is your favorite food on the ship?",
+            sample_answer: "My favorite food on the ship is chicken curry with rice. The cook prepares it very well and it reminds me of home.",
+            strategy: "သင်္ဘောပေါ်က ကြိုက်တဲ့အစားအစာကို ပြောပြီး ဘာလို့ကြိုက်တာလဲဆိုတဲ့ အကြောင်းပြချက်ကို ထည့်ပြောပါ။",
+            vocabulary: "favorite food, chicken curry, rice, cook, reminds"
+        }, {
+            id: 11,
+            category: "Daily Duties & Routine",
+            question: "What are your main duties on board the ship?",
+            sample_answer: "As an Ordinary Seaman, my main duties are to keep the deck clean, maintain the mooring ropes, and assist the bosun during cargo operations. I also stand watch on the bridge when required.",
+            strategy: "ကိုယ့်ရာထူးရဲ့ တာဝန်ကို အတိအကျပြောပါ။ Deck/Engine ပေါ်မှာ ဘာတွေလုပ်ရသလဲဆိုတာကို အသေးစိတ်ဖော်ပြပါ။",
+            vocabulary: "duties, maintain, mooring ropes, bosun, cargo operations, stand watch"
+        }, {
+            id: 12,
+            category: "Daily Duties & Routine",
+            question: "Can you describe your daily routine on the ship?",
+            sample_answer: "I wake up at 6:00 a.m. every day. I have breakfast at 6:30, and then I start my work at 7:00. I clean the deck and check the life-saving equipment. I have lunch at 12:00 and finish my work at 5:00 p.m.",
+            strategy: "မနက်အိပ်ရာထချိန်ကနေ ညအိပ်ချိန်အထိ အချိန်ဇယားအတိုင်း ဆက်တိုက်ပြောပါ။",
+            vocabulary: "wake up, breakfast, deck, life-saving equipment, lunch"
+        }, {
+            id: 13,
+            category: "Daily Duties & Routine",
+            question: "What time do you start and finish your work every day?",
+            sample_answer: "I start my work at 8:00 a.m. and finish at 5:00 p.m. However, if there is an emergency or special operation, I have to work extra hours.",
+            strategy: "အလုပ်စချိန်နဲ့ ပြီးချိန်ကို အတိအကျပြောပါ။ လိုအပ်ရင် အချိန်ပိုလုပ်ရတဲ့အကြောင်း ထည့်ပြောပါ။",
+            vocabulary: "start, finish, emergency, special operation, extra hours"
+        }, {
+            id: 14,
+            category: "Daily Duties & Routine",
+            question: "What do you do during your watch on the bridge?",
+            sample_answer: "During my watch, I check the radar and GPS to monitor the ship's position. I also keep a lookout for other vessels and report any changes to the officer on watch.",
+            strategy: "ကင်းလှည့်ချိန်အတွင်း ဘာတွေလုပ်ရသလဲဆိုတာကို အဆင့်ဆင့် ပြောပါ။",
+            vocabulary: "watch, radar, GPS, monitor, lookout, vessels"
+        }, {
+            id: 15,
+            category: "Daily Duties & Routine",
+            question: "What is the first thing you do when you come on watch?",
+            sample_answer: "The first thing I do is check the logbook to see what happened during the previous watch. Then I check the weather and the ship's position.",
+            strategy: "အစဉ်လိုက် လုပ်ရမယ့် အဆင့်တွေကို 'First... Then...' ဆိုတဲ့ ပုံစံသုံးပြီး ပြောပါ။",
+            vocabulary: "logbook, previous watch, weather, position"
+        }, {
+            id: 16,
+            category: "Daily Duties & Routine",
+            question: "Do you work day shift or night shift? How do you manage?",
+            sample_answer: "I work day shift from 8 a.m. to 5 p.m. It is good because I can sleep at night. When I worked night shift before, I adjusted my sleep schedule during the day.",
+            strategy: "ဘယ်အချိန်ပိုင်း အလုပ်လုပ်လဲဆိုတာကို ပြောပြီး အိပ်ချိန်ကို ဘယ်လိုစီမံလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "day shift, night shift, manage, sleep schedule, adjusted"
+        }, {
+            id: 17,
+            category: "Daily Duties & Routine",
+            question: "What tools do you use for your daily work?",
+            sample_answer: "I use tools like paint brushes, scrapers, hammers, and spanners. For cleaning, I use mops and deck brushes. We also use power tools for maintenance.",
+            strategy: "အလုပ်လုပ်ရာမှာ သုံးတဲ့ ကိရိယာတွေကို စာရင်းပြုပြီး ဘာအတွက်သုံးလဲဆိုတာ ထည့်ရှင်းပြပါ။",
+            vocabulary: "paint brushes, scrapers, hammers, spanners, mops, power tools"
+        }, {
+            id: 18,
+            category: "Daily Duties & Routine",
+            question: "How do you maintain the deck equipment?",
+            sample_answer: "We maintain the deck equipment by cleaning, oiling, and painting them regularly. We also check for any rust or damage and repair it immediately.",
+            strategy: "ပြုပြင်ထိန်းသိမ်းပုံ အဆင့်တွေကို ရှင်းရှင်းလင်းလင်း ပြောပါ။",
+            vocabulary: "maintain, oiling, painting, rust, damage, repair"
+        }, {
+            id: 19,
+            category: "Daily Duties & Routine",
+            question: "What does the bosun usually ask you to do?",
+            sample_answer: "The bosun usually asks me to clean the deck, check the mooring lines, and prepare the equipment for cargo operations. I always follow his instructions.",
+            strategy: "အထက်လူကြီးရဲ့ ညွှန်ကြားချက်တွေကို နမူနာနဲ့ပြောပြီး ဘယ်လိုလိုက်နာလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "bosun, clean the deck, mooring lines, equipment, instructions"
+        }, {
+            id: 20,
+            category: "Daily Duties & Routine",
+            question: "Do you have to write any reports or logbooks?",
+            sample_answer: "Yes, I have to record my daily work in the deck logbook. I also report any defects or issues to the bosun. Writing reports is very important for safety.",
+            strategy: "ဘာတွေရေးရလဲ၊ ဘယ်သူ့ကို တင်ပြရလဲဆိုတာကို ရှင်းပြပြီး ဘာလို့အရေးကြီးလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "record, deck logbook, defects, issues, safety"
+        }, {
+            id: 21,
+            category: "Safety & Emergency",
+            question: "What safety equipment do you use on deck?",
+            sample_answer: "I always wear a hard hat, safety boots, and a high-visibility vest. When I work near the edge, I wear a safety harness. I also carry a portable VHF radio.",
+            strategy: "PPE (Personal Protective Equipment) တွေကို အမည်နဲ့အတူ ဘာကြောင့်သုံးရတာလဲဆိုတာကိုပါ ထည့်ပြောပါ။",
+            vocabulary: "hard hat, safety boots, high-visibility vest, safety harness, portable VHF radio"
+        }, {
+            id: 22,
+            category: "Safety & Emergency",
+            question: "What would you do if there was a fire on board? (What - Emergency)",
+            sample_answer: "If there was a fire, I would sound the alarm immediately. Then I would put on my lifejacket and go to my muster station. I would follow the chief officer's instructions.",
+            strategy: "အရေးပေါ်အခြေအနေအတွက် Action Plan ကို 'First... Then... Finally...' ဆိုတဲ့ ပုံစံသုံးပြီး ပြောပါ။",
+            vocabulary: "sound the alarm, muster station, instructions, chief officer"
+        }, {
+            id: 23,
+            category: "Safety & Emergency",
+            question: "What is a muster station and where is yours?",
+            sample_answer: "A muster station is a designated area where crew members gather during an emergency. My muster station is on the boat deck, near the lifeboat.",
+            strategy: "Muster Station ဆိုတာ ဘာလဲဆိုတဲ့ အဓိပ္ပါယ်ကို ရှင်းပြပြီး ကိုယ့်ရဲ့ Muster Station နေရာကို အတိအကျပြောပါ။",
+            vocabulary: "muster station, designated area, gather, emergency, boat deck, lifeboat"
+        }, {
+            id: 24,
+            category: "Safety & Emergency",
+            question: "How often do you have safety drills on board?",
+            sample_answer: "We have safety drills at least once a month. We practice fire drills, lifeboat drills, and man overboard drills regularly to be prepared for emergencies.",
+            strategy: "ဘယ်နှစ်ကြိမ် လေ့ကျင့်လဲ၊ ဘယ်လိုလေ့ကျင့်ခန်းတွေ ပြုလုပ်လဲဆိုတာကို ပြောပါ။",
+            vocabulary: "safety drills, once a month, fire drills, lifeboat drills, man overboard, prepared"
+        }, {
+            id: 25,
+            category: "Safety & Emergency",
+            question: "What do you do during a lifeboat drill?",
+            sample_answer: "During a lifeboat drill, I put on my lifejacket and go to the lifeboat station. We practice lowering the lifeboat into the water and checking the engine.",
+            strategy: "လေ့ကျင့်ခန်းအတွင်း လုပ်ဆောင်ရမယ့် အဆင့်တွေကို အစီအစဉ်တကျ ပြောပါ။",
+            vocabulary: "lifeboat drill, lifejacket, lifeboat station, lowering, engine"
+        }, {
+            id: 26,
+            category: "Safety & Emergency",
+            question: "What would you do if you saw a man overboard?",
+            sample_answer: "If I saw a man overboard, I would shout 'Man overboard!' immediately and throw a lifebuoy with a light. Then I would report it to the bridge and keep my eyes on the person.",
+            strategy: "အရေးပေါ်အခြေအနေမှာ ချက်ချင်းလုပ်ရမယ့် အဆင့်တွေကို အစဉ်လိုက် ပြောပါ။",
+            vocabulary: "man overboard, shout, lifebuoy, report, bridge"
+        }, {
+            id: 27,
+            category: "Safety & Emergency",
+            question: "What PPE must you wear in the engine room?",
+            sample_answer: "In the engine room, I must wear safety boots, ear defenders, safety goggles, and coveralls. The environment is noisy and hot, so it is very important.",
+            strategy: "Engine Room ရဲ့ သီးခြားအန္တရာယ်တွေကို သိထားပြီး အဲဒါနဲ့ဆိုင်တဲ့ PPE တွေကို ပြောပါ။",
+            vocabulary: "engine room, safety boots, ear defenders, safety goggles, coveralls, noisy"
+        }, {
+            id: 28,
+            category: "Safety & Emergency",
+            question: "Why is it important to wear a hard hat on deck?",
+            sample_answer: "It is important to wear a hard hat on deck because it protects my head from falling objects. There are often cranes and heavy equipment overhead.",
+            strategy: "ဘာကြောင့်သုံးရတာလဲဆိုတဲ့ အကြောင်းပြချက်ကို ရှင်းရှင်းလင်းလင်းပြောပြီး ဥပမာတစ်ခုထည့်ပြောပါ။",
+            vocabulary: "hard hat, protects, head, falling objects, cranes, heavy equipment"
+        }, {
+            id: 29,
+            category: "Safety & Emergency",
+            question: "What do you do if you see a leaking pipe?",
+            sample_answer: "If I see a leaking pipe, I report it to the chief engineer immediately. I also put a bucket under the leak to prevent water damage and mark the area as dangerous.",
+            strategy: "မတော်တဆမှုမဖြစ်အောင် ချက်ချင်းလုပ်ဆောင်ရမယ့် အဆင့်တွေကို ပြောပါ။",
+            vocabulary: "leaking pipe, report, chief engineer, bucket, water damage, dangerous"
+        }, {
+            id: 30,
+            category: "Safety & Emergency",
+            question: "How do you treat a small injury on board?",
+            sample_answer: "For a small injury like a cut or burn, I clean it with antiseptic and put a bandage on it. If it is serious, I go to the ship's hospital and see the medic.",
+            strategy: "အသေးစား ဒဏ်ရာအတွက် ဘယ်လိုကုသလဲ၊ ဘယ်အချိန်မှာ ဆရာဝန်သွားပြရမလဲဆိုတာကို ပြောပါ။",
+            vocabulary: "injury, cut, burn, antiseptic, bandage, medic"
+        }, {
+            id: 31,
+            category: "Ship, Weather & Travel",
+            question: "Can you describe the ship you are working on now?",
+            sample_answer: "I am working on a large container ship. It is about 300 meters long and can carry over 10,000 containers. It has a modern bridge and a powerful engine.",
+            strategy: "သင်္ဘောရဲ့ အရွယ်အစား၊ အမျိုးအစား၊ သယ်ဆောင်နိုင်တဲ့ ပမာဏနဲ့ အဓိက အစိတ်အပိုင်းတွေကို ဖော်ပြပါ။",
+            vocabulary: "container ship, 300 meters, containers, modern bridge, powerful engine"
+        }, {
+            id: 32,
+            category: "Ship, Weather & Travel",
+            question: "What is the name of your ship and its flag?",
+            sample_answer: "The name of my ship is 'MV Ocean Star' and it sails under the Panama flag. I have been on this ship for about 6 months now.",
+            strategy: "သင်္ဘောနာမည်၊ အလံတော် (Flag State) နဲ့ ဒီသင်္ဘောပေါ်မှာ ဘယ်လောက်ကြာကြာ ရောက်နေပြီလဲဆိုတာ ပြောပါ။",
+            vocabulary: "ship name, Panama flag, sails, 6 months"
+        }, {
+            id: 33,
+            category: "Ship, Weather & Travel",
+            question: "What is the weather like today?",
+            sample_answer: "Today the weather is sunny with clear skies. The wind is light and the sea is calm. It is a very good day for sailing.",
+            strategy: "ရာသီဥတုအခြေအနေကို အတိအကျဖော်ပြပြီး သင်္ဘောသွားလာဖို့ ဘယ်လိုအခြေအနေလဲဆိုတာ ထည့်ပြောပါ။",
+            vocabulary: "weather, sunny, clear skies, wind, light, sea, calm"
+        }, {
+            id: 34,
+            category: "Ship, Weather & Travel",
+            question: "Have you ever experienced a bad storm at sea? How did you feel?",
+            sample_answer: "Yes, I experienced a storm last year. The waves were very high and the ship was rolling heavily. I felt scared at first, but I stayed calm and followed orders.",
+            strategy: "အတွေ့အကြုံကို ပြန်ပြောပြီး အဲဒီအချိန်က ခံစားချက်ကိုပါ ရိုးသားစွာ ဖော်ပြပါ။",
+            vocabulary: "experienced, storm, waves, rolling, scared, stayed calm"
+        }, {
+            id: 35,
+            category: "Ship, Weather & Travel",
+            question: "How do you handle working in bad weather? (How)",
+            sample_answer: "When the weather is bad, I try to stay calm and follow the captain's orders. I always check the safety equipment and make sure I am wearing my lifejacket.",
+            strategy: "ဘယ်လိုဖြေရှင်းသလဲဆိုတဲ့ နည်းလမ်းကို 'I try to...' ဆိုတဲ့ ပုံစံသုံးပြီး ပြောပါ။",
+            vocabulary: "handle, bad weather, stay calm, captain's orders, safety equipment"
+        }, {
+            id: 36,
+            category: "Ship, Weather & Travel",
+            question: "How many crew members are there on your ship?",
+            sample_answer: "There are about 25 crew members on my ship. There are officers, engineers, deck crew, and galley staff. We work together as a team.",
+            vocabulary: "crew members, officers, engineers, deck crew, galley staff, team"
+        }, {
+            id: 37,
+            category: "Ship, Weather & Travel",
+            question: "Where is your ship going next?",
+            sample_answer: "Our next destination is the port of Singapore. We are carrying electronic goods and will arrive there in about two days.",
+            vocabulary: "next destination, port, Singapore, electronic goods, arrive"
+        }, {
+            id: 38,
+            category: "Ship, Weather & Travel",
+            question: "How long is the current voyage?",
+            sample_answer: "The current voyage will take about 20 days. We started from Rotterdam and we are going to Shanghai. It is quite a long trip.",
+            vocabulary: "voyage, take 20 days, Rotterdam, Shanghai, long trip"
+        }, {
+            id: 39,
+            category: "Ship, Weather & Travel",
+            question: "Do you like visiting new ports? Why?",
+            sample_answer: "Yes, I love visiting new ports. It is exciting to see different countries and cultures. I also enjoy trying new food and buying souvenirs for my family.",
+            vocabulary: "visiting, new ports, countries, cultures, trying new food, souvenirs"
+        }, {
+            id: 40,
+            category: "Ship, Weather & Travel",
+            question: "What do you usually do during shore leave?",
+            sample_answer: "During shore leave, I usually go shopping for groceries and personal items. I also like to walk around the city and take photos to share with my family.",
+            vocabulary: "shore leave, shopping, groceries, personal items, walk around, take photos"
+        }, {
+            id: 41,
+            category: "Preferences & Future",
+            question: "Do you prefer working at sea or on land? Why?",
+            sample_answer: "I prefer working at sea because the salary is better and I love the adventure. However, I miss my family and life on land is more comfortable.",
+            strategy: "ပင်လယ်နဲ့ ကုန်းပေါ် နှစ်ခုစလုံးရဲ့ ကောင်းကျိုး/ဆိုးကျိုးတွေကို ဆက်စပ်ပြောပြီး ဘာကြောင့် ဦးစားပေးတာလဲ ဆိုတာ ရှင်းပြပါ။",
+            vocabulary: "prefer, working at sea, on land, salary, adventure, comfortable"
+        }, {
+            id: 42,
+            category: "Preferences & Future",
+            question: "What languages can you speak on board?",
+            sample_answer: "I can speak Burmese, English, and a little Chinese. I use English to communicate with the officers and international crew members.",
+            vocabulary: "languages, Burmese, English, Chinese, communicate, international crew"
+        }, {
+            id: 43,
+            category: "Preferences & Future",
+            question: "What is the most challenging thing about your job?",
+            sample_answer: "The most challenging thing about my job is being away from my family for a long time. Also, working in heavy weather can be very exhausting.",
+            vocabulary: "challenging, away from family, heavy weather, exhausting"
+        }, {
+            id: 44,
+            category: "Preferences & Future",
+            question: "What do you like most about your job?",
+            sample_answer: "What I like most about my job is the feeling of being at sea and the sense of responsibility. I also enjoy working with my shipmates and learning new skills.",
+            vocabulary: "like most, feeling of being at sea, responsibility, shipmates, learning"
+        }, {
+            id: 45,
+            category: "Preferences & Future",
+            question: "Where do you see yourself in the next 5 years? (Where)",
+            sample_answer: "In the next 5 years, I hope to become a Bosun. I want to gain more experience and pass my officer exams. I see myself working on a larger ship.",
+            vocabulary: "in the next 5 years, Bosun, gain experience, officer exams, larger ship"
+        }, {
+            id: 46,
+            category: "Preferences & Future",
+            question: "How do you stay healthy on the ship?",
+            sample_answer: "I stay healthy by eating balanced meals, exercising in the gym regularly, and getting enough sleep. I also avoid junk food and drink plenty of water.",
+            vocabulary: "stay healthy, balanced meals, exercising, gym, sleep, avoid junk food"
+        }, {
+            id: 47,
+            category: "Preferences & Future",
+            question: "What do you do in your free time on board?",
+            sample_answer: "In my free time, I like to watch movies, listen to music, and read books. Sometimes I play cards with my friends in the mess room.",
+            vocabulary: "free time, watch movies, listen to music, read books, play cards, mess room"
+        }, {
+            id: 48,
+            category: "Preferences & Future",
+            question: "Who is the captain of your ship and what is he like?",
+            sample_answer: "The captain of my ship is Captain Aung Naing. He is very experienced and kind. He always makes sure we follow safety rules and he treats us with respect.",
+            vocabulary: "captain, experienced, kind, safety rules, treats us with respect"
+        }, {
+            id: 49,
+            category: "Preferences & Future",
+            question: "If you could change one thing about the ship, what would it be?",
+            sample_answer: "If I could change one thing, I would improve the internet connection. It would be much easier to communicate with my family and friends during the voyage.",
+            vocabulary: "change, improve, internet connection, communicate, voyage"
+        }, {
+            id: 50,
+            category: "Preferences & Future",
+            question: "What advice would you give to a new seafarer?",
+            sample_answer: "I would advise new seafarers to always follow safety rules and listen to their seniors. They should also stay positive and learn as much as they can to build a good career.",
+            vocabulary: "advice, new seafarer, follow safety rules, listen to seniors, stay positive, build a good career"
+        }];
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderSpeaking() {
+            const container = document.getElementById('speakingList');
+            if (!container) return;
+
+            container.innerHTML = SPEAKING_TOPICS.map(t => `
+                <div class="speaking-card">
+                    <span class="speaking-tag"><i class="fas fa-tag"></i> ${t.category}</span>
+                    <h3><i class="fas fa-question-circle"></i> ${t.question}</h3>
+                    <div class="speaking-prompt">
+                        <strong>💡 Strategy:</strong><br> ${t.strategy}
+                    </div>
+                    <div class="vocab-box">
+                        <strong>📚 Key Vocabulary:</strong>
+                        ${t.vocabulary.split(',').map(v => `<span>${v.trim()}</span>`).join(' ')}
+                    </div>
+                    <button class="reveal-trigger-btn" onclick="toggleExplanation(this)">Show Sample Answer</button>
+                    <div class="explanation-box">
+                        <div class="exp-row">
+                            <span class="exp-label"><i class="fas fa-comment-dots"></i> Sample Answer</span>
+                            <div class="sample-answer-box">${t.sample_answer}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // TOGGLE
+        // ============================================================
+        function toggleExplanation(btn) {
+            const box = btn.nextElementSibling;
+            if (!box || !box.classList.contains('explanation-box')) return;
+            const isShowing = box.classList.contains('show');
+            // close all others
+            document.querySelectorAll('.explanation-box.show').forEach(b => b.classList.remove('show'));
+            if (!isShowing) {
+                box.classList.add('show');
+                btn.textContent = 'Hide Sample Answer';
+            } else {
+                box.classList.remove('show');
+                btn.textContent = 'Show Sample Answer';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderSpeaking);
+    </script>
+
+</body>
+</html>
