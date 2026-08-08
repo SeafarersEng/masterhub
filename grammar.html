@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Grammar – MEPT Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header h2 i {
+            color: #1a4d8f;
+            font-size: 22px;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #dce3ed;
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== CARD ===== */
+        .qa-card {
+            background: #f8faff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 5px solid #1a4d8f;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: 0.15s;
+        }
+
+        .qa-card:active {
+            transform: scale(0.99);
+        }
+
+        .question-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .options-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .option-item {
+            padding: 7px 14px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e8edf5;
+            font-size: 14px;
+            color: #1f3a5f;
+        }
+
+        /* ===== REVEAL BUTTON ===== */
+        .reveal-trigger-btn {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a4d8f;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 2px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .reveal-trigger-btn:active {
+            background: #dce3ed;
+            transform: scale(0.97);
+        }
+
+        /* ===== EXPLANATION BOX ===== */
+        .explanation-box {
+            display: none;
+            margin-top: 14px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #d4e2f0;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .explanation-box.show {
+            display: flex;
+        }
+
+        .exp-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 5px 0;
+            border-bottom: 1px solid #e2edf7;
+        }
+
+        .exp-row:last-child {
+            border-bottom: none;
+        }
+
+        .exp-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a4d8f;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .correct-ans-highlight {
+            background: #dcfce7;
+            padding: 4px 12px;
+            border-radius: 6px;
+            color: #166534;
+            font-weight: 600;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .correct-ans-highlight i {
+            margin-right: 6px;
+        }
+
+        .exp-row .text-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1f3a5f;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 2px solid #eef2f7;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .footer i {
+            color: #1a4d8f;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .question-text {
+                font-size: 14px;
+            }
+            .option-item {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .qa-card {
+                padding: 14px 12px;
+            }
+            .exp-row .text-content {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h2><i class="fas fa-book"></i> Grammar</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== QUESTION LIST ===== -->
+        <div id="grammarList"></div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-check-circle"></i> 50 exercises &bull; MEPT
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // GRAMMAR QUESTIONS (50 EXERCISES – same as main data)
+        // ============================================================
+        const GRAMMAR_QUESTIONS = [{
+            id: 1,
+            question: "1. The crew ________ the deck every morning.",
+            options: ["a) cleans", "b) clean", "c) cleaning"],
+            correct: "a) cleans",
+            why: "ဒီဝါကျမှာ 'The crew' ကို တစ်ဖွဲ့လုံးခြုံငုံပြီး Collective Noun (ဧကဝုစ်) အဖြစ် သတ်မှတ်ထားသလို၊ 'every morning' ပါရှိတဲ့အတွက် Present Simple Tense ဖြစ်ပါတယ်။ ထို့ကြောင့် s ပါသော 'cleans' က အဖြေမှန်ဖြစ်ပါတယ်။",
+            strategy: "ဝါကျအဆုံးမှာ 'every morning / every day' တွေ့ရင် Present Simple ($V_1$ သို့မဟုတ် $V_1 + s/es$) ကို ရှာပါ။"
+        }, {
+            id: 2,
+            question: "2. The ship will leave the port ________ 5 p.m.",
+            options: ["a) in", "b) on", "c) at"],
+            correct: "c) at",
+            why: "အင်္ဂလိပ်စာ သဒ္ဒါစည်းမျဉ်းအရ တိကျတဲ့ နာရီအချိန် (Specific Clock Time) တွေရဲ့ ရှေ့မှာ Preposition 'at' ကို အမြဲတမ်း အသုံးပြုရပါတယ်။",
+            strategy: "အချိန်ပြ Preposition တွေအတွက် 'On Days, In Years, At Hours' ဆိုတဲ့ စည်းမျဉ်းအတိုင်း မှတ်သားပါ။"
+        }, {
+            id: 3,
+            question: "3. If the alarm sounds, you ________ report to your muster station immediately.",
+            options: ["a) must", "b) would", "c) will have"],
+            correct: "a) must",
+            why: "သင်္ဘောပေါ်ရှိ ဘေးကင်းရေး လုပ်ထုံးလုပ်နည်းများနှင့် အရေးပေါ်အခြေအနေများတွင် မဖြစ်မနေ လုပ်ဆောင်ရမည့် တာဝန် (Obligation) ကို ဖော်ပြရန် 'must' ကို သုံးရပါသည်။",
+            strategy: "အရေးပေါ်စည်းကမ်းများနှင့် Emergency Rules များတွေ့ပါက 'must' သို့မဟုတ် 'have to' ကို ဦးစားပေးရွေးချယ်ပါ။"
+        }, {
+            id: 4,
+            question: "4. While the Chief Officer ________ the cargo, the bosun was checking the mooring lines.",
+            options: ["a) inspects", "b) was inspecting", "c) is inspecting"],
+            correct: "b) was inspecting",
+            why: "အတိတ်ကာလ၌ လုပ်ဆောင်ချက်နှစ်ခု တစ်ပြိုင်နက်တည်း ဖြစ်ပျက်နေသည်ကို ဖော်ပြလိုခြင်းဖြစ်ပြီး 'While' နောက်တွင် Past Continuous Tense ($was/were + V_{ing}$) ကို သုံးရပါသည်။",
+            strategy: "ဝါကျထဲမှာ 'While' ပါပြီး နောက်ဝါကျက Past Continuous (was checking) ဖြစ်နေရင် ရှေ့ကလည်း Past Continuous ပဲ ဖြစ်ရပါမယ်။"
+        }, {
+            id: 5,
+            question: "5. The lifejackets ________ on the starboard side of the boat deck.",
+            options: ["a) are located", "b) locates", "c) is locating"],
+            correct: "a) are located",
+            why: "အသက်ကယ်အကျီများ (Lifejackets) သည် အများကိန်းဖြစ်ပြီး ၎င်းတို့ကိုယ်တိုင် နေရာချထားခြင်းမဟုတ်ဘဲ အထားခံရခြင်းဖြစ်၍ Passive Voice ($are + V_3$) ကို သုံးရပါမည်။",
+            strategy: "အသက်မဲ့ပစ္စည်းတစ်ခုခု တည်ရှိရာနေရာကို ပြောချင်ရင် ၎င်းပစ္စည်း အနည်း/အများအလိုက် Passive Voice ဖြစ်တဲ့ 'is located / are located' ကို သုံးပါ။"
+        }, {
+            id: 6,
+            question: "6. The captain is ________ the meeting right now.",
+            options: ["a) attend", "b) attending", "c) attends"],
+            correct: "b) attending",
+            why: "'right now' ဆိုတဲ့ အချိန်ပြ စကားလုံးပါရှိလို့ ပစ္စုပ္ပန်ကာလ လုပ်ဆောင်ချက်ကို ဖော်ပြရန် Present Continuous Tense ($is/am/are + V_{ing}$) ကို သုံးရပါမယ်။",
+            strategy: "'now / right now / at the moment' တွေ့တိုင်း Present Continuous ($V+ing$) ကို အမြန်ရှာပါ။"
+        }, {
+            id: 7,
+            question: "7. The helmsman ________ the course yesterday.",
+            options: ["a) change", "b) changed", "c) changes"],
+            correct: "b) changed",
+            why: "'yesterday' က အတိတ်ကာလဖြစ်သောကြောင့် ဝါကျကို Past Simple Tense သုံးရပြီး၊ ပုံမှန်ကြိယာ (Regular Verb) ဖြစ်တဲ့ 'change' ကို '-ed' ပေါင်းရပါမယ်။",
+            strategy: "'yesterday / last night / ago' တွေ့ရင် V2 (အတိတ်ပုံစံ) ကို ရွေးပါ။"
+        }, {
+            id: 8,
+            question: "8. Look at those dark clouds! It ________ rain soon.",
+            options: ["a) is going to", "b) will", "c) shall"],
+            correct: "a) is going to",
+            why: "မိုးတိမ်မည်းများကို မြင်ရခြင်းသည် အနီးအနားအနာဂတ်တွင် ဖြစ်လာမည့် အထောက်အထား (Evidence) ဖြစ်သောကြောင့် 'be going to' ကို သုံးရပါသည်။",
+            strategy: "ခန့်မှန်းချက်အတွက် မြင်သာထင်သာ အထောက်အထားရှိရင် 'going to'၊ ကိုယ်ပိုင်ထင်မြင်ချက်အတွက် 'will' ကို ရွေးပါ။"
+        }, {
+            id: 9,
+            question: "9. You ________ wear a hard hat on the deck.",
+            options: ["a) should", "b) can", "c) would"],
+            correct: "a) should",
+            why: "ဤဝါကျသည် ဘေးကင်းရေးဆိုင်ရာ အကြံပြုချက်တစ်ခုဖြစ်ပြီး အန္တရာယ်ကင်းရှင်းစေရန် ဆောင်ရွက်သင့်သော အချက်ကို ဖော်ပြရာတွင် 'should' ကို သုံးရပါသည်။",
+            strategy: "အကြံပြုချက် (Advice) သို့မဟုတ် အကြံပေးချက်များတွင် 'should' ကို သုံးပါ။"
+        }, {
+            id: 10,
+            question: "10. Have you ever ________ a fire drill on board?",
+            options: ["a) experienced", "b) experiencing", "c) experience"],
+            correct: "a) experienced",
+            why: "Present Perfect Tense ၏ ပုံစံမှာ 'have/has + V₃' ဖြစ်ပြီး 'ever' က အတွေ့အကြုံကို မေးမြန်းသောကြောင့် Verb ကို V₃ (Past Participle) အနေဖြင့် သုံးရပါမည်။",
+            strategy: "'ever / never / already / yet' ပါရှိသော မေးခွန်းများတွင် Present Perfect ဖြစ်ပြီး ကြိယာ V3 ကို ရှာပါ။"
+        }, {
+            id: 11,
+            question: "11. The pilot jumped ________ the launch to board the ship.",
+            options: ["a) in", "b) onto", "c) at"],
+            correct: "b) onto",
+            why: "ဤနေရာတွင် သင်္ဘောသားငယ်သည် လှေပေါ်မှ သင်္ဘောပေါ်သို့ ခုန်တက်သွားခြင်းဖြစ်၍ မျက်နှာပြင်တစ်ခုခုပေါ်သို့ ရွေ့လျားမှုကို ဖော်ပြသော 'onto' ကို သုံးရပါသည်။",
+            strategy: "Movement to a surface (မျက်နှာပြင်ပေါ်ကို) အတွက် 'onto'၊ movement to a place (နေရာတစ်ခုအတွင်း) အတွက် 'into' ကို သုံးပါ။"
+        }, {
+            id: 12,
+            question: "12. The new crane is ________ than the old one.",
+            options: ["a) more efficient", "b) efficient", "c) most efficient"],
+            correct: "a) more efficient",
+            why: "ဝါကျထဲတွင် 'than' ပါရှိသောကြောင့် နှစ်ခုကို နှိုင်းယှဉ်သည့် Comparative Degree ဖြစ်ပြီး စာလုံးရှည် (၃လုံးထက်ပို) ဖြစ်သောကြောင့် 'more + adjective' ပုံစံသုံးရပါသည်။",
+            strategy: "'than' ရှိရင် Comparative (ပိုသော) ဖြစ်သည်။ short adjectives အတွက် -er၊ long adjectives အတွက် more + adj ကို ရွေးပါ။"
+        }, {
+            id: 13,
+            question: "13. This is ________ port in the entire country.",
+            options: ["a) busier", "b) the busiest", "c) busy"],
+            correct: "b) the busiest",
+            why: "'in the entire country' ဆိုသည်မှာ အများနှင့် နှိုင်းယှဉ်သော Superlative Degree ဖြစ်၍ အထူးခြားဆုံးကို ဖော်ပြရန် 'the + adjective + est' ကို သုံးရပါသည်။",
+            strategy: "'in / of + အုပ်စု' ပါလျှင် Superlative (အရှိဆုံး) ဖြစ်ပြီး 'the + adj-est' သို့မဟုတ် 'the most + adj' ကို ရွေးပါ။"
+        }, {
+            id: 14,
+            question: "14. There isn't ________ water left in the fresh water tank.",
+            options: ["a) some", "b) many", "c) any"],
+            correct: "c) any",
+            why: "ဤဝါကျသည် Negative Sentence (မရှိဘူး) ဖြစ်ပြီး 'water' သည် ရေတွက်မရသော နာမ် (Uncountable Noun) ဖြစ်၍ ငြင်းပယ်သော ဝါကျများတွင် 'any' ကို သုံးရပါသည်။",
+            strategy: "Negative ဝါကျနှင့် Question များတွင် Uncountable/Countable မခွဲခြားဘဲ 'any' ကို သုံးပါ။"
+        }, {
+            id: 15,
+            question: "15. How ________ lifejackets do we have on the bridge?",
+            options: ["a) much", "b) many", "c) a lot"],
+            correct: "b) many",
+            why: "'lifejackets' သည် ရေတွက်လို့ရသော နာမ် (Countable Noun - အများကိန်း) ဖြစ်သောကြောင့် အရေအတွက်မေးရာတွင် 'how many' ကို သုံးရပါသည်။",
+            strategy: "Countable Nouns (ရေတွက်ရ) အတွက် 'many'၊ Uncountable Nouns (ရေတွက်မရ) အတွက် 'much' ကို သုံးပါ။"
+        }, {
+            id: 16,
+            question: "16. The man ________ is wearing a white uniform is the Chief Engineer.",
+            options: ["a) which", "b) who", "c) whose"],
+            correct: "b) who",
+            why: "ဤ Relative Clause တွင် လူပုဂ္ဂိုလ် (The man) ကို ထပ်ဆောင်းရှင်းပြရန် Subject နေရာတွင် 'who' ကို သုံးရပါသည်။",
+            strategy: "လူအတွက် 'who'၊ အရာဝတ္ထုအတွက် 'which'၊ ပိုင်ဆိုင်မှုအတွက် 'whose' ကို မှတ်သားပါ။"
+        }, {
+            id: 17,
+            question: "17. If you see a fire, you ________ the alarm immediately.",
+            options: ["a) will sound", "b) sound", "c) would sound"],
+            correct: "a) will sound",
+            why: "ဤသည်မှာ First Conditional (Type 1) ဖြစ်ပြီး အခြေအနေမှာ ဖြစ်နိုင်ခြေရှိ၍ 'If + Present Simple, will + V₁' ပုံစံဖြင့် သုံးရပါသည်။",
+            strategy: "ဖြစ်နိုင်ခြေရှိသော အခြေအနေများအတွက် 'If + V(s), will + V' ပုံစံကို သုံးပါ။"
+        }, {
+            id: 18,
+            question: "18. The cargo ________ carefully by the stevedores every day.",
+            options: ["a) is loaded", "b) loaded", "c) is loading"],
+            correct: "a) is loaded",
+            why: "ကုန်ပစ္စည်း (Cargo) သည် ကိုယ်တိုင်တင်ဆောင်ခြင်းမဟုတ်ဘဲ သူများက တင်ဆောင်ပေးခြင်းခံရသောကြောင့် ပစ္စုပ္ပန်ကာလ Passive Voice ($is/am/are + V₃$) ကို သုံးရပါသည်။",
+            strategy: "အရာဝတ္ထုကို လုပ်ဆောင်ခံရသည်ကို ပြောလျှင် 'Passive Voice (is/am/are + V3)' ကို သုံးပါ။"
+        }, {
+            id: 19,
+            question: "19. I ________ a shower in my cabin when the phone rang.",
+            options: ["a) had", "b) was having", "c) have"],
+            correct: "b) was having",
+            why: "ဖုန်းမြည်သွားသည့် လုပ်ဆောင်ချက် (Past Simple - rang) ကြားထဲတွင် ရေချိုးနေသည့် လုပ်ဆောင်ချက်က ရှည်လျားနေသောကြောင့် Past Continuous ($was/were + V_{ing}$) ကို သုံးရပါသည်။",
+            strategy: "'when + Past Simple' ရှေ့တွင် ကြာရှည်စွာ လုပ်နေသော လုပ်ဆောင်ချက်အတွက် Past Continuous ကို သုံးပါ။"
+        }, {
+            id: 20,
+            question: "20. I ________ swim when I was only six years old.",
+            options: ["a) can", "b) could", "c) may"],
+            correct: "b) could",
+            why: "အတိတ်က (အသက် ၆ နှစ်တုန်းက) ရေကူးနိုင်ခဲ့သော စွမ်းရည် (Past Ability) ကို ဖော်ပြရန် Modal Verb 'could' ကို သုံးရပါသည်။",
+            strategy: "အတိတ်က စွမ်းရည်အတွက် 'could'၊ ပစ္စုပ္ပန်စွမ်းရည်အတွက် 'can' ကို ရွေးပါ။"
+        }, {
+            id: 21,
+            question: "21. The captain has ________ arrived, so we can start the meeting.",
+            options: ["a) just", "b) yet", "c) since"],
+            correct: "a) just",
+            why: "'just' သည် 'ပဲရောက်လာတယ်' ဟု အဓိပ္ပါယ်ရပြီး Present Perfect Tense နှင့် အဓိကကြိယာနှင့် V₃ ကြားတွင် ထည့်သုံးရပါသည်။",
+            strategy: "Present Perfect တွင် 'just' က 'V₃' ရဲ့ ရှေ့မှာ လာပြီး 'yet' က ဝါကျအဆုံးမှာ လာပါသည်။"
+        }, {
+            id: 22,
+            question: "22. Don't worry. I ________ help you with the mooring ropes.",
+            options: ["a) will", "b) am going to", "c) shall"],
+            correct: "a) will",
+            why: "စကားပြောနေစဉ် ချက်ချင်းဆုံးဖြတ်လိုက်သော Spontaneous Decision ကို ဖော်ပြရန် 'will' ကို သုံးရပါသည်။",
+            strategy: "ကမ်းလှမ်းချက် (Offer) သို့မဟုတ် ချက်ချင်းဆုံးဖြတ်ချက်များတွင် 'will' ကို သုံးပါ။"
+        }, {
+            id: 23,
+            question: "23. The container ship will arrive ________ Friday.",
+            options: ["a) in", "b) on", "c) at"],
+            correct: "b) on",
+            why: "သတ်မှတ်ထားသော ရက်သတ္တပတ်၏ နေ့ (Day of the week) ကို ဖော်ပြရာတွင် Preposition 'on' ကို သုံးရပါသည်။",
+            strategy: "နေ့ရက် (Monday, Tuesday...) အတွက် 'on'၊ လ/နှစ် (May, 2023) အတွက် 'in' ကို သုံးပါ။"
+        }, {
+            id: 24,
+            question: "24. ________ on the open sea is a great experience.",
+            options: ["a) Sailing", "b) Sail", "c) To sailing"],
+            correct: "a) Sailing",
+            why: "ဝါကျ၏ အဓိကအကြောင်းအရာ (Subject) နေရာတွင် ကြိယာကို နာမ်အဖြစ်ပြောင်းသုံးရန် Gerund ($V_{ing}$) ကို သုံးရပါသည်။",
+            strategy: "ဝါကျအစတွင် Verb ကို Subject အနေဖြင့် သုံးလျှင် 'V+ing' (Gerund) ကို သုံးပါ။"
+        }, {
+            id: 25,
+            question: "25. I went to the bridge ________ the captain for instructions.",
+            options: ["a) seeing", "b) to see", "c) for see"],
+            correct: "b) to see",
+            why: "သင်္ဘောတံတားသို့ သွားခြင်း၏ ရည်ရွယ်ချက် (Purpose) ကို ဖော်ပြရန်အတွက် Infinitive of Purpose ('to + V₁') ကို သုံးရပါသည်။",
+            strategy: "ဘာလုပ်ဖို့ (Purpose) မေးလျှင် 'to + V₁' ကို သုံးပါ။"
+        }, {
+            id: 26,
+            question: "26. You ________ wear a uniform on this vessel. It's a strict rule.",
+            options: ["a) have to", "b) can", "c) may"],
+            correct: "a) have to",
+            why: "ပြင်ပမှ သတ်မှတ်ထားသော စည်းမျဉ်း (External Rule) ကြောင့် လုပ်ဆောင်ရမည့် တာဝန်ကို 'have to' ဖြင့် ဖော်ပြရပါသည်။",
+            strategy: "စည်းမျဉ်း / ဥပဒေ / တစ်စုံတစ်ယောက်က ခိုင်းလို့ လုပ်ရတဲ့အခါ 'have to' ကို သုံးပါ။"
+        }, {
+            id: 27,
+            question: "27. I ________ the engine room many times during my career.",
+            options: ["a) visited", "b) have visited", "c) was visiting"],
+            correct: "b) have visited",
+            why: "'many times' သည် အတွေ့အကြုံကို ဖော်ပြပြီး ပစ္စုပ္ပန်အချိန်အထိ ရောက်ရှိဖူးသည်ကို ပြောလိုသောကြောင့် Present Perfect Tense ($have + V₃$) ကို သုံးရပါသည်။",
+            strategy: "အတွေ့အကြုံ (Experience) ကိုပြောရန် 'ever/never/once/twice/many times' ရှိလျှင် Present Perfect ကို သုံးပါ။"
+        }, {
+            id: 28,
+            question: "28. If you heat ice, it ________ into water.",
+            options: ["a) melts", "b) will melt", "c) would melt"],
+            correct: "a) melts",
+            why: "ဤသည်မှာ သိပ္ပံနည်းကျ အမှန်တရား (Scientific Fact) ကို ဖော်ပြသော Zero Conditional ဖြစ်၍ 'If + Present Simple, Present Simple' ပုံစံကို သုံးရပါသည်။",
+            strategy: "ယေဘုယျ အမှန်တရား / သဘာဝဖြစ်စဉ်များအတွက် Zero Conditional (If + V, V) ကို သုံးပါ။"
+        }, {
+            id: 29,
+            question: "29. The lifeboat ________ launched three hours ago.",
+            options: ["a) was", "b) was being", "c) were"],
+            correct: "a) was",
+            why: "လွန်ခဲ့သော ၃ နာရီက (Ago) ဖြစ်ပျက်ခဲ့သော Passive Action ဖြစ်၍ အတိတ်ကာလ Passive ($was/were + V₃$) ကို သုံးရပြီး 'lifeboat' သည် ဧကဝုစ်ဖြစ်သောကြောင့် 'was' ကို ရွေးရပါသည်။",
+            strategy: "အတိတ်အချိန်အတိအကျ (last week, ago) ဖြင့် Passive ပြောလျှင် 'was/were + V3' ကို သုံးပါ။"
+        }, {
+            id: 30,
+            question: "30. The Second Officer said he ________ the ship the following day.",
+            options: ["a) will leave", "b) would leave", "c) left"],
+            correct: "b) would leave",
+            why: "ဤသည်မှာ Reported Speech (အတိတ်က ပြောစကားကို ပြန်ပြောခြင်း) ဖြစ်ပြီး အဓိကကြိယာ 'said' က အတိတ်ဖြစ်၍ အနာဂတ်ကို 'will' မှ 'would' သို့ ပြောင်းရပါသည်။",
+            strategy: "Reported Speech တွင် 'will' ကို 'would' သို့၊ 'can' ကို 'could' သို့ ပြောင်းရမည်ကို သတိရပါ။"
+        }, {
+            id: 31,
+            question: "31. He missed the ship ________ he was stuck in traffic.",
+            options: ["a) so", "b) because", "c) although"],
+            correct: "b) because",
+            why: "သူ သင်္ဘောလွတ်သွားရသည့် အကြောင်းရင်းကို ရှင်းပြရန် 'because' (ဘာဖြစ်လို့လဲဆိုတော့) ကို သုံးရပါသည်။",
+            strategy: "အကြောင်းပြချက်ဖော်ပြရန် 'because'၊ ရလဒ်ဖော်ပြရန် 'so' ကို သုံးပါ။"
+        }, {
+            id: 32,
+            question: "32. The mooring rope is ________ short to reach the bollard.",
+            options: ["a) too", "b) enough", "c) very"],
+            correct: "a) too",
+            why: "'too + adjective + to + verb' ပုံစံသည် 'လွန်ကဲလွန်း၍ မဖြစ်နိုင်ခြင်း' ကို ဖော်ပြပြီး ဤတွင် ကြိုးတိုလွန်း၍ မရောက်နိုင်ပါ။",
+            strategy: "'too' က negative meaning (မဖြစ်နိုင်ဘူး)၊ 'enough' က positive meaning (ဖြစ်နိုင်တယ်) ကို ပေးသည်။"
+        }, {
+            id: 33,
+            question: "33. I am really ________ in maritime history.",
+            options: ["a) interesting", "b) interested", "c) interest"],
+            correct: "b) interested",
+            why: "လူတစ်ယောက်၏ ခံစားချက် (Feeling) ကို ဖော်ပြရန် '-ed' နဲ့ဆုံးသော နာမဝိသေသ (Interested) ကို သုံးရပါသည်။",
+            strategy: "လူကို ခံစားချက်ပြောရန် 'interested / bored / tired' (-ed)၊ အရာဝတ္ထုကို ဖော်ပြရန် 'interesting / boring' (-ing) ကို သုံးပါ။"
+        }, {
+            id: 34,
+            question: "34. They ________ a safety drill on the boat deck next Monday.",
+            options: ["a) are having", "b) have", "c) had"],
+            correct: "a) are having",
+            why: "အနာဂတ်တွင် ကြိုတင်စီစဉ်ထားသော အချိန်ဇယား (Fixed Arrangement) ကို ဖော်ပြရန် Present Continuous Tense ($is/am/are + V_{ing}$) ကို သုံးရပါသည်။",
+            strategy: "အနာဂတ်အတွက် စီစဉ်ထားသော အစီအစဉ် (Plans) များကို 'is/am/are + Ving' ဖြင့် ဖော်ပြပါ။"
+        }, {
+            id: 35,
+            question: "35. He is the bosun on this ship, ________?",
+            options: ["a) isn't he", "b) is he", "c) doesn't he"],
+            correct: "a) isn't he",
+            why: "Question Tag (ကတ်စကား) တွင် အဓိကဝါကျက Positive ဖြစ်လျှင် Tag က Negative ဖြစ်ရပြီး Verb 'is' ကိုပဲ ပြန်သုံးရပါသည်။",
+            strategy: "Positive Statement ရဲ့ Tag က Negative (isn't/aren't/don't)၊ Negative Statement ရဲ့ Tag က Positive ဖြစ်သည်။"
+        }, {
+            id: 36,
+            question: "36. Is there ________ on the bridge who can speak English?",
+            options: ["a) anybody", "b) somebody", "c) nobody"],
+            correct: "a) anybody",
+            why: "ဤဝါကျသည် မေးခွန်း (Question) ဖြစ်သောကြောင့် မသိသေးသော လူပုဂ္ဂိုလ်ကို ရည်ညွှန်းရန် 'anybody' ကို သုံးရပါသည်။",
+            strategy: "Questions နှင့် Negatives များတွင် 'anybody/anything'၊ Positive ဝါကျများတွင် 'somebody/something' ကို သုံးပါ။"
+        }, {
+            id: 37,
+            question: "37. I can speak English well, and so ________ my friend.",
+            options: ["a) can", "b) does", "c) is"],
+            correct: "a) can",
+            why: "သဘောတူညီမှု (Agreement) ဖော်ပြရန် 'so + auxiliary verb + subject' ပုံစံကို သုံးပြီး ရှေ့ကဝါကျက 'can' ဖြစ်၍ 'can' ကိုပဲ ပြန်သုံးရပါသည်။",
+            strategy: "တစ်ယောက်နဲ့တစ်ယောက် သဘောတူညီကြောင်းပြရန် 'so + (modal/auxiliary) + subject' ကို သုံးပါ။"
+        }, {
+            id: 38,
+            question: "38. If I were the captain, I ________ the route differently.",
+            options: ["a) will plan", "b) would plan", "c) plan"],
+            correct: "b) would plan",
+            why: "ဤသည်မှာ Second Conditional (Type 2) ဖြစ်ပြီး လက်ရှိအချိန်တွင် မဟုတ်မမှန်သော အတွေးအခါ (Imaginary Situation) ကို ဖော်ပြရန် 'If + past, would + V₁' ကို သုံးရပါသည်။",
+            strategy: "မဖြစ်နိုင်သော (သို့) ဆန့်ကျင်ဘက်ဖြစ်သော အခြေအနေမျိုးအတွက် 'If + V₂, would + V' ကို သုံးပါ။"
+        }, {
+            id: 39,
+            question: "39. The safety meeting ________ held in the conference room tomorrow.",
+            options: ["a) will be", "b) is", "c) was"],
+            correct: "a) will be",
+            why: "မနက်ဖြန် အနာဂတ်တွင် အစည်းအဝေးကို ကျင်းပခံရမည်ဖြစ်၍ Future Passive Voice ($will be + V₃$) ကို သုံးရပါသည်။",
+            strategy: "အနာဂတ် Passive အတွက် 'will be + V₃' ပုံစံကို သုံးပါ။"
+        }, {
+            id: 40,
+            question: "40. Please ________ the navigation lights when you leave the bridge.",
+            options: ["a) put off", "b) turn off", "c) get off"],
+            correct: "b) turn off",
+            why: "လျှပ်စစ်ပစ္စည်း သို့မဟုတ် မီးကို 'ပိတ်ရန်' အတွက် Phrasal Verb 'turn off' ကို သုံးရပါသည်။",
+            strategy: "မီး/စက် ပိတ်ရန် 'turn off'၊ ခရီးထွက်ရန် 'set off'၊ မီးငြှိမ်းသတ်ရန် 'put out' ကို မှတ်သားပါ။"
+        }, {
+            id: 41,
+            question: "41. I ________ smoke 20 cigarettes a day, but I quit last year.",
+            options: ["a) used to", "b) was used to", "c) use to"],
+            correct: "a) used to",
+            why: "အတိတ်က ပြုလုပ်ခဲ့သော အလေ့အထ (Past Habit) ကို ဖော်ပြရန်နှင့် ယခုအခါ မလုပ်တော့ကြောင်း ဆိုလိုရန် 'used to + V₁' ကို သုံးရပါသည်။",
+            strategy: "အတိတ်အလေ့အထ (ယခုမရှိတော့) အတွက် 'used to'၊ အကျင့်ဝါကျအတွက် 'be used to + Ving' ကို ခွဲမှတ်ပါ။"
+        }, {
+            id: 42,
+            question: "42. All the crew members are ________ the ship now.",
+            options: ["a) at", "b) on board", "c) in"],
+            correct: "b) on board",
+            why: "သင်္ဘောပေါ်တွင် ရှိခြင်းကို အတိအကျဖော်ပြရန် သင်္ဘောဝေါဟာရအရ 'on board' ဟု သုံးရပါသည်။",
+            strategy: "သင်္ဘော၊ လေယာဉ်၊ ရထားပေါ်တွင် ရှိကြောင်းပြောရန် 'on board' ကိုပဲ သုံးပါ။"
+        }, {
+            id: 43,
+            question: "43. This lifejacket is not mine. It must be ________.",
+            options: ["a) your", "b) yours", "c) you"],
+            correct: "b) yours",
+            why: "နာမ်မပါဘဲ တစ်ဦးတစ်ယောက်၏ ပိုင်ဆိုင်မှုကို သီးသန့်ဖော်ပြရန် Possessive Pronoun (yours) ကို သုံးရပါသည်။",
+            strategy: "နာမ်နောက်မှာ ထားသော ပိုင်ဆိုင်မှုအတွက် 'your/my' (Possessive Adj)၊ နာမ်မပါဘဲ ရပ်တည်သော ပိုင်ဆိုင်မှုအတွက် 'yours/mine' (Possessive Pronoun) ကို သုံးပါ။"
+        }, {
+            id: 44,
+            question: "44. Could you tell me ________ the nearest lifeboat station is?",
+            options: ["a) what", "b) where", "c) which"],
+            correct: "b) where",
+            why: "ဤဝါကျသည် Indirect Question (ယဉ်ကျေးစွာမေးခြင်း) ဖြစ်ပြီး နေရာဒေသ (Place) ကို မေးမြန်းသောကြောင့် 'where' ကို သုံးရပါသည်။",
+            strategy: "နေရာမေးရန် 'where'၊ အရာဝတ္ထုမေးရန် 'what'၊ ဘယ်ဟာလဲမေးရန် 'which' ကို သုံးပါ။"
+        }, {
+            id: 45,
+            question: "45. ________ the heavy storm, the ship arrived at the port safely.",
+            options: ["a) Despite", "b) Although", "c) Because"],
+            correct: "a) Despite",
+            why: "မုန်တိုင်းဒဏ်ကို ခံရသော်လည်း ဆိုက်ရောက်သွားသည်ဟု ဆန့်ကျင်ဘက် (Contrast) ဖော်ပြရန် 'Despite + Noun Phrase' ကို သုံးရပါသည်။",
+            strategy: "ဆန့်ကျင်ဘက်ဖော်ပြရန် 'Despite/In spite of + Noun' သို့မဟုတ် 'Although + Clause' ကို သုံးပါ။"
+        }, {
+            id: 46,
+            question: "46. He ________ on this oil tanker for almost 10 years.",
+            options: ["a) has been working", "b) has worked", "c) worked"],
+            correct: "a) has been working",
+            why: "အတိတ်က စတင်ပြီး ယခုထိ ဆက်လက်လုပ်ဆောင်နေဆဲဖြစ်၍ အချိန်ကာလ (for 10 years) ကို အလေးပေးသော Present Perfect Continuous ($has/have been + V_{ing}$) ကို သုံးရပါသည်။",
+            strategy: "'for + ကာလ' ဖြင့် ဆက်လက်လုပ်ဆောင်နေသည်ကို ပြရန် Present Perfect Continuous ကို ဦးစားပေးပါ။"
+        }, {
+            id: 47,
+            question: "47. By the time we reached the deck, the lifeboat drill ________ already.",
+            options: ["a) has started", "b) had started", "c) started"],
+            correct: "b) had started",
+            why: "'By the time + Past Simple' သည် အတိတ်ဖြစ်ရပ်နှစ်ခုကို နှိုင်းယှဉ်ပြီး ရှေ့ကဖြစ်ပြီးသားကို Past Perfect ($had + V₃$) ဖြင့် ဖော်ပြရပါသည်။",
+            strategy: "'By the time' ရှေ့တွင် ဖြစ်ပြီးသားအကြောင်းကို Past Perfect (had + V3) ဖြင့် သုံးပါ။"
+        }, {
+            id: 48,
+            question: "48. There ________ be a delay due to the bad weather.",
+            options: ["a) might", "b) must", "c) should"],
+            correct: "a) might",
+            why: "ရာသီဥတုဆိုးရွားမှုကြောင့် နှောင့်နှေးနိုင်ခြေရှိသည်ကို ခန့်မှန်းချက် (Possibility) အဖြစ် ဖော်ပြရန် သေချာမှုအားနည်းသော 'might' ကို သုံးရပါသည်။",
+            strategy: "ဖြစ်နိုင်ခြေ (Possibility) အတွက် 'might' (အားနည်း)၊ 'may' (အသင့်အတင့်)၊ 'must' (သေချာ) ဟု အဆင့်လိုက် ခွဲမှတ်ပါ။"
+        }, {
+            id: 49,
+            question: "49. You should stop ________ so much coffee. It's not good for you.",
+            options: ["a) to drink", "b) drinking", "c) drink"],
+            correct: "b) drinking",
+            why: "'stop + Ving' သည် လက်ရှိလုပ်နေသော အလေ့အထကို ရပ်တန့်ခြင်းကို ဆိုလိုပြီး ကော်ဖီသောက်နေတာကို ရပ်သင့်ကြောင်း ဆိုလိုသည်။",
+            strategy: "လုပ်ဆောင်ချက်တစ်ခုကို ရပ်တန့်ရန် 'stop + Ving'၊ တစ်ခုခုလုပ်ဖို့ ရပ်ရန် 'stop + to V' ကို ခွဲမှတ်ပါ။"
+        }, {
+            id: 50,
+            question: "50. The Second Officer told me that he ________ the engine room logbook already.",
+            options: ["a) has checked", "b) have checked", "c) had checked"],
+            correct: "c) had checked",
+            why: "ဤဝါကျသည် 'Reported Speech (အတိတ်က ပြောခဲ့သော စကားကို ပြန်ပြောခြင်း)' ဖြစ်ပြီး အဓိကကြိယာ (told) က အတိတ်ဖြစ်သောကြောင့် အတိတ်ဖြစ်ရပ်၏ ရှေ့ကဖြစ်ပြီးဆုံးသော အခြေအနေကို Past Perfect Tense ('had + V₃') ဖြင့် သုံးရပါသည်။ 'already' က အဖြစ်ပြီးဆုံးမှုကို ထောက်ကူပေးထားသည်။",
+            strategy: "Reported Speech တွင် ပြောပြီးသားစကားကို ပြန်ပြောသည့်အခါ 'said/told' ပါရှိပါက အတိတ်ဖြစ်ရပ် (past) များကို 'Past Perfect (had + V₃)' သို့ ပြောင်းရမည်ကို အမြဲသတိရပါ။"
+        }];
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderGrammar() {
+            const container = document.getElementById('grammarList');
+            if (!container) return;
+
+            container.innerHTML = GRAMMAR_QUESTIONS.map(q => `
+                <div class="qa-card">
+                    <div class="question-text">${q.question}</div>
+                    <div class="options-stack">
+                        ${q.options.map(opt => `<div class="option-item">${opt}</div>`).join('')}
+                    </div>
+                    <button class="reveal-trigger-btn" onclick="toggleExplanation(this)">Show Analysis</button>
+                    <div class="explanation-box">
+                        <div class="exp-row">
+                            <span class="exp-label">Correct Answer</span>
+                            <span class="correct-ans-highlight"><i class="fas fa-check-circle"></i> ${q.correct}</span>
+                        </div>
+                        <div class="exp-row">
+                            <span class="exp-label">Explanation</span>
+                            <div class="text-content">${q.why}</div>
+                        </div>
+                        <div class="exp-row">
+                            <span class="exp-label">Strategy</span>
+                            <div class="text-content">${q.strategy}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // TOGGLE
+        // ============================================================
+        function toggleExplanation(btn) {
+            const box = btn.nextElementSibling;
+            if (!box || !box.classList.contains('explanation-box')) return;
+            const isShowing = box.classList.contains('show');
+            // close all others (optional)
+            document.querySelectorAll('.explanation-box.show').forEach(b => b.classList.remove('show'));
+            if (!isShowing) {
+                box.classList.add('show');
+                btn.textContent = 'Hide Analysis';
+            } else {
+                box.classList.remove('show');
+                btn.textContent = 'Show Analysis';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderGrammar);
+    </script>
+
+</body>
+</html>
