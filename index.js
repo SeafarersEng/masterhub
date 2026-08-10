@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // ================================================================
-    // 📱 Device Identification & Global Key Lock Logic
+    // 📱 1 Key 1 Device စနစ် (အဓိက Logic)
     // ================================================================
     const DEVICE_ID_KEY = 'mept_device_id';
     const BOUND_KEY = 'mept_bound_key';
 
-    // Device အတွက် Unique ID ထုတ်ပေးခြင်း
+    // Device ID ထုတ်ယူခြင်း
     function getDeviceId() {
         let deviceId = localStorage.getItem(DEVICE_ID_KEY);
         if (!deviceId) {
@@ -49,44 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return deviceId;
     }
 
-    // ⭐ Key ကို ကမ္ဘာ့အဆင့် သော့ခတ်ခြင်း (Global Lock)
-    function isKeyGloballyLocked(key) {
+    // ⭐ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း
+    function isKeyAlreadyUsed(key) {
         const boundData = localStorage.getItem(BOUND_KEY);
-        if (!boundData) return false; // ဘယ်သူမှ မသုံးရသေးဘူး
+        if (!boundData) return false; // မသုံးရသေးဘူး
         
         try {
             const { key: boundKey } = JSON.parse(boundData);
-            // ဒီ Key ကို တစ်ခါသုံးပြီးပြီလား?
-            return boundKey === key;
+            return boundKey === key; // ဒီ Key သုံးပြီးသားလား?
         } catch (error) {
             localStorage.removeItem(BOUND_KEY);
             return false;
         }
     }
 
-    // Key ကို ဤ Device တွင် သုံးခွင့်ရှိမရှိ စစ်ဆေးခြင်း
+    // ⭐ Key ကို ဒီ Device မှာ သုံးခွင့်ရှိလား စစ်ဆေးခြင်း
     function isKeyValidForThisDevice(key) {
         const boundData = localStorage.getItem(BOUND_KEY);
+        if (!boundData) return true; // ဘယ်သူမှ မသုံးရသေးဘူး
         
-        // ⭐ ပထမဆုံး စစ်ဆေးရမှာ - ဒီ Key ကို တစ်ခါသုံးပြီးပြီလား?
-        if (isKeyGloballyLocked(key)) {
-            // သုံးပြီးသားဆိုရင် ဒီ Device မှာ သုံးခွင့်ရှိလား စစ်ဆေးမယ်
-            try {
-                const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
-                const currentDeviceId = getDeviceId();
-                // Key ရော Device ID ပါ တူမှသာ သုံးခွင့်ပြုမယ်
-                return boundKey === key && boundDeviceId === currentDeviceId;
-            } catch (error) {
-                localStorage.removeItem(BOUND_KEY);
-                return false;
-            }
+        try {
+            const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
+            const currentDeviceId = getDeviceId();
+            
+            // Key ရော Device ID ပါ တူမှသာ သုံးခွင့်ပြုမယ်
+            return boundKey === key && boundDeviceId === currentDeviceId;
+        } catch (error) {
+            localStorage.removeItem(BOUND_KEY);
+            return true;
         }
-        
-        // ⭐ ဒီ Key ကို ဘယ်သူမှ မသုံးရသေးဘူး -> သုံးခွင့်ပြုမယ်
-        return true;
     }
 
-    // Key ကို ဤ Device နှင့် ချိတ်ဆက်ခြင်း (ပထမဆုံးအသုံးပြုသူအတွက်)
+    // ⭐ Key ကို Device နဲ့ ချိတ်ဆက်သိမ်းဆည်းခြင်း
     function bindKeyToDevice(key) {
         const deviceId = getDeviceId();
         localStorage.setItem(BOUND_KEY, JSON.stringify({ key, deviceId }));
@@ -135,15 +129,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // ၂။ Key ကို တစ်ခါသုံးပြီးပြီလား? ဒီ Device မှာ သုံးခွင့်ရှိလား? စစ်ဆေးခြင်း
-        if (!isKeyValidForThisDevice(enteredKey)) {
-            if (isKeyGloballyLocked(enteredKey)) {
-                loginError.textContent = '❌ ဤ Key ကို အခြား Device တွင် သုံးထားပြီးဖြစ်ပါသည်။';
-            } else {
-                loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
+        // ⭐ ၂။ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း
+        if (isKeyAlreadyUsed(enteredKey)) {
+            // Key သုံးပြီးသားဆိုရင် ဒီ Device မှာ သုံးခွင့်ရှိလား ထပ်စစ်မယ်
+            if (!isKeyValidForThisDevice(enteredKey)) {
+                loginError.textContent = '❌ ဒီ key ကိုတစ်ခြား device ကအသုံးပြုထားပါသည်။';
+                loginError.style.display = 'block';
+                return;
             }
-            loginError.style.display = 'block';
-            return;
+            // ဒီ Device မှာ သုံးခွင့်ရှိရင် ဆက်သွားမယ်
+        } else {
+            // Key ကို မသုံးရသေးဘူး၊ ဒါပေမယ့် ဒီ Device မှာ တခြား Key သုံးထားလား စစ်မယ်
+            if (!isKeyValidForThisDevice(enteredKey)) {
+                loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
+                loginError.style.display = 'block';
+                return;
+            }
         }
 
         // ၃။ အားလုံး မှန်ကန်ပါက Key ကို ဒီ Device မှာ Lock မှတ်ပြီး Login ဝင်ခွင့်ပြုမည်
