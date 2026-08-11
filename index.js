@@ -1,5 +1,6 @@
 // ================================================================
-//  📌 MEPT MASTER HUB - 1 KEY 1 DEVICE SYSTEM
+//  📌 MEPT MASTER HUB - 1 KEY 1 DEVICE (Browser Fingerprint)
+//  🔒 Server မပါဘဲ အကောင်းဆုံး ဖြေရှင်းနည်း
 // ================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,9 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
     //  3. VALID KEYS
+    //     📌 ဤနေရာတွင် သင့် Key များကို ထည့်ပါ။
     // ================================================================
     const EIGHT_CHAR_KEYS = [
-     'KEY1AAAA', 'MEPT1011', 'HUB11A89', 'KEY2BBBB', 'MEPT2022',
+       'KEY1AAAA', 'MEPT1011', 'HUB11A89', 'KEY2BBBB', 'MEPT2022',
         'HUB22B90', 'KEY3CCCC', 'MEPT3033', 'HUB33C01', 'KEY4DDDD',
         'MEPT4044', 'HUB44D12', 'KEY5EEEE', 'MEPT5055', 'HUB55E23',
         'KEY6FFFF', 'MEPT6066', 'HUB66F34', 'KEY7GGGG', 'MEPT7077',
@@ -48,22 +50,43 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // ================================================================
-    //  4. 1 KEY 1 DEVICE TRACKING (ပြင်ဆင်ထားသည်)
+    //  4. BROWSER FINGERPRINT - 1 KEY 1 DEVICE TRACKING
+    //     🔒 ဒီနေရာက အဓိက အပိုင်း
     // ================================================================
     const DEVICE_ID_KEY = 'mept_device_id';
     const BOUND_KEY = 'mept_bound_key';
 
-    // Device ID ထုတ်ယူခြင်း
+    /**
+     * 📱 Browser Fingerprint ကို အသုံးပြု၍ Unique Device ID ထုတ်ယူခြင်း
+     * ဒီ ID က ဖုန်း၊ PC၊ Tablet စသည်ဖြင့် ကွဲပြားမှုကို ခွဲခြားနိုင်သည်။
+     */
     function getDeviceId() {
         let deviceId = localStorage.getItem(DEVICE_ID_KEY);
         if (!deviceId) {
-            deviceId = 'DEV-' + Math.random().toString(36).substring(2, 11) + '-' + Date.now();
+            // Browser ရဲ့ ထူးခြားသော အချက်အလက်များကို စုဆောင်းခြင်း
+            const components = [
+                navigator.userAgent,                // Browser အမျိုးအစား၊ OS
+                navigator.language,                 // ဘာသာစကား
+                screen.width,                       // မျက်နှာပြင်အကျယ်
+                screen.height,                      // မျက်နှာပြင်အမြင့်
+                screen.colorDepth,                  // အရောင်အတိမ်အနက်
+                navigator.hardwareConcurrency || 'unknown', // Processor Core
+                navigator.deviceMemory || 'unknown',        // RAM ပမာဏ
+                new Date().getTimezoneOffset()      // Timezone
+            ];
+            
+            // အချက်အလက်များကို ပေါင်းစပ်၍ Fingerprint ထုတ်ခြင်း
+            const fingerprint = components.join('|');
+            // Base64 encoding (လုံခြုံရေးအတွက် ပိုမိုကောင်းမွန်အောင် လုပ်နိုင်သည်)
+            deviceId = 'DEV-' + btoa(encodeURIComponent(fingerprint)).substring(0, 30);
             localStorage.setItem(DEVICE_ID_KEY, deviceId);
         }
         return deviceId;
     }
 
-    // ⭐ Key ကို အခြား Device က သုံးထားလား စစ်ဆေးခြင်း
+    /**
+     * 🔍 Key ကို အခြား Device က သုံးထားလား စစ်ဆေးခြင်း
+     */
     function isKeyUsedByOtherDevice(key) {
         const boundData = localStorage.getItem(BOUND_KEY);
         if (!boundData) return false;
@@ -71,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
             const currentDeviceId = getDeviceId();
+            // Key ရှိပြီး Device ID မတူပါက အခြား Device က သုံးထားခြင်း
             return boundKey === key && boundDeviceId !== currentDeviceId;
         } catch (error) {
             localStorage.removeItem(BOUND_KEY);
@@ -78,14 +102,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ⭐ Key ကို ဒီ Device မှာ သုံးခွင့်ရှိလား စစ်ဆေးခြင်း
+    /**
+     * ✅ Key ကို ဤ Device တွင် သုံးခွင့်ရှိမရှိ စစ်ဆေးခြင်း
+     */
     function isKeyValidForThisDevice(key) {
         const boundData = localStorage.getItem(BOUND_KEY);
-        if (!boundData) return true;
+        if (!boundData) return true; // ဘယ်သူမှ မသုံးရသေးပါ
         
         try {
             const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
             const currentDeviceId = getDeviceId();
+            // Key ရော Device ID ပါ တူမှသာ သုံးခွင့်ပြုမည်
             return boundKey === key && boundDeviceId === currentDeviceId;
         } catch (error) {
             localStorage.removeItem(BOUND_KEY);
@@ -93,14 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ⭐ Key ကို Device နဲ့ ချိတ်ဆက်သိမ်းဆည်းခြင်း
+    /**
+     * 🔗 Key ကို ဤ Device နှင့် ချိတ်ဆက်သိမ်းဆည်းခြင်း
+     */
     function bindKeyToDevice(key) {
         const deviceId = getDeviceId();
         localStorage.setItem(BOUND_KEY, JSON.stringify({ key, deviceId }));
+        console.log('✅ Key bound to device:', deviceId);
     }
 
     // ================================================================
-    //  5. KEY VALIDATION (Expiry)
+    //  5. KEY VALIDATION (Expiry & Validity)
     // ================================================================
     function isDateInRange(dateStr, startStr, endStr) {
         const date = new Date(dateStr);
@@ -110,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validateKey(key) {
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
         if (key.length === 8 && EIGHT_CHAR_KEYS.includes(key)) {
             return isDateInRange(today, EIGHT_CHAR_START, EIGHT_CHAR_END);
@@ -146,12 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  7. LOGIN (ပြင်ဆင်ထားသည်)
+    //  7. LOGIN - အဓိက Login Process
     // ================================================================
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const enteredKey = accessKeyInput.value.trim();
+        const enteredKey = accessKeyInput.value.trim().toUpperCase();
         const username = usernameInput.value.trim();
 
         // Reset messages
@@ -160,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loginLoading.style.display = 'none';
         loginError.textContent = '';
 
-        // Username မထည့်ပါက
+        // ===== Validation 1: Username =====
         if (!username) {
             loginError.textContent = '❌ ကျေးဇူးပြု၍ Username ထည့်ပါ။';
             loginError.style.display = 'block';
@@ -168,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Key မထည့်ပါက
+        // ===== Validation 2: Key =====
         if (!enteredKey) {
             loginError.textContent = '❌ ကျေးဇူးပြု၍ Access Key ထည့်ပါ။';
             loginError.style.display = 'block';
@@ -176,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Key length စစ်ဆေးပါ (၈ လုံး သို့ ၁၀ လုံး)
+        // ===== Validation 3: Key Length =====
         if (enteredKey.length !== 8 && enteredKey.length !== 10) {
             loginError.textContent = '❌ Access Key သည် ၈ လုံး သို့မဟုတ် ၁၀ လုံး ဖြစ်ရမည်။';
             loginError.style.display = 'block';
@@ -187,9 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show loading
         loginLoading.style.display = 'block';
 
+        // Simulate network delay (for better UX)
         setTimeout(function() {
 
-            // Key သည် တရားဝင် နှင့် သက်တမ်းမကုန်သေးလား
+            // ===== Validation 4: Key Expiry & Validity =====
             if (!validateKey(enteredKey)) {
                 loginLoading.style.display = 'none';
                 loginError.textContent = '❌ Access Key မှားနေပါသည် သို့မဟုတ် သက်တမ်းကုန်ဆုံးနေပါသည်။';
@@ -198,22 +229,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // ⭐ Key ကို အခြား Device က သုံးထားလား စစ်ဆေးခြင်း
+            // ===== Validation 5: Key ကို အခြား Device က သုံးထားလား =====
             if (isKeyUsedByOtherDevice(enteredKey)) {
                 loginLoading.style.display = 'none';
-                loginError.textContent = '❌ ဒီ key ကိုတစ်ခြား device ကအသုံးပြုထားပါသည်။';
+                loginError.textContent = '❌ ဒီ Key ကို အခြား Device တွင် အသုံးပြုထားပြီးဖြစ်ပါသည်။';
                 loginError.style.display = 'block';
                 accessKeyInput.focus();
                 return;
             }
 
-            // ⭐ ဒီ Device မှာ တခြား Key သုံးထားလား စစ်ဆေးခြင်း
+            // ===== Validation 6: ဤ Device တွင် အခြား Key သုံးထားလား =====
             const boundData = localStorage.getItem(BOUND_KEY);
             if (boundData) {
                 try {
                     const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
                     const currentDeviceId = getDeviceId();
                     
+                    // ဤ Device တွင် အခြား Key သုံးထားပြီး လက်ရှိ Key နှင့် မတူပါက
                     if (boundDeviceId === currentDeviceId && boundKey !== enteredKey) {
                         loginLoading.style.display = 'none';
                         loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
@@ -226,12 +258,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // ✅ အားလုံးအောင်မြင်ပါက Login
-            // ဒီ Device မှာ မသုံးရသေးရင် သိမ်းမယ်
+            // ===== ✅ အားလုံးအောင်မြင်ပါက Login =====
+            // ဤ Device တွင် မသုံးရသေးပါက သိမ်းဆည်းမည်
             if (!boundData) {
                 bindKeyToDevice(enteredKey);
             }
             
+            // Session သိမ်းဆည်းခြင်း
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
 
@@ -239,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loginSuccess.style.display = 'block';
             loginSuccess.textContent = '✅ Login အောင်မြင်ပါသည်။ ခေတ္တစောင့်ပါ...';
 
+            // Dashboard သို့ ပြောင်းခြင်း
             setTimeout(function() {
                 showMainDashboard(username);
             }, 500);
@@ -265,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  10. KEYBOARD SHORTCUT
+    //  10. KEYBOARD SHORTCUTS (Enter = Login)
     // ================================================================
     accessKeyInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
@@ -282,14 +316,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ================================================================
-    //  11. CONSOLE LOG
+    //  11. CONSOLE LOG - System Status
     // ================================================================
-    console.log('✅ MEPT Master Hub - 1 Key 1 Device System');
+    console.log('✅ MEPT Master Hub loaded (1 Key 1 Device System)');
     console.log('📌 8-char keys:', EIGHT_CHAR_KEYS.length, 'keys');
     console.log('📌 10-char keys:', TEN_CHAR_KEYS.length, 'keys');
     console.log('📅 8-char expiry:', EIGHT_CHAR_START, '→', EIGHT_CHAR_END);
     console.log('📅 10-char expiry:', TEN_CHAR_START, '→', TEN_CHAR_END);
-    console.log('🔒 1 Key 1 Device system enabled');
+    console.log('🔒 1 Key 1 Device system enabled (Browser Fingerprint)');
     console.log('📱 Mobile-optimized design');
+    
+    // Current Device ID ကို Console မှာ ပြသခြင်း (Debug အတွက်)
+    console.log('🆔 Current Device ID:', getDeviceId());
 
 });
