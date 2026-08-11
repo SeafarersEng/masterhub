@@ -1,5 +1,5 @@
 // ================================================================
-//  📌 MEPT MASTER HUB - LOGIN SYSTEM (Mobile Ready)
+//  📌 MEPT MASTER HUB - 1 KEY 1 DEVICE SYSTEM
 // ================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,15 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ================================================================
     //  3. VALID KEYS
-    //     📌 ဤနေရာတွင် သင့် Key များကို ထည့်ပါ။
     // ================================================================
     const EIGHT_CHAR_KEYS = [
-       'KEY1AAAA', 'MEPT1011', 'HUB11A89', 'KEY2BBBB', 'MEPT2022',
-        'HUB22B90', 'KEY3CCCC', 'MEPT3033', 'HUB33C01', 'KEY4DDDD',
-        'MEPT4044', 'HUB44D12', 'KEY5EEEE', 'MEPT5055', 'HUB55E23',
-        'KEY6FFFF', 'MEPT6066', 'HUB66F34', 'KEY7GGGG', 'MEPT7077',
-        'HUB77G45', 'KEY8HHHH', 'MEPT8088', 'HUB88H56', 'KEY9IIII',
-        'MEPT9099', 'HUB99I67', 'KEY10JJJ', 'MEPT1010', 'HUB100J8'
+        'KEY1AAAA', 'KEY2BBBB', 'KEY3CCCC', 'KEY4DDDD', 'KEY5EEEE',
+        'KEY6FFFF', 'KEY7GGGG', 'KEY8HHHH', 'KEY9IIII', 'KEY10JJJJ',
+        'KEY11KKK', 'KEY12LLL', 'KEY13MMM', 'KEY14NNN', 'KEY15OOO',
+        'KEY16PPP', 'KEY17QQQ', 'KEY18RRR', 'KEY19SSS', 'KEY20TTT',
+        'KEY21UUU', 'KEY22VVV', 'KEY23WWW', 'KEY24XXX', 'KEY25YYY',
+        'KEY26ZZZ', 'KEY27AAA', 'KEY28BBB', 'KEY29CCC', 'KEY30DDD'
     ];
 
     const TEN_CHAR_KEYS = [
@@ -49,29 +48,55 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // ================================================================
-    //  4. ONE-TIME USE TRACKING
+    //  4. 1 KEY 1 DEVICE TRACKING
     // ================================================================
-    const USED_KEYS_KEY = 'mept_used_keys';
+    const DEVICE_ID_KEY = 'mept_device_id';
+    const BOUND_KEY = 'mept_bound_key';
 
-    function isKeyUsed(key) {
+    // Device ID ထုတ်ယူခြင်း
+    function getDeviceId() {
+        let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+        if (!deviceId) {
+            deviceId = 'DEV-' + Math.random().toString(36).substring(2, 11) + '-' + Date.now();
+            localStorage.setItem(DEVICE_ID_KEY, deviceId);
+        }
+        return deviceId;
+    }
+
+    // ⭐ Key ကို အခြား Device က သုံးထားလား စစ်ဆေးခြင်း
+    function isKeyUsedByOtherDevice(key) {
+        const boundData = localStorage.getItem(BOUND_KEY);
+        if (!boundData) return false;
+        
         try {
-            const used = JSON.parse(localStorage.getItem(USED_KEYS_KEY) || '[]');
-            return used.includes(key);
-        } catch {
+            const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
+            const currentDeviceId = getDeviceId();
+            return boundKey === key && boundDeviceId !== currentDeviceId;
+        } catch (error) {
+            localStorage.removeItem(BOUND_KEY);
             return false;
         }
     }
 
-    function markKeyUsed(key) {
+    // ⭐ Key ကို ဒီ Device မှာ သုံးခွင့်ရှိလား စစ်ဆေးခြင်း
+    function isKeyValidForThisDevice(key) {
+        const boundData = localStorage.getItem(BOUND_KEY);
+        if (!boundData) return true;
+        
         try {
-            const used = JSON.parse(localStorage.getItem(USED_KEYS_KEY) || '[]');
-            if (!used.includes(key)) {
-                used.push(key);
-                localStorage.setItem(USED_KEYS_KEY, JSON.stringify(used));
-            }
-        } catch (e) {
-            console.warn('Storage error:', e);
+            const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
+            const currentDeviceId = getDeviceId();
+            return boundKey === key && boundDeviceId === currentDeviceId;
+        } catch (error) {
+            localStorage.removeItem(BOUND_KEY);
+            return true;
         }
+    }
+
+    // ⭐ Key ကို Device နဲ့ ချိတ်ဆက်သိမ်းဆည်းခြင်း
+    function bindKeyToDevice(key) {
+        const deviceId = getDeviceId();
+        localStorage.setItem(BOUND_KEY, JSON.stringify({ key, deviceId }));
     }
 
     // ================================================================
@@ -85,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validateKey(key) {
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        const today = new Date().toISOString().split('T')[0];
 
         if (key.length === 8 && EIGHT_CHAR_KEYS.includes(key)) {
             return isDateInRange(today, EIGHT_CHAR_START, EIGHT_CHAR_END);
@@ -162,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show loading
         loginLoading.style.display = 'block';
 
-        // Simulate network delay (300ms for better UX)
+        // Simulate network delay
         setTimeout(function() {
 
             // Key သည် တရားဝင် နှင့် သက်တမ်းမကုန်သေးလား
@@ -174,17 +199,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Key ကို တစ်ခါသုံးပြီးပြီလား
-            if (isKeyUsed(enteredKey)) {
+            // ⭐ Key ကို အခြား Device က သုံးထားလား စစ်ဆေးခြင်း
+            if (isKeyUsedByOtherDevice(enteredKey)) {
                 loginLoading.style.display = 'none';
-                loginError.textContent = '❌ ဤ Key ကို အသုံးပြုပြီးပါပြီ။ (တစ်ခါသာ အသုံးပြုနိုင်သည်)';
+                loginError.textContent = '❌ ဒီ key ကိုတစ်ခြား device ကအသုံးပြုထားပါသည်။';
                 loginError.style.display = 'block';
                 accessKeyInput.focus();
                 return;
             }
 
+            // ⭐ ဒီ Device မှာ တခြား Key သုံးထားလား စစ်ဆေးခြင်း
+            const boundData = localStorage.getItem(BOUND_KEY);
+            if (boundData) {
+                try {
+                    const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
+                    const currentDeviceId = getDeviceId();
+                    
+                    if (boundDeviceId === currentDeviceId && boundKey !== enteredKey) {
+                        loginLoading.style.display = 'none';
+                        loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
+                        loginError.style.display = 'block';
+                        accessKeyInput.focus();
+                        return;
+                    }
+                } catch (error) {
+                    localStorage.removeItem(BOUND_KEY);
+                }
+            }
+
             // ✅ အားလုံးအောင်မြင်ပါက Login
-            markKeyUsed(enteredKey);
+            // ဒီ Device မှာ မသုံးရသေးရင် သိမ်းမယ်
+            if (!boundData) {
+                bindKeyToDevice(enteredKey);
+            }
+            
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
 
@@ -192,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loginSuccess.style.display = 'block';
             loginSuccess.textContent = '✅ Login အောင်မြင်ပါသည်။ ခေတ္တစောင့်ပါ...';
 
-            // Brief delay before redirecting to dashboard
             setTimeout(function() {
                 showMainDashboard(username);
             }, 500);
@@ -219,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ================================================================
-    //  10. KEYBOARD SHORTCUT (Enter = Login)
+    //  10. KEYBOARD SHORTCUT
     // ================================================================
     accessKeyInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
@@ -238,12 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ================================================================
     //  11. CONSOLE LOG
     // ================================================================
-    console.log('✅ MEPT Master Hub loaded (Mobile Ready)');
+    console.log('✅ MEPT Master Hub - 1 Key 1 Device System');
     console.log('📌 8-char keys:', EIGHT_CHAR_KEYS.length, 'keys');
     console.log('📌 10-char keys:', TEN_CHAR_KEYS.length, 'keys');
     console.log('📅 8-char expiry:', EIGHT_CHAR_START, '→', EIGHT_CHAR_END);
     console.log('📅 10-char expiry:', TEN_CHAR_START, '→', TEN_CHAR_END);
-    console.log('🔒 One-time use enabled');
+    console.log('🔒 1 Key 1 Device system enabled');
     console.log('📱 Mobile-optimized design');
 
 });
