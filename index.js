@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================================================================
     const DEVICE_ID_KEY = 'mept_device_id';
     const BOUND_KEY = 'mept_bound_key';
+    const USED_KEYS_KEY = 'mept_used_keys'; // 🆕 သုံးပြီးသား Keys စာရင်း
 
     // Device ID ထုတ်ယူခြင်း
     function getDeviceId() {
@@ -49,24 +50,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return deviceId;
     }
 
-    // ⭐ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း
-    function isKeyAlreadyUsed(key) {
-        const boundData = localStorage.getItem(BOUND_KEY);
-        if (!boundData) return false; // မသုံးရသေးဘူး
-        
+    // 🆕 သုံးပြီးသား Keys စာရင်းကို ရယူခြင်း
+    function getUsedKeys() {
         try {
-            const { key: boundKey } = JSON.parse(boundData);
-            return boundKey === key; // ဒီ Key သုံးပြီးသားလား?
+            const data = localStorage.getItem(USED_KEYS_KEY);
+            return data ? JSON.parse(data) : [];
         } catch (error) {
-            localStorage.removeItem(BOUND_KEY);
-            return false;
+            return [];
         }
+    }
+
+    // 🆕 သုံးပြီးသား Keys စာရင်းကို သိမ်းဆည်းခြင်း
+    function saveUsedKeys(keys) {
+        localStorage.setItem(USED_KEYS_KEY, JSON.stringify(keys));
+    }
+
+    // ⭐ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း (ပိုမိုတိကျအောင် ပြင်ဆင်)
+    function isKeyAlreadyUsed(key) {
+        const usedKeys = getUsedKeys();
+        return usedKeys.includes(key);
     }
 
     // ⭐ Key ကို ဒီ Device မှာ သုံးခွင့်ရှိလား စစ်ဆေးခြင်း
     function isKeyValidForThisDevice(key) {
         const boundData = localStorage.getItem(BOUND_KEY);
-        if (!boundData) return true; // ဘယ်သူမှ မသုံးရသေးဘူး
+        if (!boundData) return false; // ဘယ် Key မှ မသုံးရသေးဘူး
         
         try {
             const { key: boundKey, deviceId: boundDeviceId } = JSON.parse(boundData);
@@ -76,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return boundKey === key && boundDeviceId === currentDeviceId;
         } catch (error) {
             localStorage.removeItem(BOUND_KEY);
-            return true;
+            return false;
         }
     }
 
@@ -84,6 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function bindKeyToDevice(key) {
         const deviceId = getDeviceId();
         localStorage.setItem(BOUND_KEY, JSON.stringify({ key, deviceId }));
+        
+        // 🆕 သုံးပြီးသား Keys စာရင်းထဲ ထည့်သွင်းခြင်း
+        const usedKeys = getUsedKeys();
+        if (!usedKeys.includes(key)) {
+            usedKeys.push(key);
+            saveUsedKeys(usedKeys);
+        }
+    }
+
+    // 🆕 တစ်ခါသုံးပြီးသား Key ကို ပြန်သုံးရန် ကြိုးစားခြင်းကို တားမြစ်ခြင်း
+    function isKeyBlocked(key) {
+        // Key က သုံးပြီးသားဖြစ်ပြီး ဒီ Device နဲ့ မကိုက်ညက်ရင် Block
+        if (isKeyAlreadyUsed(key)) {
+            return !isKeyValidForThisDevice(key);
+        }
+        return false;
     }
 
     // ================================================================
@@ -108,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ================================================================
-    // 🔐 Login လုပ်ငန်းစဉ်
+    // 🔐 Login လုပ်ငန်းစဉ် (ပိုမိုလုံခြုံအောင် ပြင်ဆင်)
     // ================================================================
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -129,21 +153,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // ⭐ ၂။ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း
+        // 🆕 ၂။ Key ကို တစ်ခါသုံးပြီးပြီလား စစ်ဆေးခြင်း (ပိုမိုတိကျ)
         if (isKeyAlreadyUsed(enteredKey)) {
             // Key သုံးပြီးသားဆိုရင် ဒီ Device မှာ သုံးခွင့်ရှိလား ထပ်စစ်မယ်
             if (!isKeyValidForThisDevice(enteredKey)) {
-                loginError.textContent = '❌ ဒီ key ကိုတစ်ခြား device ကအသုံးပြုထားပါသည်။';
+                loginError.textContent = '❌ ဒီ Key ကို အခြား Device မှ သုံးထားပြီးပါပြီ။ တစ်ခါသုံးသော့ဖြစ်ပါသည်။';
                 loginError.style.display = 'block';
                 return;
             }
             // ဒီ Device မှာ သုံးခွင့်ရှိရင် ဆက်သွားမယ်
         } else {
-            // Key ကို မသုံးရသေးဘူး၊ ဒါပေမယ့် ဒီ Device မှာ တခြား Key သုံးထားလား စစ်မယ်
-            if (!isKeyValidForThisDevice(enteredKey)) {
-                loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
-                loginError.style.display = 'block';
-                return;
+            // 🆕 Key ကို မသုံးရသေးဘူး၊ ဒါပေမယ့် ဒီ Device မှာ တခြား Key သုံးထားလား စစ်မယ်
+            const boundData = localStorage.getItem(BOUND_KEY);
+            if (boundData) {
+                try {
+                    const { key: boundKey } = JSON.parse(boundData);
+                    // ဒီ Device မှာ တခြား Key သုံးထားပြီးသား
+                    if (boundKey !== enteredKey) {
+                        loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ကို သုံးထားပြီးဖြစ်ပါသည်။';
+                        loginError.style.display = 'block';
+                        return;
+                    }
+                } catch (error) {
+                    localStorage.removeItem(BOUND_KEY);
+                }
             }
         }
 
@@ -151,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bindKeyToDevice(enteredKey);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', username);
+        localStorage.setItem('lastLoginKey', enteredKey); // 🆕 နောက်ဆုံး Login လုပ်ခဲ့တဲ့ Key
         loginError.style.display = 'none';
         showMainDashboard();
     });
@@ -160,6 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================================================================
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('currentUser');
+        // 🆕 Logout လုပ်တဲ့အခါ Device မှာ Bound ထားတဲ့ Key ကို မဖျက်ပါနဲ့
+        // (တစ်ခါသုံးပြီးသား Key ကို ပြန်သုံးမရအောင်)
         showLoginForm();
     });
 
@@ -174,8 +211,35 @@ document.addEventListener('DOMContentLoaded', () => {
         loginError.style.display = 'none';
     }
 
-    // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း
+    // ================================================================
+    // 🛡️ Auto Login စစ်ဆေးခြင်း (ပိုမိုလုံခြုံအောင် ပြင်ဆင်)
+    // ================================================================
     if (localStorage.getItem('isLoggedIn') === 'true') {
-        showMainDashboard();
+        const lastLoginKey = localStorage.getItem('lastLoginKey');
+        if (lastLoginKey && isKeyValidForThisDevice(lastLoginKey)) {
+            showMainDashboard();
+        } else {
+            // Session မမှန်ရင် Logout လုပ်မယ်
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('lastLoginKey');
+            showLoginForm();
+        }
     }
+
+    // ================================================================
+    // 🧹 Admin Function - သုံးပြီးသား Keys စာရင်းကို ကြည့်ရန် (Console မှာ)
+    // ================================================================
+    window.getUsedKeysList = function() {
+        return getUsedKeys();
+    };
+
+    // 🧹 Admin Function - သုံးပြီးသား Keys စာရင်းကို ရှင်းရန် (သတိထားသုံးပါ)
+    window.clearUsedKeys = function() {
+        if (confirm('သုံးပြီးသား Keys အားလုံးကို ရှင်းမှာသေချာလား?')) {
+            localStorage.removeItem(USED_KEYS_KEY);
+            localStorage.removeItem(BOUND_KEY);
+            console.log('✅ သုံးပြီးသား Keys အားလုံးကို ရှင်းလင်းပြီးပါပြီ။');
+        }
+    };
 });
