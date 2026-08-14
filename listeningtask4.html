@@ -442,7 +442,7 @@
                 <button class="nav-btn" id="prevExBtn">◀</button>
                 <span class="ex-counter" id="exCounter">1 / 5</span>
                 <button class="nav-btn" id="nextExBtn">▶</button>
-                <span class="ex-title" id="exTitle">Morning Briefing</span>
+                <span class="ex-title" id="exTitle">Loading...</span>
             </div>
         </div>
 
@@ -450,7 +450,7 @@
         <div class="audio-panel">
             <div class="left">
                 <button class="btn-audio" id="playAudioBtn">🔊 နားထောင်မည်</button>
-                <span style="color:#a0aec0; font-size:14px;">(AI Voice ဖြင့် ဖတ်ပြမည်)</span>
+                <span style="color:#a0aec0; font-size:14px;">(MP3 Audio)</span>
             </div>
             <button class="transcript-toggle" id="toggleTranscriptBtn">📖 စာသားပြရန်</button>
         </div>
@@ -466,7 +466,7 @@
                 <button class="btn btn-outline" id="shuffleBtn">🔄 ပြန်ဖောက်</button>
                 <button class="btn btn-danger" id="resetBtn">🗑️ ရှင်းမည်</button>
             </div>
-            <span class="counter-badge" id="progressCounter">၀ / ၀</span>
+            <span class="counter-badge" id="progressCounter">၀ / ၇</span>
         </div>
 
         <!-- Sentence List -->
@@ -479,119 +479,69 @@
     <script>
         (function() {
             // ============================================================
-            //  EXERCISE DATA (၅ ခု)
+            //  EXERCISE DATA (Speaker Names အကုန်ဖြုတ်ထား)
             // ============================================================
             const EXERCISES = [{
-                title: "Morning Briefing",
+                title: "Bookstore Shopping",
+                audioFile: "bookstore shopping.mp3",
                 sentences: [
-                    "Hi, everyone. I know you're all busy so I'll keep this briefing quick.",
-                    "I have some important information about a change in the management team.",
-                    "As you already know, our head of department, James Watson, is leaving his position at the end of this week.",
-                    "His replacement is starting at the end of the next month.",
-                    "In the meantime, we'll continue with our projects as usual.",
-                    "I have two more quick points.",
-                    "Firstly, there will be some improvements made to the staff car park next month for a few weeks.",
-                    "It will be closed during that time.",
-                    "Don't worry, we've found a solution.",
-                    "We can use the local church car park until our own one is ready.",
-                    "If you arrive before 8.30 a.m., please use our small car park on Brown Street, and if you arrive after that, you should go directly to the church car park.",
-                    "It's only a five-minute walk away.",
-                    "But they need it in the evenings, so you have to leave before 6 p.m.",
-                    "Sorry about that – I know how much you all love working late!",
-                    "The other thing I wanted to tell you about is that the canteen has now introduced a cashless payment system.",
-                    "So, you can't use cash for payments any more.",
-                    "You can pay directly with your smartphone or you can pay using your company ID card.",
-                    "The total amount put on your company ID card comes off your salary at the end of each month.",
-                    "OK. That's it? Are there any questions?"
+                    "Son, what are you doing here down at the beach? I thought you said you were going to buy some things for school?",
+                    "Well, Uh, Dad. I DID buy some things.",
+                    "Wait! Two smartphones?",
+                    "Well, I use one to call you and Mom, and the other, I call my, uh, my teachers.",
+                    "A new iPad? What do you need a new iPad for?",
+                    "Well, Mom thought it was a good idea. And I have, let’s see, what else? Two cheeseburgers, some fries, and oooh, a melted ice cream.",
+                    "Hey, where’s my credit card? Come back!!"
                 ]
             }, {
-                title: "Party Invitation",
+                title: "Busy Week",
+                audioFile: "dayoftheweek.mp3",
                 sentences: [
-                    "Automated message: You have two new messages. Message number one, received today at 3.45 p.m.",
-                    "Hi, it's me. How's it going?",
-                    "I guess you're at work and you don't have your phone on, right?",
-                    "First of all, thank you, THANK YOU for the birthday card and message.",
-                    "I received it this morning.",
-                    "That's so nice of you.",
-                    "I'm organising a little party for my birthday.",
-                    "It's nothing very big – only a few of my best and closest friends.",
-                    "That means you too!",
-                    "We're going to have it at my cousin's house.",
-                    "She lives in the countryside in a nice big house with a swimming pool.",
-                    "I'd love to see you there.",
-                    "It's going to be this Friday.",
-                    "I'll send you the instructions on how to get there later, OK?",
-                    "Anyway, have fun at work.",
-                    "Don't work too hard, OK?",
-                    "Talk soon.",
-                    "Automated message: You have two new messages. Message number two, received today at 5.15 p.m.",
-                    "Aw, you're still not answering your phone!",
-                    "OK, here are the instructions to get to my cousin's house for the party.",
-                    "Are you going to take your car?",
-                    "If you take the car, drive straight on Forest Road until you get to the motorway.",
-                    "Drive past Brownsville and take exit 13A. That's 13A.",
-                    "You drive down the road there and turn left.",
-                    "It's the first big house on the right. OK?",
-                    "If you're taking a bus, you can get the number 80 to Brownsville.",
-                    "Call me when you get there and somebody can pick you up in a car.",
-                    "I can't wait. This is going to be so great!"
+                    "So, Meg, are you busy? Do you have a busy week?",
+                    "My busiest day is Thursday.",
+                    "On Thursday, I have to work from early in the morning until around 6:00 p.m. I have to teach classes. And then after that, I need to do my shopping at the supermarket.",
+                    "On Saturday, I do all my boring activities.",
+                    "On Sunday, I often go hiking or I go to the park or I go to the beach. I go to the beach almost every Sunday.",
+                    "On Sunday, I always go to church in the morning, and sometimes I'll have lunch with friends after church.",
+                    "I play futsal on Tuesday nights. Every Tuesday, I play futsal with my friends for two hours, and that's fun."
                 ]
             }, {
-                title: "Changing Meeting Time",
+                title: "Where Are You From?",
+                audioFile: "introduction.mp3",
                 sentences: [
-                    "Lucy: Hi, Anna. Do you have a minute to talk about the meeting next Tuesday?",
-                    "Anna: Sure. We said 11, didn't we?",
-                    "Lucy: Yeah, we did. But I have a bit of a problem with the time. Would it be possible to move it?",
-                    "Anna: Oh, I see. We could postpone it to the afternoon, to 1 p.m., for example. Or bring it forward to earlier in the morning. What would suit you?",
-                    "Lucy: Could we make it 9 o'clock? That would really help me. I have another important meeting in the central office at 12.",
-                    "Anna: No problem. It's important you're there.",
-                    "Lucy: Thanks a lot, Anna.",
-                    "Anna: Do you need help with any preparation? Did you get the agenda I sent out?",
-                    "Lucy: Yes, I did. And no, that's all fine, thanks. My report is ready and I'm looking forward to presenting it.",
-                    "Anna: Great.",
-                    "Lucy: I can tell Sven about the time change. I'll see him later.",
-                    "Anna: Don't worry about telling Sven. I'll send an email to everyone to confirm the time has changed and with an updated meeting invite.",
-                    "Lucy: Great. Thanks, Anna.",
-                    "Anna: OK. I'm happy that works for you. We really need you there and it's good we don't have to cancel it.",
-                    "Lucy: See you then. Have a good weekend in the meantime.",
-                    "Anna: You too."
+                    "So Todd, where are you from?",
+                    "I am from the U.S., I am from San Francisco. It's on the west coast.",
+                    "And what do you do?",
+                    "I'm an English teacher. Also, I create Elllo.",
+                    "My best friend is Don, he is a teacher too. He lives in America.",
+                    "My mom is from California, she is from Los Angeles.",
+                    "My dad is from San Francisco. He is not from Los Angeles, but he met my mother in Los Angeles."
                 ]
             }, {
-                title: "Transport Announcements",
+                title: "Summer Break",
+                audioFile: "Thailand-Laos.mp3",
                 sentences: [
-                    "The next train to arrive at Platform 2 is the 12.20 to Bristol Temple Meads, calling at Reading, Oxford and Bristol Parkway.",
-                    "Platform 2 for the 12.20 to Bristol. First class is in the rear carriage.",
-                    "This is a platform announcement for passengers for the 12.20 service to Bristol Temple Meads. This train is delayed by approximately 8 minutes.",
-                    "The train will now depart from Platform 9. Passengers for the 12.20 train to Bristol, please make your way to Platform 9.",
-                    "Passengers for Flight EB380 to Paris please make your way to Gate 13 for boarding.",
-                    "Gate 13 for flight EB380 to Paris. Please have your passports and boarding passes ready.",
-                    "Your flight is ready to board.",
-                    "This is a London Underground service to Liverpool Street. The next station is Liverpool Street.",
-                    "Upon arrival, the first set of doors will not open.",
-                    "Customers in the first carriage, please move towards the rear doors to leave the train.",
-                    "The next station is Liverpool Street. Change here for Central Line, Circle Line, Hammersmith & City Line and Metropolitan Line and Main Line Suburban rail services.",
-                    "Please mind the gap between the train and the platform.",
-                    "This train terminates at Redbridge."
+                    "Abidemi, what did you do for summer break?",
+                    "For summer break, I went to visit some countries in Asia.",
+                    "I visited Thailand, Laos, Vietnam, and Myanmar.",
+                    "In Thailand, I was there for about a week. I ate a lot of delicious food and I met a lot of many nice people.",
+                    "I traveled from Bangkok to Chiang Mai and Chang Rai, and I went trekking and rode elephants.",
+                    "From Thailand, I moved on by land to Laos.",
+                    "In Laos, I mainly was in the northern part of the country, and I went zip-lining."
                 ]
             }, {
-                title: "Who's Who in Office",
+                title: "Holidays in Greece",
+                audioFile: "Daniel-Holidays.mp3",
                 sentences: [
-                    "Jani: Welcome to the department, Yuki. Let me show you around and tell you about your new colleagues.",
-                    "I'll introduce you to them all later.",
-                    "Yuki: Great. Thanks. So, who are those people over there?",
-                    "Jani: That's the order management team. Luciana deals with the new orders. She's the one with short, dark hair.",
-                    "Yuki: In the purple dress?",
-                    "Jani: Yeah, that's right. You'll probably work closely with her while you are learning about our ordering process.",
-                    "Yuki: Got it, thanks. And who's that over there? The guy who's on the phone?",
-                    "Jani: Oh, you mean the one by the window? In the green shirt? Ah, that's Ian. He's the marketing director. And that's Maria beside him. She's responsible for the internal IT systems.",
-                    "Yuki: OK, I'll try to remember all of this. I should probably be taking notes!",
-                    "Jani: Don't worry about it. For now it's just good to put some faces to names.",
-                    "Yuki: OK, great – and who do I talk to about setting up my mobile phone with email access? Is that also Maria?",
-                    "Jani: No, you need to talk to Sebastian who works in communications. He can help you. That's him over there, next to the printer.",
-                    "Yuki: Thanks. I'll introduce myself to him later."
+                    "So we're talking about holidays. Is there any really, really good holidays that you remember?",
+                    "Well, one of my favourite holidays was when I went to Greece a couple of years ago with my family.",
+                    "Greece is a very beautiful country. The houses are ... everything is so white and the beaches are so beautiful.",
+                    "Mainly I just relaxed at the swimming pool and at the beaches. And at night time I went shopping with my mum.",
+                    "Yes, I went with my mum and dad and brother.",
+                    "We went for four days. And when we went there was a big football tournament.",
+                    "Yes, I went to see one match with my dad and I had so much fun."
                 ]
-            }
-            ];
+            }];
 
             // ============================================================
             //  STATE
@@ -601,6 +551,7 @@
             let isAnswerRevealed = false;
             let isTranscriptVisible = false;
             let isPlaying = false;
+            let audioElement = null;
 
             const listEl = document.getElementById('sentence-list');
             const checkBtn = document.getElementById('checkBtn');
@@ -629,7 +580,7 @@
             }
 
             function getCurrentExercise() {
-                return EXERCISES[currentExIndex];
+                return EXERCISES[currentExIndex] || null;
             }
 
             // ============================================================
@@ -637,12 +588,27 @@
             // ============================================================
             function updateHeader() {
                 const ex = getCurrentExercise();
-                exCounter.textContent = `${currentExIndex + 1} / ${EXERCISES.length}`;
-                exTitle.textContent = ex.title;
+                if (ex) {
+                    exCounter.textContent = `${currentExIndex + 1} / ${EXERCISES.length}`;
+                    exTitle.textContent = ex.title;
+                } else {
+                    exCounter.textContent = `0 / 0`;
+                    exTitle.textContent = 'No Data';
+                }
             }
 
             function renderList() {
                 listEl.innerHTML = '';
+                if (!currentItems || currentItems.length === 0) {
+                    const emptyMsg = document.createElement('li');
+                    emptyMsg.style.cssText =
+                        'padding: 30px; text-align: center; color: #718096; font-size: 18px; background: #f7fafc; border-radius: 14px; border: 2px dashed #cbd5e0;';
+                    emptyMsg.textContent = '⚠️ လေ့ကျင့်ခန်း ဒေတာမရှိပါ။';
+                    listEl.appendChild(emptyMsg);
+                    progressCounter.textContent = '၀ / ၀';
+                    return;
+                }
+
                 currentItems.forEach((item, index) => {
                     const li = document.createElement('li');
                     li.className = 'sentence-item';
@@ -657,12 +623,7 @@
 
                     const textSpan = document.createElement('span');
                     textSpan.className = 'sentence-text';
-                    const parts = item.text.split(': ');
-                    if (parts.length === 2) {
-                        textSpan.innerHTML = `<span class="speaker">${parts[0]}</span>: ${parts[1]}`;
-                    } else {
-                        textSpan.textContent = item.text;
-                    }
+                    textSpan.textContent = item.text;
                     li.appendChild(textSpan);
 
                     const input = document.createElement('input');
@@ -742,6 +703,10 @@
             }
 
             function updateCounter() {
+                if (!currentItems || currentItems.length === 0) {
+                    progressCounter.textContent = '၀ / ၀';
+                    return;
+                }
                 const inputs = document.querySelectorAll('.order-input');
                 let count = 0;
                 inputs.forEach(inp => {
@@ -753,37 +718,79 @@
 
             function updateTranscript() {
                 const ex = getCurrentExercise();
-                let html = ex.sentences.map(s => {
-                    const parts = s.split(': ');
-                    if (parts.length === 2) {
-                        return `<span class="speaker-highlight">${parts[0]}</span>: ${parts[1]}`;
-                    }
-                    return s;
-                }).join('<br>');
-                transcriptBox.innerHTML = html;
+                if (!ex) {
+                    transcriptBox.innerHTML = 'စာသားမရှိပါ။';
+                    return;
+                }
+                transcriptBox.innerHTML = ex.sentences.join('<br>');
             }
 
             // ============================================================
-            //  STOP AUDIO (AI Voice)
+            //  STOP / PLAY AUDIO (MP3)
             // ============================================================
             function stopAudio() {
-                if (window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                    audioElement = null;
                 }
                 isPlaying = false;
                 playBtn.textContent = '🔊 နားထောင်မည်';
                 playBtn.classList.remove('playing');
             }
 
+            function playAudio() {
+                const ex = getCurrentExercise();
+                if (!ex || !ex.audioFile) {
+                    alert('ဤလေ့ကျင့်ခန်းအတွက် MP3 ဖိုင် သတ်မှတ်ပေးမထားပါ။');
+                    return;
+                }
+
+                // If already playing, stop it
+                if (isPlaying) {
+                    stopAudio();
+                    return;
+                }
+
+                // Create new audio object
+                audioElement = new Audio(ex.audioFile);
+                audioElement.play();
+
+                isPlaying = true;
+                playBtn.textContent = '⏹ ရပ်မည်';
+                playBtn.classList.add('playing');
+
+                audioElement.onended = function() {
+                    stopAudio();
+                };
+
+                audioElement.onerror = function() {
+                    alert(`⚠️ "${ex.audioFile}" ဖိုင်ကို ရှာမတွေ့ပါ။ ဖိုင်အမည်နှင့် တည်နေရာကို စစ်ဆေးပါ။`);
+                    stopAudio();
+                };
+            }
+
             // ============================================================
             //  LOAD EXERCISE
             // ============================================================
             function loadExercise(index) {
+                stopAudio();
+
+                if (EXERCISES.length === 0) {
+                    currentItems = [];
+                    currentExIndex = 0;
+                    updateHeader();
+                    renderList();
+                    resultMsg.classList.remove('show', 'success', 'fail');
+                    resultMsg.textContent = '';
+                    return;
+                }
+
+                if (index < 0) index = 0;
+                if (index >= EXERCISES.length) index = EXERCISES.length - 1;
+
                 const ex = EXERCISES[index];
                 if (!ex) return;
-
-                // Stop any playing audio
-                stopAudio();
 
                 currentExIndex = index;
                 currentItems = ex.sentences.map((text, idx) => ({ id: idx, text }));
@@ -802,6 +809,12 @@
             //  CHECK / REVEAL / RESET / SHUFFLE
             // ============================================================
             function checkOrder() {
+                if (!currentItems || currentItems.length === 0) {
+                    resultMsg.textContent = '⚠️ စစ်ဆေးရန် ဒေတာမရှိပါ။';
+                    resultMsg.className = 'show fail';
+                    return;
+                }
+
                 const inputs = document.querySelectorAll('.order-input');
                 let allCorrect = true;
                 let hasEmpty = false;
@@ -894,6 +907,11 @@
             }
 
             function revealAnswer() {
+                if (!currentItems || currentItems.length === 0) {
+                    resultMsg.textContent = '⚠️ အဖြေပြရန် ဒေတာမရှိပါ။';
+                    resultMsg.className = 'show fail';
+                    return;
+                }
                 isAnswerRevealed = true;
                 const inputs = document.querySelectorAll('.order-input');
                 inputs.forEach(inp => {
@@ -913,6 +931,7 @@
             }
 
             function resetInputs() {
+                if (!currentItems || currentItems.length === 0) return;
                 isAnswerRevealed = false;
                 const inputs = document.querySelectorAll('.order-input');
                 inputs.forEach(inp => {
@@ -929,78 +948,22 @@
             }
 
             // ============================================================
-            //  PLAY AUDIO (AI Voice)
-            // ============================================================
-            function playAudio() {
-                // Check if speech synthesis is supported
-                if (!window.speechSynthesis) {
-                    alert('သင့်ဘရောက်ဆာသည် AI Voice ကို မထောက်ပံ့ပါ။ (Chrome, Edge, Safari သုံးပါ)');
-                    return;
-                }
-
-                // If already playing, stop
-                if (isPlaying) {
-                    stopAudio();
-                    return;
-                }
-
-                const ex = getCurrentExercise();
-                // Combine all sentences into one full script with clear breaks
-                const fullScript = ex.sentences.join('. ');
-
-                if (!fullScript.trim()) {
-                    alert('ဤလေ့ကျင့်ခန်းအတွက် စာသားမရှိပါ။');
-                    return;
-                }
-
-                // Cancel any ongoing speech just in case
-                window.speechSynthesis.cancel();
-
-                const utterance = new SpeechSynthesisUtterance(fullScript);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.85; // Slightly slower for better comprehension
-                utterance.pitch = 1;
-                utterance.volume = 1;
-
-                // Try to get a good quality English voice (prefer Google or Samantha on iOS)
-                const voices = window.speechSynthesis.getVoices();
-                const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes(
-                    'Samantha'))) || voices.find(v => v.lang.startsWith('en')) || null;
-                if (preferred) utterance.voice = preferred;
-
-                isPlaying = true;
-                playBtn.textContent = '⏹ ရပ်မည်';
-                playBtn.classList.add('playing');
-
-                utterance.onend = function() {
-                    isPlaying = false;
-                    playBtn.textContent = '🔊 နားထောင်မည်';
-                    playBtn.classList.remove('playing');
-                };
-
-                utterance.onerror = function(event) {
-                    console.error('Speech error:', event);
-                    isPlaying = false;
-                    playBtn.textContent = '🔊 နားထောင်မည်';
-                    playBtn.classList.remove('playing');
-                    // Don't alert on cancel (error code 15 is usually cancel)
-                    if (event.error !== 'canceled') {
-                        alert('AI Voice ဖွင့်ရာတွင် အမှားရှိသည်။ နောက်တစ်ခါ စမ်းကြည့်ပါ။');
-                    }
-                };
-
-                window.speechSynthesis.speak(utterance);
-            }
-
-            // ============================================================
             //  NAVIGATION
             // ============================================================
             function goToPrev() {
+                if (EXERCISES.length === 0) {
+                    alert('လေ့ကျင့်ခန်း ဒေတာမရှိပါ။');
+                    return;
+                }
                 if (currentExIndex > 0) loadExercise(currentExIndex - 1);
                 else alert('ပထမဆုံး လေ့ကျင့်ခန်းပါ။');
             }
 
             function goToNext() {
+                if (EXERCISES.length === 0) {
+                    alert('လေ့ကျင့်ခန်း ဒေတာမရှိပါ။');
+                    return;
+                }
                 if (currentExIndex < EXERCISES.length - 1) loadExercise(currentExIndex + 1);
                 else alert('နောက်ဆုံး လေ့ကျင့်ခန်းပါ။');
             }
@@ -1011,18 +974,13 @@
             let dragSrcIndex = null;
 
             function init() {
-                // Load voices early for iOS compatibility
-                if (window.speechSynthesis) {
-                    window.speechSynthesis.getVoices();
-                    window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
-                }
-
                 loadExercise(0);
 
                 checkBtn.addEventListener('click', checkOrder);
                 showAnswerBtn.addEventListener('click', revealAnswer);
 
                 shuffleBtn.addEventListener('click', function() {
+                    if (!currentItems || currentItems.length === 0) return;
                     shuffleArray(currentItems);
                     if (isAnswerRevealed) isAnswerRevealed = false;
                     renderList();
@@ -1033,18 +991,14 @@
                 resetBtn.addEventListener('click', resetInputs);
                 prevBtn.addEventListener('click', goToPrev);
                 nextBtn.addEventListener('click', goToNext);
-
-                // Audio play button (AI Voice)
                 playBtn.addEventListener('click', playAudio);
 
-                // Transcript toggle
                 toggleTranscriptBtn.addEventListener('click', function() {
                     isTranscriptVisible = !isTranscriptVisible;
                     transcriptBox.classList.toggle('show', isTranscriptVisible);
                     this.textContent = isTranscriptVisible ? '📖 စာသားဖျောက်ရန်' : '📖 စာသားပြရန်';
                 });
 
-                // Keyboard shortcuts
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'ArrowLeft') goToPrev();
                     if (e.key === 'ArrowRight') goToNext();
