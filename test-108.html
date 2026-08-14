@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Speaking Test 108 – MEPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header h2 i {
+            color: #6c3483;
+        }
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-back:active {
+            transform: scale(0.95);
+            background: #dce3ed;
+        }
+
+        .progress-section {
+            margin-bottom: 18px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6c3483, #9b59b6);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .question-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            border-left: 6px solid #6c3483;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .question-type {
+            display: inline-block;
+            background: #f3e8ff;
+            color: #6c3483;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+
+        .question-type .icon {
+            margin-right: 4px;
+        }
+
+        .question-text {
+            font-size: 17px;
+            font-weight: 600;
+            color: #0a2a4a;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .question-text.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 10px 0 14px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 220px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #ffffff;
+        }
+
+        .image-container .img-placeholder {
+            display: none;
+            padding: 30px 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .audio-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 10px 0 14px;
+        }
+
+        .play-btn {
+            background: #6c3483;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            touch-action: manipulation;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+        .play-btn.playing {
+            background: #e53e3e;
+        }
+        .play-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .play-status {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c3483;
+            white-space: nowrap;
+        }
+
+        .play-status .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        .play-status .dot.green {
+            background: #22c55e;
+        }
+        .play-status .dot.red {
+            background: #ef4444;
+        }
+
+        .prompt-display {
+            background: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            margin: 10px 0 14px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #1f3a5f;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .prompt-display.show {
+            display: block;
+        }
+
+        .prompt-display .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6c3483;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .answer-area {
+            margin: 12px 0;
+        }
+
+        .answer-area label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a2a4a;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .answer-area label i {
+            color: #6c3483;
+        }
+
+        .answer-area textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            font-family: inherit;
+            font-size: 14px;
+            background: #fafcff;
+            min-height: 80px;
+            resize: vertical;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        .answer-area textarea:focus {
+            border-color: #6c3483;
+            box-shadow: 0 0 0 4px rgba(108, 52, 131, 0.08);
+        }
+
+        .answer-area .answered-hint {
+            font-size: 12px;
+            color: #22c55e;
+            margin-top: 4px;
+            display: none;
+        }
+        .answer-area .answered-hint.show {
+            display: block;
+        }
+
+        .answer-key {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #d4e2f0;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .answer-key.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .answer-key h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #6c3483;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .answer-key p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1f3a5f;
+            padding: 8px 12px;
+            background: #ffffff;
+            border-radius: 8px;
+            border-left: 3px solid #6c3483;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 0;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            touch-action: manipulation;
+        }
+
+        .action-buttons .btn:active {
+            transform: scale(0.95);
+        }
+        .action-buttons .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-show-answer {
+            background: #f3e8ff;
+            color: #6c3483;
+        }
+
+        .btn-show-answer:hover:not(:disabled) {
+            background: #e8d5f5;
+        }
+        .btn-show-answer.showing {
+            background: #6c3483;
+            color: #fff;
+        }
+
+        .btn-next {
+            background: #6c3483;
+            color: #fff;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            background: #5a2a6e;
+        }
+
+        .btn-prev {
+            background: #e2e8f0;
+            color: #1f3a5f;
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: #cbd5e0;
+        }
+
+        .btn-finish {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .btn-finish:hover:not(:disabled) {
+            background: #16a34a;
+        }
+
+        .result-screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            padding: 10px 0;
+        }
+
+        .result-screen.show {
+            display: block;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header .big-icon {
+            font-size: 56px;
+            margin-bottom: 8px;
+        }
+
+        .result-header h2 {
+            font-size: 24px;
+            color: #0a2a4a;
+            font-weight: 800;
+        }
+
+        .result-header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .overall-grade-box {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .overall-grade-box .grade-letter {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .overall-grade-box .grade-label {
+            font-size: 18px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .overall-grade-box .grade-score {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .overall-grade-box .grade-desc {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .grade-A {
+            color: #48bb78;
+        }
+        .grade-B {
+            color: #f6ad55;
+        }
+        .grade-C {
+            color: #fc8181;
+        }
+
+        .result-item {
+            background: #f8faff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border-left: 5px solid #6c3483;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .result-item .q-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-item .q-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0a2a4a;
+        }
+
+        .result-item .q-type {
+            font-size: 11px;
+            color: #6c3483;
+            font-weight: 600;
+            background: #f3e8ff;
+            padding: 1px 10px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .result-item .q-grade {
+            font-size: 28px;
+            font-weight: 900;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .result-item .q-words {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .result-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .result-stats .stat {
+            text-align: center;
+            flex: 1;
+            min-width: 60px;
+        }
+
+        .result-stats .stat .num {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0a2a4a;
+        }
+
+        .result-stats .stat .label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .completed-screen {
+            display: none;
+        }
+
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .header h2 {
+                font-size: 16px;
+            }
+            .question-text {
+                font-size: 15px;
+            }
+            .question-card {
+                padding: 14px 12px;
+            }
+            .play-btn {
+                font-size: 13px;
+                padding: 7px 14px;
+            }
+            .action-buttons .btn {
+                font-size: 13px;
+                padding: 8px 0;
+                min-width: 70px;
+            }
+            .answer-area textarea {
+                font-size: 13px;
+                min-height: 70px;
+            }
+            .result-item .q-grade {
+                font-size: 22px;
+            }
+            .overall-grade-box .grade-letter {
+                font-size: 42px;
+            }
+            .result-stats .stat .num {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+            .action-buttons .btn {
+                min-width: unset;
+            }
+            .audio-controls {
+                flex-direction: column;
+            }
+            .play-btn {
+                width: 100%;
+            }
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .result-item .q-grade {
+                align-self: flex-end;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f4f9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b8c9e0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h2><i class="fas fa-comment"></i> Speaking Test 108</h2>
+            <a href="mocktest.html" class="btn-back"><i class="fas fa-arrow-left"></i> Hub</a>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-top">
+                <span id="progressText">Question 1 / 9</span>
+                <span id="progressLabel">Personal Information</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width: 11%;"></div>
+            </div>
+        </div>
+
+        <div id="questionCard" class="question-card"></div>
+
+        <div id="resultScreen" class="result-screen"></div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        //  📌 SPEAKING TEST 108 - GENERAL TOPICS ONLY
+        // ================================================================
+
+        const QUESTIONS = [{
+            id: 1,
+            type: 'personal',
+            label: 'Personal Information',
+            icon: '👤',
+            question: 'Tell me about yourself. What is your name, age, and where do you live?',
+            image: null,
+            answerKey: "My name is [Your Name]. I am [age] years old. I live in [city/country]. I am a friendly and hardworking person who enjoys meeting new people and learning new things."
+        }, {
+            id: 2,
+            type: 'personal',
+            label: 'Personal Information',
+            icon: '👤',
+            question: 'Describe your family. How many members do you have and what do they do?',
+            image: null,
+            answerKey: "There are [number] people in my family. My father is a [job], my mother is a [job], and I have [number] siblings. My family is very supportive and we enjoy spending time together during holidays."
+        }, {
+            id: 3,
+            type: 'personal',
+            label: 'Personal Information',
+            icon: '👤',
+            question: 'What are your hobbies and interests? What do you enjoy doing in your free time?',
+            image: null,
+            answerKey: "In my free time, I enjoy [hobby 1] and [hobby 2]. I also like [activity] because it helps me relax and stay healthy. I believe having hobbies is important for a balanced life."
+        }, {
+            id: 4,
+            type: 'personal',
+            label: 'Personal Information',
+            icon: '👤',
+            question: 'Describe your hometown. What is it famous for and what do you like about it?',
+            image: null,
+            answerKey: "I come from [city/town], which is a [big/small] city. It is famous for [famous food/place]. I love the peaceful atmosphere and friendly people there. My favorite place is [place]."
+        }, {
+            id: 5,
+            type: 'personal',
+            label: 'Personal Information',
+            icon: '👤',
+            question: 'Tell me about your best friend. How did you meet and what do you like about them?',
+            image: null,
+            answerKey: "My best friend is [name]. We met [how/where]. We have been friends for [number] years. I like them because they are [qualities]. We enjoy [activities] together."
+        }, {
+            id: 6,
+            type: 'picture',
+            label: 'Picture Description',
+            icon: '🖼️',
+            question: 'Look at the picture. Describe what you see. What is happening in the scene?',
+            image: 'park_walking.png',
+            imageAlt: 'A peaceful park scene',
+            answerKey: "In this picture, I can see a beautiful park with tall trees and green grass. Some people are walking along the path. A family is sitting on a bench enjoying the sunny weather. Children are playing nearby. The atmosphere is calm and relaxing."
+        }, {
+            id: 7,
+            type: 'picture',
+            label: 'Picture Description',
+            icon: '🖼️',
+            question: 'Look at the picture of the coffee shop. Describe the scene and what people are doing.',
+            image: 'coffee_shop.png',
+            imageAlt: 'A cozy coffee shop',
+            answerKey: "In this picture, I can see a cozy coffee shop with warm lighting. A person is sitting at a table holding a cup of coffee. They have a laptop and a notebook on the table. The atmosphere looks peaceful and inviting. It seems like a great place to relax or study."
+        }, {
+            id: 8,
+            type: 'debate',
+            label: 'Debate (General)',
+            icon: '🎯',
+            question: 'Some people believe that technology is making our lives easier and more convenient. Others think it is making us lazy and less connected. What is your opinion?',
+            image: null,
+            answerKey: "I believe technology has both positive and negative effects. It makes our lives more convenient by allowing us to communicate instantly, work remotely, and access information quickly. However, excessive use can reduce physical activity and face-to-face interaction. I think we should use technology wisely and find a balance."
+        }, {
+            id: 9,
+            type: 'debate',
+            label: 'Debate (General)',
+            icon: '🎯',
+            question: 'Some people think that social media is harmful to society. Others believe it brings people together. What is your opinion on this debate?',
+            image: null,
+            answerKey: "In my opinion, social media has both positive and negative sides. It connects people around the world and allows us to share ideas and experiences. However, it can also spread misinformation and create stress. I think the key is to use social media responsibly and limit screen time."
+        }];
+
+        // ================================================================
+        //  📌 STATE
+        // ================================================================
+
+        let currentIndex = 0;
+        const totalQuestions = QUESTIONS.length;
+        let playCount = 0;
+        const MAX_PLAYS = 3;
+        const SPEED_OPTIONS = [0.5, 0.7, 1.0];
+        let isPlaying = false;
+        let isAnswerRevealed = false;
+        let hasAnswered = false;
+
+        const userAnswers = new Array(totalQuestions).fill('');
+
+        const questionCard = document.getElementById('questionCard');
+        const progressText = document.getElementById('progressText');
+        const progressLabel = document.getElementById('progressLabel');
+        const progressFill = document.getElementById('progressFill');
+        const resultScreen = document.getElementById('resultScreen');
+
+        // ================================================================
+        //  📌 HELPERS
+        // ================================================================
+
+        function stopAudio() {
+            if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            isPlaying = false;
+            const btn = document.querySelector('.play-btn');
+            if (btn) {
+                btn.textContent = `🔊 Play (${playCount}/${MAX_PLAYS})`;
+                btn.classList.remove('playing');
+            }
+            const promptDisplay = document.getElementById('promptDisplay');
+            if (promptDisplay) {
+                promptDisplay.classList.remove('show');
+            }
+        }
+
+        function getSpeedDescription(playNum) {
+            const speeds = ['very slow', 'normal slow', 'normal'];
+            return speeds[playNum - 1] || 'normal';
+        }
+
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+        }
+
+        function checkIfAnswered(text) {
+            const wordCount = countWords(text);
+            hasAnswered = wordCount >= 3;
+            return hasAnswered;
+        }
+
+        // ================================================================
+        //  📌 GRADING ENGINE
+        // ================================================================
+
+        function evaluateAnswer(text, question) {
+            const wordCount = countWords(text);
+            let score = 0;
+
+            if (wordCount >= 30) score = 3;
+            else if (wordCount >= 18) score = 2;
+            else if (wordCount >= 8) score = 1;
+            else score = 0;
+
+            const lower = text.toLowerCase();
+            const introMarkers = ['think', 'believe', 'feel', 'in my opinion', 'first', 'firstly', 'i am', 'my name'];
+            if (introMarkers.some(m => lower.includes(m))) score += 0.5;
+
+            const detailMarkers = ['because', 'for example', 'such as', 'like', 'also', 'too', 'and'];
+            if (detailMarkers.some(m => lower.includes(m))) score += 0.5;
+
+            const conclusionMarkers = ['in conclusion', 'overall', 'finally', 'to summarize', 'all in all'];
+            if (conclusionMarkers.some(m => lower.includes(m))) score += 0.5;
+
+            score = Math.min(score, 5);
+
+            let grade, gradeClass, emoji;
+            if (score >= 4) {
+                grade = 'A';
+                gradeClass = 'grade-A';
+                emoji = '🌟';
+            } else if (score >= 2.5) {
+                grade = 'B';
+                gradeClass = 'grade-B';
+                emoji = '👍';
+            } else {
+                grade = 'C';
+                gradeClass = 'grade-C';
+                emoji = '📘';
+            }
+
+            return {
+                grade,
+                gradeClass,
+                emoji,
+                score: Math.round(score * 10) / 10,
+                wordCount,
+                maxScore: 5
+            };
+        }
+
+        function getOverallGrade(avgScore) {
+            if (avgScore >= 3.5) return { grade: 'A', class: 'grade-A', emoji: '🌟', desc: 'Excellent! You showed strong speaking skills with well-developed answers.' };
+            if (avgScore >= 2.5) return { grade: 'B', class: 'grade-B', emoji: '👍', desc: 'Good! Your answers are clear and well-structured. Keep practicing to improve further.' };
+            return { grade: 'C', class: 'grade-C', emoji: '📘', desc: 'Keep practicing! Try to provide more detailed answers with supporting points.' };
+        }
+
+        // ================================================================
+        //  📌 RENDER QUESTION
+        // ================================================================
+
+        function renderQuestion(index) {
+            const q = QUESTIONS[index];
+            if (!q) return;
+
+            playCount = 0;
+            isAnswerRevealed = false;
+            hasAnswered = false;
+
+            progressText.textContent = `Question ${index + 1} / ${totalQuestions}`;
+            progressLabel.textContent = q.label;
+            progressFill.style.width = `${((index + 1) / totalQuestions) * 100}%`;
+
+            let imageHtml = '';
+            if (q.image) {
+                imageHtml = `
+                    <div class="image-container">
+                        <img src="${q.image}" alt="${q.imageAlt || 'Image'}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="img-placeholder">
+                            <i class="fas fa-image" style="font-size:24px; display:block; margin-bottom:8px;"></i>
+                            Image not available<br>
+                            <span style="font-size:12px; font-weight:normal;">${q.imageAlt || 'Image'}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const typeIcon = q.icon || '📌';
+            const userAnswer = userAnswers[index] || '';
+
+            if (userAnswer && countWords(userAnswer) >= 3) {
+                hasAnswered = true;
+            }
+
+            questionCard.style.display = 'block';
+            resultScreen.classList.remove('show');
+
+            questionCard.innerHTML = `
+                <div class="question-type">
+                    <span class="icon">${typeIcon}</span> ${q.label}
+                </div>
+
+                <div class="question-text ${hasAnswered ? 'show' : ''}" id="questionText">
+                    ${q.question}
+                </div>
+
+                ${imageHtml}
+
+                <div class="audio-controls">
+                    <button class="play-btn" id="playBtn" onclick="playAudio(${index})">
+                        🔊 Play (0/${MAX_PLAYS})
+                    </button>
+                    <span class="play-status" id="playStatus">
+                        <span class="dot green"></span> 0/${MAX_PLAYS}
+                    </span>
+                </div>
+
+                <div class="prompt-display" id="promptDisplay">
+                    <span class="label">📖 Listening prompt...</span>
+                    <div id="promptText">${q.question}</div>
+                </div>
+
+                <div class="answer-area">
+                    <label><i class="fas fa-edit"></i> Your Answer:</label>
+                    <textarea id="answerText" rows="4" placeholder="Type your answer here..." oninput="onAnswerInput(${index})">${userAnswer}</textarea>
+                    <div class="answered-hint ${hasAnswered ? 'show' : ''}" id="answeredHint">
+                        ✅ <span id="wordCountDisplay">${userAnswer ? countWords(userAnswer) : 0}</span> words typed. Question and Answer Key now available.
+                    </div>
+                </div>
+
+                <div class="answer-key ${isAnswerRevealed ? 'show' : ''}" id="answerKey">
+                    <h4><i class="fas fa-lightbulb"></i> Sample Answer</h4>
+                    <p>${q.answerKey}</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-show-answer" id="showAnswerBtn" onclick="toggleAnswerKey()" ${!hasAnswered ? 'disabled' : ''}>
+                        <i class="fas fa-eye"></i> ${isAnswerRevealed ? 'Hide Answer Key' : 'Show Answer Key'}
+                    </button>
+                    <button class="btn btn-prev" id="prevBtn" onclick="goToPrev()" ${index === 0 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn btn-next" id="nextBtn" onclick="saveAndNext(${index})">
+                        ${index === totalQuestions - 1 ? '<i class="fas fa-check"></i> Finish' : 'Next <i class="fas fa-arrow-right"></i>'}
+                    </button>
+                </div>
+            `;
+
+            updatePlayStatus();
+
+            if (hasAnswered) {
+                document.getElementById('questionText').classList.add('show');
+                document.getElementById('answeredHint').classList.add('show');
+                document.getElementById('showAnswerBtn').disabled = false;
+            }
+        }
+
+        // ================================================================
+        //  📌 ANSWER INPUT HANDLER
+        // ================================================================
+
+        function onAnswerInput(index) {
+            const textarea = document.getElementById('answerText');
+            if (!textarea) return;
+
+            const text = textarea.value;
+            userAnswers[index] = text;
+
+            const wordCount = countWords(text);
+            const hasAnsweredNow = wordCount >= 3;
+
+            const wordCountDisplay = document.getElementById('wordCountDisplay');
+            if (wordCountDisplay) {
+                wordCountDisplay.textContent = wordCount;
+            }
+
+            const hint = document.getElementById('answeredHint');
+            if (hint) {
+                hint.classList.toggle('show', hasAnsweredNow);
+            }
+
+            const questionText = document.getElementById('questionText');
+            if (questionText) {
+                questionText.classList.toggle('show', hasAnsweredNow);
+            }
+
+            const showBtn = document.getElementById('showAnswerBtn');
+            if (showBtn) {
+                showBtn.disabled = !hasAnsweredNow;
+            }
+
+            if (!hasAnsweredNow && isAnswerRevealed) {
+                const key = document.getElementById('answerKey');
+                if (key) {
+                    key.classList.remove('show');
+                }
+                isAnswerRevealed = false;
+                if (showBtn) {
+                    showBtn.innerHTML = '<i class="fas fa-eye"></i> Show Answer Key';
+                    showBtn.classList.remove('showing');
+                }
+            }
+
+            hasAnswered = hasAnsweredNow;
+        }
+
+        // ================================================================
+        //  📌 PLAY AUDIO
+        // ================================================================
+
+        function playAudio(index) {
+            const q = QUESTIONS[index];
+            if (!q) return;
+
+            const btn = document.getElementById('playBtn');
+            const status = document.getElementById('playStatus');
+            const promptDisplay = document.getElementById('promptDisplay');
+            const promptText = document.getElementById('promptText');
+
+            if (!btn) return;
+
+            if (isPlaying) {
+                stopAudio();
+                return;
+            }
+
+            if (playCount >= MAX_PLAYS) {
+                alert(`⚠️ ဤမေးခွန်းကို ${MAX_PLAYS} ကြိမ်သာ နားဆင်နိုင်ပါသည်။`);
+                return;
+            }
+
+            if (!window.speechSynthesis) {
+                alert('သင့်ဘရောက်ဆာသည် AI Voice ကို မထောက်ပံ့ပါ။ (Chrome, Edge, Safari သုံးပါ)');
+                return;
+            }
+
+            playCount++;
+            const speed = SPEED_OPTIONS[playCount - 1] || 1.0;
+            const speedDesc = getSpeedDescription(playCount);
+
+            if (promptDisplay && promptText) {
+                promptDisplay.classList.add('show');
+                promptText.textContent = q.question;
+            }
+
+            btn.textContent = `🔊 Playing... (${playCount}/${MAX_PLAYS}) - ${speedDesc}`;
+            btn.classList.add('playing');
+            isPlaying = true;
+
+            updatePlayStatus();
+
+            const text = q.question;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = speed;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes(
+                'Samantha'))) ||
+                voices.find(v => v.lang.startsWith('en')) || null;
+            if (preferred) utterance.voice = preferred;
+
+            utterance.onend = function() {
+                isPlaying = false;
+                btn.textContent = `🔊 Play (${playCount}/${MAX_PLAYS})`;
+                btn.classList.remove('playing');
+
+                if (promptDisplay) {
+                    promptDisplay.classList.remove('show');
+                }
+
+                if (playCount >= MAX_PLAYS) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                    btn.textContent = `🔒 Locked (${playCount}/${MAX_PLAYS})`;
+                }
+
+                updatePlayStatus();
+            };
+
+            utterance.onerror = function(event) {
+                if (event.error !== 'canceled') {
+                    isPlaying = false;
+                    btn.textContent = `🔊 Play (${playCount}/${MAX_PLAYS})`;
+                    btn.classList.remove('playing');
+                    updatePlayStatus();
+                    if (event.error !== 'canceled') {
+                        alert('AI Voice ဖွင့်ရာတွင် အမှားရှိသည်။');
+                    }
+                }
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // ================================================================
+        //  📌 UPDATE PLAY STATUS
+        // ================================================================
+
+        function updatePlayStatus() {
+            const status = document.getElementById('playStatus');
+            if (!status) return;
+
+            const dot = status.querySelector('.dot');
+            if (playCount >= MAX_PLAYS) {
+                status.innerHTML = `<span class="dot red"></span> ${playCount}/${MAX_PLAYS}`;
+            } else {
+                status.innerHTML = `<span class="dot green"></span> ${playCount}/${MAX_PLAYS}`;
+            }
+        }
+
+        // ================================================================
+        //  📌 TOGGLE ANSWER KEY
+        // ================================================================
+
+        function toggleAnswerKey() {
+            if (!hasAnswered) {
+                alert('⚠️ ကျေးဇူးပြု၍ အဖြေကို ဦးစွာရိုက်ထည့်ပါ။ (အနည်းဆုံး စာလုံး ၃ လုံး)');
+                return;
+            }
+
+            const key = document.getElementById('answerKey');
+            const btn = document.getElementById('showAnswerBtn');
+            if (!key || !btn) return;
+
+            isAnswerRevealed = !isAnswerRevealed;
+            key.classList.toggle('show', isAnswerRevealed);
+            btn.innerHTML = isAnswerRevealed ?
+                '<i class="fas fa-eye-slash"></i> Hide Answer Key' :
+                '<i class="fas fa-eye"></i> Show Answer Key';
+            btn.classList.toggle('showing', isAnswerRevealed);
+        }
+
+        // ================================================================
+        //  📌 NAVIGATION
+        // ================================================================
+
+        function saveAndNext(index) {
+            const textarea = document.getElementById('answerText');
+            if (textarea) {
+                userAnswers[index] = textarea.value;
+            }
+
+            stopAudio();
+
+            if (index === totalQuestions - 1) {
+                showResults();
+            } else {
+                currentIndex = index + 1;
+                renderQuestion(currentIndex);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function goToPrev() {
+            if (currentIndex > 0) {
+                const textarea = document.getElementById('answerText');
+                if (textarea) {
+                    userAnswers[currentIndex] = textarea.value;
+                }
+                stopAudio();
+                currentIndex--;
+                renderQuestion(currentIndex);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // ================================================================
+        //  📌 SHOW RESULTS
+        // ================================================================
+
+        function showResults() {
+            questionCard.style.display = 'none';
+            resultScreen.classList.add('show');
+
+            const results = [];
+            let totalScore = 0;
+            let totalPossible = 0;
+
+            QUESTIONS.forEach((q, i) => {
+                const answer = userAnswers[i] || '';
+                const evalResult = evaluateAnswer(answer, q);
+                results.push({
+                    ...evalResult,
+                    question: q,
+                    index: i,
+                    answer: answer
+                });
+                totalScore += evalResult.score;
+                totalPossible += evalResult.maxScore;
+            });
+
+            const avgScore = totalPossible > 0 ? (totalScore / totalPossible) * 5 : 0;
+            const overall = getOverallGrade(avgScore);
+
+            let html = `
+                <div class="result-header">
+                    <div class="big-icon">🎉</div>
+                    <h2>Speaking Test Results</h2>
+                    <p>You have completed all ${totalQuestions} questions. Here is your assessment.</p>
+                </div>
+
+                <div class="overall-grade-box">
+                    <div class="grade-letter ${overall.class}">${overall.grade}</div>
+                    <div class="grade-label">${overall.emoji} Overall Grade</div>
+                    <div class="grade-score">${Math.round(avgScore * 10) / 10} / 5.0 average score</div>
+                    <div class="grade-desc">${overall.desc}</div>
+                </div>
+
+                <div class="result-stats">
+                    <div class="stat">
+                        <div class="num">${results.filter(r => r.grade === 'A').length}</div>
+                        <div class="label">A Grades</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num">${results.filter(r => r.grade === 'B').length}</div>
+                        <div class="label">B Grades</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num">${results.filter(r => r.grade === 'C').length}</div>
+                        <div class="label">C Grades</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num">${results.reduce((sum, r) => sum + r.wordCount, 0)}</div>
+                        <div class="label">Total Words</div>
+                    </div>
+                </div>
+
+                <h4 style="font-size:16px; color:#0a2a4a; margin-bottom:12px;">📋 Detailed Breakdown</h4>
+            `;
+
+            results.forEach((r, idx) => {
+                const typeIcon = r.question.icon || '📌';
+                html += `
+                    <div class="result-item">
+                        <div class="q-info">
+                            <span class="q-label">${typeIcon} Q${idx + 1}: ${r.question.label}</span>
+                            <span class="q-type">${r.question.type}</span>
+                            <span class="q-words">${r.wordCount} words</span>
+                        </div>
+                        <div class="q-grade ${r.gradeClass}">${r.grade}</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-finish" onclick="window.location.reload();" style="padding:12px 30px; border:none; border-radius:50px; font-size:16px; font-weight:700; color:#fff; background:#22c55e; cursor:pointer; touch-action:manipulation; display:inline-flex; align-items:center; gap:8px;">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                    <button class="btn btn-prev" onclick="window.location.href='mocktest.html';" style="padding:12px 24px; border:none; border-radius:50px; font-size:16px; font-weight:600; color:#1f3a5f; background:#e2e8f0; cursor:pointer; touch-action:manipulation; display:inline-flex; align-items:center; gap:8px; margin-left:10px;">
+                        <i class="fas fa-arrow-left"></i> Back to Hub
+                    </button>
+                </div>
+            `;
+
+            resultScreen.innerHTML = html;
+
+            progressText.textContent = 'Completed! 🎉';
+            progressLabel.textContent = 'Results Ready';
+            progressFill.style.width = '100%';
+        }
+
+        // ================================================================
+        //  📌 KEYBOARD SHORTCUTS
+        // ================================================================
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                const btn = document.querySelector('.play-btn');
+                if (btn && !btn.disabled) {
+                    btn.click();
+                }
+            }
+        });
+
+        // ================================================================
+        //  📌 INIT
+        // ================================================================
+
+        if (window.speechSynthesis) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        renderQuestion(0);
+
+        console.log('✅ Speaking Test 108 loaded');
+        console.log('📚 Total questions:', totalQuestions);
+        console.log('🎵 3-speed audio: Very Slow → Normal Slow → Normal');
+        console.log('📝 Question hidden until you type 3+ words');
+        console.log('🔑 Answer Key hidden until you type 3+ words');
+        console.log('📊 Results show Grade A/B/C for each question + Overall');
+    </script>
+
+</body>
+</html>
