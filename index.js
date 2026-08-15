@@ -13,7 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6nPiUiYXIC9_l1sQqOkahqOKrg4p94WI",
+  apiKey: "AIzaSyA6nPiUiYXIC9_l1sQkOkahqOKrg4p94WI", // Key အမှန်သို့ ပြောင်းလဲထားသည်
   authDomain: "meptdata.firebaseapp.com",
   databaseURL: "https://meptdata-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "meptdata",
