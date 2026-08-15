@@ -419,7 +419,7 @@
         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
             <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Main Dashboard</a>
         </div>
-        <h1><i class="fas fa-archive"></i> MEPT Old Questions Archive</h1>
+        <h1><i class="fas fa-archive"></i> MEPT Old Questions Archive (Updated 8M)</h1>
     </header>
 
     <!-- ===== MAIN CONTENT ===== -->
@@ -437,15 +437,26 @@
             <input type="text" class="search-input" id="searchInput" placeholder="🔍 မေးခွန်းရှာဖွေရန် (ဥပမာ - 2023, Listening, safety...)">
 
             <div class="filter-group">
-                <span class="filter-label"><i class="fas fa-tag"></i></span>
+                <span class="filter-label"><i class="fas fa-tag"></i> Batch</span>
                 <button class="filter-btn active" data-batch="all">အားလုံး</button>
                 <button class="filter-btn" data-batch="7m_exam1">7M Exam 1</button>
                 <button class="filter-btn" data-batch="7m_exam2">7M Exam 2</button>
                 <button class="filter-btn" data-batch="7m_exam3">7M Exam 3</button>
                 <button class="filter-btn" data-batch="7m_exam4">7M Exam 4</button>
+                <!-- ✅ ၈ လိုင်း (8M) အသစ် ထည့်ပေးထား -->
+                <button class="filter-btn" data-batch="8m_exam1">8M Exam 1</button>
+                <button class="filter-btn" data-batch="8m_exam2">8M Exam 2</button>
             </div>
 
-            
+            <div class="filter-group">
+                <span class="filter-label"><i class="fas fa-folder"></i> Category</span>
+                <button class="cat-btn active" data-category="all">အားလုံး</button>
+                <button class="cat-btn" data-category="personal">ကိုယ်ရေး</button>
+                <button class="cat-btn" data-category="safety">လုံခြုံရေး</button>
+                <button class="cat-btn" data-category="debate">ဆွေးနွေးခြင်း</button>
+                <button class="cat-btn" data-category="speaking">စကားပြော</button>
+                <button class="cat-btn" data-category="writing">အရေးအသား</button>
+            </div>
         </div>
 
         <!-- Question List -->
@@ -456,10 +467,12 @@
 
     <script>
         // ============================================================
-        // 1. QUESTIONS DATA (All Answer Keys Included)
+        // 1. QUESTIONS DATA (Includes Existing + NEW 8M Questions)
         // ============================================================
         const questionsData = [
-            // ===== 7M EXAM 1 =====
+            // =========================================================
+            // 7M EXAM 1 (Existing)
+            // =========================================================
             {
                 batch: '7m_exam1',
                 category: 'personal',
@@ -590,7 +603,9 @@
                 }
             },
 
-            // ===== 7M EXAM 2 =====
+            // =========================================================
+            // 7M EXAM 2 (Existing)
+            // =========================================================
             {
                 batch: '7m_exam2',
                 category: 'speaking',
@@ -674,7 +689,9 @@
                 }
             },
 
-            // ===== 7M EXAM 3 =====
+            // =========================================================
+            // 7M EXAM 3 (Existing)
+            // =========================================================
             {
                 batch: '7m_exam3',
                 category: 'writing',
@@ -720,9 +737,9 @@
                 }
             },
 
-            // ==========================================================
-            // ✅ 7M EXAM 4 (NEW QUESTIONS ADDED)
-            // ==========================================================
+            // =========================================================
+            // 7M EXAM 4 (Existing)
+            // =========================================================
             {
                 batch: '7m_exam4',
                 category: 'personal',
@@ -802,7 +819,7 @@
                 ],
                 answer: {
                     en: 'In the picture, I can see a person eating a meal with their hands. In Myanmar, many people eat with their hands, especially when eating traditional dishes like rice and curry. Eating with hands is natural and connects us to our culture. It also helps us enjoy the texture and temperature of the food. However, it is important to wash hands before eating for hygiene.',
-                    my: 'ပုံထဲမှာ လူတစ်ယောက် လက်နဲ့ ထမင်းစားနေတာကို မြင်ရတယ်။ မြန်မာနိုင်ငံမှာ လူအများစုက လက်နဲ့စားကြတယ်။ အထူးသဖြင့် ထမင်းနဲ့ ဟင်းတွေကို စားတဲ့အခါမှာပါ။ လက်နဲ့စားတာက သဘာဝကျပြီး ကျွန်တော်တို့ရဲ့ ယဉ်ကျေးမှုနဲ့ ချိတ်ဆက်ပေးတယ်။ အစားအစာရဲ့ အသွင်အပြင်နဲ့ အပူချိန်ကို ခံစားရစေတယ်။ ဒါပေမယ့် သန့်ရှင်းရေးအတွက် မစားခင်မှာ လက်ကို သေချာဆေးကြောဖို့ အရေးကြီးတယ်။'
+                    my: 'ပုံထဲမှာ လူတစ်ယောက် လက်နဲ့ ထမင်းစားနေတာကို မြင်ရတယ်။ မြန်မာနိုင်ငံမှာ လူအများစုက လက်နဲ့စားကြတယ်။ အထူးသဖင့် ထမင်းနဲ့ ဟင်းတွေကို စားတဲ့အခါမှာပါ။ လက်နဲ့စားတာက သဘာဝကျပြီး ကျွန်တော်တို့ရဲ့ ယဉ်ကျေးမှုနဲ့ ချိတ်ဆက်ပေးတယ်။ အစားအစာရဲ့ အသွင်အပြင်နဲ့ အပူချိန်ကို ခံစားရစေတယ်။ ဒါပေမယ့် သန့်ရှင်းရေးအတွက် မစားခင်မှာ လက်ကို သေချာဆေးကြောဖို့ အရေးကြီးတယ်။'
                 }
             },
             {
@@ -820,6 +837,143 @@
                 answer: {
                     en: 'My favorite restaurant is "Golden Myanmar Restaurant" near the city center. I usually order Mohinga or Shan noodles because they are my favorite dishes. I like this restaurant because the food is delicious, the service is fast, and the prices are reasonable. I would recommend it to a friend by saying, "If you want to taste authentic Burmese food, you must visit Golden Myanmar Restaurant. Their Mohinga is the best!"',
                     my: 'ကျွန်တော့်အကြိုက်ဆုံးစားသောက်ဆိုင်က မြို့လယ်အနီးက "Golden Myanmar စားသောက်ဆိုင်" ပါ။ အများအားဖြင့် မုန့်ဟင်းခါး ဒါမှမဟုတ် ရှမ်းခေါက်ဆွဲကို မှာတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က ကျွန်တော့်အကြိုက်ဆုံးဟင်းတွေပါ။ ဒီစားသောက်ဆိုင်ကို ကြိုက်တာက အစားအစာက အရသာရှိတယ်၊ ဝန်ဆောင်မှုက မြန်တယ်၊ ဈေးနှုန်းတွေက သင့်တင့်မျှတလို့ပါ။ သူငယ်ချင်းကို ဒီလိုအကြံပြုမယ်။ "မင်း စစ်မှန်တဲ့ မြန်မာရိုးရာအစားအစာကို စမ်းသုံးကြည့်ချင်ရင် Golden Myanmar စားသောက်ဆိုင်ကို သွားရမယ်။ သူတို့ရဲ့ မုန့်ဟင်းခါးက အကောင်းဆုံးပဲ!"'
+                }
+            },
+
+            // =========================================================
+            // ✅ NEW: 8M EXAM 1 (၈ လိုင်း အသစ်)
+            // =========================================================
+            {
+                batch: '8m_exam1',
+                category: 'personal',
+                type: 'Speaking (Personal)',
+                en: 'Tell me about your family',
+                my: 'မိသားစုအကြောင်း ပြောပြပါ',
+                sub: [
+                    'How many members in your family? / မိသားစုဝင် ဘယ်နှစ်ယောက်ရှိလဲ?',
+                    'What do your parents do? / မိဘတွေ ဘာအလုပ်လုပ်သလဲ?',
+                    'Who is your closest family member? Why? / ဘယ်သူနဲ့ အရင်းနှီးဆုံးလဲ၊ ဘာကြောင့်လဲ?'
+                ],
+                answer: {
+                    en: 'There are four members in my family: my father, mother, younger sister, and me. My father is a teacher and my mother is a nurse. My sister is a student. I am closest to my mother because she always listens to my problems and gives me the best advice. She is very supportive and caring.',
+                    my: 'ကျွန်တော့်မိသားစုမှာ လေးယောက်ရှိတယ်။ အဖေ၊ အမေ၊ ညီမလေးနဲ့ ကျွန်တော်ပါ။ အဖေက ဆရာဖြစ်ပြီး အမေက သူနာပြုဆရာမပါ။ ညီမလေးက ကျောင်းသူပါ။ ကျွန်တော် အမေနဲ့ အရင်းနှီးဆုံးပါ။ သူက ကျွန်တော့်ပြဿနာတွေကို အမြဲနားထောင်ပေးပြီး အကောင်းဆုံး အကြံဉာဏ်တွေ ပေးတယ်။ သူက အရမ်းအားပေးပြီး ဂရုစိုက်တတ်တယ်။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'speaking',
+                type: 'Speaking (Picture)',
+                en: 'Person wearing a Life Jacket',
+                my: 'အသက်ကယ်အင်္ကျီဝတ်ထားသူ',
+                sub: [
+                    'What do you see in the picture? / ပုံထဲမှာ ဘာမြင်ရလဲ?',
+                    'Why is the life jacket important? / အသက်ကယ်အင်္ကျီက ဘာကြောင့် အရေးကြီးသလဲ?',
+                    'When should people wear it? / ဘယ်အချိန်မှာ ဝတ်ဆင်သင့်သလဲ?'
+                ],
+                answer: {
+                    en: 'In the picture, I see a person wearing a bright orange life jacket. The life jacket is very important because it keeps a person afloat in water and prevents drowning. People should wear it during emergencies, on boats, or when working near water. It is a critical safety device that can save lives.',
+                    my: 'ပုံထဲမှာ လူတစ်ယောက် လိမ္မော်ရောင် အသက်ကယ်အင်္ကျီကို ဝတ်ထားတာကို မြင်ရတယ်။ အသက်ကယ်အင်္ကျီက အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဒါက လူတစ်ယောက်ကို ရေပေါ်မှာပေါ်နေအောင် လုပ်ပေးပြီး ရေနစ်ခြင်းကို ကာကွယ်ပေးလို့ပါ။ လူတွေ အရေးပေါ်အချိန်တွေ၊ လှေပေါ်မှာ၊ ဒါမှမဟုတ် ရေအနီးမှာ အလုပ်လုပ်တဲ့အခါမျိုးတွေမှာ ဝတ်ဆင်သင့်ပါတယ်။ ဒါက အသက်တွေကို ကယ်တင်နိုင်တဲ့ အရေးကြီး ဘေးကင်းရေးပစ္စည်းတစ်ခုပါ။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'debate',
+                type: 'Speaking (Debate)',
+                en: 'Teamwork is better than working alone. Do you agree?',
+                my: 'အဖွဲ့လိုက်လုပ်ဆောင်ခြင်းသည် တစ်ဦးတည်းလုပ်ခြင်းထက် ပိုကောင်းသည်။ သဘောတူလား။',
+                sub: [
+                    'Do you agree with this statement? / ဒီထုတ်ပြန်ချက်ကို သဘောတူလား?',
+                    'Why or why not? / ဘာကြောင့် သဘောတူ/မတူသလဲ?',
+                    'Can you give an example from your experience? / မင်းရဲ့အတွေ့အကြုံကနေ ဥပမာတစ်ခု ပေးနိုင်မလား?'
+                ],
+                answer: {
+                    en: 'Yes, I strongly agree that teamwork is better than working alone. When people work in a team, they can share ideas, divide tasks, and help each other. This makes the work faster and more effective. For example, during our ship simulation exercise, we worked as a team. Everyone had a role, and we completed the task successfully. Teamwork also reduces stress and builds friendship.',
+                    my: 'ဟုတ်ကဲ့၊ အဖွဲ့လိုက်လုပ်ဆောင်ခြင်းက တစ်ဦးတည်းလုပ်ခြင်းထက် ပိုကောင်းတယ်ဆိုတာကို အပြင်းအထန် သဘောတူတယ်။ လူတွေ အဖွဲ့လိုက်လုပ်တဲ့အခါ အတွေးအကြံတွေ မျှဝေနိုင်တယ်၊ အလုပ်တွေကို ခွဲဝေနိုင်တယ်၊ အချင်းချင်း ကူညီနိုင်တယ်။ ဒါက အလုပ်ကို ပိုမြန်ပြီး ပိုထိရောက်စေတယ်။ ဥပမာ၊ ကျွန်တော်တို့ သင်္ဘောအခြေအနေတုပ် လေ့ကျင့်ခန်းလုပ်တဲ့အခါ အဖွဲ့လိုက်လုပ်ခဲ့တယ်။ လူတိုင်းမှာ တာဝန်တွေရှိပြီး အလုပ်ကို အောင်မြင်အောင် ပြီးမြောက်ခဲ့တယ်။ အဖွဲ့လိုက်လုပ်ခြင်းက စိတ်ဖိစီးမှုကိုလည်း လျှော့ချပေးပြီး ခင်မင်ရင်းနှီးမှုကို တည်ဆောက်ပေးတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'writing',
+                type: 'Writing Task (25 words)',
+                en: 'Describe your daily routine',
+                my: 'မင်းရဲ့ နေ့စဉ်လုပ်ရိုးလုပ်စဉ်ကို ဖော်ပြပါ',
+                answer: {
+                    en: 'I wake up at 6 AM, do morning exercise, have breakfast, and go to work. In the evening, I study English and spend time with my family.',
+                    my: 'မနက် ၆ နာရီမှာ အိပ်ရာထပြီး လေ့ကျင့်ခန်းလုပ်တယ်၊ မနက်စာစားပြီး အလုပ်သွားတယ်။ ညနေပိုင်းမှာ အင်္ဂလိပ်စာလေ့လာပြီး မိသားစုနဲ့ အချိန်ကုန်ဆုံးတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'The importance of communication on a ship',
+                my: 'သင်္ဘောပေါ်တွင် ဆက်သွယ်ရေး၏ အရေးပါမှု',
+                answer: {
+                    en: 'Effective communication on a ship is essential for safety and smooth operations. Crew members must clearly share important information about navigation, weather, and emergencies. Misunderstandings can lead to dangerous accidents. Therefore, all seafarers should use standard maritime communication phrases and report any issues immediately. Good communication also helps build trust and teamwork among the crew. In my opinion, without proper communication, it is impossible to run a ship successfully at sea.',
+                    my: 'သင်္ဘောပေါ်မှာ ထိရောက်တဲ့ ဆက်သွယ်ရေးက ဘေးကင်းရေးနဲ့ ချောမွေ့တဲ့ လုပ်ငန်းဆောင်ရွက်မှုအတွက် အလွန်အရေးကြီးပါတယ်။ သင်္ဘောသားတွေဟာ သွားလာမှု၊ ရာသီဥတုနဲ့ အရေးပေါ်အခြေအနေတွေအကြောင်း အရေးကြီးအချက်အလက်တွေကို ရှင်းရှင်းလင်းလင်း မျှဝေရပါမယ်။ နားလည်မှုလွဲတာက အန္တရာယ်ရှိတဲ့ မတော်တဆမှုတွေဆီ ဦးတည်သွားနိုင်တယ်။ ဒါကြောင့် ရေကြောင်းသားအားလုံး စံသတ်မှတ်ထားတဲ့ ရေကြောင်းဆက်သွယ်ရေးစကားစုတွေကို သုံးပြီး ပြဿနာတွေကို ချက်ချင်းအစီရင်ခံသင့်တယ်။ ကောင်းမွန်တဲ့ ဆက်သွယ်ရေးက သင်္ဘောသားတွေကြား ယုံကြည်မှုနဲ့ အဖွဲ့လိုက်လုပ်ဆောင်မှုကိုလည်း တည်ဆောက်ပေးတယ်။ ကျွန်တော့်အမြင်အရ သင့်လျော်တဲ့ ဆက်သွယ်ရေးမရှိရင် သင်္ဘောကို ပင်လယ်ထဲမှာ အောင်မြင်စွာ မောင်းနှင်ဖို့ မဖြစ်နိုင်ပါဘူး။'
+                }
+            },
+
+            // =========================================================
+            // ✅ NEW: 8M EXAM 2 (၈ လိုင်း နောက်ထပ်)
+            // =========================================================
+            {
+                batch: '8m_exam2',
+                category: 'speaking',
+                type: 'Speaking (Picture)',
+                en: 'Harbor / Port View',
+                my: 'ဆိပ်ကမ်းမြင်ကွင်း',
+                sub: [
+                    'What can you see in this port picture? / ဆိပ်ကမ်းပုံမှာ ဘာတွေမြင်ရလဲ?',
+                    'What is the purpose of a port? / ဆိပ်ကမ်းရဲ့ ရည်ရွယ်ချက်က ဘာလဲ?',
+                    'What safety measures are visible? / ဘယ်လိုဘေးကင်းရေး အစီအမံတွေ မြင်ရလဲ?'
+                ],
+                answer: {
+                    en: 'In this port picture, I can see large cargo ships, containers, cranes, and many workers. A port is a place where ships load and unload goods and passengers. It connects sea transport to land transport. Regarding safety, I can see workers wearing safety helmets and vests. There are also safety lines and warning signs around the area. These measures protect everyone from heavy machinery and falling objects.',
+                    my: 'ဒီဆိပ်ကမ်းပုံမှာ ကုန်သင်္ဘောကြီးတွေ၊ ကွန်တိန်နာတွေ၊ ကရိန်းတွေနဲ့ အလုပ်သမားတွေ အများကြီးကို မြင်ရတယ်။ ဆိပ်ကမ်းဆိုတာ သင်္ဘောတွေ ကုန်ပစ္စည်းနဲ့ ခရီးသည်တွေ သယ်ယူတင်ပို့ရာနေရာပါ။ ဒါက ရေကြောင်းသယ်ယူပို့ဆောင်ရေးနဲ့ ကုန်းကြောင်းသယ်ယူပို့ဆောင်ရေးကို ဆက်သွယ်ပေးတယ်။ ဘေးကင်းရေးနဲ့ ပတ်သက်ပြီး အလုပ်သမားတွေ ဘေးကင်းရေးဦးထုပ်နဲ့ အင်္ကျီတွေ ဝတ်ထားတာ မြင်ရတယ်။ အဲဒီဧရိယာတစ်ဝိုက်မှာ ဘေးကင်းရေးမျဉ်းတွေနဲ့ သတိပေးဆိုင်းဘုတ်တွေလည်း ရှိတယ်။ ဒီအစီအမံတွေက လူတိုင်းကို စက်ပစ္စည်းကြီးတွေနဲ့ ပြုတ်ကျတဲ့ပစ္စည်းတွေကနေ ကာကွယ်ပေးတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'debate',
+                type: 'Speaking (Debate)',
+                en: 'Technology makes life easier. Do you agree?',
+                my: 'နည်းပညာက ဘဝကို ပိုလွယ်ကူစေတယ်။ သဘောတူလား။',
+                sub: [
+                    'Do you agree that technology makes life easier? / နည်းပညာက ဘဝကို လွယ်ကူစေတယ်ဆိုတာ သဘောတူလား?',
+                    'Can you give some examples? / ဥပမာအချို့ ပေးနိုင်မလား?',
+                    'Are there any disadvantages? / အားနည်းချက်တွေ ရှိသလား?'
+                ],
+                answer: {
+                    en: 'Yes, I agree that technology makes life much easier. For example, smartphones allow us to communicate instantly with people far away. The internet gives us access to information and online education. In shipping, technology like GPS and radar help ships navigate safely. However, there are also disadvantages, such as dependency on devices and loss of face-to-face interaction. We must use technology wisely.',
+                    my: 'ဟုတ်ကဲ့၊ နည်းပညာက ဘဝကို ပိုလွယ်ကူစေတယ်ဆိုတာကို သဘောတူတယ်။ ဥပမာ၊ စမတ်ဖုန်းတွေက ဝေးလံတဲ့နေရာက လူတွေနဲ့ ချက်ချင်းဆက်သွယ်နိုင်စေတယ်။ အင်တာနက်က သတင်းအချက်အလက်တွေနဲ့ အွန်လိုင်းပညာရေးကို ရရှိစေတယ်။ ရေကြောင်းမှာ GPS နဲ့ ရေဒါလိုမျိုး နည်းပညာတွေက သင်္ဘောတွေကို ဘေးကင်းစွာ သွားလာနိုင်အောင် ကူညီပေးတယ်။ သို့သော် စက်ပစ္စည်းတွေအပေါ် မှီခိုခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်မှု ဆုံးရှုံးခြင်းလိုမျိုး အားနည်းချက်တွေလည်း ရှိတယ်။ နည်းပညာကို ပညာရှိရှိ သုံးစွဲရမယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'safety',
+                type: 'Speaking (Situation)',
+                en: 'Spilling oil on the deck',
+                my: 'သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ခြင်း',
+                sub: [
+                    'What should you do if oil is spilled on deck? / သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ရင် ဘာလုပ်သင့်သလဲ?',
+                    'What equipment do you need to clean it? / သန့်ရှင်းရေးအတွက် ဘာပစ္စည်းတွေ လိုအပ်သလဲ?',
+                    'Why is it a safety hazard? / ဒါက ဘာကြောင့် ဘေးအန္တရာယ်ရှိသလဲ?'
+                ],
+                answer: {
+                    en: 'If oil is spilled on the deck, I should immediately inform the officer on duty and cordon off the area. Then, I need to use absorbent materials like sawdust or oil-absorbent pads to clean it up, and dispose of the waste properly. It is a safety hazard because oil makes the deck very slippery, which can cause serious slips and falls. It is also harmful to the marine environment if it washes overboard.',
+                    my: 'သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ရင် ကျွန်တော် ဆောင်ရွက်ချက်ချင်း အရာရှိကို အကြောင်းကြားပြီး ဧရိယာကို ပိတ်ဆို့ရမယ်။ ပြီးရင် လွှစာ ဒါမှမဟုတ် ဆီစုပ်ခုံးတွေလိုမျိုး စုပ်ယူနိုင်တဲ့ပစ္စည်းတွေ သုံးပြီး သန့်ရှင်းရေးလုပ်ပြီး အမှိုက်ကို စနစ်တကျ စွန့်ပစ်ရမယ်။ ဒါက ဘေးအန္တရာယ်တစ်ခုဖြစ်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဆီက သင်္ဘောကြမ်းပြင်ကို အရမ်းချော်စေပြီး ပြင်းထန်တဲ့ ချော်လဲမှုတွေ ဖြစ်စေနိုင်လို့ပါ။ ဒါ့အပြင် သင်္ဘောပေါ်ကနေ ရေထဲပါသွားရင် ပင်လယ်ဂေဟစနစ်ကိုလည်း ထိခိုက်စေတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (25 words)',
+                en: 'Write a note to a friend about meeting',
+                my: 'မိတ်ဆွေတစ်ယောက်ထံ တွေ့ဆုံမည့်အကြောင်း မှတ်စုရေးပါ',
+                answer: {
+                    en: 'Hey Min, let\'s meet at the canteen at 6 PM tonight. I have something important to discuss with you. Please don\'t be late.',
+                    my: 'မင်းခိုင်၊ ဒီည ၆ နာရီမှာ ထမင်းစားခန်းမှာ တွေ့ကြရအောင်။ မင်းနဲ့ အရေးကြီးတာ တစ်ခုပြောချင်တယ်။ နောက်မကျပါနဲ့။'
                 }
             }
         ];
@@ -924,7 +1078,9 @@
                 '7m_exam1': '7M Exam 1',
                 '7m_exam2': '7M Exam 2',
                 '7m_exam3': '7M Exam 3',
-                '7m_exam4': '7M Exam 4'
+                '7m_exam4': '7M Exam 4',
+                '8m_exam1': '8M Exam 1', // ✅ အသစ်
+                '8m_exam2': '8M Exam 2'  // ✅ အသစ်
             };
             return map[batchCode] || batchCode;
         }
@@ -990,7 +1146,7 @@
 
         console.log('📂 Old Questions loaded successfully!');
         console.log('📚 Total questions:', questionsData.length);
-        console.log('🔓 No login required - fully open access');
+        console.log('✅ 8M (၈ လိုင်း) Questions added!');
     </script>
 </body>
 </html>
