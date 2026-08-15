@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "keys": {
+      "$keyHash": {
+        ".read": "auth != null",
+
+        ".write": "auth != null && data.exists() && data.child('status').val() == 'available' && newData.exists() && newData.child('status').val() == 'locked' && newData.child('uid').val() == auth.uid",
+
+        ".validate": "newData.hasChildren(['type', 'status', 'uid', 'deviceId', 'username', 'activatedAt', 'expiresAt'])"
+      }
+    }
+  }
+}
