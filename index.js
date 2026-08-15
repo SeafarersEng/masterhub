@@ -1,315 +1,148 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {
-  getAuth,
-  signInAnonymously,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import {
-  getDatabase,
-  ref,
-  get,
-  runTransaction
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyA6nPiUiYXIC9_l1sQkOkahqOKrg4p94WI", // 'q' မဟုတ်ပါ 'k' ဖြစ်ရပါမည်
-  authDomain: "meptdata.firebaseapp.com",
-  databaseURL: "https://meptdata-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "meptdata",
-  storageBucket: "meptdata.firebasestorage.app",
-  messagingSenderId: "53727502426",
-  appId: "1:53727502426:web:4621ef87134da86d9ef863",
-  measurementId: "G-H9PTQN33F4"
-};
+document.addEventListener('DOMContentLoaded', () => {
+  const loginForm = document.getElementById('loginForm');
+  const loginContainer = document.getElementById('login-container');
+  const mainContainer = document.getElementById('main-container');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginError = document.getElementById('loginError');
 
+  // ================================================================
+  // 📌 Key သက်တမ်းသတ်မှတ်ချက်များ
+  // ================================================================
+  const EIGHT_CHAR_START = '2026-08-01';
+  const EIGHT_CHAR_END   = '2027-02-02';
+  const TEN_CHAR_START   = '2026-10-01';
+  const TEN_CHAR_END     = '2027-05-02';
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
+  // ================================================================
+  // 📌 Key စာရင်းများ
+  // ================================================================
+  const EIGHT_CHAR_KEYS = [
+    'KEY1AAAA', 'MEPT1011', 'HUB11A89', 'KEY2BBBB', 'MEPT2022',
+    'HUB22B90', 'KEY3CCCC', 'MEPT3033', 'HUB33C01', 'KEY4DDDD',
+    'MEPT4044', 'HUB44D12', 'KEY5EEEE', 'MEPT5055', 'HUB55E23',
+    'KEY6FFFF', 'MEPT6066', 'HUB66F34', 'KEY7GGGG', 'MEPT7077',
+    'HUB77G45', 'KEY8HHHH', 'MEPT8088', 'HUB88H56', 'KEY9IIII',
+    'MEPT9099', 'HUB99I67', 'KEY10JJJ', 'MEPT1010', 'HUB100J8'
+  ];
+  const TEN_CHAR_KEYS = [
+    'TENKEY11KKK', 'TENKEY12LLL', 'TENKEY13MMM', 'TENKEY14NNN', 'TENKEY15OOO',
+    'TENKEY16PPP', 'TENKEY17QQQ', 'TENKEY18RRR', 'TENKEY19SSS', 'TENKEY20TTT',
+    'TENKEY21UUU', 'TENKEY22VVV', 'TENKEY23WWW', 'TENKEY24XXX', 'TENKEY25YYY',
+    'TENKEY26ZZZ', 'TENKEY27AAA', 'TENKEY28BBB', 'TENKEY29CCC', 'TENKEY30DDD',
+    'TENKEY31EEE', 'TENKEY32FFF', 'TENKEY33GGG', 'TENKEY34HHH', 'TENKEY35III',
+    'TENKEY36JJJ', 'TENKEY37KKK', 'TENKEY38LLL', 'TENKEY39MMM', 'TENKEY40NNN'
+  ];
+  
 
-// DOM Elements
-const loginForm = document.getElementById("loginForm");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const loginContainer = document.getElementById("login-container");
-const mainContainer = document.getElementById("main-container");
-const logoutBtn = document.getElementById("logoutBtn");
-const loginError = document.getElementById("loginError");
-const welcomeUser = document.getElementById("welcomeUser");
+  // ================================================================
+  // 📱 Device Identification & Key Lock Logic
+  // ================================================================
+  const DEVICE_ID_KEY = 'mept_device_id';
+  const BOUND_KEY = 'mept_bound_key';
 
-const DEVICE_ID_KEY = "mept_device_installation_id";
-const SESSION_KEY = "mept_session";
-
-const deviceId = getOrCreateDeviceId();
-let firebaseUser = null;
-
-function getOrCreateDeviceId() {
-  let id = localStorage.getItem(DEVICE_ID_KEY);
-  if (!id) {
-    const randomPart = crypto.randomUUID ? crypto.randomUUID() : (
-      Math.random().toString(36).slice(2) + Date.now().toString(36)
-    );
-    id = "DEV-" + randomPart;
-    localStorage.setItem(DEVICE_ID_KEY, id);
-  }
-  return id;
-}
-
-async function sha256(text) {
-  const data = new TextEncoder().encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return [...new Uint8Array(hashBuffer)]
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-function todayUTC() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function showError(message) {
-  if (loginError) {
-    loginError.textContent = message;
-    loginError.style.display = "block";
-  }
-}
-
-function clearError() {
-  if (loginError) {
-    loginError.textContent = "";
-    loginError.style.display = "none";
-  }
-}
-
-function showMainDashboard(username) {
-  if (loginContainer) loginContainer.classList.add("hidden");
-  if (mainContainer) mainContainer.classList.remove("hidden");
-  if (welcomeUser) welcomeUser.textContent = username ? `Logged in as: ${username}` : "";
-}
-
-function showLoginForm() {
-  if (mainContainer) mainContainer.classList.add("hidden");
-  if (loginContainer) loginContainer.classList.remove("hidden");
-  clearError();
-}
-
-function saveSession(keyHash, username) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify({
-    keyHash,
-    username,
-    uid: firebaseUser.uid,
-    deviceId
-  }));
-}
-
-function getSession() {
-  try {
-    return JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
-  } catch {
-    return null;
-  }
-}
-
-async function claimKey(key, username) {
-  if (!firebaseUser) throw new Error("AUTH_NOT_READY");
-
-  const normalizedKey = key.trim().toLowerCase();
-
-  if (![8, 11].includes(normalizedKey.length)) {
-    return { ok: false, message: "❌ Key format မှားနေပါသည်။" };
-  }
-
-  const keyHash = await sha256(normalizedKey);
-  const keyRef = ref(db, `keys/${keyHash}`);
-
-  let snapshot;
-  try {
-    snapshot = await get(keyRef);
-  } catch (error) {
-    console.error(error);
-    return {
-      ok: false,
-      message: error.code === "PERMISSION_DENIED"
-        ? "❌ Firebase permission denied. Realtime Database Rules ကို စစ်ပါ။"
-        : "❌ Server connection error ဖြစ်နေပါသည်။"
-    };
-  }
-
-  if (!snapshot.exists()) {
-    return { ok: false, message: "❌ Key မှားနေပါသည် သို့မဟုတ် မရှိပါ။" };
-  }
-
-  const current = snapshot.val();
-
-  if (current.expiresAt && todayUTC() > current.expiresAt) {
-    return { ok: false, message: "❌ ဤ Key ၏ သက်တမ်းကုန်ဆုံးနေပါပြီ။" };
-  }
-
-  if (current.status === "locked") {
-    if (current.uid === firebaseUser.uid && current.deviceId === deviceId) {
-      saveSession(keyHash, current.username || username);
-      return { ok: true };
+  // Device အတွက် Unique ID ထုတ်ပေးခြင်း (သို့မဟုတ် ရှိပြီးသားယူခြင်း)
+  function getDeviceId() {
+    let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+    if (!deviceId) {
+      deviceId = 'DEV-' + Math.random().toString(36).substring(2, 11) + '-' + Date.now();
+      localStorage.setItem(DEVICE_ID_KEY, deviceId);
     }
-
-    return {
-      ok: false,
-      message: "❌ ဤ Key သည် အခြား Device တစ်ခုနှင့် ချိတ်ထားပြီးဖြစ်ပါသည်။"
-    };
+    return deviceId;
   }
 
-  if (current.status !== "available") {
-    return { ok: false, message: "❌ Key ကို အသုံးပြု၍ မရပါ။" };
+  // Key ကို ဤ Device နှင့် ချိတ်ဆက်ခြင်း
+  function bindKeyToDevice(key) {
+    localStorage.setItem(BOUND_KEY, key);
   }
 
-  let transactionResult;
-  try {
-    transactionResult = await runTransaction(keyRef, currentData => {
-      if (!currentData) return;
-
-      const today = todayUTC();
-
-      if (currentData.status !== "available") {
-        return;
-      }
-
-      if (currentData.expiresAt && today > currentData.expiresAt) {
-        return;
-      }
-
-      return {
-        ...currentData,
-        status: "locked",
-        uid: firebaseUser.uid,
-        deviceId,
-        username,
-        activatedAt: new Date().toISOString()
-      };
-    });
-  } catch (error) {
-    console.error(error);
-    return {
-      ok: false,
-      message: error.code === "PERMISSION_DENIED"
-        ? "❌ Key binding ကို Firebase Rules က ခွင့်မပြုပါ။ Rules ကို စစ်ပါ။"
-        : "❌ Key binding ပြုလုပ်ရာတွင် server error ဖြစ်နေပါသည်။"
-    };
+  // Key ကို ဤ Device တွင် သုံးခွင့်ရှိမရှိ စစ်ဆေးခြင်း
+  function isKeyValidForThisDevice(key) {
+    const boundKey = localStorage.getItem(BOUND_KEY);
+    // ဤ Device မှာ Key မသုံးရသေးပါက သုံးခွင့်ပြုမည်
+    if (!boundKey) return true; 
+    // သုံးဖူးပါက မူလ Bind ခဲ့သော Key နှင့် တူမှသာ သုံးခွင့်ပြုမည်
+    return boundKey === key; 
   }
 
-  if (!transactionResult.committed) {
-    return {
-      ok: false,
-      message: "❌ ဒီ Key ကို အခြား Device တစ်ခုက အရင် Activate လုပ်သွားပါပြီ။"
-    };
+  // ================================================================
+  // 🗓️ Key သက်တမ်းစစ်ဆေးခြင်း
+  // ================================================================
+  function isDateInRange(dateStr, startStr, endStr) {
+    const date = new Date(dateStr);
+    const start = new Date(startStr);
+    const end = new Date(endStr);
+    return date >= start && date <= end;
   }
 
-  saveSession(keyHash, username);
-  return { ok: true };
-}
+  function validateKey(key) {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-async function restoreSession() {
-  const session = getSession();
-  if (!session || !firebaseUser) return false;
-
-  if (session.uid !== firebaseUser.uid || session.deviceId !== deviceId) {
-    localStorage.removeItem(SESSION_KEY);
+    if (key.length === 8 && EIGHT_CHAR_KEYS.includes(key)) {
+      return isDateInRange(today, EIGHT_CHAR_START, EIGHT_CHAR_END);
+    } else if (key.length === 11 && TEN_CHAR_KEYS.includes(key)) { // TEN_CHAR_KEYS စာရင်းထဲမှ Length ၁၁ လုံးဖြစ်နေ၍ ၁၁ ပြင်ပေးထားပါသည်
+      return isDateInRange(today, TEN_CHAR_START, TEN_CHAR_END);
+    }
     return false;
   }
 
-  try {
-    const keyRef = ref(db, `keys/${session.keyHash}`);
-    const snapshot = await get(keyRef);
-    if (!snapshot.exists()) {
-      localStorage.removeItem(SESSION_KEY);
-      return false;
-    }
+  // ================================================================
+  // 🔐 Login လုပ်ငန်းစဉ်
+  // ================================================================
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-    const data = snapshot.val();
-    const valid =
-      data.status === "locked" &&
-      data.uid === firebaseUser.uid &&
-      data.deviceId === deviceId &&
-      (!data.expiresAt || todayUTC() <= data.expiresAt);
-
-    if (!valid) {
-      localStorage.removeItem(SESSION_KEY);
-      return false;
-    }
-
-    showMainDashboard(session.username);
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-// Form Submit Event Handler
-if (loginForm) {
-  loginForm.addEventListener("submit", async event => {
-    event.preventDefault();
-    clearError();
-
-    const username = usernameInput.value.trim();
-    const key = passwordInput.value.trim();
+    const enteredKey = document.getElementById('password').value.trim();
+    const username = document.getElementById('username').value.trim();
 
     if (!username) {
-      showError("❌ ကျေးဇူးပြု၍ Username ထည့်ပါ။");
+      loginError.textContent = '❌ ကျေးဇူးပြု၍ Username ထည့်ပါ။';
+      loginError.style.display = 'block';
       return;
     }
 
-    if (!key) {
-      showError("❌ ကျေးဇူးပြု၍ Key ထည့်ပါ။");
+    // ၁။ Key သက်တမ်းနှင့် စာရင်းထဲရှိမရှိ စစ်ဆေးခြင်း
+    if (!validateKey(enteredKey)) {
+      loginError.textContent = '❌ သော့မှားနေပါသည် သို့မဟုတ် သက်တမ်းကုန်ဆုံးနေပါသည်။';
+      loginError.style.display = 'block';
       return;
     }
 
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Checking...";
-
-    try {
-      if (!firebaseUser) {
-        const userCredential = await signInAnonymously(auth);
-        firebaseUser = userCredential.user;
-      }
-
-      const result = await claimKey(key, username);
-
-      if (!result.ok) {
-        showError(result.message);
-        return;
-      }
-
-      clearError();
-      showMainDashboard(username);
-    } catch (error) {
-      console.error("Login process error:", error);
-      showError("❌ Login မအောင်မြင်ပါ။ VPN သုံးထားပါက ခေတ္တပိတ်၍ သို့မဟုတ် အခြား Network ဖြင့် ပြန်စမ်းပေးပါ။");
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Login ဝင်မည်";
+    // ၂။ ဤ Device တွင် အခြား Key တစ်ခု Lock ကျထားပြီးပြီလား စစ်ဆေးခြင်း
+    if (!isKeyValidForThisDevice(enteredKey)) {
+      loginError.textContent = '❌ ဤ Device တွင် အခြား သော့ ပေါင်းစပ်ထားပြီး ဖြစ်ပါသည်။';
+      loginError.style.display = 'block';
+      return;
     }
-  });
-}
 
-// Logout Event Handler
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", async () => {
-    localStorage.removeItem(SESSION_KEY);
+    // ၃။ အားလုံး မှန်ကန်ပါက Key ကို ဒီ Device မှာ Lock မှတ်ပြီး Login ဝင်ခွင့်ပြုမည်
+    bindKeyToDevice(enteredKey);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('currentUser', username);
+    loginError.style.display = 'none';
+    showMainDashboard();
+  });
+
+  // ================================================================
+  // 🚪 Logout & Session စစ်ဆေးခြင်း
+  // ================================================================
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('isLoggedIn');
     showLoginForm();
   });
-}
 
-// Observe Firebase Auth State
-onAuthStateChanged(auth, async user => {
-  firebaseUser = user;
+  function showMainDashboard() {
+    loginContainer.classList.add('hidden');
+    mainContainer.classList.remove('hidden');
+  }
 
-  if (user) {
-    clearError();
-    const restored = await restoreSession();
-    if (!restored) showLoginForm();
-  } else {
-    // Auth မရှိပါက သုံးစွဲသူ မနှိပ်မချင်း တိုက်ရိုက် sign in မလုပ်ဘဲ Form သာပြထားမည်
-    showLoginForm();
+  function showLoginForm() {
+    mainContainer.classList.add('hidden');
+    loginContainer.classList.remove('hidden');
+    loginError.style.display = 'none';
+  }
+
+  // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    showMainDashboard();
   }
 });
