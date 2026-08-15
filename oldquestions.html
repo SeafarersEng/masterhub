@@ -443,7 +443,7 @@
                 <button class="filter-btn" data-batch="7m_exam2">7M Exam 2</button>
                 <button class="filter-btn" data-batch="7m_exam3">7M Exam 3</button>
                 <button class="filter-btn" data-batch="7m_exam4">7M Exam 4</button>
-                <!-- ✅ ၈ လိုင်း (8M) အသစ် ထည့်ပေးထား -->
+                <!-- ✅ တရားဝင် ၈ လပိုင်း (8M) အသစ် -->
                 <button class="filter-btn" data-batch="8m_exam1">8M Exam 1</button>
                 <button class="filter-btn" data-batch="8m_exam2">8M Exam 2</button>
             </div>
@@ -467,7 +467,7 @@
 
     <script>
         // ============================================================
-        // 1. QUESTIONS DATA (Includes Existing + NEW 8M Questions)
+        // 1. QUESTIONS DATA (Includes ALL 7M + NEW Official 8M)
         // ============================================================
         const questionsData = [
             // =========================================================
@@ -841,139 +841,262 @@
             },
 
             // =========================================================
-            // ✅ NEW: 8M EXAM 1 (၈ လိုင်း အသစ်)
+            // ✅ NEW: Official 8M EXAM 1 (၈ လပိုင်း အပိုင်း ၁)
             // =========================================================
             {
                 batch: '8m_exam1',
                 category: 'personal',
                 type: 'Speaking (Personal)',
-                en: 'Tell me about your family',
-                my: 'မိသားစုအကြောင်း ပြောပြပါ',
-                sub: [
-                    'How many members in your family? / မိသားစုဝင် ဘယ်နှစ်ယောက်ရှိလဲ?',
-                    'What do your parents do? / မိဘတွေ ဘာအလုပ်လုပ်သလဲ?',
-                    'Who is your closest family member? Why? / ဘယ်သူနဲ့ အရင်းနှီးဆုံးလဲ၊ ဘာကြောင့်လဲ?'
-                ],
+                en: 'Your Name and Hometown',
+                my: 'နာမည်နှင့် နေထိုင်ရာ',
+                sub: ['What is your name and where do you live? / နာမည်ဘယ်လိုခေါ်လဲ နဲ့ ဘယ်မှာနေထိုင်လဲ?'],
                 answer: {
-                    en: 'There are four members in my family: my father, mother, younger sister, and me. My father is a teacher and my mother is a nurse. My sister is a student. I am closest to my mother because she always listens to my problems and gives me the best advice. She is very supportive and caring.',
-                    my: 'ကျွန်တော့်မိသားစုမှာ လေးယောက်ရှိတယ်။ အဖေ၊ အမေ၊ ညီမလေးနဲ့ ကျွန်တော်ပါ။ အဖေက ဆရာဖြစ်ပြီး အမေက သူနာပြုဆရာမပါ။ ညီမလေးက ကျောင်းသူပါ။ ကျွန်တော် အမေနဲ့ အရင်းနှီးဆုံးပါ။ သူက ကျွန်တော့်ပြဿနာတွေကို အမြဲနားထောင်ပေးပြီး အကောင်းဆုံး အကြံဉာဏ်တွေ ပေးတယ်။ သူက အရမ်းအားပေးပြီး ဂရုစိုက်တတ်တယ်။'
+                    en: 'My name is Zay Khant, and I live in Yangon, Myanmar. My hometown has a peaceful environment with friendly neighborhoods.',
+                    my: 'ကျွန်တော့်နာမည်က Zay Khant ပါ၊ ကျွန်တော် မြန်မာနိုင်ငံ၊ ရန်ကုန်မြို့မှာ နေထိုင်ပါတယ်။ ကျွန်တော့်ဇာတိမြို့က ငြိမ်းချမ်းပြီး ဖော်ရွေတဲ့ ရပ်ကွက်တွေ ရှိပါတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'personal',
+                type: 'Speaking (Personal)',
+                en: 'Education and Major',
+                my: 'ပညာအရည်အချင်းနှင့် ဘာသာရပ်',
+                sub: ['What education level have you completed / What was your major and why did you choose it? / ဘယ်ပညာအရည်အချင်း ပြီးမြောက်ထားလဲ / ဘာသာရပ်က ဘာလဲ နဲ့ ဘာကြောင့် ရွေးချယ်ခဲ့တာလဲ?'],
+                answer: {
+                    en: 'I have completed my graduation with a major in Psychology. I chose this major because I am deeply interested in understanding human behavior, mental processes, and how people interact in various social environments.',
+                    my: 'ကျွန်တော် စိတ်ပညာဘာသာရပ်ဖြင့် ဘွဲ့ရရှိထားပါတယ်။ လူ့အပြုအမူ၊ စိတ်ဖြစ်စဉ်တွေနဲ့ လူမှုပတ်ဝန်းကျင်အမျိုးမျိုးမှာ လူတွေ ဘယ်လို ဆက်ဆံကြသလဲဆိုတာကို နက်နက်ရှိုင်းရှိုင်း စိတ်ဝင်စားလို့ ဒီဘာသာရပ်ကို ရွေးချယ်ခဲ့တာပါ။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'personal',
+                type: 'Speaking (Personal)',
+                en: 'Future Goals',
+                my: 'အနာဂတ်ရည်မှန်းချက်များ',
+                sub: ['What is your goal in life / What do you want to do in the future? / ဘဝရည်မှန်းချက်က ဘာလဲ / အနာဂတ်မှာ ဘာလုပ်ချင်လဲ?'],
+                answer: {
+                    en: 'My primary goal is to become an expert professional in my field, lead training development programs, and build a stable and successful career for my future.',
+                    my: 'ကျွန်တော့်ရဲ့ အဓိကရည်မှန်းချက်က ကျွန်တော့်နယ်ပယ်မှာ ကျွမ်းကျင်ပညာရှင်တစ်ယောက်ဖြစ်လာဖို့၊ သင်တန်းဖွံ့ဖြိုးရေးအစီအစဉ်တွေကို ဦးဆောင်ဖို့နဲ့ အနာဂတ်အတွက် တည်ငြိမ်အောင်မြင်တဲ့ အသက်မွေးဝမ်းကျောင်းတစ်ခု တည်ဆောက်ဖို့ပါ။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'personal',
+                type: 'Speaking (Personal)',
+                en: 'Liked and Disliked Places in Hometown',
+                my: 'ဇာတိမြို့ရှိ ကြိုက်နှစ်သက်သော နှင့် မကြိုက်သော နေရာများ',
+                sub: ['What places do you like in your hometown and why? What places do you dislike? / ဇာတိမြို့မှာ ဘယ်နေရာတွေကို ကြိုက်လဲ နဲ့ ဘာကြောင့်လဲ? ဘယ်နေရာတွေကို မကြိုက်လဲ?'],
+                answer: {
+                    en: 'I like public parks in my city because they offer a quiet, green space to relax and exercise. On the other hand, I dislike crowded and congested areas during peak traffic hours because they cause unnecessary delays and stress.',
+                    my: 'ကျွန်တော် မြို့ထဲက အများပြည်သူသုံး ပန်းခြံတွေကို ကြိုက်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က အေးချမ်းပြီး စိမ်းလန်းတဲ့နေရာမှာ အနားယူပြီး လေ့ကျင့်ခန်းလုပ်ဖို့ ပေးတယ်။ အခြားတစ်ဖက်မှာ၊ ကားအသွားအလာ အများဆုံးအချိန်တွေမှာ လူစည်ကားပြီး ရှုပ်ယှက်ခတ်နေတဲ့နေရာတွေကို မကြိုက်ဘူး။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က မလိုအပ်တဲ့ နှောင့်နှေးမှုတွေနဲ့ စိတ်ဖိစီးမှုတွေ ဖြစ်စေလို့ပါ။'
+                }
+            },
+            {
+                batch: '8m_exam1',
+                category: 'personal',
+                type: 'Speaking (Personal)',
+                en: 'Country to Visit',
+                my: 'သွားရောက်လည်ပတ်လိုသော နိုင်ငံ',
+                sub: ['Which country do you want to visit and why? / ဘယ်နိုင်ငံကို သွားရောက်လည်ပတ်ချင်လဲ နဲ့ ဘာကြောင့်လဲ?'],
+                answer: {
+                    en: 'I want to visit Japan because I am fascinated by its unique blend of ancient traditions and advanced technology, as well as its beautiful landscapes and clean cities.',
+                    my: 'ကျွန်တော် ဂျပန်ကို သွားရောက်လည်ပတ်ချင်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ရှေးဟောင်းရိုးရာဓလေ့တွေနဲ့ ခေတ်မီနည်းပညာတွေရဲ့ ထူးခြားတဲ့ ပေါင်းစပ်မှု၊ လှပလွန်းတဲ့ ရှုခင်းတွေနဲ့ သန့်ရှင်းတဲ့မြို့တွေကို ကျွန်တော် စွဲဆောင်မိလို့ပါ။'
                 }
             },
             {
                 batch: '8m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture)',
-                en: 'Person wearing a Life Jacket',
-                my: 'အသက်ကယ်အင်္ကျီဝတ်ထားသူ',
-                sub: [
-                    'What do you see in the picture? / ပုံထဲမှာ ဘာမြင်ရလဲ?',
-                    'Why is the life jacket important? / အသက်ကယ်အင်္ကျီက ဘာကြောင့် အရေးကြီးသလဲ?',
-                    'When should people wear it? / ဘယ်အချိန်မှာ ဝတ်ဆင်သင့်သလဲ?'
-                ],
+                en: 'World Map Reading - Myanmar Location',
+                my: 'ကမ္ဘာ့မြေပုံ - မြန်မာနိုင်ငံ တည်နေရာ',
+                sub: ['Locate Myanmar on the world map and describe its location. / ကမ္ဘာ့မြေပုံပေါ်တွင် မြန်မာနိုင်ငံကို ရှာဖွေပြီး ၎င်း၏တည်နေရာကို ဖော်ပြပါ။'],
                 answer: {
-                    en: 'In the picture, I see a person wearing a bright orange life jacket. The life jacket is very important because it keeps a person afloat in water and prevents drowning. People should wear it during emergencies, on boats, or when working near water. It is a critical safety device that can save lives.',
-                    my: 'ပုံထဲမှာ လူတစ်ယောက် လိမ္မော်ရောင် အသက်ကယ်အင်္ကျီကို ဝတ်ထားတာကို မြင်ရတယ်။ အသက်ကယ်အင်္ကျီက အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဒါက လူတစ်ယောက်ကို ရေပေါ်မှာပေါ်နေအောင် လုပ်ပေးပြီး ရေနစ်ခြင်းကို ကာကွယ်ပေးလို့ပါ။ လူတွေ အရေးပေါ်အချိန်တွေ၊ လှေပေါ်မှာ၊ ဒါမှမဟုတ် ရေအနီးမှာ အလုပ်လုပ်တဲ့အခါမျိုးတွေမှာ ဝတ်ဆင်သင့်ပါတယ်။ ဒါက အသက်တွေကို ကယ်တင်နိုင်တဲ့ အရေးကြီး ဘေးကင်းရေးပစ္စည်းတစ်ခုပါ။'
+                    en: 'Looking at the world map, Myanmar is situated in Southeast Asia. It is bordered by India, Bangladesh, China, Laos, and Thailand, and it has a long coastline facing the Bay of Bengal and the Andaman Sea.',
+                    my: 'ကမ္ဘာ့မြေပုံကို ကြည့်လျှင် မြန်မာနိုင်ငံသည် အရှေ့တောင်အာရှတွင် တည်ရှိသည်။ အိန္ဒိယ၊ ဘင်္ဂလားဒေ့ရှ်၊ တရုတ်၊ လာအိုနှင့် ထိုင်းနိုင်ငံတို့နှင့် နယ်နိမိတ်ချင်းထိစပ်ပြီး ဘင်္ဂလားပင်လယ်အော်နှင့် အင်းဒီယန်ပင်လယ်တို့ကို မျက်နှာမူထားသည့် ရှည်လျားသော ကမ်းရိုးတန်းလည်း ရှိသည်။'
                 }
             },
             {
                 batch: '8m_exam1',
-                category: 'debate',
-                type: 'Speaking (Debate)',
-                en: 'Teamwork is better than working alone. Do you agree?',
-                my: 'အဖွဲ့လိုက်လုပ်ဆောင်ခြင်းသည် တစ်ဦးတည်းလုပ်ခြင်းထက် ပိုကောင်းသည်။ သဘောတူလား။',
-                sub: [
-                    'Do you agree with this statement? / ဒီထုတ်ပြန်ချက်ကို သဘောတူလား?',
-                    'Why or why not? / ဘာကြောင့် သဘောတူ/မတူသလဲ?',
-                    'Can you give an example from your experience? / မင်းရဲ့အတွေ့အကြုံကနေ ဥပမာတစ်ခု ပေးနိုင်မလား?'
-                ],
+                category: 'speaking',
+                type: 'Speaking (Picture)',
+                en: 'Travel Packing - Passport Importance',
+                my: 'ခရီးသွားပြင်ဆင်မှု - နိုင်ငံကူးလက်မှတ်၏ အရေးပါမှု',
+                sub: ['What is the most important item when traveling? Why? / ခရီးသွားတဲ့အခါ အရေးအကြီးဆုံး ပစ္စည်းက ဘာလဲ၊ ဘာကြောင့်လဲ?'],
                 answer: {
-                    en: 'Yes, I strongly agree that teamwork is better than working alone. When people work in a team, they can share ideas, divide tasks, and help each other. This makes the work faster and more effective. For example, during our ship simulation exercise, we worked as a team. Everyone had a role, and we completed the task successfully. Teamwork also reduces stress and builds friendship.',
-                    my: 'ဟုတ်ကဲ့၊ အဖွဲ့လိုက်လုပ်ဆောင်ခြင်းက တစ်ဦးတည်းလုပ်ခြင်းထက် ပိုကောင်းတယ်ဆိုတာကို အပြင်းအထန် သဘောတူတယ်။ လူတွေ အဖွဲ့လိုက်လုပ်တဲ့အခါ အတွေးအကြံတွေ မျှဝေနိုင်တယ်၊ အလုပ်တွေကို ခွဲဝေနိုင်တယ်၊ အချင်းချင်း ကူညီနိုင်တယ်။ ဒါက အလုပ်ကို ပိုမြန်ပြီး ပိုထိရောက်စေတယ်။ ဥပမာ၊ ကျွန်တော်တို့ သင်္ဘောအခြေအနေတုပ် လေ့ကျင့်ခန်းလုပ်တဲ့အခါ အဖွဲ့လိုက်လုပ်ခဲ့တယ်။ လူတိုင်းမှာ တာဝန်တွေရှိပြီး အလုပ်ကို အောင်မြင်အောင် ပြီးမြောက်ခဲ့တယ်။ အဖွဲ့လိုက်လုပ်ခြင်းက စိတ်ဖိစီးမှုကိုလည်း လျှော့ချပေးပြီး ခင်မင်ရင်းနှီးမှုကို တည်ဆောက်ပေးတယ်။'
+                    en: 'The most important item is the passport. Why? Because it is an official international identification document required to cross borders, board international flights, and check into foreign hotels.',
+                    my: 'အရေးအကြီးဆုံး ပစ္စည်းက နိုင်ငံကူးလက်မှတ်ပါ။ ဘာကြောင့်လဲဆိုတော့ နိုင်ငံခြားကို ဖြတ်သန်းဖို့၊ နိုင်ငံတကာလေယာဉ်တွေ စီးဖို့နဲ့ နိုင်ငံခြားဟိုတယ်တွေမှာ တည်းခိုဖို့ လိုအပ်တဲ့ တရားဝင် နိုင်ငံတကာ သက်သေခံစာရွက်စာတမ်းဖြစ်လို့ပါ။'
                 }
             },
             {
                 batch: '8m_exam1',
-                category: 'writing',
-                type: 'Writing Task (25 words)',
-                en: 'Describe your daily routine',
-                my: 'မင်းရဲ့ နေ့စဉ်လုပ်ရိုးလုပ်စဉ်ကို ဖော်ပြပါ',
+                category: 'safety',
+                type: 'Speaking (Situation)',
+                en: 'Slips, Trips, and Falls Prevention',
+                my: 'ချော်လဲခြင်းကို ကာကွယ်ခြင်း',
+                sub: ['What causes slips and falls, and how can we prevent them? / ချော်လဲခြင်းကို ဘာတွေက ဖြစ်စေသလဲ၊ ဘယ်လိုကာကွယ်နိုင်မလဲ?'],
                 answer: {
-                    en: 'I wake up at 6 AM, do morning exercise, have breakfast, and go to work. In the evening, I study English and spend time with my family.',
-                    my: 'မနက် ၆ နာရီမှာ အိပ်ရာထပြီး လေ့ကျင့်ခန်းလုပ်တယ်၊ မနက်စာစားပြီး အလုပ်သွားတယ်။ ညနေပိုင်းမှာ အင်္ဂလိပ်စာလေ့လာပြီး မိသားစုနဲ့ အချိန်ကုန်ဆုံးတယ်။'
+                    en: 'Slips and falls usually happen due to wet floors, oil spills, or unorganized items in walkways without warning signs. To prevent them, we must clean spills immediately, put up caution signs, wear proper non-slip footwear, and keep pathways clear both at home and onboard ships.',
+                    my: 'ချော်လဲခြင်းတွေဟာ စိုစွတ်တဲ့ကြမ်းပြင်၊ ဆီယိုဖိတ်မှု၊ ဒါမှမဟုတ် သတိပေးဆိုင်းဘုတ်မပါတဲ့ လမ်းသွားလမ်းလာတွေမှာ စုစည်းမှုမရှိတဲ့ ပစ္စည်းတွေကြောင့် ဖြစ်တတ်ပါတယ်။ ကာကွယ်ဖို့ ယိုဖိတ်မှုတွေကို ချက်ချင်းသန့်ရှင်းရေးလုပ်ရမယ်၊ သတိပေးဆိုင်းဘုတ်တွေ တပ်ဆင်ရမယ်၊ ချော်လဲမှုကာကွယ်တဲ့ ဖိနပ်တွေ စီးရမယ်၊ နဲ့ အိမ်မှာရော သင်္ဘောပေါ်မှာပါ လမ်းကြောင်းတွေကို ရှင်းလင်းထားရမယ်။'
                 }
             },
             {
                 batch: '8m_exam1',
-                category: 'writing',
-                type: 'Writing Task (80-100 words)',
-                en: 'The importance of communication on a ship',
-                my: 'သင်္ဘောပေါ်တွင် ဆက်သွယ်ရေး၏ အရေးပါမှု',
+                category: 'safety',
+                type: 'Speaking (Picture)',
+                en: 'Fire Safety - Using Extinguisher',
+                my: 'မီးဘေးလုံခြုံရေး - မီးသတ်ဆေးဘူး အသုံးပြုခြင်း',
+                sub: ['Describe the picture and explain the importance of knowing how to use a fire extinguisher. / ပုံကို ဖော်ပြပြီး မီးသတ်ဆေးဘူး အသုံးပြုနည်းကို သိခြင်း၏ အရေးပါမှုကို ရှင်းပြပါ။'],
                 answer: {
-                    en: 'Effective communication on a ship is essential for safety and smooth operations. Crew members must clearly share important information about navigation, weather, and emergencies. Misunderstandings can lead to dangerous accidents. Therefore, all seafarers should use standard maritime communication phrases and report any issues immediately. Good communication also helps build trust and teamwork among the crew. In my opinion, without proper communication, it is impossible to run a ship successfully at sea.',
-                    my: 'သင်္ဘောပေါ်မှာ ထိရောက်တဲ့ ဆက်သွယ်ရေးက ဘေးကင်းရေးနဲ့ ချောမွေ့တဲ့ လုပ်ငန်းဆောင်ရွက်မှုအတွက် အလွန်အရေးကြီးပါတယ်။ သင်္ဘောသားတွေဟာ သွားလာမှု၊ ရာသီဥတုနဲ့ အရေးပေါ်အခြေအနေတွေအကြောင်း အရေးကြီးအချက်အလက်တွေကို ရှင်းရှင်းလင်းလင်း မျှဝေရပါမယ်။ နားလည်မှုလွဲတာက အန္တရာယ်ရှိတဲ့ မတော်တဆမှုတွေဆီ ဦးတည်သွားနိုင်တယ်။ ဒါကြောင့် ရေကြောင်းသားအားလုံး စံသတ်မှတ်ထားတဲ့ ရေကြောင်းဆက်သွယ်ရေးစကားစုတွေကို သုံးပြီး ပြဿနာတွေကို ချက်ချင်းအစီရင်ခံသင့်တယ်။ ကောင်းမွန်တဲ့ ဆက်သွယ်ရေးက သင်္ဘောသားတွေကြား ယုံကြည်မှုနဲ့ အဖွဲ့လိုက်လုပ်ဆောင်မှုကိုလည်း တည်ဆောက်ပေးတယ်။ ကျွန်တော့်အမြင်အရ သင့်လျော်တဲ့ ဆက်သွယ်ရေးမရှိရင် သင်္ဘောကို ပင်လယ်ထဲမှာ အောင်မြင်စွာ မောင်းနှင်ဖို့ မဖြစ်နိုင်ပါဘူး။'
+                    en: 'In this picture, a person is holding a portable fire extinguisher inside a room. This highlights workplace safety and emergency preparedness. Knowing how to use an extinguisher can stop a small fire from turning into a major disaster.',
+                    my: 'ဒီပုံထဲမှာ လူတစ်ယောက်ဟာ အခန်းတစ်ခုထဲမှာ လက်ကိုင်မီးသတ်ဆေးဘူးကို ကိုင်ထားတာကို မြင်ရတယ်။ ဒါက လုပ်ငန်းခွင်ဘေးကင်းရေးနဲ့ အရေးပေါ်အသင့်ပြင်ဆင်မှုကို မီးမောင်းထိုးပြထားတာပါ။ မီးသတ်ဆေးဘူးကို ဘယ်လိုသုံးရမယ်ဆိုတာ သိခြင်းက မီးငယ်လေးကို ကြီးမားတဲ့ဘေးဆိုးကြီးအဖြစ် မပြောင်းလဲအောင် တားဆီးနိုင်ပါတယ်။'
                 }
             },
 
             // =========================================================
-            // ✅ NEW: 8M EXAM 2 (၈ လိုင်း နောက်ထပ်)
+            // ✅ NEW: Official 8M EXAM 2 (၈ လပိုင်း အပိုင်း ၂)
             // =========================================================
             {
                 batch: '8m_exam2',
                 category: 'speaking',
                 type: 'Speaking (Picture)',
-                en: 'Harbor / Port View',
-                my: 'ဆိပ်ကမ်းမြင်ကွင်း',
-                sub: [
-                    'What can you see in this port picture? / ဆိပ်ကမ်းပုံမှာ ဘာတွေမြင်ရလဲ?',
-                    'What is the purpose of a port? / ဆိပ်ကမ်းရဲ့ ရည်ရွယ်ချက်က ဘာလဲ?',
-                    'What safety measures are visible? / ဘယ်လိုဘေးကင်းရေး အစီအမံတွေ မြင်ရလဲ?'
-                ],
+                en: 'Public Transportation - Waiting for Bus',
+                my: 'အများပြည်သူသုံးယာဉ် - ဘတ်စ်ကားစောင့်ဆိုင်းခြင်း',
+                sub: ['Describe the picture of the bus stop. / ဘတ်စ်ကားမှတ်တိုင်၏ ပုံကို ဖော်ပြပါ။'],
                 answer: {
-                    en: 'In this port picture, I can see large cargo ships, containers, cranes, and many workers. A port is a place where ships load and unload goods and passengers. It connects sea transport to land transport. Regarding safety, I can see workers wearing safety helmets and vests. There are also safety lines and warning signs around the area. These measures protect everyone from heavy machinery and falling objects.',
-                    my: 'ဒီဆိပ်ကမ်းပုံမှာ ကုန်သင်္ဘောကြီးတွေ၊ ကွန်တိန်နာတွေ၊ ကရိန်းတွေနဲ့ အလုပ်သမားတွေ အများကြီးကို မြင်ရတယ်။ ဆိပ်ကမ်းဆိုတာ သင်္ဘောတွေ ကုန်ပစ္စည်းနဲ့ ခရီးသည်တွေ သယ်ယူတင်ပို့ရာနေရာပါ။ ဒါက ရေကြောင်းသယ်ယူပို့ဆောင်ရေးနဲ့ ကုန်းကြောင်းသယ်ယူပို့ဆောင်ရေးကို ဆက်သွယ်ပေးတယ်။ ဘေးကင်းရေးနဲ့ ပတ်သက်ပြီး အလုပ်သမားတွေ ဘေးကင်းရေးဦးထုပ်နဲ့ အင်္ကျီတွေ ဝတ်ထားတာ မြင်ရတယ်။ အဲဒီဧရိယာတစ်ဝိုက်မှာ ဘေးကင်းရေးမျဉ်းတွေနဲ့ သတိပေးဆိုင်းဘုတ်တွေလည်း ရှိတယ်။ ဒီအစီအမံတွေက လူတိုင်းကို စက်ပစ္စည်းကြီးတွေနဲ့ ပြုတ်ကျတဲ့ပစ္စည်းတွေကနေ ကာကွယ်ပေးတယ်။'
+                    en: 'This picture shows a person standing at a bus stop waiting for public transport. It reflects daily commuting and routine life, where people use public transit to travel to work or school efficiently.',
+                    my: 'ဒီပုံက ဘတ်စ်ကားမှတ်တိုင်မှာ အများပြည်သူသုံးယာဉ်ကို စောင့်ဆိုင်းနေတဲ့ လူတစ်ယောက်ကို ပြထားတယ်။ ဒါက နေ့စဉ်ခရီးသွားလာမှုနဲ့ လုပ်ရိုးလုပ်စဉ်ဘဝကို ထင်ဟပ်စေတယ်။ လူတွေဟာ အလုပ် ဒါမှမဟုတ် ကျောင်းကို ထိရောက်စွာ သွားလာဖို့ အများပြည်သူသုံးယာဉ်တွေကို အသုံးပြုကြတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'debate',
+                type: 'Speaking (Discussion)',
+                en: 'Social Media & Internet Usage',
+                my: 'လူမှုမီဒီယာနှင့် အင်တာနက်အသုံးပြုခြင်း',
+                sub: ['Why do people use the internet and social media? / လူတွေ အင်တာနက်နဲ့ လူမှုမီဒီယာကို ဘာကြောင့် အသုံးပြုကြသလဲ?'],
+                answer: {
+                    en: 'People use the internet for communication, education, business, and entertainment. Social apps like Facebook and messaging tools help us stay connected with family and colleagues worldwide, though we must manage our daily screen time wisely.',
+                    my: 'လူတွေဟာ ဆက်သွယ်ရေး၊ ပညာရေး၊ စီးပွားရေးနဲ့ ဖျော်ဖြေရေးအတွက် အင်တာနက်ကို အသုံးပြုကြတယ်။ Facebook လိုမျိုး လူမှုရေးအက်ပ်တွေနဲ့ စာတိုပေးပို့ရေးကိရိယာတွေက မိသားစုနဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ကမ္ဘာအနှံ့ ဆက်သွယ်နေဖို့ ကူညီပေးပေမယ့် နေ့စဉ်စခရင်အသုံးပြုချိန်ကို ပညာရှိရှိ စီမံခန့်ခွဲရမယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'speaking',
+                type: 'Speaking (Picture)',
+                en: 'Sports & Beach Activities - Football',
+                my: 'အားကစားနှင့် ကမ်းခြေလှုပ်ရှားမှုများ - ဘောလုံး',
+                sub: ['Describe the beach football scene. / ကမ်းခြေဘောလုံးကန်နေတဲ့ မြင်ကွင်းကို ဖော်ပြပါ။'],
+                answer: {
+                    en: 'The picture shows people playing beach football in various active styles. Playing sports on the sand is physically demanding because of the loose ground, which helps build great teamwork, stamina, and agility.',
+                    my: 'ဒီပုံက လူတွေ ကမ်းခြေမှာ ဘောလုံးကန်နေတဲ့ တက်ကြွတဲ့ ပုံစံအမျိုးမျိုးကို ပြထားတယ်။ သဲပေါ်မှာ အားကစားလုပ်တာက မြေသားမတည်ငြိမ်တာကြောင့် ရုပ်ပိုင်းဆိုင်ရာ အလွန်အထိုက်အမ လိုအပ်ပြီး အဖွဲ့လိုက်ပူးပေါင်းဆောင်ရွက်မှု၊ ခံနိုင်ရည်နဲ့ လျင်မြန်သွက်လက်မှုကို တည်ဆောက်ပေးတယ်။'
                 }
             },
             {
                 batch: '8m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate)',
-                en: 'Technology makes life easier. Do you agree?',
-                my: 'နည်းပညာက ဘဝကို ပိုလွယ်ကူစေတယ်။ သဘောတူလား။',
-                sub: [
-                    'Do you agree that technology makes life easier? / နည်းပညာက ဘဝကို လွယ်ကူစေတယ်ဆိုတာ သဘောတူလား?',
-                    'Can you give some examples? / ဥပမာအချို့ ပေးနိုင်မလား?',
-                    'Are there any disadvantages? / အားနည်းချက်တွေ ရှိသလား?'
-                ],
+                en: 'Healthy Food vs Fast Food',
+                my: 'ကျန်းမာရေးနှင့်ညီညွတ်သော အစားအစာနှင့် အမြန်အစားအစာ',
+                sub: ['Do you agree that healthy food is better than fast food? / ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက အမြန်အစားအစာထက် ပိုကောင်းတယ်ဆိုတာ သဘောတူလား?'],
                 answer: {
-                    en: 'Yes, I agree that technology makes life much easier. For example, smartphones allow us to communicate instantly with people far away. The internet gives us access to information and online education. In shipping, technology like GPS and radar help ships navigate safely. However, there are also disadvantages, such as dependency on devices and loss of face-to-face interaction. We must use technology wisely.',
-                    my: 'ဟုတ်ကဲ့၊ နည်းပညာက ဘဝကို ပိုလွယ်ကူစေတယ်ဆိုတာကို သဘောတူတယ်။ ဥပမာ၊ စမတ်ဖုန်းတွေက ဝေးလံတဲ့နေရာက လူတွေနဲ့ ချက်ချင်းဆက်သွယ်နိုင်စေတယ်။ အင်တာနက်က သတင်းအချက်အလက်တွေနဲ့ အွန်လိုင်းပညာရေးကို ရရှိစေတယ်။ ရေကြောင်းမှာ GPS နဲ့ ရေဒါလိုမျိုး နည်းပညာတွေက သင်္ဘောတွေကို ဘေးကင်းစွာ သွားလာနိုင်အောင် ကူညီပေးတယ်။ သို့သော် စက်ပစ္စည်းတွေအပေါ် မှီခိုခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်မှု ဆုံးရှုံးခြင်းလိုမျိုး အားနည်းချက်တွေလည်း ရှိတယ်။ နည်းပညာကို ပညာရှိရှိ သုံးစွဲရမယ်။'
+                    en: 'I strongly agree. Healthy food provides essential nutrients, vitamins, and sustained energy. Fast food is high in trans fats, sodium, and sugar, which can lead to obesity and heart problems.',
+                    my: 'ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်တွေ၊ ဗီတာမင်တွေနဲ့ ရေရှည်စွမ်းအင်ကို ထောက်ပံ့ပေးတယ်။ အမြန်အစားအစာမှာ အဆီအမျိုးအစားဆိုးတွေ၊ ဆိုဒီယမ်နဲ့ သကြားဓာတ်တွေ မြင့်မားစွာပါဝင်ပြီး အဝလွန်ခြင်းနဲ့ နှလုံးရောဂါတွေကို ဖြစ်စေနိုင်တယ်။'
                 }
             },
             {
                 batch: '8m_exam2',
-                category: 'safety',
-                type: 'Speaking (Situation)',
-                en: 'Spilling oil on the deck',
-                my: 'သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ခြင်း',
-                sub: [
-                    'What should you do if oil is spilled on deck? / သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ရင် ဘာလုပ်သင့်သလဲ?',
-                    'What equipment do you need to clean it? / သန့်ရှင်းရေးအတွက် ဘာပစ္စည်းတွေ လိုအပ်သလဲ?',
-                    'Why is it a safety hazard? / ဒါက ဘာကြောင့် ဘေးအန္တရာယ်ရှိသလဲ?'
-                ],
+                category: 'debate',
+                type: 'Speaking (Debate)',
+                en: 'Importance of Water and Sleep',
+                my: 'ရေနှင့် အိပ်စက်ခြင်း၏ အရေးပါမှု',
+                sub: ['Do you agree that water and sleep are important? / ရေနဲ့ အိပ်စက်ခြင်းက အရေးကြီးတယ်ဆိုတာ သဘောတူလား?'],
                 answer: {
-                    en: 'If oil is spilled on the deck, I should immediately inform the officer on duty and cordon off the area. Then, I need to use absorbent materials like sawdust or oil-absorbent pads to clean it up, and dispose of the waste properly. It is a safety hazard because oil makes the deck very slippery, which can cause serious slips and falls. It is also harmful to the marine environment if it washes overboard.',
-                    my: 'သင်္ဘောပေါ်မှာ ဆီယိုဖိတ်ရင် ကျွန်တော် ဆောင်ရွက်ချက်ချင်း အရာရှိကို အကြောင်းကြားပြီး ဧရိယာကို ပိတ်ဆို့ရမယ်။ ပြီးရင် လွှစာ ဒါမှမဟုတ် ဆီစုပ်ခုံးတွေလိုမျိုး စုပ်ယူနိုင်တဲ့ပစ္စည်းတွေ သုံးပြီး သန့်ရှင်းရေးလုပ်ပြီး အမှိုက်ကို စနစ်တကျ စွန့်ပစ်ရမယ်။ ဒါက ဘေးအန္တရာယ်တစ်ခုဖြစ်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဆီက သင်္ဘောကြမ်းပြင်ကို အရမ်းချော်စေပြီး ပြင်းထန်တဲ့ ချော်လဲမှုတွေ ဖြစ်စေနိုင်လို့ပါ။ ဒါ့အပြင် သင်္ဘောပေါ်ကနေ ရေထဲပါသွားရင် ပင်လယ်ဂေဟစနစ်ကိုလည်း ထိခိုက်စေတယ်။'
+                    en: 'I completely agree. Water keeps our body hydrated and vital functions running, while proper sleep allows the brain and body to repair cells and maintain a strong immune system.',
+                    my: 'ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။ ရေက ခန္ဓာကိုယ်ကို ရေဓာတ်ဖြည့်ပေးပြီး အရေးကြီးတဲ့ လုပ်ငန်းဆောင်တာတွေ လည်ပတ်နေအောင် ထိန်းပေးတယ်။ လုံလောက်တဲ့ အိပ်စက်ခြင်းကလည်း ဦးနှောက်နဲ့ ခန္ဓာကိုယ်က ဆဲလ်တွေကို ပြုပြင်ပေးပြီး ခိုင်မာတဲ့ ကိုယ်ခံအားစနစ်ကို ထိန်းသိမ်းပေးတယ်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'debate',
+                type: 'Speaking (Debate)',
+                en: 'Free Time and Punctuality',
+                my: 'အားလပ်ချိန်နှင့် အချိန်မှန်ခြင်း',
+                sub: ['Do you agree that free time and punctuality are important? / အားလပ်ချိန်နဲ့ အချိန်မှန်ခြင်းက အရေးကြီးတယ်ဆိုတာ သဘောတူလား?'],
+                answer: {
+                    en: 'Yes, I agree. Free time reduces stress and allows us to pursue hobbies, while being on time reflects strong personal discipline, professionalism, and respect for others.',
+                    my: 'ဟုတ်ကဲ့၊ ကျွန်တော် သဘောတူတယ်။ အားလပ်ချိန်က စိတ်ဖိစီးမှုကို လျှော့ချပေးပြီး ဝါသနာတွေကို လုပ်ကိုင်နိုင်စေတယ်။ အချိန်မှန်ခြင်းကလည်း ခိုင်မာတဲ့ ကိုယ်ရေးကိုယ်တာ စည်းကမ်း၊ ပရော်ဖက်ရှင်နယ်ဆန်မှုနဲ့ သူတစ်ပါးကို လေးစားမှုကို ထင်ဟပ်စေတယ်။'
                 }
             },
             {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (25 words)',
-                en: 'Write a note to a friend about meeting',
-                my: 'မိတ်ဆွေတစ်ယောက်ထံ တွေ့ဆုံမည့်အကြောင်း မှတ်စုရေးပါ',
+                en: 'Writing to a friend about sending a package',
+                my: 'ပါဆယ်ထုပ်ပို့ကြောင်း သူငယ်ချင်းထံ စာရေးခြင်း',
+                sub: ['Write a short note to a friend about sending a package. (approx. 25 words) / ပါဆယ်ထုပ်ပို့ကြောင်း သူငယ်ချင်းထံ မှတ်စုတိုရေးပါ။'],
                 answer: {
-                    en: 'Hey Min, let\'s meet at the canteen at 6 PM tonight. I have something important to discuss with you. Please don\'t be late.',
-                    my: 'မင်းခိုင်၊ ဒီည ၆ နာရီမှာ ထမင်းစားခန်းမှာ တွေ့ကြရအောင်။ မင်းနဲ့ အရေးကြီးတာ တစ်ခုပြောချင်တယ်။ နောက်မကျပါနဲ့။'
+                    en: 'Hi Min, I have sent your package containing books and local snacks via express delivery today. It should arrive by this Friday. Please let me know when you receive it!',
+                    my: 'မင်းခိုင်၊ မင်းရဲ့ စာအုပ်တွေနဲ့ ပြည်တွင်းသရေစာတွေပါတဲ့ ပါဆယ်ထုပ်ကို ဒီနေ့ အမြန်ပို့ဆောင်မှုနဲ့ ပို့လိုက်ပြီ။ ဒီသောကြာနေ့လောက်မှာ ရောက်သင့်တယ်။ ရောက်ရင် ပြန်ပြောပါနော်!'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (25 words)',
+                en: 'Recommending a new coffee shop',
+                my: 'ကော်ဖီဆိုင်အသစ် အကြံပြုခြင်း',
+                sub: ['Write a short recommendation for a new coffee shop. (approx. 25 words) / ကော်ဖီဆိုင်အသစ်အတွက် အကြံပြုချက်တိုရေးပါ။'],
+                answer: {
+                    en: 'You should visit the new "Sunset Cafe" downtown. It has a cozy atmosphere, excellent dark roast coffee, and very friendly staff. It\'s a great place to relax or study.',
+                    my: 'မြို့လယ်က "Sunset Cafe" အသစ်ကို သွားသင့်တယ်။ အဲဒီမှာ သက်တောင့်သက်သာရှိတဲ့ လေထု၊ အရသာရှိတဲ့ ဒပ်ခေါက်ကော်ဖီနဲ့ အရမ်းဖော်ရွေတဲ့ ဝန်ထမ်းတွေ ရှိတယ်။ အနားယူဖို့ ဒါမှမဟုတ် စာလုပ်ဖို့ နေရာကောင်းတစ်ခုပါ။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'A Visit to a Museum (Cultural Port Visit)',
+                my: 'ပြတိုက်သို့ သွားရောက်လည်ပတ်ခြင်း (ယဉ်ကျေးမှုဆိုင်ရာ ဆိပ်ကမ်းလည်ပတ်ခြင်း)',
+                sub: ['Write about a visit to a museum. (80-100 words) / ပြတိုက်သို့ သွားရောက်လည်ပတ်ခြင်းအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'Visiting a museum is an educational and enriching experience that allows us to explore history, art, and culture. Recently, I visited a maritime museum that displayed ancient ship models, navigation tools, and historical artifacts from early explorers. Walking through the galleries helped me understand how seafaring and navigation technology evolved over centuries. It is a wonderful way to preserve our heritage and inspire younger generations to appreciate maritime history.',
+                    my: 'ပြတိုက်သွားရောက်လည်ပတ်ခြင်းဟာ သမိုင်း၊ အနုပညာနဲ့ ယဉ်ကျေးမှုကို စူးစမ်းလေ့လာနိုင်စေတဲ့ ပညာရေးဆိုင်ရာနဲ့ ကြွယ်ဝဖွယ်အတွေ့အကြုံတစ်ခုပါ။ မကြာသေးမီက ရှေးဟောင်းသင်္ဘောပုံစံတွေ၊ သွားလာရေးကိရိယာတွေနဲ့ အစောပိုင်းစူးစမ်းရှာဖွေသူတွေရဲ့ သမိုင်းဝင်ပစ္စည်းတွေကို ပြသထားတဲ့ ရေကြောင်းပြတိုက်ကို ကျွန်တော် သွားရောက်လည်ပတ်ခဲ့တယ်။ ပြခန်းတွေကို လျှောက်သွားရင်း ရေကြောင်းသွားလာမှုနဲ့ သွားလာရေးနည်းပညာတွေ ရာစုနှစ်များစွာ ဘယ်လိုတိုးတက်ပြောင်းလဲလာတယ်ဆိုတာကို နားလည်စေတယ်။ ဒါက ကျွန်တော်တို့ရဲ့ အမွေအနှစ်ကို ထိန်းသိမ်းပြီး မျိုးဆက်သစ်တွေကို ရေကြောင်းသမိုင်းကို တန်ဖိုးထားလာအောင် လှုံ့ဆော်ပေးတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'Fire Drill Onboard Ship',
+                my: 'သင်္ဘောပေါ် မီးဘေးလေ့ကျင့်ခန်း',
+                sub: ['Write about a fire drill onboard ship. (80-100 words) / သင်္ဘောပေါ် မီးဘေးလေ့ကျင့်ခန်းအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'Conducting regular fire drills onboard is crucial for ensuring crew safety and preparedness during emergencies. When the general alarm sounds, all crew members must report immediately to their designated muster stations wearing proper safety gear, such as life jackets and fire-resistant suits. The safety officer checks equipment readiness, tests fire hoses, and demonstrates how to operate portable fire extinguishers. These drills help minimize panic, build teamwork, and ensure that every seafarer knows their exact duties when facing a real fire hazard at sea.',
+                    my: 'သင်္ဘောပေါ်တွင် ပုံမှန်မီးဘေးလေ့ကျင့်ခန်းပြုလုပ်ခြင်းသည် အရေးပေါ်အခြေအနေများတွင် သင်္ဘောသားများ၏ ဘေးကင်းရေးနှင့် အသင့်ပြင်ဆင်မှုအတွက် အလွန်အရေးကြီးပါသည်။ အထွေထွေသတိပေးသံမြည်သောအခါ သင်္ဘောသားအားလုံးသည် အသက်ကယ်အင်္ကျီနှင့် မီးခံဝတ်စုံများကဲ့သို့ သင့်လျော်သော ဘေးကင်းရေးပစ္စည်းများ ဝတ်ဆင်ကာ သတ်မှတ်ထားသော စုဝေးရာနေရာများသို့ ချက်ချင်းသွားရောက်ရပါမည်။ ဘေးကင်းရေးအရာရှိသည် ပစ္စည်းကိရိယာအသင့်အနေအထားကို စစ်ဆေးခြင်း၊ မီးသတ်ပိုက်များကို စမ်းသပ်ခြင်းနှင့် လက်ကိုင်မီးသတ်ဆေးဘူးများ မည်သို့ကိုင်တွယ်အသုံးပြုရမည်ကို သရုပ်ပြခြင်းတို့ ပြုလုပ်ပါသည်။ ဤလေ့ကျင့်ခန်းများသည် ထိတ်လန့်မှုကို လျှော့ချပေးပြီး အဖွဲ့လိုက်လုပ်ဆောင်မှုကို တည်ဆောက်ကာ ပင်လယ်ပြင်တွင် မီးဘေးအန္တရာယ် အမှန်တကယ်ကြုံတွေ့ရချိန်တွင် သင်္ဘောသားတိုင်း မိမိတို့၏ တာဝန်များကို အတိအကျသိရှိစေရန် သေချာစေပါသည်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'Airport Check-in Process',
+                my: 'လေဆိပ် စစ်ဆေးရေးလုပ်ငန်းစဉ်',
+                sub: ['Write about the airport check-in process. (80-100 words) / လေဆိပ် စစ်ဆေးရေးလုပ်ငန်းစဉ်အကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'The airport check-in process is an essential step before boarding an international flight. Passengers arrive at the airport terminal, proceed to the airline counter or self-service kiosk, and present their passport and ticket. Baggage is weighed and checked in, and a boarding pass is issued. After security screening and immigration control, passengers wait at the designated departure gate. Being familiar with this process ensures a smooth, stress-free travel experience.',
+                    my: 'လေဆိပ်စစ်ဆေးရေးလုပ်ငန်းစဉ်သည် နိုင်ငံတကာလေယာဉ်မစီးမီ အဓိကအဆင့်တစ်ခုဖြစ်သည်။ ခရီးသည်များသည် လေဆိပ်ဂိတ်သို့ရောက်ရှိပြီး လေကြောင်းလိုင်းကောင်တာ သို့မဟုတ် ကိုယ်တိုင်ဝန်ဆောင်မှုပေးသည့်စက်သို့သွားကာ ၎င်းတို့၏ နိုင်ငံကူးလက်မှတ်နှင့် လက်မှတ်ကို တင်ပြသည်။ ခရီးဆောင်အိတ်များကို ချိန်တွယ်ပြီး စစ်ဆေးကာ ဘော်ဒါပတ်စ်ကို ထုတ်ပေးသည်။ လုံခြုံရေးစစ်ဆေးခြင်းနှင့် လူဝင်မှုကြီးကြပ်ရေးစစ်ဆေးပြီးနောက် ခရီးသည်များသည် သတ်မှတ်ထားသော ထွက်ခွာဂိတ်တွင် စောင့်ဆိုင်းကြသည်။ ဤလုပ်ငန်းစဉ်ကို ရင်းနှီးကျွမ်းဝင်ခြင်းက ချောမွေ့ပြီး စိတ်ဖိစီးမှုကင်းသော ခရီးသွားအတွေ့အကြုံကို အာမခံပါသည်။'
+                }
+            },
+            {
+                batch: '8m_exam2',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'Importance of English for Seafarers',
+                my: 'ရေကြောင်းသားများအတွက် အင်္ဂလိပ်စာ၏ အရေးပါမှု',
+                sub: ['Write about the importance of English for seafarers. (80-100 words) / ရေကြောင်းသားများအတွက် အင်္ဂလိပ်စာ၏ အရေးပါမှုအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'English is widely recognized as the international language of the sea. For seafarers, proficiency in Maritime English is vital for safe ship operations and effective communication. Since modern ship crews are multinational, clear communication using Standard Marine Communication Phrases (SMCP) prevents misunderstandings during critical maneuvers, cargo operations, and emergency responses. Therefore, improving English skills is essential for every professional seafarer.',
+                    my: 'အင်္ဂလိပ်စာကို ပင်လယ်ပြင်၏ နိုင်ငံတကာဘာသာစကားအဖြစ် ကျယ်ကျယ်ပြန့်ပြန့် အသိအမှတ်ပြုထားသည်။ ရေကြောင်းသားများအတွက် ရေကြောင်းအင်္ဂလိပ်စာ ကျွမ်းကျင်မှုသည် ဘေးကင်းလုံခြုံသော သင်္ဘောလည်ပတ်မှုနှင့် ထိရောက်သော ဆက်သွယ်ရေးအတွက် အသက်သွေးကြောဖြစ်သည်။ ခေတ်မီသင်္ဘောအမှုထမ်းများသည် နိုင်ငံပေါင်းစုံမှ လာကြသောကြောင့် Standard Marine Communication Phrases (SMCP) ကို အသုံးပြု၍ ရှင်းလင်းစွာ ဆက်သွယ်ခြင်းသည် အရေးကြီးသော သွားလာခြင်း၊ ကုန်တင်ကုန်ချလုပ်ငန်းများနှင့် အရေးပေါ်တုံ့ပြန်မှုများအတွင်း အထင်အမြင်လွဲမှားမှုများကို ကာကွယ်ပေးပါသည်။ ထို့ကြောင့် အင်္ဂလိပ်စာစွမ်းရည် မြှင့်တင်ခြင်းသည် ပရော်ဖက်ရှင်နယ် ရေကြောင်းသားတိုင်းအတွက် မရှိမဖြစ်လိုအပ်ပါသည်။'
                 }
             }
         ];
@@ -1079,8 +1202,8 @@
                 '7m_exam2': '7M Exam 2',
                 '7m_exam3': '7M Exam 3',
                 '7m_exam4': '7M Exam 4',
-                '8m_exam1': '8M Exam 1', // ✅ အသစ်
-                '8m_exam2': '8M Exam 2'  // ✅ အသစ်
+                '8m_exam1': '8M Exam 1',
+                '8m_exam2': '8M Exam 2'
             };
             return map[batchCode] || batchCode;
         }
@@ -1146,7 +1269,7 @@
 
         console.log('📂 Old Questions loaded successfully!');
         console.log('📚 Total questions:', questionsData.length);
-        console.log('✅ 8M (၈ လိုင်း) Questions added!');
+        console.log('✅ Official 8M (၈ လပိုင်း) Questions added successfully!');
     </script>
 </body>
 </html>
