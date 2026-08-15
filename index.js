@@ -23,10 +23,12 @@ const firebaseConfig = {
   measurementId: "G-H9PTQN33F4"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
+// DOM Elements
 const loginForm = document.getElementById("loginForm");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
@@ -68,24 +70,28 @@ function todayUTC() {
 }
 
 function showError(message) {
-  loginError.textContent = message;
-  loginError.style.display = "block";
+  if (loginError) {
+    loginError.textContent = message;
+    loginError.style.display = "block";
+  }
 }
 
 function clearError() {
-  loginError.textContent = "";
-  loginError.style.display = "none";
+  if (loginError) {
+    loginError.textContent = "";
+    loginError.style.display = "none";
+  }
 }
 
 function showMainDashboard(username) {
-  loginContainer.classList.add("hidden");
-  mainContainer.classList.remove("hidden");
-  welcomeUser.textContent = username ? `Logged in as: ${username}` : "";
+  if (loginContainer) loginContainer.classList.add("hidden");
+  if (mainContainer) mainContainer.classList.remove("hidden");
+  if (welcomeUser) welcomeUser.textContent = username ? `Logged in as: ${username}` : "";
 }
 
 function showLoginForm() {
-  mainContainer.classList.add("hidden");
-  loginContainer.classList.remove("hidden");
+  if (mainContainer) mainContainer.classList.add("hidden");
+  if (loginContainer) loginContainer.classList.remove("hidden");
   clearError();
 }
 
@@ -118,8 +124,6 @@ async function claimKey(key, username) {
   const keyHash = await sha256(normalizedKey);
   const keyRef = ref(db, `keys/${keyHash}`);
 
-  // First read the exact key record.
-  // We do NOT read /keys, so the whole key database is not listed.
   let snapshot;
   try {
     snapshot = await get(keyRef);
@@ -143,7 +147,6 @@ async function claimKey(key, username) {
     return { ok: false, message: "❌ ဤ Key ၏ သက်တမ်းကုန်ဆုံးနေပါပြီ။" };
   }
 
-  // Already bound: only the same Firebase UID + same browser installation can enter.
   if (current.status === "locked") {
     if (current.uid === firebaseUser.uid && current.deviceId === deviceId) {
       saveSession(keyHash, current.username || username);
@@ -160,8 +163,6 @@ async function claimKey(key, username) {
     return { ok: false, message: "❌ Key ကို အသုံးပြု၍ မရပါ။" };
   }
 
-  // Atomically claim an available key. If two devices try at the same time,
-  // Firebase will retry the transaction and only one can win.
   let transactionResult;
   try {
     transactionResult = await runTransaction(keyRef, currentData => {
@@ -170,7 +171,7 @@ async function claimKey(key, username) {
       const today = todayUTC();
 
       if (currentData.status !== "available") {
-        return; // another device already claimed it
+        return;
       }
 
       if (currentData.expiresAt && today > currentData.expiresAt) {
@@ -211,7 +212,6 @@ async function restoreSession() {
   const session = getSession();
   if (!session || !firebaseUser) return false;
 
-  // Session must belong to the current Firebase anonymous UID and installation.
   if (session.uid !== firebaseUser.uid || session.deviceId !== deviceId) {
     localStorage.removeItem(SESSION_KEY);
     return false;
@@ -245,67 +245,71 @@ async function restoreSession() {
   }
 }
 
-loginForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  clearError();
+// Form Submit Event Handler
+if (loginForm) {
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    clearError();
 
-  const username = usernameInput.value.trim();
-  const key = passwordInput.value.trim();
+    const username = usernameInput.value.trim();
+    const key = passwordInput.value.trim();
 
-  if (!username) {
-    showError("❌ ကျေးဇူးပြု၍ Username ထည့်ပါ။");
-    return;
-  }
-
-  if (!key) {
-    showError("❌ ကျေးဇူးပြု၍ Key ထည့်ပါ။");
-    return;
-  }
-
-  loginBtn.disabled = true;
-  loginBtn.textContent = "Checking...";
-
-  try {
-    if (!firebaseUser) {
-      await signInAnonymously(auth);
-    }
-
-    const result = await claimKey(key, username);
-
-    if (!result.ok) {
-      showError(result.message);
+    if (!username) {
+      showError("❌ ကျေးဇူးပြု၍ Username ထည့်ပါ။");
       return;
     }
 
-    clearError();
-    showMainDashboard(username);
-  } catch (error) {
-    console.error(error);
-    showError("❌ Login မအောင်မြင်ပါ။ Firebase Authentication/Database setting ကို စစ်ပါ။");
-  } finally {
-    loginBtn.disabled = false;
-    loginBtn.textContent = "Login ဝင်မည်";
-  }
-});
+    if (!key) {
+      showError("❌ ကျေးဇူးပြု၍ Key ထည့်ပါ။");
+      return;
+    }
 
-logoutBtn.addEventListener("click", async () => {
-  // IMPORTANT: Logout does NOT release the key.
-  // The key remains bound to this device until an admin resets it.
-  localStorage.removeItem(SESSION_KEY);
-  showLoginForm();
-});
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Checking...";
 
+    try {
+      if (!firebaseUser) {
+        const userCredential = await signInAnonymously(auth);
+        firebaseUser = userCredential.user;
+      }
+
+      const result = await claimKey(key, username);
+
+      if (!result.ok) {
+        showError(result.message);
+        return;
+      }
+
+      clearError();
+      showMainDashboard(username);
+    } catch (error) {
+      console.error("Login process error:", error);
+      showError("❌ Login မအောင်မြင်ပါ။ VPN သုံးထားပါက ခေတ္တပိတ်၍ သို့မဟုတ် အခြား Network ဖြင့် ပြန်စမ်းပေးပါ။");
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Login ဝင်မည်";
+    }
+  });
+}
+
+// Logout Event Handler
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    localStorage.removeItem(SESSION_KEY);
+    showLoginForm();
+  });
+}
+
+// Observe Firebase Auth State
 onAuthStateChanged(auth, async user => {
   firebaseUser = user;
 
   if (user) {
+    clearError();
     const restored = await restoreSession();
     if (!restored) showLoginForm();
+  } else {
+    // Auth မရှိပါက သုံးစွဲသူ မနှိပ်မချင်း တိုက်ရိုက် sign in မလုပ်ဘဲ Form သာပြထားမည်
+    showLoginForm();
   }
-});
-
-// Start Anonymous Auth automatically.
-signInAnonymously(auth).catch(error => {
-  console.error("Anonymous Auth error:", error);
-  showError("❌ Firebase Anonymous Authentication မဖွင့်ရသေးပါ။");
 });
