@@ -11,9 +11,8 @@ import {
   get,
   runTransaction
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyA6nPiUiYXIC9_l1sQkOkahqOKrg4p94WI", // Key အမှန်သို့ ပြောင်းလဲထားသည်
+  apiKey: "AIzaSyA6nPiUiYXIC9_l1sQkOkahqOKrg4p94WI", // 'q' မဟုတ်ပါ 'k' ဖြစ်ရပါမည်
   authDomain: "meptdata.firebaseapp.com",
   databaseURL: "https://meptdata-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "meptdata",
@@ -22,6 +21,7 @@ const firebaseConfig = {
   appId: "1:53727502426:web:4621ef87134da86d9ef863",
   measurementId: "G-H9PTQN33F4"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
