@@ -350,7 +350,11 @@
         </div>
 
     </main>
-
+<script>
+  if (localStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; 
+  }
+</script>
     <script>
         // Simple console log to confirm load
         console.log('✅ Mock Test Hub loaded successfully!');
