@@ -464,7 +464,11 @@
             <!-- Dynamically rendered -->
         </div>
     </main>
-
+<script>
+  if (localStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; 
+  }
+</script>
     <script>
         // ============================================================
         // 1. QUESTIONS DATA (Includes ALL 7M + NEW Official 8M)
