@@ -443,9 +443,9 @@
                 <button class="filter-btn" data-batch="7m_exam2">7M Exam 2</button>
                 <button class="filter-btn" data-batch="7m_exam3">7M Exam 3</button>
                 <button class="filter-btn" data-batch="7m_exam4">7M Exam 4</button>
-                <!-- ✅ တရားဝင် ၈ လပိုင်း (8M) အသစ် -->
                 <button class="filter-btn" data-batch="8m_exam1">8M Exam 1</button>
                 <button class="filter-btn" data-batch="8m_exam2">8M Exam 2</button>
+                <button class="filter-btn" data-batch="8m_exam3">8M Exam 3</button>
             </div>
 
             <div class="filter-group">
@@ -464,14 +464,14 @@
             <!-- Dynamically rendered -->
         </div>
     </main>
-<script>
-  if (localStorage.getItem('isLoggedIn') !== 'true') {
-    window.location.href = 'index.html'; 
-  }
-</script>
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
     <script>
         // ============================================================
-        // 1. QUESTIONS DATA (Includes ALL 7M + NEW Official 8M)
+        // 1. QUESTIONS DATA (Includes ALL 7M + 8M Exam 1,2,3)
         // ============================================================
         const questionsData = [
             // =========================================================
@@ -493,8 +493,7 @@
                     en: 'My name is John Smith. I am 25 years old. I am a maritime student at the academy. I come from Yangon, Myanmar.',
                     my: 'ကျွန်တော့်နာမည်က John Smith ပါ။ အသက် ၂၅ နှစ်ပါ။ ကျွန်တော်က ရေကြောင်းသင်တန်းကျောင်းက ကျောင်းသားပါ။ မြန်မာနိုင်ငံ၊ ရန်ကုန်ကလာတာပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'personal',
                 type: 'Speaking (Intro)',
@@ -509,8 +508,7 @@
                     en: 'My hometown is Yangon, the largest city in Myanmar. It is famous for the Shwedagon Pagoda and delicious street food. I love the peaceful atmosphere and friendly people there.',
                     my: 'ကျွန်တော့်ဇာတိမြို့က မြန်မာနိုင်ငံရဲ့ အကြီးဆုံးမြို့ဖြစ်တဲ့ ရန်ကုန်မြို့ပါ။ ရွှေတိဂုံစေတီတော်နဲ့ အရသာရှိတဲ့ လမ်းဘေးအစားအစာတွေအတွက် ကျော်ကြားပါတယ်။ အဲဒီမှာ ငြိမ်းချမ်းတဲ့ လေထုနဲ့ ဖော်ရွေတဲ့လူတွေကို ကျွန်တော် သဘောကျတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'personal',
                 type: 'Speaking (Intro)',
@@ -524,8 +522,7 @@
                     en: 'In Myanmar, Mohinga is very famous. It is a delicious fish noodle soup. I recommend visiting Bagan, which has thousands of ancient temples, and Inle Lake, where you can see floating gardens.',
                     my: 'မြန်မာနိုင်ငံမှာ မုန့်ဟင်းခါးက အရမ်းကျော်ကြားပါတယ်။ ဒါက ငါးခေါက်ဆွဲဟင်းချိုတစ်မျိုးပါ။ ပုဂံကို သွားရောက်လည်ပတ်ဖို့ အကြံပြုချင်ပါတယ်။ အဲဒီမှာ ရှေးဟောင်းဘုရားပေါင်းထောင်ချီရှိတယ်။ အင်းလေးကန်ကိုလည်း သွားလို့ရပါတယ်။ အဲဒီမှာ ရေပေါ်ဥယျာဉ်တွေကို မြင်ရမှာပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'safety',
                 type: 'Speaking (Workplace)',
@@ -540,8 +537,7 @@
                     en: 'Restricted areas are places where only authorized personnel can enter. They are restricted for safety and security reasons. If you enter without permission, you may face serious consequences like accidents, injuries, or even legal action.',
                     my: 'တားမြစ်နေရာဆိုတာ ခွင့်ပြုချက်ရှိတဲ့သူတွေသာ ဝင်ရောက်နိုင်တဲ့နေရာတွေပါ။ လုံခြုံရေးနဲ့ ဘေးကင်းရေးအတွက် တားမြစ်ထားတာပါ။ ခွင့်ပြုချက်မရှိဘဲ ဝင်ရင် မတော်တဆမှုတွေ၊ ဒဏ်ရာရမှုတွေ၊ ဒါမှမဟုတ် တရားရေးဆိုင်ရာ အရေးယူမှုတွေလိုမျိုး ဆိုးကျိုးတွေ ခံစားရနိုင်ပါတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -556,8 +552,7 @@
                     en: 'Yes, I strongly agree with wearing safety vests. They make workers visible and protect them from accidents. Safety signs are also very important because they warn people about dangers. Without these measures, many accidents could happen. Safety should always come first.',
                     my: 'ဟုတ်ကဲ့၊ ဘေးကင်းရေးအင်္ကျီဝတ်တာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ သူတို့က အလုပ်သမားတွေကို မြင်သာစေပြီး မတော်တဆမှုတွေကနေ ကာကွယ်ပေးတယ်။ သတိပေးဆိုင်းဘုတ်တွေလည်း အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က လူတွေကို အန္တရာယ်တွေအကြောင်း သတိပေးတယ်။ ဒီအစီအမံတွေမရှိရင် မတော်တဆမှုတွေ အများကြီးဖြစ်နိုင်တယ်။ ဘေးကင်းရေးကို အမြဲတမ်း ဦးစားပေးသင့်တယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -572,8 +567,7 @@
                     en: 'Yes, I always follow safety requests because they are made for our protection. It is important to follow them to prevent accidents and injuries. If we ignore safety requests, we put ourselves and others in danger. Following rules shows responsibility and respect for others.',
                     my: 'ဟုတ်ကဲ့၊ ကျွန်တော် ဘေးကင်းရေး တောင်းဆိုချက်တွေကို အမြဲလိုက်နာတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က ကျွန်တော်တို့ရဲ့ ကာကွယ်ရေးအတွက် လုပ်ထားတာပါ။ မတော်တဆမှုတွေနဲ့ ဒဏ်ရာတွေကို ကာကွယ်ဖို့ လိုက်နာဖို့ အရေးကြီးတယ်။ ဘေးကင်းရေး တောင်းဆိုချက်တွေကို လျစ်လျူရှုရင် ကိုယ်ရော သူများပါ အန္တရာယ်ထဲ ထည့်လိုက်သလိုဖြစ်တယ်။ စည်းမျဉ်းတွေကို လိုက်နာတာက တာဝန်ယူမှုနဲ့ သူတစ်ပါးကို လေးစားမှုကို ပြသခြင်းပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -588,8 +582,7 @@
                     en: 'Safety vests protect us by making us visible to others, especially in dark or busy areas. Safety signs warn us about dangers like slippery floors or falling objects. For example, a "Wet Floor" sign tells people to be careful. These measures prevent accidents and save lives.',
                     my: 'ဘေးကင်းရေးအင်္ကျီက ကျွန်တော်တို့ကို အထူးသဖြင့် မှောင်တဲ့နေရာ ဒါမှမဟုတ် လူစည်ကားတဲ့နေရာတွေမှာ မြင်သာအောင် လုပ်ပေးပြီး ကာကွယ်ပေးတယ်။ သတိပေးဆိုင်းဘုတ်တွေက ချော်တဲ့ကြမ်းပြင်လို ဒါမှမဟုတ် ပြုတ်ကျတဲ့ပစ္စည်းတွေလိုမျိုး အန္တရာယ်တွေအကြောင်း သတိပေးတယ်။ ဥပမာ၊ "စိုစွတ်သောကြမ်းပြင်" ဆိုင်းဘုတ်က လူတွေကို သတိထားဖို့ ပြောတယ်။ ဒီအစီအမံတွေက မတော်တဆမှုတွေကို ကာကွယ်ပြီး အသက်တွေကို ကယ်တယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -625,8 +618,7 @@
                     en: 'On the world map, I can see all the continents and oceans. Some countries are highlighted in different colors. The map shows political boundaries and geographical features. From this map, I can learn about the location of countries, their sizes, and their neighbors. It helps me understand global geography.',
                     my: 'ကမ္ဘာ့မြေပုံပေါ်မှာ တိုက်ကြီးအားလုံးနဲ့ သမုဒ္ဒရာတွေကို မြင်ရတယ်။ တချို့နိုင်ငံတွေကို အရောင်အမျိုးမျိုးနဲ့ မီးမောင်းထိုးပြထားတယ်။ မြေပုံက နိုင်ငံရေးနယ်နိမိတ်တွေနဲ့ ပထဝီဝင်အသွင်အပြင်တွေကို ပြသထားတယ်။ ဒီမြေပုံကနေ နိုင်ငံတွေရဲ့ တည်နေရာ၊ အရွယ်အစားနဲ့ အိမ်နီးချင်းတွေအကြောင်း သင်ယူနိုင်တယ်။ ဒါက ကမ္ဘာ့ပထဝီဝင်ကို နားလည်ဖို့ အကူအညီပေးတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam2',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -641,8 +633,7 @@
                     en: 'In the picture, workers are attending a safety training session. They are learning about emergency procedures and safety equipment. Safety training is important because it prepares people for emergencies and prevents accidents. In these sessions, people learn about first aid, fire safety, and how to use safety equipment properly.',
                     my: 'ပုံထဲမှာ အလုပ်သမားတွေ လုံခြုံရေးသင်တန်းကို တက်ရောက်နေကြတယ်။ သူတို့က အရေးပေါ်လုပ်ထုံးလုပ်နည်းတွေနဲ့ ဘေးကင်းရေးပစ္စည်းတွေအကြောင်း သင်ယူနေကြတယ်။ လုံခြုံရေးသင်တန်းက အရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဒါက လူတွေကို အရေးပေါ်အခြေအနေတွေအတွက် ပြင်ဆင်ပေးပြီး မတော်တဆမှုတွေကို ကာကွယ်ပေးတယ်။ ဒီသင်တန်းတွေမှာ လူတွေက ရှေးဦးသူနာပြုနည်း၊ မီးဘေးလုံခြုံရေးနဲ့ ဘေးကင်းရေးပစ္စည်းတွေကို ဘယ်လိုမှန်ကန်စွာသုံးရမယ်ဆိုတာ သင်ယူရတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam2',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -657,8 +648,7 @@
                     en: 'Slips and falls are often caused by wet floors, uneven surfaces, or poor lighting. We can prevent them by keeping floors clean and dry, using warning signs, and wearing proper footwear. Safety measures include regular cleaning, good lighting, and using anti-slip mats. These actions help create a safer environment.',
                     my: 'ချော်လဲခြင်းတွေက စိုစွတ်တဲ့ကြမ်းပြင်၊ မညီညာတဲ့မျက်နှာပြင် ဒါမှမဟုတ် အလင်းရောင်မကောင်းတာတွေကြောင့် ဖြစ်တတ်ပါတယ်။ ကြမ်းပြင်တွေကို သန့်ရှင်းပြီး ခြောက်သွေ့အောင်ထားခြင်း၊ သတိပေးဆိုင်းဘုတ်တွေသုံးခြင်းနဲ့ သင့်တော်တဲ့ဖိနပ်စီးခြင်းတို့ဖြင့် ကာကွယ်နိုင်ပါတယ်။ ဘေးကင်းရေးအစီအမံတွေက ပုံမှန်သန့်ရှင်းရေးလုပ်ခြင်း၊ အလင်းရောင်ကောင်းအောင်ထားခြင်းနဲ့ ချော်လဲမှုကာကွယ်တဲ့ဖျာတွေသုံးခြင်းတို့ ပါဝင်ပါတယ်။ ဒီလုပ်ဆောင်ချက်တွေက ပိုလုံခြုံတဲ့ပတ်ဝန်းကျင်ကို ဖန်တီးပေးပါတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate / Discussion)',
@@ -674,8 +664,7 @@
                     en: 'Exercise is important because it keeps our body strong and healthy. It also reduces stress and improves our mood. For my health, I eat fruits, vegetables, and fish. I like traditional food and seafood. I do exercises three times a week, including walking and swimming. Regular exercise and healthy food help me stay fit.',
                     my: 'လေ့ကျင့်ခန်းက ကျွန်တော်တို့ရဲ့ ခန္ဓာကိုယ်ကို သန်စွမ်းပြီး ကျန်းမာစေတဲ့အတွက် အရေးကြီးတယ်။ စိတ်ဖိစီးမှုကိုလည်း လျော့ကျစေပြီး စိတ်ခံစားချက်ကို ကောင်းစေတယ်။ ကျွန်တော့်ကျန်းမာရေးအတွက် သစ်သီးတွေ၊ ဟင်းသီးဟင်းရွက်တွေနဲ့ ငါးတွေကို စားတယ်။ ရိုးရာအစားအစာတွေနဲ့ ပင်လယ်စာတွေကို ကြိုက်တယ်။ တစ်ပတ်ကို သုံးကြိမ် လေ့ကျင့်ခန်းလုပ်တယ်။ လမ်းလျှောက်တာနဲ့ ရေကူးတာတွေ ပါဝင်တယ်။ ပုံမှန်လေ့ကျင့်ခန်းနဲ့ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာတွေက ကျွန်တော်ကို ကြံ့ခိုင်နေစေတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate / Discussion)',
@@ -706,8 +695,7 @@
                     en: 'My first day at the workshop was exciting. I met many new colleagues and learned about the safety rules. Everyone was friendly and helpful. I felt very welcome.',
                     my: 'အလုပ်ရုံမှာ ကျွန်တော့်ရဲ့ ပထမဆုံးနေ့က စိတ်လှုပ်ရှားစရာကောင်းခဲ့တယ်။ လုပ်ဖော်ကိုင်ဖက်အသစ်တွေနဲ့ မိတ်ဆက်ခဲ့ရပြီး ဘေးကင်းရေး စည်းမျဉ်းတွေကို လေ့လာခဲ့ရတယ်။ အားလုံးက ဖော်ရွေပြီး အကူအညီပေးတယ်။ ကျွန်တော် အရမ်းကြိုဆိုခံရတယ်လို့ ခံစားရတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam3',
                 category: 'writing',
                 type: 'Writing Task (25 words)',
@@ -717,8 +705,7 @@
                     en: 'I visited the port with my colleagues. We saw many large ships and containers. The port was very busy with workers and machines. It was an interesting experience.',
                     my: 'ကျွန်တော် လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ဆိပ်ကမ်းကို သွားရောက်လည်ပတ်ခဲ့တယ်။ သင်္ဘောကြီးတွေနဲ့ ကွန်တိန်နာတွေ အများကြီး မြင်ခဲ့ရတယ်။ ဆိပ်ကမ်းက အလုပ်သမားတွေနဲ့ စက်ပစ္စည်းတွေ အလုပ်ရှုပ်နေတယ်။ စိတ်ဝင်စားစရာ အတွေ့အကြုံတစ်ခုပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam3',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -728,8 +715,7 @@
                     en: 'Last week, I attended a workshop on maritime safety. The workshop was very informative and practical. We learned about emergency procedures, first aid, and fire prevention. The instructor was experienced and shared many real-life examples. We also had group discussions and practical exercises. I gained a lot of knowledge and confidence. I believe this workshop will help me in my future career at sea. I am grateful for this opportunity.',
                     my: 'ပြီးခဲ့တဲ့အပတ်က ကျွန်တော် ရေကြောင်းဘေးကင်းရေး ဆွေးနွေးပွဲတစ်ခုကို တက်ရောက်ခဲ့တယ်။ အဲဒီဆွေးနွေးပွဲက အလွန်အသိပညာပေးပြီး လက်တွေ့ကျတယ်။ အရေးပေါ် လုပ်ထုံးလုပ်နည်းတွေ၊ ရှေးဦးသူနာပြုနည်းနဲ့ မီးလောင်မှုကာကွယ်ရေးတွေကို သင်ယူခဲ့ရတယ်။ နည်းပြဆရာက အတွေ့အကြုံရင့်ကျက်ပြီး ဘဝဖြစ်ရပ်မှန်တွေ အများကြီးကို မျှဝေခဲ့တယ်။ အုပ်စုဖွဲ့ ဆွေးနွေးမှုတွေနဲ့ လက်တွေ့လေ့ကျင့်ခန်းတွေလည်း လုပ်ခဲ့ရတယ်။ အသိပညာနဲ့ ယုံကြည်မှု အများကြီး ရရှိခဲ့တယ်။ ဒီဆွေးနွေးပွဲက ကျွန်တော့်ရဲ့ အနာဂတ် ရေကြောင်းအလုပ်အကိုင်အတွက် အကူအညီဖြစ်မယ်လို့ ယုံကြည်တယ်။ ဒီအခွင့်အရေးအတွက် ကျေးဇူးတင်မိတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam3',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -759,8 +745,7 @@
                     en: 'My name is Aung Ko. I am 22 years old. I want to be a marine engineer because I love working on ships and fixing machines. It is an exciting and challenging career that allows me to travel and learn new things.',
                     my: 'ကျွန်တော့်နာမည်က အောင်ကိုပါ။ အသက် ၂၂ နှစ်ပါ။ ကျွန်တော် ရေကြောင်းအင်ဂျင်နီယာ ဖြစ်ချင်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သင်္ဘောတွေပေါ်မှာ အလုပ်လုပ်ရတာနဲ့ စက်တွေပြင်ရတာကို ကြိုက်လို့ပါ။ ဒါက ခရီးသွားရင်းနဲ့ အသစ်အဆန်းတွေ သင်ယူရတဲ့ စိတ်လှုပ်ရှားစရာနဲ့ စိန်ခေါ်မှုရှိတဲ့ အလုပ်တစ်ခုပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam4',
                 category: 'personal',
                 type: 'Speaking (Daily Life)',
@@ -776,8 +761,7 @@
                     en: 'I like traditional Burmese food, especially Mohinga and Shan noodles. I came to the exam centre by taxi today. The journey was not difficult because the traffic was light. My favorite place in my hometown is the city park. It is peaceful and I enjoy walking there in the evening.',
                     my: 'ကျွန်တော် မြန်မာရိုးရာအစားအစာတွေ အထူးသဖြင့် မုန့်ဟင်းခါးနဲ့ ရှမ်းခေါက်ဆွဲကို ကြိုက်တယ်။ ဒီနေ့ စာမေးပွဲဖြေဖို့ တက္ကစီနဲ့ လာခဲ့တယ်။ ကားအသွားအလာ သိပ်မများတော့ ခရီးက သိပ်မခက်ခဲဘူး။ ကျွန်တော့်ဇာတိမြို့မှာ အကြိုက်ဆုံးနေရာက မြို့ပန်းခြံပါ။ အဲဒီမှာ အေးချမ်းပြီး ညနေပိုင်းတွေမှာ လမ်းလျှောက်ရတာ သဘောကျတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam4',
                 category: 'debate',
                 type: 'Speaking (Discussion / Opinion)',
@@ -791,8 +775,7 @@
                     en: 'I want to experience living in a foreign country. I believe it will help me learn about different cultures and improve my language skills. Yes, I strongly agree that learning is a lifelong process. New technologies and challenges appear every day. We must keep learning to stay updated and succeed in life.',
                     my: 'ကျွန်တော် နိုင်ငံခြားမှာ နေထိုင်တဲ့ အတွေ့အကြုံကို လိုချင်တယ်။ ဒါက မတူညီတဲ့ ယဉ်ကျေးမှုတွေအကြောင်း လေ့လာနိုင်ပြီး ဘာသာစကားစွမ်းရည်ကို မြှင့်တင်နိုင်မယ်လို့ ယုံကြည်တယ်။ ဟုတ်ကဲ့၊ ဘဝတစ်ခုလုံး ပညာသင်ယူနေရတယ်ဆိုတာကို အပြင်းအထန် သဘောတူတယ်။ နည်းပညာအသစ်တွေနဲ့ စိန်ခေါ်မှုအသစ်တွေ နေ့တိုင်း ပေါ်လာတယ်။ အချိန်နဲ့အမျှ လိုက်လျောညီထွေဖြစ်ပြီး ဘဝမှာ အောင်မြင်ဖို့ ဆက်လက်သင်ယူနေရမယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam4',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -808,8 +791,7 @@
                     en: 'In the picture, I can see a firefighter or a crew member using a fire extinguisher to put out a fire. The person is wearing a safety helmet and protective clothing. This is very important because fires can cause serious damage and injuries. Using the right equipment and following safety procedures helps prevent accidents and saves lives.',
                     my: 'ပုံထဲမှာ မီးသတ်သမား ဒါမှမဟုတ် သင်္ဘောသားတစ်ယောက် မီးသတ်ဆေးဘူးကို သုံးပြီး မီးငြှိမ်းသတ်နေတာကို မြင်ရတယ်။ အဲဒီလူက ဘေးကင်းရေးဦးထုပ်နဲ့ အကာအကွယ်အဝတ်အစားတွေ ဝတ်ထားတယ်။ ဒါက အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ မီးက ပြင်းထန်တဲ့ ပျက်စီးမှုတွေနဲ့ ဒဏ်ရာတွေကို ဖြစ်စေနိုင်လို့ပါ။ မှန်ကန်တဲ့ ပစ္စည်းတွေသုံးပြီး ဘေးကင်းရေးလုပ်ထုံးလုပ်နည်းတွေကို လိုက်နာတာက မတော်တဆမှုတွေကို ကာကွယ်ပြီး အသက်တွေကို ကယ်တယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam4',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -818,15 +800,14 @@
                 sub: [
                     'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
                     'What is the person doing? / လူက ဘာလုပ်နေလဲ?',
-                    'How do people eat in your culture? / မင်းတို့ယဉ်ကျေးမှုမှာ လူတွေ ဘယ်လိုစားကြသလဲ?',
+                    'How do people eat in your culture? / မင်းတို့ယဉ်းကျေးမှုမှာ လူတွေ ဘယ်လိုစားကြသလဲ?',
                     'What are the advantages of eating with hands? / လက်နဲ့စားခြင်းရဲ့ အားသာချက်တွေက ဘာတွေလဲ?'
                 ],
                 answer: {
                     en: 'In the picture, I can see a person eating a meal with their hands. In Myanmar, many people eat with their hands, especially when eating traditional dishes like rice and curry. Eating with hands is natural and connects us to our culture. It also helps us enjoy the texture and temperature of the food. However, it is important to wash hands before eating for hygiene.',
-                    my: 'ပုံထဲမှာ လူတစ်ယောက် လက်နဲ့ ထမင်းစားနေတာကို မြင်ရတယ်။ မြန်မာနိုင်ငံမှာ လူအများစုက လက်နဲ့စားကြတယ်။ အထူးသဖင့် ထမင်းနဲ့ ဟင်းတွေကို စားတဲ့အခါမှာပါ။ လက်နဲ့စားတာက သဘာဝကျပြီး ကျွန်တော်တို့ရဲ့ ယဉ်ကျေးမှုနဲ့ ချိတ်ဆက်ပေးတယ်။ အစားအစာရဲ့ အသွင်အပြင်နဲ့ အပူချိန်ကို ခံစားရစေတယ်။ ဒါပေမယ့် သန့်ရှင်းရေးအတွက် မစားခင်မှာ လက်ကို သေချာဆေးကြောဖို့ အရေးကြီးတယ်။'
+                    my: 'ပုံထဲမှာ လူတစ်ယောက် လက်နဲ့ ထမင်းစားနေတာကို မြင်ရတယ်။ မြန်မာနိုင်ငံမှာ လူအများစုက လက်နဲ့စားကြတယ်။ အထူးသဖင့် ထမင်းနဲ့ ဟင်းတွေကို စားတဲ့အခါမှာပါ။ လက်နဲ့စားတာက သဘာဝကျပြီး ကျွန်တော်တို့ရဲ့ ယဉ်းကျေးမှုနဲ့ ချိတ်ဆက်ပေးတယ်။ အစားအစာရဲ့ အသွင်အပြင်နဲ့ အပူချိန်ကို ခံစားရစေတယ်။ ဒါပေမယ့် သန့်ရှင်းရေးအတွက် မစားခင်မှာ လက်ကို သေချာဆေးကြောဖို့ အရေးကြီးတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '7m_exam4',
                 category: 'safety',
                 type: 'Speaking (Situation)',
@@ -845,7 +826,7 @@
             },
 
             // =========================================================
-            // ✅ NEW: Official 8M EXAM 1 (၈ လပိုင်း အပိုင်း ၁)
+            // ✅ 8M EXAM 1
             // =========================================================
             {
                 batch: '8m_exam1',
@@ -858,8 +839,7 @@
                     en: 'My name is Myo Khant, and I live in Yangon, Myanmar. My hometown has a peaceful environment with friendly neighborhoods.',
                     my: 'ကျွန်တော့်နာမည်က Myo Khant ပါ၊ ကျွန်တော် မြန်မာနိုင်ငံ၊ ရန်ကုန်မြို့မှာ နေထိုင်ပါတယ်။ ကျွန်တော့်ဇာတိမြို့က ငြိမ်းချမ်းပြီး ဖော်ရွေတဲ့ ရပ်ကွက်တွေ ရှိပါတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'personal',
                 type: 'Speaking (Personal)',
@@ -870,8 +850,7 @@
                     en: 'I have completed my graduation with a major in Psychology. I chose this major because I am deeply interested in understanding human behavior, mental processes, and how people interact in various social environments.',
                     my: 'ကျွန်တော် စိတ်ပညာဘာသာရပ်ဖြင့် ဘွဲ့ရရှိထားပါတယ်။ လူ့အပြုအမူ၊ စိတ်ဖြစ်စဉ်တွေနဲ့ လူမှုပတ်ဝန်းကျင်အမျိုးမျိုးမှာ လူတွေ ဘယ်လို ဆက်ဆံကြသလဲဆိုတာကို နက်နက်ရှိုင်းရှိုင်း စိတ်ဝင်စားလို့ ဒီဘာသာရပ်ကို ရွေးချယ်ခဲ့တာပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'personal',
                 type: 'Speaking (Personal)',
@@ -882,8 +861,7 @@
                     en: 'My primary goal is to become an expert professional in my field, lead training development programs, and build a stable and successful career for my future.',
                     my: 'ကျွန်တော့်ရဲ့ အဓိကရည်မှန်းချက်က ကျွန်တော့်နယ်ပယ်မှာ ကျွမ်းကျင်ပညာရှင်တစ်ယောက်ဖြစ်လာဖို့၊ သင်တန်းဖွံ့ဖြိုးရေးအစီအစဉ်တွေကို ဦးဆောင်ဖို့နဲ့ အနာဂတ်အတွက် တည်ငြိမ်အောင်မြင်တဲ့ အသက်မွေးဝမ်းကျောင်းတစ်ခု တည်ဆောက်ဖို့ပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'personal',
                 type: 'Speaking (Personal)',
@@ -894,8 +872,7 @@
                     en: 'I like public parks in my city because they offer a quiet, green space to relax and exercise. On the other hand, I dislike crowded and congested areas during peak traffic hours because they cause unnecessary delays and stress.',
                     my: 'ကျွန်တော် မြို့ထဲက အများပြည်သူသုံး ပန်းခြံတွေကို ကြိုက်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က အေးချမ်းပြီး စိမ်းလန်းတဲ့နေရာမှာ အနားယူပြီး လေ့ကျင့်ခန်းလုပ်ဖို့ ပေးတယ်။ အခြားတစ်ဖက်မှာ၊ ကားအသွားအလာ အများဆုံးအချိန်တွေမှာ လူစည်ကားပြီး ရှုပ်ယှက်ခတ်နေတဲ့နေရာတွေကို မကြိုက်ဘူး။ ဘာဖြစ်လို့လဲဆိုတော့ သူတို့က မလိုအပ်တဲ့ နှောင့်နှေးမှုတွေနဲ့ စိတ်ဖိစီးမှုတွေ ဖြစ်စေလို့ပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'personal',
                 type: 'Speaking (Personal)',
@@ -906,8 +883,7 @@
                     en: 'I want to visit Japan because I am fascinated by its unique blend of ancient traditions and advanced technology, as well as its beautiful landscapes and clean cities.',
                     my: 'ကျွန်တော် ဂျပန်ကို သွားရောက်လည်ပတ်ချင်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ရှေးဟောင်းရိုးရာဓလေ့တွေနဲ့ ခေတ်မီနည်းပညာတွေရဲ့ ထူးခြားတဲ့ ပေါင်းစပ်မှု၊ လှပလွန်းတဲ့ ရှုခင်းတွေနဲ့ သန့်ရှင်းတဲ့မြို့တွေကို ကျွန်တော် စွဲဆောင်မိလို့ပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture)',
@@ -918,8 +894,7 @@
                     en: 'Looking at the world map, Myanmar is situated in Southeast Asia. It is bordered by India, Bangladesh, China, Laos, and Thailand, and it has a long coastline facing the Bay of Bengal and the Andaman Sea.',
                     my: 'ကမ္ဘာ့မြေပုံကို ကြည့်လျှင် မြန်မာနိုင်ငံသည် အရှေ့တောင်အာရှတွင် တည်ရှိသည်။ အိန္ဒိယ၊ ဘင်္ဂလားဒေ့ရှ်၊ တရုတ်၊ လာအိုနှင့် ထိုင်းနိုင်ငံတို့နှင့် နယ်နိမိတ်ချင်းထိစပ်ပြီး ဘင်္ဂလားပင်လယ်အော်နှင့် အင်းဒီယန်ပင်လယ်တို့ကို မျက်နှာမူထားသည့် ရှည်လျားသော ကမ်းရိုးတန်းလည်း ရှိသည်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture)',
@@ -930,8 +905,7 @@
                     en: 'The most important item is the passport. Why? Because it is an official international identification document required to cross borders, board international flights, and check into foreign hotels.',
                     my: 'အရေးအကြီးဆုံး ပစ္စည်းက နိုင်ငံကူးလက်မှတ်ပါ။ ဘာကြောင့်လဲဆိုတော့ နိုင်ငံခြားကို ဖြတ်သန်းဖို့၊ နိုင်ငံတကာလေယာဉ်တွေ စီးဖို့နဲ့ နိုင်ငံခြားဟိုတယ်တွေမှာ တည်းခိုဖို့ လိုအပ်တဲ့ တရားဝင် နိုင်ငံတကာ သက်သေခံစာရွက်စာတမ်းဖြစ်လို့ပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'safety',
                 type: 'Speaking (Situation)',
@@ -942,8 +916,7 @@
                     en: 'Slips and falls usually happen due to wet floors, oil spills, or unorganized items in walkways without warning signs. To prevent them, we must clean spills immediately, put up caution signs, wear proper non-slip footwear, and keep pathways clear both at home and onboard ships.',
                     my: 'ချော်လဲခြင်းတွေဟာ စိုစွတ်တဲ့ကြမ်းပြင်၊ ဆီယိုဖိတ်မှု၊ ဒါမှမဟုတ် သတိပေးဆိုင်းဘုတ်မပါတဲ့ လမ်းသွားလမ်းလာတွေမှာ စုစည်းမှုမရှိတဲ့ ပစ္စည်းတွေကြောင့် ဖြစ်တတ်ပါတယ်။ ကာကွယ်ဖို့ ယိုဖိတ်မှုတွေကို ချက်ချင်းသန့်ရှင်းရေးလုပ်ရမယ်၊ သတိပေးဆိုင်းဘုတ်တွေ တပ်ဆင်ရမယ်၊ ချော်လဲမှုကာကွယ်တဲ့ ဖိနပ်တွေ စီးရမယ်၊ နဲ့ အိမ်မှာရော သင်္ဘောပေါ်မှာပါ လမ်းကြောင်းတွေကို ရှင်းလင်းထားရမယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam1',
                 category: 'safety',
                 type: 'Speaking (Picture)',
@@ -957,7 +930,7 @@
             },
 
             // =========================================================
-            // ✅ NEW: Official 8M EXAM 2 (၈ လပိုင်း အပိုင်း ၂)
+            // ✅ 8M EXAM 2
             // =========================================================
             {
                 batch: '8m_exam2',
@@ -970,8 +943,7 @@
                     en: 'This picture shows a person standing at a bus stop waiting for public transport. It reflects daily commuting and routine life, where people use public transit to travel to work or school efficiently.',
                     my: 'ဒီပုံက ဘတ်စ်ကားမှတ်တိုင်မှာ အများပြည်သူသုံးယာဉ်ကို စောင့်ဆိုင်းနေတဲ့ လူတစ်ယောက်ကို ပြထားတယ်။ ဒါက နေ့စဉ်ခရီးသွားလာမှုနဲ့ လုပ်ရိုးလုပ်စဉ်ဘဝကို ထင်ဟပ်စေတယ်။ လူတွေဟာ အလုပ် ဒါမှမဟုတ် ကျောင်းကို ထိရောက်စွာ သွားလာဖို့ အများပြည်သူသုံးယာဉ်တွေကို အသုံးပြုကြတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'debate',
                 type: 'Speaking (Discussion)',
@@ -982,8 +954,7 @@
                     en: 'People use the internet for communication, education, business, and entertainment. Social apps like Facebook and messaging tools help us stay connected with family and colleagues worldwide, though we must manage our daily screen time wisely.',
                     my: 'လူတွေဟာ ဆက်သွယ်ရေး၊ ပညာရေး၊ စီးပွားရေးနဲ့ ဖျော်ဖြေရေးအတွက် အင်တာနက်ကို အသုံးပြုကြတယ်။ Facebook လိုမျိုး လူမှုရေးအက်ပ်တွေနဲ့ စာတိုပေးပို့ရေးကိရိယာတွေက မိသားစုနဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ကမ္ဘာအနှံ့ ဆက်သွယ်နေဖို့ ကူညီပေးပေမယ့် နေ့စဉ်စခရင်အသုံးပြုချိန်ကို ပညာရှိရှိ စီမံခန့်ခွဲရမယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'speaking',
                 type: 'Speaking (Picture)',
@@ -994,8 +965,7 @@
                     en: 'The picture shows people playing beach football in various active styles. Playing sports on the sand is physically demanding because of the loose ground, which helps build great teamwork, stamina, and agility.',
                     my: 'ဒီပုံက လူတွေ ကမ်းခြေမှာ ဘောလုံးကန်နေတဲ့ တက်ကြွတဲ့ ပုံစံအမျိုးမျိုးကို ပြထားတယ်။ သဲပေါ်မှာ အားကစားလုပ်တာက မြေသားမတည်ငြိမ်တာကြောင့် ရုပ်ပိုင်းဆိုင်ရာ အလွန်အထိုက်အမ လိုအပ်ပြီး အဖွဲ့လိုက်ပူးပေါင်းဆောင်ရွက်မှု၊ ခံနိုင်ရည်နဲ့ လျင်မြန်သွက်လက်မှုကို တည်ဆောက်ပေးတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -1006,8 +976,7 @@
                     en: 'I strongly agree. Healthy food provides essential nutrients, vitamins, and sustained energy. Fast food is high in trans fats, sodium, and sugar, which can lead to obesity and heart problems.',
                     my: 'ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်တွေ၊ ဗီတာမင်တွေနဲ့ ရေရှည်စွမ်းအင်ကို ထောက်ပံ့ပေးတယ်။ အမြန်အစားအစာမှာ အဆီအမျိုးအစားဆိုးတွေ၊ ဆိုဒီယမ်နဲ့ သကြားဓာတ်တွေ မြင့်မားစွာပါဝင်ပြီး အဝလွန်ခြင်းနဲ့ နှလုံးရောဂါတွေကို ဖြစ်စေနိုင်တယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -1018,8 +987,7 @@
                     en: 'I completely agree. Water keeps our body hydrated and vital functions running, while proper sleep allows the brain and body to repair cells and maintain a strong immune system.',
                     my: 'ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။ ရေက ခန္ဓာကိုယ်ကို ရေဓာတ်ဖြည့်ပေးပြီး အရေးကြီးတဲ့ လုပ်ငန်းဆောင်တာတွေ လည်ပတ်နေအောင် ထိန်းပေးတယ်။ လုံလောက်တဲ့ အိပ်စက်ခြင်းကလည်း ဦးနှောက်နဲ့ ခန္ဓာကိုယ်က ဆဲလ်တွေကို ပြုပြင်ပေးပြီး ခိုင်မာတဲ့ ကိုယ်ခံအားစနစ်ကို ထိန်းသိမ်းပေးတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'debate',
                 type: 'Speaking (Debate)',
@@ -1030,8 +998,7 @@
                     en: 'Yes, I agree. Free time reduces stress and allows us to pursue hobbies, while being on time reflects strong personal discipline, professionalism, and respect for others.',
                     my: 'ဟုတ်ကဲ့၊ ကျွန်တော် သဘောတူတယ်။ အားလပ်ချိန်က စိတ်ဖိစီးမှုကို လျှော့ချပေးပြီး ဝါသနာတွေကို လုပ်ကိုင်နိုင်စေတယ်။ အချိန်မှန်ခြင်းကလည်း ခိုင်မာတဲ့ ကိုယ်ရေးကိုယ်တာ စည်းကမ်း၊ ပရော်ဖက်ရှင်နယ်ဆန်မှုနဲ့ သူတစ်ပါးကို လေးစားမှုကို ထင်ဟပ်စေတယ်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (25 words)',
@@ -1042,8 +1009,7 @@
                     en: 'Hi Min, I have sent your package containing books and local snacks via express delivery today. It should arrive by this Friday. Please let me know when you receive it!',
                     my: 'မင်းခိုင်၊ မင်းရဲ့ စာအုပ်တွေနဲ့ ပြည်တွင်းသရေစာတွေပါတဲ့ ပါဆယ်ထုပ်ကို ဒီနေ့ အမြန်ပို့ဆောင်မှုနဲ့ ပို့လိုက်ပြီ။ ဒီသောကြာနေ့လောက်မှာ ရောက်သင့်တယ်။ ရောက်ရင် ပြန်ပြောပါနော်!'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (25 words)',
@@ -1054,8 +1020,7 @@
                     en: 'You should visit the new "Sunset Cafe" downtown. It has a cozy atmosphere, excellent dark roast coffee, and very friendly staff. It\'s a great place to relax or study.',
                     my: 'မြို့လယ်က "Sunset Cafe" အသစ်ကို သွားသင့်တယ်။ အဲဒီမှာ သက်တောင့်သက်သာရှိတဲ့ လေထု၊ အရသာရှိတဲ့ ဒပ်ခေါက်ကော်ဖီနဲ့ အရမ်းဖော်ရွေတဲ့ ဝန်ထမ်းတွေ ရှိတယ်။ အနားယူဖို့ ဒါမှမဟုတ် စာလုပ်ဖို့ နေရာကောင်းတစ်ခုပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -1066,8 +1031,7 @@
                     en: 'Visiting a museum is an educational and enriching experience that allows us to explore history, art, and culture. Recently, I visited a maritime museum that displayed ancient ship models, navigation tools, and historical artifacts from early explorers. Walking through the galleries helped me understand how seafaring and navigation technology evolved over centuries. It is a wonderful way to preserve our heritage and inspire younger generations to appreciate maritime history.',
                     my: 'ပြတိုက်သွားရောက်လည်ပတ်ခြင်းဟာ သမိုင်း၊ အနုပညာနဲ့ ယဉ်ကျေးမှုကို စူးစမ်းလေ့လာနိုင်စေတဲ့ ပညာရေးဆိုင်ရာနဲ့ ကြွယ်ဝဖွယ်အတွေ့အကြုံတစ်ခုပါ။ မကြာသေးမီက ရှေးဟောင်းသင်္ဘောပုံစံတွေ၊ သွားလာရေးကိရိယာတွေနဲ့ အစောပိုင်းစူးစမ်းရှာဖွေသူတွေရဲ့ သမိုင်းဝင်ပစ္စည်းတွေကို ပြသထားတဲ့ ရေကြောင်းပြတိုက်ကို ကျွန်တော် သွားရောက်လည်ပတ်ခဲ့တယ်။ ပြခန်းတွေကို လျှောက်သွားရင်း ရေကြောင်းသွားလာမှုနဲ့ သွားလာရေးနည်းပညာတွေ ရာစုနှစ်များစွာ ဘယ်လိုတိုးတက်ပြောင်းလဲလာတယ်ဆိုတာကို နားလည်စေတယ်။ ဒါက ကျွန်တော်တို့ရဲ့ အမွေအနှစ်ကို ထိန်းသိမ်းပြီး မျိုးဆက်သစ်တွေကို ရေကြောင်းသမိုင်းကို တန်ဖိုးထားလာအောင် လှုံ့ဆော်ပေးတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -1078,8 +1042,7 @@
                     en: 'Conducting regular fire drills onboard is crucial for ensuring crew safety and preparedness during emergencies. When the general alarm sounds, all crew members must report immediately to their designated muster stations wearing proper safety gear, such as life jackets and fire-resistant suits. The safety officer checks equipment readiness, tests fire hoses, and demonstrates how to operate portable fire extinguishers. These drills help minimize panic, build teamwork, and ensure that every seafarer knows their exact duties when facing a real fire hazard at sea.',
                     my: 'သင်္ဘောပေါ်တွင် ပုံမှန်မီးဘေးလေ့ကျင့်ခန်းပြုလုပ်ခြင်းသည် အရေးပေါ်အခြေအနေများတွင် သင်္ဘောသားများ၏ ဘေးကင်းရေးနှင့် အသင့်ပြင်ဆင်မှုအတွက် အလွန်အရေးကြီးပါသည်။ အထွေထွေသတိပေးသံမြည်သောအခါ သင်္ဘောသားအားလုံးသည် အသက်ကယ်အင်္ကျီနှင့် မီးခံဝတ်စုံများကဲ့သို့ သင့်လျော်သော ဘေးကင်းရေးပစ္စည်းများ ဝတ်ဆင်ကာ သတ်မှတ်ထားသော စုဝေးရာနေရာများသို့ ချက်ချင်းသွားရောက်ရပါမည်။ ဘေးကင်းရေးအရာရှိသည် ပစ္စည်းကိရိယာအသင့်အနေအထားကို စစ်ဆေးခြင်း၊ မီးသတ်ပိုက်များကို စမ်းသပ်ခြင်းနှင့် လက်ကိုင်မီးသတ်ဆေးဘူးများ မည်သို့ကိုင်တွယ်အသုံးပြုရမည်ကို သရုပ်ပြခြင်းတို့ ပြုလုပ်ပါသည်။ ဤလေ့ကျင့်ခန်းများသည် ထိတ်လန့်မှုကို လျှော့ချပေးပြီး အဖွဲ့လိုက်လုပ်ဆောင်မှုကို တည်ဆောက်ကာ ပင်လယ်ပြင်တွင် မီးဘေးအန္တရာယ် အမှန်တကယ်ကြုံတွေ့ရချိန်တွင် သင်္ဘောသားတိုင်း မိမိတို့၏ တာဝန်များကို အတိအကျသိရှိစေရန် သေချာစေပါသည်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -1090,8 +1053,7 @@
                     en: 'The airport check-in process is an essential step before boarding an international flight. Passengers arrive at the airport terminal, proceed to the airline counter or self-service kiosk, and present their passport and ticket. Baggage is weighed and checked in, and a boarding pass is issued. After security screening and immigration control, passengers wait at the designated departure gate. Being familiar with this process ensures a smooth, stress-free travel experience.',
                     my: 'လေဆိပ်စစ်ဆေးရေးလုပ်ငန်းစဉ်သည် နိုင်ငံတကာလေယာဉ်မစီးမီ အဓိကအဆင့်တစ်ခုဖြစ်သည်။ ခရီးသည်များသည် လေဆိပ်ဂိတ်သို့ရောက်ရှိပြီး လေကြောင်းလိုင်းကောင်တာ သို့မဟုတ် ကိုယ်တိုင်ဝန်ဆောင်မှုပေးသည့်စက်သို့သွားကာ ၎င်းတို့၏ နိုင်ငံကူးလက်မှတ်နှင့် လက်မှတ်ကို တင်ပြသည်။ ခရီးဆောင်အိတ်များကို ချိန်တွယ်ပြီး စစ်ဆေးကာ ဘော်ဒါပတ်စ်ကို ထုတ်ပေးသည်။ လုံခြုံရေးစစ်ဆေးခြင်းနှင့် လူဝင်မှုကြီးကြပ်ရေးစစ်ဆေးပြီးနောက် ခရီးသည်များသည် သတ်မှတ်ထားသော ထွက်ခွာဂိတ်တွင် စောင့်ဆိုင်းကြသည်။ ဤလုပ်ငန်းစဉ်ကို ရင်းနှီးကျွမ်းဝင်ခြင်းက ချောမွေ့ပြီး စိတ်ဖိစီးမှုကင်းသော ခရီးသွားအတွေ့အကြုံကို အာမခံပါသည်။'
                 }
-            },
-            {
+            }, {
                 batch: '8m_exam2',
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
@@ -1101,6 +1063,89 @@
                 answer: {
                     en: 'English is widely recognized as the international language of the sea. For seafarers, proficiency in Maritime English is vital for safe ship operations and effective communication. Since modern ship crews are multinational, clear communication using Standard Marine Communication Phrases (SMCP) prevents misunderstandings during critical maneuvers, cargo operations, and emergency responses. Therefore, improving English skills is essential for every professional seafarer.',
                     my: 'အင်္ဂလိပ်စာကို ပင်လယ်ပြင်၏ နိုင်ငံတကာဘာသာစကားအဖြစ် ကျယ်ကျယ်ပြန့်ပြန့် အသိအမှတ်ပြုထားသည်။ ရေကြောင်းသားများအတွက် ရေကြောင်းအင်္ဂလိပ်စာ ကျွမ်းကျင်မှုသည် ဘေးကင်းလုံခြုံသော သင်္ဘောလည်ပတ်မှုနှင့် ထိရောက်သော ဆက်သွယ်ရေးအတွက် အသက်သွေးကြောဖြစ်သည်။ ခေတ်မီသင်္ဘောအမှုထမ်းများသည် နိုင်ငံပေါင်းစုံမှ လာကြသောကြောင့် Standard Marine Communication Phrases (SMCP) ကို အသုံးပြု၍ ရှင်းလင်းစွာ ဆက်သွယ်ခြင်းသည် အရေးကြီးသော သွားလာခြင်း၊ ကုန်တင်ကုန်ချလုပ်ငန်းများနှင့် အရေးပေါ်တုံ့ပြန်မှုများအတွင်း အထင်အမြင်လွဲမှားမှုများကို ကာကွယ်ပေးပါသည်။ ထို့ကြောင့် အင်္ဂလိပ်စာစွမ်းရည် မြှင့်တင်ခြင်းသည် ပရော်ဖက်ရှင်နယ် ရေကြောင်းသားတိုင်းအတွက် မရှိမဖြစ်လိုအပ်ပါသည်။'
+                }
+            },
+
+            // =========================================================
+            // ✅ NEW: 8M EXAM 3 (၈ လပိုင်း အပိုင်း ၃)
+            // =========================================================
+            {
+                batch: '8m_exam3',
+                category: 'speaking',
+                type: 'Speaking (Picture Description)',
+                en: 'Football Playing – Individual Skill vs. Teamwork',
+                my: 'ဘောလုံးကစားခြင်း – တစ်ဦးချင်းစွမ်းရည်နှင့် အသင်းလိုက်ပူးပေါင်းဆောင်ရွက်မှု',
+                sub: [
+                    'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
+                    'What are the players doing? / ကစားသမားတွေ ဘာလုပ်နေလဲ?',
+                    'Which is more important in football: individual skill or teamwork? / ဘောလုံးမှာ ဘယ်ဟာက ပိုအရေးကြီးသလဲ၊ တစ်ဦးချင်းစွမ်းရည်လား အသင်းလိုက်ပူးပေါင်းဆောင်ရွက်မှုလား?',
+                    'Why do you think so? / မင်း ဘာကြောင့် အဲဒီလိုထင်သလဲ?'
+                ],
+                answer: {
+                    en: 'In the picture, I can see a group of football players actively playing on a field. Some are dribbling the ball while others are positioning themselves to receive passes and support their teammates. In my opinion, teamwork is more important than individual skill in football. Even the most talented player cannot win alone. A team that communicates well, trusts each other, and moves together with a shared strategy will always outperform a group of individual stars. However, individual skill is also valuable because it adds creativity and can turn a game around. The best teams combine both.',
+                    my: 'ပုံထဲမှာ ဘောလုံးကစားသမားတွေ ကွင်းပြင်ပေါ်မှာ တက်တက်ကြွကြွ ကစားနေတာကို မြင်ရတယ်။ တချို့က ဘောလုံးကို ဒရစ်ဘယ်လုပ်နေပြီး တချို့က ဖြတ်တိုက်မှုတွေလက်ခံဖို့နဲ့ အသင်းဖော်တွေကို ကူညီဖို့ နေရာယူနေကြတယ်။ ကျွန်တော့်အမြင်မှာ ဘောလုံးမှာ အသင်းလိုက်ပူးပေါင်းဆောင်ရွက်မှုက တစ်ဦးချင်းစွမ်းရည်ထက် ပိုအရေးကြီးတယ်။ အရည်အချင်းအရှိဆုံး ကစားသမားတစ်ယောက်တည်းနဲ့ အနိုင်ရနိုင်မှာ မဟုတ်ဘူး။ ကောင်းမွန်စွာ ဆက်သွယ်ပြောဆိုတတ်တဲ့၊ တစ်ယောက်ကိုတစ်ယောက် ယုံကြည်ပြီး မျှဝေထားတဲ့ ဗျူဟာနဲ့ အတူတကွ ရွေ့လျားတဲ့ အသင်းတစ်သင်းဟာ တစ်ဦးချင်းကြယ်ပွင့်တွေရဲ့ အသင်းထက် အမြဲတမ်း သာလွန်ပါတယ်။ ဒါပေမယ့် တစ်ဦးချင်းစွမ်းရည်လည်း တန်ဖိုးရှိပါတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဒါက တီထွင်ဖန်တီးနိုင်စွမ်းကို ပေါင်းထည့်ပေးပြီး ပွဲကို ပြောင်းလဲသွားစေနိုင်လို့ပါ။ အကောင်းဆုံးအသင်းတွေက နှစ်ခုစလုံးကို ပေါင်းစပ်ထားတယ်။'
+                }
+            }, {
+                batch: '8m_exam3',
+                category: 'debate',
+                type: 'Speaking (Debate / Discussion)',
+                en: 'English Proficiency – Does Higher Proficiency Guarantee Better Job Opportunities?',
+                my: 'အင်္ဂလိပ်စာကျွမ်းကျင်မှု – ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းများ ပိုမိုရရှိစေသလား?',
+                sub: [
+                    'Do you agree that higher English proficiency guarantees better job opportunities? / အင်္ဂလိပ်စာ ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းများ ပိုမိုရရှိစေတယ်ဆိုတာ သဘောတူလား?',
+                    'Why or why not? / ဘာကြောင့် သဘောတူ/မတူသလဲ?',
+                    'What other factors are important for career success? / အသက်မွေးဝမ်းကျောင်းအောင်မြင်မှုအတွက် ဘယ်အချက်တွေ ထပ်ပြီး အရေးကြီးသလဲ?'
+                ],
+                answer: {
+                    en: 'I believe that higher English proficiency significantly increases job opportunities, but it does not guarantee them on its own. In today\'s globalized world, English is the primary language of business, aviation, and maritime operations. Seafarers with strong English skills can communicate clearly with multinational crews, understand safety instructions, and handle emergencies effectively. However, employers also look for technical knowledge, experience, soft skills like teamwork and leadership, and a strong work ethic. Therefore, English proficiency is a powerful advantage, but career success depends on a combination of many factors. Continuous learning and self-improvement in all areas are essential.',
+                    my: 'အင်္ဂလိပ်စာပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းတွေကို သိသိသာသာ တိုးမြင့်စေတယ်လို့ ကျွန်တော်ယုံကြည်တယ်။ ဒါပေမယ့် တစ်ခုတည်းနဲ့ အာမခံချက်မပေးနိုင်ဘူး။ ယနေ့ခေတ် ကမ္ဘာ့ဖလားပြင်ဖြစ်နေတဲ့ ကမ္ဘာမှာ အင်္ဂလိပ်စာဟာ စီးပွားရေး၊ လေကြောင်းနဲ့ ရေကြောင်းလုပ်ငန်းတွေရဲ့ အဓိကဘာသာစကားဖြစ်တယ်။ အင်္ဂလိပ်စာစွမ်းရည်ကောင်းတဲ့ ရေကြောင်းသားတွေဟာ နိုင်ငံပေါင်းစုံက အမှုထမ်းတွေနဲ့ ရှင်းလင်းစွာ ဆက်သွယ်နိုင်တယ်၊ ဘေးကင်းရေး ညွှန်ကြားချက်တွေကို နားလည်နိုင်တယ်၊ အရေးပေါ်အခြေအနေတွေကို ထိရောက်စွာ ကိုင်တွယ်နိုင်တယ်။ ဒါပေမယ့် အလုပ်ရှင်တွေက နည်းပညာဆိုင်ရာ အသိပညာ၊ အတွေ့အကြုံ၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုလိုမျိုး ပျော့ပြောင်းတဲ့စွမ်းရည်တွေနဲ့ ခိုင်မာတဲ့ အလုပ်ကျင့်ဝတ်တွေကိုလည်း ရှာဖွေကြတယ်။ ဒါကြောင့် အင်္ဂလိပ်စာကျွမ်းကျင်မှုက အားသာချက်ကြီးတစ်ခုဖြစ်ပေမယ့် အသက်မွေးဝမ်းကျောင်းအောင်မြင်မှုက အချက်များစွာရဲ့ ပေါင်းစပ်မှုအပေါ် မူတည်ပါတယ်။ နယ်ပယ်အားလုံးမှာ စဉ်ဆက်မပြတ် သင်ယူခြင်းနဲ့ မိမိကိုယ်ကို တိုးတက်အောင်ပြုလုပ်ခြင်းဟာ မရှိမဖြစ်လိုအပ်ပါတယ်။'
+                }
+            }, {
+                batch: '8m_exam3',
+                category: 'speaking',
+                type: 'Speaking (Picture Description)',
+                en: 'YBS Bus Stop – Daily Commute & Social Interaction',
+                my: 'YBS ဘတ်စ်ကားမှတ်တိုင် – နေ့စဉ်ခရီးသွားလာမှုနှင့် လူမှုဆက်ဆံရေး',
+                sub: [
+                    'What do you see at the bus stop in the picture? / ပုံထဲက ဘတ်စ်ကားမှတ်တိုင်မှာ ဘာတွေမြင်ရလဲ?',
+                    'What are the people doing? / လူတွေ ဘာလုပ်နေလဲ?',
+                    'How does public transport affect daily life and social interaction? / အများပြည်သူသုံးယာဉ်က နေ့စဉ်ဘဝနဲ့ လူမှုဆက်ဆံရေးကို ဘယ်လိုသက်ရောက်မှုရှိသလဲ?'
+                ],
+                answer: {
+                    en: 'The picture shows a busy YBS bus stop with many people waiting. Some are checking their phones, others are talking with friends or colleagues, and some are looking out for the approaching bus. Public transport like YBS buses plays a vital role in daily life. It connects people to work, school, and other activities. Moreover, bus stops are also places where people from different backgrounds interact briefly. They exchange greetings, share news, or offer help. In this way, public transport supports not only mobility but also social cohesion. It reflects the rhythm of urban life and the diversity of the community.',
+                    my: 'ဒီပုံက လူများစွာ စောင့်ဆိုင်းနေတဲ့ လူစည်ကားတဲ့ YBS ဘတ်စ်ကားမှတ်တိုင်တစ်ခုကို ပြထားတယ်။ တချို့က ဖုန်းစစ်နေတယ်၊ တချို့က သူငယ်ချင်း ဒါမှမဟုတ် လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ စကားပြောနေတယ်၊ တချို့က လာမယ့်ဘတ်စ်ကားကို စောင့်ကြည့်နေတယ်။ YBS ဘတ်စ်ကားလိုမျိုး အများပြည်သူသုံးယာဉ်တွေက နေ့စဉ်ဘဝမှာ အရေးပါတဲ့အခန်းကဏ္ဍကနေ ပါဝင်တယ်။ လူတွေကို အလုပ်၊ ကျောင်းနဲ့ အခြားလှုပ်ရှားမှုတွေဆီ ဆက်သွယ်ပေးတယ်။ ထို့အပြင် ဘတ်စ်ကားမှတ်တိုင်တွေဟာ မတူညီတဲ့ နောက်ခံတွေကလာတဲ့ လူတွေ ခဏတာ ဆက်ဆံရာနေရာလည်းဖြစ်တယ်။ သူတို့က နှုတ်ခွန်းဆက်စကားတွေ ဖလှယ်တယ်၊ သတင်းတွေမျှဝေတယ်၊ ဒါမှမဟုတ် အကူအညီပေးတယ်။ ဒီနည်းနဲ့ အများပြည်သူသုံးယာဉ်က သွားလာမှုကိုသာမက လူမှုပေါင်းစည်းညီညွတ်မှုကိုပါ အထောက်အကူပြုတယ်။ ဒါက မြို့ပြဘဝရဲ့ စည်းချက်နဲ့ လူမှုအသိုင်းအဝိုင်းရဲ့ မတူကွဲပြားမှုကို ထင်ဟပ်စေတယ်။'
+                }
+            }, {
+                batch: '8m_exam3',
+                category: 'safety',
+                type: 'Speaking (Situation / Discussion)',
+                en: 'Bad Weather – Impact on Daily Operations and Safety',
+                my: 'ရာသီဥတုဆိုးရွားခြင်း – နေ့စဉ်လုပ်ငန်းဆောင်တာများနှင့် ဘေးကင်းရေးအပေါ် သက်ရောက်မှု',
+                sub: [
+                    'What kind of bad weather situations can you think of? / ရာသီဥတုဆိုးရွားတဲ့ အခြေအနေတွေက ဘာတွေရှိသလဲ?',
+                    'How does bad weather affect daily work and safety at sea or on land? / ရာသီဥတုဆိုးရွားခြင်းက ပင်လယ်ပြင် ဒါမှမဟုတ် ကုန်းပေါ်မှာ နေ့စဉ်အလုပ်နဲ့ ဘေးကင်းရေးကို ဘယ်လိုသက်ရောက်မှုရှိသလဲ?',
+                    'What precautions should be taken during bad weather? / ရာသီဥတုဆိုးရွားချိန်မှာ ဘယ်လိုကြိုတင်ကာကွယ်မှုတွေ လုပ်ဆောင်သင့်သလဲ?',
+                    'Why is it important to follow weather warnings? / ရာသီဥတုသတိပေးချက်တွေကို လိုက်နာဖို့ ဘာကြောင့် အရေးကြီးသလဲ?'
+                ],
+                answer: {
+                    en: 'Bad weather includes storms, heavy rain, dense fog, extreme heat, and typhoons. At sea, rough waves and strong winds can damage vessels, disrupt navigation, and endanger crew safety. On land, heavy rain can cause flooding, road accidents, and delays in logistics. To stay safe, we must monitor weather forecasts regularly, prepare emergency equipment like life jackets and first aid kits, and secure loose objects on deck or at worksites. It is also essential to follow port or company protocols for severe weather. Ignoring weather warnings can lead to catastrophic consequences. Safety always comes first, and being proactive in bad weather situations protects lives and property.',
+                    my: 'ရာသီဥတုဆိုးရွားခြင်းမှာ မုန်တိုင်းထန်ခြင်း၊ မိုးသည်းထန်စွာရွာခြင်း၊ မြူထူထပ်ခြင်း၊ အပူလွန်ကဲခြင်းနဲ့ တိုင်ဖွန်းမုန်တိုင်းတွေ ပါဝင်တယ်။ ပင်လယ်ပြင်မှာ လှိုင်းထန်ခြင်းနဲ့ လေပြင်းတိုက်ခြင်းက သင်္ဘောတွေကို ပျက်စီးစေနိုင်တယ်၊ သွားလာမှုကို အနှောင့်အယှက်ဖြစ်စေနိုင်တယ်၊ သင်္ဘောသားတွေရဲ့ ဘေးကင်းရေးကို အန္တရာယ်ဖြစ်စေနိုင်တယ်။ ကုန်းပေါ်မှာ မိုးသည်းထန်စွာရွာခြင်းက ရေကြီးမှု၊ လမ်းမတော်တဆမှုတွေနဲ့ ထောက်ပံ့ပို့ဆောင်ရေးနှောင့်နှေးမှုတွေကို ဖြစ်စေနိုင်တယ်။ ဘေးကင်းဖို့ ရာသီဥတုသတင်းကို ပုံမှန်စောင့်ကြည့်ရမယ်၊ အသက်ကယ်အင်္ကျီနဲ့ ရှေးဦးသူနာပြုသေတ္တာလိုမျိုး အရေးပေါ်ပစ္စည်းတွေ ပြင်ဆင်ထားရမယ်၊ သင်္ဘောကုန်းပတ် ဒါမှမဟုတ် အလုပ်ခွင်မှာ လျှောကျနိုင်တဲ့ပစ္စည်းတွေကို စုစည်းသိမ်းဆည်းရမယ်။ ပြင်းထန်တဲ့ရာသီဥတုအတွက် ဆိပ်ကမ်း ဒါမှမဟုတ် ကုမ္ပဏီရဲ့ စည်းမျဉ်းတွေကို လိုက်နာဖို့လည်း အရေးကြီးတယ်။ ရာသီဥတုသတိပေးချက်တွေကို လျစ်လျူရှုခြင်းက ကပ်ဆိုးကြီးတွေကို ဖြစ်ပေါ်စေနိုင်တယ်။ ဘေးကင်းရေးကို အမြဲတမ်း ဦးစားပေးပြီး ရာသီဥတုဆိုးရွားတဲ့အခြေအနေတွေမှာ ကြိုတင်ပြင်ဆင်ခြင်းက အသက်နဲ့ ပစ္စည်းဥစ္စာတွေကို ကာကွယ်ပေးတယ်။'
+                }
+            }, {
+                batch: '8m_exam3',
+                category: 'debate',
+                type: 'Speaking (Debate / Discussion)',
+                en: 'Learning a New Skill – Is Continuous Learning of New Skills Essential for Career Growth?',
+                my: 'ကျွမ်းကျင်မှုအသစ်သင်ယူခြင်း – ကျွမ်းကျင်မှုအသစ်များကို စဉ်ဆက်မပြတ်သင်ယူခြင်းသည် အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်သလား?',
+                sub: [
+                    'Do you agree that continuous learning of new skills is essential for career growth? / ကျွမ်းကျင်မှုအသစ်များကို စဉ်ဆက်မပြတ်သင်ယူခြင်းသည် အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာ သဘောတူလား?',
+                    'Why or why not? / ဘာကြောင့် သဘောတူ/မတူသလဲ?',
+                    'What new skills are most important for seafarers today? / ယနေ့ခေတ် ရေကြောင်းသားတွေအတွက် ဘယ်ကျွမ်းကျင်မှုအသစ်တွေ အရေးအကြီးဆုံးလဲ?',
+                    'How can someone stay motivated to keep learning? / ဆက်လက်သင်ယူနေဖို့ ဘယ်လိုစိတ်အားထက်သန်နေနိုင်မလဲ?'
+                ],
+                answer: {
+                    en: 'I strongly agree that continuous learning of new skills is essential for career growth. The world is changing rapidly, especially in the maritime industry. New technologies like automated navigation systems, environmentally friendly fuels, and digitalized cargo operations are emerging every year. Seafarers who fail to upskill risk falling behind. On the other hand, those who keep learning become more valuable, adaptable, and resilient. For seafarers today, important skills include digital literacy, English communication, emergency response, and environmental awareness. To stay motivated, one can set clear goals, join professional courses, learn from experienced mentors, and remind oneself that every skill learned is an investment in a brighter future. Learning is a lifelong journey, and each new skill opens a door to new opportunities.',
+                    my: 'ကျွမ်းကျင်မှုအသစ်များကို စဉ်ဆက်မပြတ်သင်ယူခြင်းဟာ အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကမ္ဘာကြီးက အထူးသဖြင့် ရေကြောင်းလုပ်ငန်းမှာ လျှင်မြန်စွာ ပြောင်းလဲနေတယ်။ အလိုအလျောက်သွားလာရေးစနစ်တွေ၊ သဘာဝပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေရှိတဲ့ လောင်စာဆီတွေနဲ့ ဒစ်ဂျစ်တယ်ကုန်တင်ကုန်ချလုပ်ငန်းတွေလိုမျိုး နည်းပညာအသစ်တွေ နှစ်စဉ်ပေါ်ထွက်နေတယ်။ ကျွမ်းကျင်မှုအဆင့်မြှင့်တင်ဖို့ ပျက်ကွက်တဲ့ ရေကြောင်းသားတွေ နောက်ကျကျန်နေနိုင်တယ်။ အခြားတစ်ဖက်မှာ ဆက်လက်သင်ယူနေတဲ့သူတွေက ပိုမိုတန်ဖိုးရှိလာတယ်၊ လိုက်လျောညီထွေဖြစ်လာတယ်၊ ခံနိုင်ရည်ရှိလာတယ်။ ယနေ့ခေတ် ရေကြောင်းသားတွေအတွက် အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေမှာ ဒစ်ဂျစ်တယ်တတ်မြောက်မှု၊ အင်္ဂလိပ်စာဆက်သွယ်မှု၊ အရေးပေါ်တုံ့ပြန်မှုနဲ့ သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ အသိပညာတွေ ပါဝင်တယ်။ ဆက်လက်လေ့လာနေဖို့ စိတ်အားထက်သန်နေဖို့ ရည်မှန်းချက်တွေ သတ်မှတ်နိုင်တယ်၊ ပရော်ဖက်ရှင်နယ်သင်တန်းတွေ တက်နိုင်တယ်၊ အတွေ့အကြုံရှိသူတွေဆီက သင်ယူနိုင်တယ်၊ သင်ယူလိုက်တဲ့ ကျွမ်းကျင်မှုတိုင်းဟာ ပိုမိုတောက်ပလာမယ့် အနာဂတ်အတွက် ရင်းနှီးမြှုပ်နှံမှုတစ်ခုဆိုတာ ကိုယ့်ကိုယ်ကို သတိပေးနိုင်တယ်။ သင်ယူခြင်းဟာ တစ်သက်တာခရီးတစ်ခုဖြစ်ပြီး ကျွမ်းကျင်မှုအသစ်တိုင်းက အခွင့်အလမ်းအသစ်တွေဆီ တံခါးဖွင့်ပေးတယ်။'
                 }
             }
         ];
@@ -1140,11 +1185,11 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-search"></i>
-                        ဤရွေးချယ်မှုအတွက် မေးခွန်းမရှိသေးပါ။
-                    </div>
-                `;
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            ဤရွေးချယ်မှုအတွက် မေးခွန်းမရှိသေးပါ။
+                        </div>
+                    `;
                 return;
             }
 
@@ -1156,27 +1201,27 @@
                 const answerId = `answer_${index}_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
 
                 html += `
-                    <div class="question-card">
-                        <div class="type">${q.type}</div>
-                        <span class="batch-tag">${batchName}</span>
-                        <span class="category-tag">${categoryName}</span>
-                        <div class="en">📘 ${q.en}</div>
-                        <div class="my">📗 ${q.my}</div>
-                        ${q.sub ? `<ul class="sub-details">${q.sub.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
-                        ${hasAnswer ? `
-                            <div class="answer-section">
-                                <div class="answer-label">
-                                    📝 အဖြေ (Answer Key)
-                                    <button class="toggle-btn" onclick="toggleAnswer('${answerId}')">ကြည့်မည်</button>
+                        <div class="question-card">
+                            <div class="type">${q.type}</div>
+                            <span class="batch-tag">${batchName}</span>
+                            <span class="category-tag">${categoryName}</span>
+                            <div class="en">📘 ${q.en}</div>
+                            <div class="my">📗 ${q.my}</div>
+                            ${q.sub ? `<ul class="sub-details">${q.sub.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+                            ${hasAnswer ? `
+                                <div class="answer-section">
+                                    <div class="answer-label">
+                                        📝 အဖြေ (Answer Key)
+                                        <button class="toggle-btn" onclick="toggleAnswer('${answerId}')">ကြည့်မည်</button>
+                                    </div>
+                                    <div id="${answerId}" class="answer-content">
+                                        <div class="en-answer">🇬🇧 ${q.answer.en}</div>
+                                        <div class="my-answer">🇲🇲 ${q.answer.my}</div>
+                                    </div>
                                 </div>
-                                <div id="${answerId}" class="answer-content">
-                                    <div class="en-answer">🇬🇧 ${q.answer.en}</div>
-                                    <div class="my-answer">🇲🇲 ${q.answer.my}</div>
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
+                            ` : ''}
+                        </div>
+                    `;
             });
 
             container.innerHTML = html;
@@ -1207,7 +1252,8 @@
                 '7m_exam3': '7M Exam 3',
                 '7m_exam4': '7M Exam 4',
                 '8m_exam1': '8M Exam 1',
-                '8m_exam2': '8M Exam 2'
+                '8m_exam2': '8M Exam 2',
+                '8m_exam3': '8M Exam 3'
             };
             return map[batchCode] || batchCode;
         }
@@ -1232,7 +1278,8 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const batch = this.dataset.batch;
-                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
+                    const category = document.querySelector('.cat-btn.active')?.dataset.category ||
+                    'all';
                     const search = document.getElementById('searchInput').value;
                     renderQuestions(batch, category, search);
                 });
@@ -1241,7 +1288,8 @@
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const category = this.dataset.category;
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
+                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch ||
+                    'all';
                     const search = document.getElementById('searchInput').value;
                     renderQuestions(batch, category, search);
                 });
@@ -1252,8 +1300,10 @@
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
-                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
+                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch ||
+                        'all';
+                    const category = document.querySelector('.cat-btn.active')?.dataset
+                        .category || 'all';
                     renderQuestions(batch, category, this.value);
                 }, 300);
             });
@@ -1274,6 +1324,7 @@
         console.log('📂 Old Questions loaded successfully!');
         console.log('📚 Total questions:', questionsData.length);
         console.log('✅ Official 8M (၈ လပိုင်း) Questions added successfully!');
+        console.log('✅ 8M Exam 3 (၈ လပိုင်း အပိုင်း ၃) added with 5 new questions!');
     </script>
 </body>
 </html>
