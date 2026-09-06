@@ -5,8 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MEPT Master Hub</title>
   <link rel="stylesheet" href="index.css">
+  <style>
+  
+    .notice-section {
+      max-width: 900px;
+      margin: 20px auto 10px auto;
+      padding: 16px 22px;
+      background: #fef9e7;
+      border-left: 6px solid #f39c12;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .notice-section .notice-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .notice-section p {
+      margin: 0;
+    }
+    .notice-section strong {
+      color: #e67e22;
+    }
+    /* 小屏适配 */
+    @media (max-width: 600px) {
+      .notice-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 14px 16px;
+        font-size: 1rem;
+      }
+      .notice-section .notice-icon {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- LOGIN SECTION -->
   <div id="login-container" class="login-wrapper">
     <div class="login-card">
       <h2>MEPT Master Hub</h2>
@@ -74,16 +115,28 @@
     </div>
   </div>
 
+  <!-- MAIN DASHBOARD -->
   <div id="main-container" class="main-wrapper hidden">
     <header class="navbar">
       <h1>MEPT Master Hub</h1>
       <button id="logoutBtn" class="btn-outline">Logout</button>
     </header>
+
     <section class="hero-section">
       <h2>Welcome to MEPT Master Hub! 👋</h2>
       <p>MEPT စာမေးပွဲအတွက် စာတွေ့လေ့လာခြင်း၊ အစမ်းမေးခွန်းများ ဖြေဆိုခြင်း၊ မေးခွန်းဟောင်းများကို လေ့လာစစ်ဆေးခြင်းများကို တစ်နေရာတည်းမှာ ပြီးမြောက်နိုင်ပါသည်။</p>
       <p id="welcomeUser" class="welcome-user"></p>
     </section>
+
+    <!-- ✅ 新增通知区块 – 视频课程预告与合作信息 -->
+    <div class="notice-section">
+      <span class="notice-icon">📢</span>
+      <p>
+        <strong>မကြာခင် MEPT အတွက် Video Class အသုံးပြုလို့ရမှာဖြစ်ပါတယ်။</strong><br>
+        သင်တန်းကျောင်းအနေနဲ့ Software ပြုလုပ်လိုပါက ဆက်သွယ်နိုင်ပါတယ်။ ကျောင်းသားများအလိုက်သက်သာတဲ့ဈေးနှုန်းရရှိမှာဖြစ်ပါသည်။
+      </p>
+    </div>
+
     <main class="grid-container">
       <div class="card">
         <div class="card-icon">📚</div><h3>Learning Hub</h3>
