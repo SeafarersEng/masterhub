@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainContainer = document.getElementById('main-container');
   const logoutBtn = document.getElementById('logoutBtn');
   const loginError = document.getElementById('loginError');
+  const welcomeUser = document.getElementById('welcomeUser');
 
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec';  
   const APP_SECRET_TOKEN = 'MySecretToken123';
@@ -18,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return deviceId;
   }
 
- 
+  // ================================================================
+  // 🔐 Login လုပ်ငန်းစဉ်
+  // ================================================================
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -52,9 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result.success) {
-      
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', username);
         loginError.style.display = 'none';
-        showMainDashboard();
+        showMainDashboard(username);
       } else {
         showError(result.message);
       }
@@ -73,15 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================================================================
-  // 🚪 Logout & Dashboard ပြသခြင်း
+  // 🚪 Logout & Session စစ်ဆေးခြင်း
   // ================================================================
   logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('currentUser');
     showLoginForm();
   });
 
-  function showMainDashboard() {
+  function showMainDashboard(username) {
     loginContainer.classList.add('hidden');
     mainContainer.classList.remove('hidden');
+    if (welcomeUser) {
+      welcomeUser.textContent = `👤 ${username}`;
+    }
   }
 
   function showLoginForm() {
@@ -91,5 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.reset();
   }
 
- 
+  // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း (မူလအတိုင်း)
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    const savedUser = localStorage.getItem('currentUser') || '';
+    showMainDashboard(savedUser);
+  }
 });
