@@ -5,12 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn = document.getElementById('logoutBtn');
   const loginError = document.getElementById('loginError');
 
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec'; 
-
-
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec';  
   const APP_SECRET_TOKEN = 'MySecretToken123';
-
-
   const DEVICE_ID_KEY = 'mept_device_id';
 
   function getDeviceId() {
@@ -22,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return deviceId;
   }
 
-  // ================================================================
-  // 🔐 Login လုပ်ငန်းစဉ် (Backend သို့ လှမ်းစစ်ဆေးခြင်း)
-  // ================================================================
+ 
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -37,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Loading ပြနေရန်
     submitBtn.textContent = "စစ်ဆေးနေပါသည်...";
     submitBtn.disabled = true;
     loginError.style.display = 'none';
@@ -46,11 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
       key: enteredKey,
       username: username,
       deviceId: getDeviceId(),
-      token: APP_SECRET_TOKEN // Token ထည့်သွင်းခြင်း
+      token: APP_SECRET_TOKEN
     };
 
     try {
-      // Google Apps Script သို့ Data ပို့ခြင်း
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
@@ -60,8 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('currentUser', username);
+      
         loginError.style.display = 'none';
         showMainDashboard();
       } else {
@@ -82,11 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================================================================
-  // 🚪 Logout & Session စစ်ဆေးခြင်း
+  // 🚪 Logout & Dashboard ပြသခြင်း
   // ================================================================
   logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser');
     showLoginForm();
   });
 
@@ -102,8 +91,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.reset();
   }
 
-  // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း
-  if (localStorage.getItem('isLoggedIn') === 'true') {
-    showMainDashboard();
-  }
+ 
 });
