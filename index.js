@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const APP_SECRET_TOKEN = 'MySecretToken123';
   const DEVICE_ID_KEY = 'mept_device_id';
 
+
   function getDeviceId() {
     let deviceId = localStorage.getItem(DEVICE_ID_KEY);
     if (!deviceId) {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const payload = {
       key: enteredKey,
       username: username,
-      deviceId: getDeviceId(),
+      deviceId: getDeviceId(), // ဖုန်းထဲမှာ မှတ်ထားတဲ့ Device ID ကို ပို့ပေးမည်
       token: APP_SECRET_TOKEN
     };
 
@@ -55,8 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('currentUser', username);
+  
+     
+        
         loginError.style.display = 'none';
         showMainDashboard(username);
       } else {
@@ -77,11 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================================================================
-  // 🚪 Logout & Session စစ်ဆေးခြင်း
+  // 🚪 Logout ပ
   // ================================================================
   logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser');
+ 
     showLoginForm();
   });
 
@@ -100,9 +101,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.reset();
   }
 
-  // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း (မူလအတိုင်း)
-  if (localStorage.getItem('isLoggedIn') === 'true') {
-    const savedUser = localStorage.getItem('currentUser') || '';
-    showMainDashboard(savedUser);
-  }
+ 
 });
