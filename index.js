@@ -6,10 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginError = document.getElementById('loginError');
   const welcomeUser = document.getElementById('welcomeUser');
 
+  
+  if (loginForm) {
+    loginForm.reset();
+  }
+
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec';  
   const APP_SECRET_TOKEN = 'MySecretToken123';
   const DEVICE_ID_KEY = 'mept_device_id';
-
 
   function getDeviceId() {
     let deviceId = localStorage.getItem(DEVICE_ID_KEY);
@@ -20,9 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return deviceId;
   }
 
-  // ================================================================
-  // 🔐 Login လုပ်ငန်းစဉ်
-  // ================================================================
+  // ကျန်တဲ့ Login ကုဒ်များ မူလအတိုင်း...
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const payload = {
       key: enteredKey,
       username: username,
-      deviceId: getDeviceId(), // ဖုန်းထဲမှာ မှတ်ထားတဲ့ Device ID ကို ပို့ပေးမည်
+      deviceId: getDeviceId(),
       token: APP_SECRET_TOKEN
     };
 
@@ -56,9 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result.success) {
-  
-     
-        
         loginError.style.display = 'none';
         showMainDashboard(username);
       } else {
@@ -78,11 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginError.style.display = 'block';
   }
 
-  // ================================================================
-  // 🚪 Logout ပ
-  // ================================================================
   logoutBtn.addEventListener('click', () => {
- 
     showLoginForm();
   });
 
@@ -100,6 +95,4 @@ document.addEventListener('DOMContentLoaded', () => {
     loginError.style.display = 'none';
     loginForm.reset();
   }
-
- 
 });
