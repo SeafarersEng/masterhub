@@ -51,22 +51,21 @@
       <h2>MEPT Master Hub</h2>
       <p class="subtitle">Self-study လုပ်မည့်သူများ၊ Mock Test အစမ်းဖြေသူများ နှင့် မေးခွန်းဟောင်း လေ့လာသူများအတွက် အလန်းဆုံး Platform</p>
 
-      <form id="loginForm">
-        <div class="input-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" placeholder="အမည် ရိုက်ထည့်ပါ" maxlength="60" required>
-        </div>
-
-        <div class="input-group">
-          <label for="password">Key (သော့)</label>
-          <input type="password" id="password" placeholder="သတ်မှတ်ထားသော သော့ကို ရိုက်ထည့်ပါ" autocomplete="off" required>
-          <small class="hint">✅ Key တစ်ခုကို Device တစ်ခုမှာသာ Activate လုပ်နိုင်ပါသည်။</small>
-        </div>
-
-        <button type="submit" class="btn-primary" id="loginBtn">Login ဝင်မည်</button>
-        <div id="loginError" class="login-error" style="display:none;"></div>
-      </form>
-
+            <form id="loginForm" autocomplete="off">
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="အမည် ရိုက်ထည့်ပါ" maxlength="60" autocomplete="off" required>
+          </div>
+        
+          <div class="input-group">
+            <label for="password">Key (သော့)</label>
+            <input type="password" id="password" placeholder="သတ်မှတ်ထားသော သော့ကို ရိုက်ထည့်ပါ" autocomplete="new-password" required>
+            <small class="hint">✅ Key တစ်ခုကို Device တစ်ခုမှာသာ Activate လုပ်နိုင်ပါသည်။</small>
+          </div>
+        
+          <button type="submit" class="btn-primary" id="loginBtn">Login ဝင်မည်</button>
+          <div id="loginError" class="login-error" style="display:none;"></div>
+        </form>
       <div class="account-info">
         <p>
           <i class="icon">📱</i> Account ဖွင့်ရန်
