@@ -6,11 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginError = document.getElementById('loginError');
   const welcomeUser = document.getElementById('welcomeUser');
 
-  
-  if (loginForm) {
-    loginForm.reset();
-  }
-
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec';  
   const APP_SECRET_TOKEN = 'MySecretToken123';
   const DEVICE_ID_KEY = 'mept_device_id';
@@ -24,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return deviceId;
   }
 
-  // ကျန်တဲ့ Login ကုဒ်များ မူလအတိုင်း...
+  // ================================================================
+  // 🔐 Login လုပ်ငန်းစဉ်
+  // ================================================================
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -58,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result.success) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', username);
         loginError.style.display = 'none';
         showMainDashboard(username);
       } else {
@@ -77,7 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loginError.style.display = 'block';
   }
 
+  // ================================================================
+  // 🚪 Logout & Session စစ်ဆေးခြင်း
+  // ================================================================
   logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('currentUser');
     showLoginForm();
   });
 
@@ -94,5 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loginContainer.classList.remove('hidden');
     loginError.style.display = 'none';
     loginForm.reset();
+  }
+
+  // Page Reload လုပ်သည့်အခါ Auto Login စစ်ဆေးခြင်း
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    const savedUser = localStorage.getItem('currentUser') || '';
+    showMainDashboard(savedUser);
   }
 });
