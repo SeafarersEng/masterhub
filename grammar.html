@@ -81,6 +81,36 @@
             transform: scale(0.96);
         }
 
+        /* ===== SCORE BAR ===== */
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8faff;
+            border-radius: 14px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f3a5f;
+            border: 1px solid #e8edf5;
+        }
+
+        .score-bar .score-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score-bar .score-item i {
+            color: #1a4d8f;
+        }
+
+        .score-bar .score-val {
+            color: #0a2a4a;
+            font-weight: 700;
+        }
+
         /* ===== CARD ===== */
         .qa-card {
             background: #f8faff;
@@ -90,10 +120,6 @@
             border-left: 5px solid #1a4d8f;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
             transition: 0.15s;
-        }
-
-        .qa-card:active {
-            transform: scale(0.99);
         }
 
         .question-text {
@@ -107,31 +133,104 @@
         .options-stack {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 7px;
             margin-bottom: 12px;
         }
 
+        /* ===== OPTION BUTTON ===== */
         .option-item {
-            padding: 7px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            width: 100%;
+            text-align: left;
+            padding: 10px 14px;
             background: #fff;
-            border-radius: 8px;
-            border: 1px solid #e8edf5;
+            border-radius: 10px;
+            border: 1.5px solid #e8edf5;
             font-size: 14px;
+            font-family: inherit;
             color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .option-item:not(:disabled):hover {
+            background: #eef4ff;
+            border-color: #c9dbf0;
+        }
+
+        .option-item:not(:disabled):active {
+            transform: scale(0.98);
+        }
+
+        .option-item:disabled {
+            cursor: default;
+            opacity: 1;
+        }
+
+        .option-item.correct {
+            background: #dcfce7;
+            border-color: #4ade80;
+            color: #166534;
+            font-weight: 700;
+        }
+
+        .option-item.wrong {
+            background: #fee2e2;
+            border-color: #f87171;
+            color: #991b1b;
+            font-weight: 700;
+        }
+
+        .option-item .opt-icon {
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .option-item.correct .opt-icon { color: #16a34a; }
+        .option-item.wrong .opt-icon { color: #dc2626; }
+
+        /* ===== FEEDBACK BANNER ===== */
+        .feedback {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .feedback.show { display: flex; }
+
+        .feedback.ok {
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .feedback.no {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
         }
 
         /* ===== REVEAL BUTTON ===== */
         .reveal-trigger-btn {
             background: #eef2f7;
             border: none;
-            padding: 6px 16px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
+            font-family: inherit;
             color: #1a4d8f;
             cursor: pointer;
             transition: 0.2s;
-            margin-top: 2px;
             width: 100%;
             text-align: center;
         }
@@ -222,7 +321,7 @@
             }
             .option-item {
                 font-size: 13px;
-                padding: 6px 12px;
+                padding: 9px 12px;
             }
             .header h2 {
                 font-size: 17px;
@@ -251,6 +350,13 @@
         <div class="header">
             <h2><i class="fas fa-book"></i> Grammar</h2>
             <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== SCORE BAR ===== -->
+        <div class="score-bar">
+            <span class="score-item"><i class="fas fa-check-circle"></i> Correct: <span class="score-val" id="scoreCorrect">0</span></span>
+            <span class="score-item"><i class="fas fa-times-circle"></i> Wrong: <span class="score-val" id="scoreWrong">0</span></span>
+            <span class="score-item"><i class="fas fa-list-ol"></i> <span class="score-val" id="scoreDone">0</span>/50</span>
         </div>
 
         <!-- ===== QUESTION LIST ===== -->
@@ -620,19 +726,29 @@
         }];
 
         // ============================================================
+        // STATE
+        // ============================================================
+        let correctCount = 0;
+        let wrongCount = 0;
+
+        // ============================================================
         // RENDER
         // ============================================================
         function renderGrammar() {
             const container = document.getElementById('grammarList');
             if (!container) return;
 
-            container.innerHTML = GRAMMAR_QUESTIONS.map(q => `
-                <div class="qa-card">
+            container.innerHTML = GRAMMAR_QUESTIONS.map((q, qi) => `
+                <div class="qa-card" data-qi="${qi}">
                     <div class="question-text">${q.question}</div>
                     <div class="options-stack">
-                        ${q.options.map(opt => `<div class="option-item">${opt}</div>`).join('')}
+                        ${q.options.map((opt, oi) =>
+                            `<button type="button" class="option-item"
+                                     onclick="selectOption(this, ${qi}, ${oi})">${opt}</button>`
+                        ).join('')}
                     </div>
-                    <button class="reveal-trigger-btn" onclick="toggleExplanation(this)">Show Analysis</button>
+                    <div class="feedback"></div>
+                    <button type="button" class="reveal-trigger-btn" onclick="toggleExplanation(this)">Show Analysis</button>
                     <div class="explanation-box">
                         <div class="exp-row">
                             <span class="exp-label">Correct Answer</span>
@@ -652,20 +768,73 @@
         }
 
         // ============================================================
-        // TOGGLE
+        // SELECT OPTION  (အဖြေရွေးချယ်ခြင်း)
+        // ============================================================
+        function selectOption(btn, qi, oi) {
+            const card = btn.closest('.qa-card');
+            if (!card || card.classList.contains('answered')) return;   // တစ်ခါပဲ ရွေးခွင့်ပြု
+            card.classList.add('answered');
+
+            const q = GRAMMAR_QUESTIONS[qi];
+            const correctIndex = q.options.indexOf(q.correct);
+            const isCorrect = (oi === correctIndex);
+
+            // --- အားလုံးကို disable လုပ်ပြီး အဖြေမှန်ကို highlight ---
+            const optionBtns = card.querySelectorAll('.option-item');
+            optionBtns.forEach((b, i) => {
+                b.disabled = true;
+                if (i === correctIndex) {
+                    b.classList.add('correct');
+                    b.innerHTML = `<span>${q.options[i]}</span><i class="fas fa-check-circle opt-icon"></i>`;
+                } else if (i === oi) {
+                    b.classList.add('wrong');
+                    b.innerHTML = `<span>${q.options[i]}</span><i class="fas fa-times-circle opt-icon"></i>`;
+                }
+            });
+
+            // --- Feedback banner ---
+            const fb = card.querySelector('.feedback');
+            fb.classList.add('show', isCorrect ? 'ok' : 'no');
+            fb.innerHTML = isCorrect
+                ? `<i class="fas fa-check-circle"></i> မှန်ပါတယ်! Correct answer.`
+                : `<i class="fas fa-times-circle"></i> မှားပါတယ်။ အဖြေမှန်ကို အစိမ်းရောင်နဲ့ ပြထားပါတယ်။`;
+
+            // --- Score update ---
+            if (isCorrect) correctCount++; else wrongCount++;
+            updateScore();
+
+            // --- Explanation ကို အလိုအလျောက် ဖွင့် ---
+            const expBox = card.querySelector('.explanation-box');
+            const rBtn = card.querySelector('.reveal-trigger-btn');
+            document.querySelectorAll('.explanation-box.show').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('.reveal-trigger-btn').forEach(b => b.textContent = 'Show Analysis');
+            expBox.classList.add('show');
+            rBtn.textContent = 'Hide Analysis';
+        }
+
+        // ============================================================
+        // SCORE
+        // ============================================================
+        function updateScore() {
+            document.getElementById('scoreCorrect').textContent = correctCount;
+            document.getElementById('scoreWrong').textContent = wrongCount;
+            document.getElementById('scoreDone').textContent = correctCount + wrongCount;
+        }
+
+        // ============================================================
+        // TOGGLE EXPLANATION
         // ============================================================
         function toggleExplanation(btn) {
             const box = btn.nextElementSibling;
             if (!box || !box.classList.contains('explanation-box')) return;
             const isShowing = box.classList.contains('show');
-            // close all others (optional)
+
             document.querySelectorAll('.explanation-box.show').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('.reveal-trigger-btn').forEach(b => b.textContent = 'Show Analysis');
+
             if (!isShowing) {
                 box.classList.add('show');
                 btn.textContent = 'Hide Analysis';
-            } else {
-                box.classList.remove('show');
-                btn.textContent = 'Show Analysis';
             }
         }
 
