@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Speaking Voice Test – MEPT</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, -apple-system, sans-serif; }
+  body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    min-height:100vh;
+    color:#e2e8f0;
+    display:flex;
+    justify-content:center;
+    padding:12px;
+    align-items:flex-start;
+  }
+  .app {
+    width:100%;
+    max-width:560px;
+    background:#1e293b;
+    border-radius:24px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    padding:24px 20px 28px;
+    position:relative;
+    overflow:hidden;
+    min-height:calc(100vh - 24px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .screen { display:none; flex-direction:column; gap:14px; flex:1; }
+  .screen.active { display:flex; }
+
+  /* ============ KEY GATE ============ */
+  .gate-icon {
+    text-align:center;
+    font-size:56px;
+    margin-top:20px;
+    animation:float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .gate-title {
+    text-align:center;
+    font-size:24px;
+    font-weight:800;
+    color:#f8fafc;
+    margin-top:6px;
+  }
+  .gate-subtitle {
+    text-align:center;
+    font-size:13.5px;
+    color:#94a3b8;
+    line-height:1.7;
+    margin-top:4px;
+    padding:0 8px;
+  }
+  .gate-subtitle b { color:#38bdf8; }
+
+  .gate-info {
+    background:#0f172a;
+    border-radius:14px;
+    padding:14px 16px;
+    border-left:4px solid #22c55e;
+    font-size:13px;
+    line-height:1.7;
+    color:#cbd5e1;
+    margin-top:8px;
+  }
+  .gate-info .row {
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  .gate-info .row:last-child { margin-bottom:0; }
+  .gate-info .emoji { font-size:16px; flex-shrink:0; }
+
+  .input-wrap {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:6px;
+  }
+  .input-label {
+    font-size:12px;
+    color:#94a3b8;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .key-input {
+    width:100%;
+    padding:16px 18px;
+    background:#0f172a;
+    border:2px solid #334155;
+    border-radius:14px;
+    color:#f1f5f9;
+    font-size:16px;
+    font-family:'Courier New', monospace;
+    font-weight:700;
+    letter-spacing:1.2px;
+    outline:none;
+    transition:0.2s;
+    text-align:center;
+  }
+  .key-input:focus {
+    border-color:#0ea5e9;
+    box-shadow:0 0 0 4px rgba(14,165,233,0.15);
+  }
+  .key-input::placeholder {
+    letter-spacing:0.5px;
+    font-weight:500;
+    color:#475569;
+  }
+  .key-input.error {
+    border-color:#ef4444;
+    animation:shake 0.4s;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+  .key-input.success {
+    border-color:#22c55e;
+    box-shadow:0 0 0 4px rgba(34,197,94,0.15);
+  }
+
+  .error-msg {
+    display:none;
+    background:#7f1d1d;
+    border:1px solid #ef4444;
+    color:#fecaca;
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:12.5px;
+    line-height:1.5;
+    text-align:center;
+    font-weight:600;
+  }
+  .error-msg.show { display:block; }
+  .error-msg.success {
+    background:#14532d;
+    border-color:#22c55e;
+    color:#bbf7d0;
+  }
+
+  .btn {
+    border:none;
+    border-radius:14px;
+    padding:15px 20px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.18s;
+    font-family:inherit;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn:active { transform:scale(0.97); }
+  .btn-primary {
+    background:linear-gradient(135deg,#0ea5e9,#3b82f6);
+    color:#fff;
+    box-shadow:0 8px 24px rgba(14,165,233,0.4);
+  }
+  .btn-primary:disabled {
+    opacity:0.5;
+    cursor:not-allowed;
+  }
+  .btn-ghost {
+    background:transparent;
+    color:#94a3b8;
+    border:1.5px solid #334155;
+  }
+  .btn-ghost:hover {
+    background:#0f172a;
+  }
+
+  .contact-link {
+    text-align:center;
+    font-size:12.5px;
+    color:#64748b;
+    margin-top:auto;
+    padding-top:12px;
+    line-height:1.6;
+  }
+  .contact-link a {
+    color:#38bdf8;
+    text-decoration:none;
+    font-weight:700;
+  }
+  .contact-link a:hover { text-decoration:underline; }
+
+  /* ============ TEST SELECTOR ============ */
+  .user-bar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#0f172a;
+    border-radius:14px;
+    padding:10px 14px;
+    font-size:12px;
+    border:1px solid #334155;
+  }
+  .user-bar .user-info {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#94a3b8;
+    font-weight:600;
+  }
+  .user-bar .user-info .key-badge {
+    background:#166534;
+    color:#bbf7d0;
+    padding:2px 8px;
+    border-radius:10px;
+    font-size:10.5px;
+    font-weight:800;
+    font-family:'Courier New', monospace;
+    letter-spacing:0.5px;
+  }
+  .user-bar .logout-btn {
+    background:transparent;
+    border:1px solid #334155;
+    color:#94a3b8;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:11.5px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    transition:0.18s;
+  }
+  .user-bar .logout-btn:hover {
+    background:#7f1d1d;
+    color:#fecaca;
+    border-color:#ef4444;
+  }
+
+  .selector-title {
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+    color:#f8fafc;
+    margin-top:8px;
+  }
+  .selector-sub {
+    text-align:center;
+    font-size:13px;
+    color:#94a3b8;
+    line-height:1.6;
+    margin-top:2px;
+  }
+
+  .test-list {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:8px;
+  }
+  .test-card {
+    background:#0f172a;
+    border-radius:16px;
+    padding:16px 18px;
+    border:1.5px solid #334155;
+    cursor:pointer;
+    transition:0.2s;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color:inherit;
+    position:relative;
+    overflow:hidden;
+  }
+  .test-card::before {
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:4px;
+    background:var(--accent, #0ea5e9);
+    transition:width 0.25s;
+  }
+  .test-card:hover {
+    border-color:var(--accent, #38bdf8);
+    background:#152e4d;
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  }
+  .test-card:hover::before { width:8px; }
+  .test-card:active { transform:scale(0.98); }
+
+  .test-num {
+    width:56px;
+    height:56px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:900;
+    color:#fff;
+    flex-shrink:0;
+    background:var(--accent, #0ea5e9);
+    box-shadow:0 6px 16px rgba(0,0,0,0.3);
+  }
+  .test-info { flex:1; min-width:0; }
+  .test-info h3 {
+    font-size:15.5px;
+    color:#f1f5f9;
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .test-info h3 .title-tag {
+    background:#1e293b;
+    color:#94a3b8;
+    font-size:10px;
+    padding:2px 7px;
+    border-radius:8px;
+    font-weight:700;
+    letter-spacing:0.3px;
+  }
+  .test-info p {
+    font-size:12px;
+    color:#94a3b8;
+    line-height:1.5;
+    margin-bottom:6px;
+  }
+  .test-info .meta {
+    display:flex;
+    gap:12px;
+    font-size:11px;
+    color:#64748b;
+    flex-wrap:wrap;
+    font-weight:600;
+  }
+  .test-info .meta b {
+    color:#38bdf8;
+  }
+  .test-arrow {
+    color:#64748b;
+    font-size:20px;
+    flex-shrink:0;
+    transition:transform 0.2s;
+  }
+  .test-card:hover .test-arrow {
+    color:var(--accent, #38bdf8);
+    transform:translateX(4px);
+  }
+
+  .tip-box {
+    background:#78350f;
+    border:1px solid #f59e0b;
+    color:#fef3c7;
+    padding:12px 14px;
+    border-radius:12px;
+    font-size:12px;
+    line-height:1.7;
+    margin-top:6px;
+  }
+  .tip-box b { color:#fbbf24; }
+
+  @media (max-width:420px) {
+    .app { padding:18px 14px 22px; }
+    .gate-title { font-size:20px; }
+    .gate-icon { font-size:46px; margin-top:12px; }
+    .test-num { width:48px; height:48px; font-size:17px; }
+    .test-info h3 { font-size:14.5px; }
+    .test-info p { font-size:11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============== SCREEN 1 · KEY GATE ============== -->
+  <div id="gateScreen" class="screen active">
+    <div class="gate-icon">🔐</div>
+    <div class="gate-title">Speaking Voice Test</div>
+    <div class="gate-subtitle">
+      <b>၃ လ နှင့် ၃ လအထက်</b> Package ဝယ်ထားသူများသာ<br>
+      အသုံးပြုနိုင်ပါသည်။
+    </div>
+
+    <div class="gate-info">
+      <div class="row">
+        <span class="emoji">✅</span>
+        <span>Key ကို Telegram <b>@devppk</b> မှတစ်ဆင့် တောင်းယူပါ</span>
+      </div>
+      <div class="row">
+        <span class="emoji">🔒</span>
+        <span>Key တစ်ခုကို Device တစ်ခုမှာသာ Activate လုပ်နိုင်ပါသည်</span>
+      </div>
+      <div class="row">
+        <span class="emoji">🎙️</span>
+        <span>Test 101 – 104 အထိ Voice System ဖြင့် ဖြေဆိုနိုင်ပါသည်</span>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <label class="input-label" for="keyInput">🔑 Voice Test Key</label>
+      <input
+        type="text"
+        id="keyInput"
+        class="key-input"
+        placeholder="MEPT-VOICE-KEY-XXX"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="40"
+      />
+      <div id="errorMsg" class="error-msg"></div>
+    </div>
+
+    <button class="btn btn-primary" id="verifyBtn">
+      ✓ Key စစ်ဆေးမည်
+    </button>
+
+    <div class="contact-link">
+      Key မရှိသေးဘူးလား? Telegram
+      <a href="https://t.me/devppk" target="_blank" rel="noopener">@devppk</a>
+      မှာ ဆက်သွယ်ပါ
+    </div>
+  </div>
+
+  <!-- ============== SCREEN 2 · TEST SELECTOR ============== -->
+  <div id="selectorScreen" class="screen">
+    <div class="user-bar">
+      <div class="user-info">
+        <span>👤 Activated</span>
+        <span class="key-badge" id="activeKeyBadge">—</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="selector-title">🎙️ Voice Tests</div>
+    <div class="selector-sub">Test တစ်ခုကို ရွေးချယ်ပြီး ဖြေဆိုပါ</div>
+
+    <div class="test-list">
+      <a href="testspeak101.html" class="test-card" style="--accent:#22c55e;">
+        <div class="test-num" style="background:linear-gradient(135deg,#22c55e,#15803d);">101</div>
+        <div class="test-info">
+          <h3>Basic Foundations <span class="title-tag">Beginner</span></h3>
+          <p>Personal · Picture · Debate · မေးခွန်း ၅ ခု</p>
+          <div class="meta">
+            <span>⏱️ <b>10</b> min</span>
+            <span>🎯 Basic level</span>
+          </div>
+        </div>
+        <span class="test-arrow">→</span>
+      </a>
+
+      <a href="testspeak102.html" class="test-card" style="--accent:#3b82f6;">
+        <div class="test-num" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);">102</div>
+        <div class="test-info">
+          <h3>Everyday Topics <span class="title-tag">Intermediate</span></h3>
+          <p>Daily life · Bus Stop Picture · General Debate</p>
+          <div class="meta">
+            <span>⏱️ <b>10</b> min</span>
+            <span>🎯 Mid level</span>
+          </div>
+        </div>
+        <span class="test-arrow">→</span>
+      </a>
+
+      <a href="testspeak103.html" class="test-card" style="--accent:#f59e0b;">
+        <div class="test-num" style="background:linear-gradient(135deg,#f59e0b,#d97706);">103</div>
+        <div class="test-info">
+          <h3>Maritime Focus <span class="title-tag">Advanced</span></h3>
+          <p>Ship Bridge · Maritime Safety · Climate Debate</p>
+          <div class="meta">
+            <span>⏱️ <b>10</b> min</span>
+            <span>🎯 Advanced</span>
+          </div>
+        </div>
+        <span class="test-arrow">→</span>
+      </a>
+
+      <a href="testspeak104.html" class="test-card" style="--accent:#a855f7;">
+        <div class="test-num" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">104</div>
+        <div class="test-info">
+          <h3>Expert Level <span class="title-tag">Expert</span></h3>
+          <p>Fire Drill · AI · Environmental Responsibility</p>
+          <div class="meta">
+            <span>⏱️ <b>10</b> min</span>
+            <span>🎯 Expert</span>
+          </div>
+        </div>
+        <span class="test-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="tip-box">
+      <b>💡 မှတ်ချက်:</b> Computer နဲ့ ဖြေရင် ပိုအဆင်ပြေ · Voice ကို <b>Allow</b> နှိပ်ပေးပါ · ဖုန်း version အသစ်တွေ ပိုကောင်း
+    </div>
+
+    <button class="btn btn-ghost" onclick="location.href='index.html'" style="margin-top:auto;">
+      ← Main Hub သို့ ပြန်သွား
+    </button>
+  </div>
+
+</div>
+
+<script>
+/* ================================================================
+   VALID KEYS (5 keys)
+================================================================ */
+const VALID_KEYS = [
+  'MEPT-VOICE-KEY-TTN',
+  'MEPT-VOICE-KEY-NYK',
+  'MEPT-VOICE-KEY-KEY',
+  'MEPT-VOICE-KEY-MEP',
+  'MEPT-VOICE-KEY-TTK'
+];
+
+const STORAGE_KEY = 'mept_voice_key_activated';
+
+/* ================================================================
+   DOM
+================================================================ */
+const $ = (id) => document.getElementById(id);
+const keyInput   = $('keyInput');
+const verifyBtn  = $('verifyBtn');
+const errorMsg   = $('errorMsg');
+const gateScreen = $('gateScreen');
+const selectorScreen = $('selectorScreen');
+const activeKeyBadge = $('activeKeyBadge');
+const logoutBtn  = $('logoutBtn');
+
+/* ================================================================
+   KEY VALIDATION
+================================================================ */
+function normalizeKey(k) {
+  return String(k || '').trim().toUpperCase().replace(/\s+/g, '');
+}
+
+function isValidKey(k) {
+  return VALID_KEYS.includes(normalizeKey(k));
+}
+
+function showError(text, isSuccess = false) {
+  errorMsg.textContent = text;
+  errorMsg.className = 'error-msg show' + (isSuccess ? ' success' : '');
+  if (isSuccess) {
+    keyInput.classList.add('success');
+    keyInput.classList.remove('error');
+  } else {
+    keyInput.classList.add('error');
+    keyInput.classList.remove('success');
+    setTimeout(() => keyInput.classList.remove('error'), 500);
+  }
+}
+
+function clearError() {
+  errorMsg.className = 'error-msg';
+  errorMsg.textContent = '';
+  keyInput.classList.remove('error', 'success');
+}
+
+/* ================================================================
+   SHOW SELECTOR
+================================================================ */
+function showSelector(key) {
+  gateScreen.classList.remove('active');
+  selectorScreen.classList.add('active');
+  activeKeyBadge.textContent = key;
+}
+
+function showGate() {
+  selectorScreen.classList.remove('active');
+  gateScreen.classList.add('active');
+  keyInput.value = '';
+  clearError();
+  setTimeout(() => keyInput.focus(), 150);
+}
+
+/* ================================================================
+   VERIFY BUTTON
+================================================================ */
+function handleVerify() {
+  const raw = keyInput.value;
+  const key = normalizeKey(raw);
+
+  if (!key) {
+    showError('❌ ကျေးဇူးပြု၍ Key ကို ထည့်ပါ။');
+    return;
+  }
+
+  if (key.length < 10) {
+    showError('❌ Key ပုံစံ မမှန်ပါ။ ပြန်စစ်ပါ။');
+    return;
+  }
+
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = '⏳ စစ်ဆေးနေသည်...';
+
+  setTimeout(() => {
+    if (isValidKey(key)) {
+      // Save to localStorage
+      localStorage.setItem(STORAGE_KEY, key);
+      showError('✅ Key မှန်ကန်ပါသည်။ Tests များကို ဖွင့်နေသည်...', true);
+
+      setTimeout(() => {
+        showSelector(key);
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = '✓ Key စစ်ဆေးမည်';
+      }, 700);
+    } else {
+      showError('❌ Key မှားနေပါသည် သို့မဟုတ် သက်တမ်းကုန်သွားပါပြီ။');
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = '✓ Key စစ်ဆေးမည်';
+    }
+  }, 500);
+}
+
+/* ================================================================
+   LOGOUT
+================================================================ */
+function handleLogout() {
+  if (!confirm('Key ကို ဖျက်ပြီး Logout လုပ်မှာ သေချာလား?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  showGate();
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+function init() {
+  const savedKey = localStorage.getItem(STORAGE_KEY);
+  if (savedKey && isValidKey(savedKey)) {
+    showSelector(normalizeKey(savedKey));
+  } else {
+    localStorage.removeItem(STORAGE_KEY);
+    showGate();
+  }
+}
+
+/* ================================================================
+   EVENT LISTENERS
+================================================================ */
+verifyBtn.addEventListener('click', handleVerify);
+logoutBtn.addEventListener('click', handleLogout);
+
+keyInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleVerify();
+  }
+});
+
+keyInput.addEventListener('input', () => {
+  clearError();
+  // Auto-format hint: uppercase
+  const pos = keyInput.selectionStart;
+  keyInput.value = keyInput.value.toUpperCase();
+  keyInput.setSelectionRange(pos, pos);
+});
+
+init();
+</script>
+</body>
+</html>
