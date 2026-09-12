@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function startInactivityTimer() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
-      autoLogout('⏰ ၁၅ မိနစ်ကြာ အသုံးမပြုသောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။');
+      autoLogout('⏰ ၁၅ မိနစ်ကြာ အသုံးမပြုသောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
     }, SESSION_TIMEOUT_MS);
   }
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dayCheckInterval = setInterval(() => {
       if (localStorage.getItem('isLoggedIn') !== 'true') return;
       if (isNewDaySinceLogin()) {
-        autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
+        autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။ အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
       }
     }, 60 * 1000); // every 1 minute
   }
@@ -115,13 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1) Inactivity timeout
     const lastActivity = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0', 10);
     if (lastActivity && (Date.now() - lastActivity) > SESSION_TIMEOUT_MS) {
-      autoLogout('⏰ Session သက်တမ်းကုန်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
+      autoLogout('⏰ Session သက်တမ်းကုန်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
       return false;
     }
 
     // 2) Day change
     if (isNewDaySinceLogin()) {
-      autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
+      autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
       return false;
     }
 
@@ -232,12 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check inactivity
     const lastActivity = parseInt(localStorage.getItem(ACTIVITY_KEY) || '0', 10);
     if (lastActivity && (Date.now() - lastActivity) > SESSION_TIMEOUT_MS) {
-      autoLogout('⏰ Session သက်တမ်းကုန်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
+      autoLogout('⏰ Session သက်တမ်းကုန်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
       return;
     }
     // Check day change
     if (isNewDaySinceLogin()) {
-      autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
+      autoLogout('📅 နောက်တစ်နေ့ဖြစ်သောကြောင့် အလိုအလျောက် Logout ဖြစ်သွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။အရင်ကအသုံးပြုထားတဲ့ username အတိုင်းအသုံးပြုပြီးဝင်ပါမရပါက admin ကိုပြန်မေးရန်');
     }
   });
 
