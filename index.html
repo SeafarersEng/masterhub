@@ -31,6 +31,90 @@
     .notice-section strong {
       color: #e67e22;
     }
+
+    /* ============ VOICE TEST CTA ============ */
+    .voice-cta-wrap {
+      max-width: 900px;
+      margin: 0 auto 16px auto;
+      padding: 0 4px;
+    }
+    .voice-cta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+      color: #fff;
+      padding: 18px 22px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(14,165,233,0.35);
+      transition: 0.25s;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+    }
+    .voice-cta::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 60%);
+      animation: shine 3s infinite linear;
+      pointer-events: none;
+    }
+    @keyframes shine {
+      0% { transform: translate(-30%, -30%); }
+      100% { transform: translate(30%, 30%); }
+    }
+    .voice-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(14,165,233,0.5);
+    }
+    .voice-cta:active {
+      transform: scale(0.98);
+    }
+    .voice-cta .vc-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      animation: pulse-mic 1.6s infinite;
+    }
+    @keyframes pulse-mic {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    .voice-cta .vc-text {
+      flex: 1;
+    }
+    .voice-cta .vc-title {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+    .voice-cta .vc-sub {
+      display: block;
+      font-size: 0.85rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+    .voice-cta .vc-arrow {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .voice-badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+    }
+
     @media (max-width: 600px) {
       .notice-section {
         flex-direction: column;
@@ -40,6 +124,19 @@
       }
       .notice-section .notice-icon {
         font-size: 2.2rem;
+      }
+      .voice-cta {
+        padding: 14px 16px;
+        gap: 10px;
+      }
+      .voice-cta .vc-icon {
+        font-size: 1.6rem;
+      }
+      .voice-cta .vc-title {
+        font-size: 1rem;
+      }
+      .voice-cta .vc-sub {
+        font-size: 0.78rem;
       }
     }
   </style>
@@ -95,6 +192,14 @@
             </ul>
           </div>
           <div class="preview-item">
+            <div class="preview-header"><span class="preview-icon">🎙️</span><strong>Speaking Voice Test</strong><span class="voice-badge">NEW</span></div>
+            <ul class="preview-list">
+              <li>Voice System ဖြင့် စကားပြောစွမ်းရည် စစ်ဆေးနိုင်ခြင်း</li>
+              <li>Test 101 – 104 အထိ အဆင့်လိုက် ဖြေဆိုနိုင်ခြင်း</li>
+              <li>Auto Grade (A+, A, B, C, D) နှင့် Audio Playback</li>
+            </ul>
+          </div>
+          <div class="preview-item">
             <div class="preview-header"><span class="preview-icon">🖼️</span><strong>Picture Speaking</strong></div>
             <ul class="preview-list">
               <li>ပုံများမှတစ်ဆင့် Speaking စွမ်းရည် တိုးတက်စေခြင်း</li>
@@ -123,20 +228,35 @@
     <section class="hero-section">
       <h2>Welcome to MEPT Master Hub! 👋</h2>
        <marquee behavior="scroll" direction="left" style="font-weight: bold; color: #f39c12; margin-bottom: 8px;">
-      Copyright &copy; 2026 TTNY Team. All rights reserved.
+     Copyright &copy; 2026 TTNY Team. All rights reserved.
       </marquee>
       <p>MEPT စာမေးပွဲအတွက် စာတွေ့လေ့လာခြင်း၊ အစမ်းမေးခွန်းများ ဖြေဆိုခြင်း၊ မေးခွန်းဟောင်းများကို လေ့လာစစ်ဆေးခြင်းများကို တစ်နေရာတည်းမှာ ပြီးမြောက်နိုင်ပါသည်။</p>
       <p id="welcomeUser" class="welcome-user"></p>
     </section>
 
-    <!-- ၃ လနှင့်အထက် Package များအတွက် Speaking Voice Test Notice -->
-    <div class="notice-section">
-      <span class="notice-icon">📢</span>
+    <!-- ================= SPEAKING VOICE TEST NOTICE ================= -->
+    <div class="notice-section" style="background:#e8f5e9; border-left-color:#4caf50;">
+      <span class="notice-icon">🎙️</span>
       <p>
-        <strong>၃ လ နှင့် ၃ လအထက် Package ဝယ်ထားသူများအတွက် Speaking ကို Voice system ဖြင့် စစ်ဆေးနိုင်ပါပြီ။</strong><br>
-        Key ကို Telegram မှတစ်ဆင့် တောင်းခံနိုင်ပါသည်။ အောက်ပါခလုတ်ကို နှိပ်၍ Speaking Voice Test များကို စတင်ဖြေဆိုနိုင်ပါပြီ။
+        <strong>🎉 ၃ လ နှင့် ၃ လအထက် Package ဝယ်ထားသူများအတွက် အထူးသတင်း!</strong><br>
+        ယခုမှစပြီး <b>Speaking Voice Test</b> ကို Voice System ဖြင့် စစ်ဆေးလို့ရပါပြီ။
+        Key ကို Telegram <a href="https://t.me/devppk" target="_blank" rel="noopener noreferrer" style="color:#2e7d32;font-weight:700;">@devppk</a> မှတစ်ဆင့် တောင်းယူပါ။
       </p>
     </div>
+
+    <!-- ============ VOICE TEST CTA CARD ============ -->
+    <div class="voice-cta-wrap">
+      <a href="voice-test.html" class="voice-cta">
+        <span class="vc-icon">🎤</span>
+        <span class="vc-text">
+          <span class="vc-title">Speaking Voice Test ဖြေဆိုရန်</span>
+          <span class="vc-sub">Test 101 – 104 · Voice System · Auto Grade</span>
+        </span>
+        <span class="vc-arrow">→</span>
+      </a>
+    </div>
+
+  
 
     <main class="grid-container">
       <div class="card">
@@ -149,10 +269,16 @@
         <p>Exam မဖြေမီ အစမ်းဖြေကြည့်ပြီး ကိုယ့် Level ဘယ်လောက်ရှိလဲ မှန်းဆနိုင်ပါမည်။</p>
         <a href="mocktest.html" class="card-btn">အစမ်းဖြေမည်</a>
       </div>
-      <div class="card">
+      <div class="card" style="border:2px solid #0ea5e9; box-shadow:0 6px 20px rgba(14,165,233,0.15); position:relative;">
+        <span style="position:absolute; top:12px; right:12px; background:#22c55e; color:#fff; font-size:0.7rem; padding:3px 9px; border-radius:10px; font-weight:800; letter-spacing:0.3px;">NEW</span>
         <div class="card-icon">🎙️</div><h3>Speaking Voice Test</h3>
-        <p>၃ လနှင့်အထက် Package ဝင်ထားသူများအတွက် အသံဖမ်းစနစ် (Voice System) ဖြင့် Speaking စစ်ဆေးရန်။</p>
-        <a href="speakingtest.html" class="card-btn" style="background: #e67e22;">Voice Test ဖြေမည်</a>
+        <p>Voice System ဖြင့် စကားပြောစွမ်းရည် စစ်ဆေးပါ။ Test 101 – 104 အထိ အဆင့်လိုက် ဖြေဆိုနိုင်ပါသည်။</p>
+        <a href="voice-test.html" class="card-btn" style="background:linear-gradient(135deg,#0ea5e9,#3b82f6); color:#fff;">ဖြေဆိုမည်</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🖼️</div><h3>Picture Speaking</h3>
+        <p>ပုံများကို လေ့လာကြည့်ရှုပြီး Speaking စွမ်းရည်အတွက် လေ့ကျင့်နိုင်ပါသည်။</p>
+        <a href="picturespeaking.html" class="card-btn">လေ့ကျင့်မည်</a>
       </div>
       <div class="card">
         <div class="card-icon">📂</div><h3>Old Questions</h3>
