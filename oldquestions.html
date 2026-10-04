@@ -419,8 +419,7 @@
         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
             <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Main Dashboard</a>
         </div>
-        <!-- UPDATED: 8M → 9M 1W -->
-        <h1><i class="fas fa-archive"></i> MEPT Old Questions Archive (Updated 9 လပိုင်း 1W )</h1>
+        <h1><i class="fas fa-archive"></i> MEPT Old Questions Archive (Updated 9 လပိုင်း 4W )</h1>
     </header>
 
     <!-- ===== MAIN CONTENT ===== -->
@@ -435,7 +434,7 @@
 
         <!-- Filter -->
         <div class="filter-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 မေးခွန်းရှာဖွေရန် (ဥပမာ - 2023, Listening, safety...)">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 မေးခွန်းရှာဖွေရန် (ဥပမာ - Listening, safety, coworker...)">
 
             <div class="filter-group">
                 <span class="filter-label"><i class="fas fa-tag"></i> Batch</span>
@@ -447,7 +446,6 @@
                 <button class="filter-btn" data-batch="8m_exam1">8M Exam 1</button>
                 <button class="filter-btn" data-batch="8m_exam2">8M Exam 2</button>
                 <button class="filter-btn" data-batch="8m_exam3">8M Exam 3</button>
-                <!-- NEW: 9M Exam 1 -->
                 <button class="filter-btn" data-batch="9m_exam1">9M Exam 1</button>
                 <button class="filter-btn" data-batch="9m_exam4">9M Exam 4</button>
             </div>
@@ -475,11 +473,11 @@
     </script>
     <script>
         // ============================================================
-        // 1. QUESTIONS DATA (Includes ALL 7M + 8M + 9M Exam 1)
+        // 1. QUESTIONS DATA (Includes ALL 7M + 8M + 9M Exam 1 + 9M Exam 4)
         // ============================================================
         const questionsData = [
             // =========================================================
-            // 7M EXAM 1 (Existing)
+            // 7M EXAM 1
             // =========================================================
             {
                 batch: '7m_exam1',
@@ -605,7 +603,7 @@
             },
 
             // =========================================================
-            // 7M EXAM 2 (Existing)
+            // 7M EXAM 2
             // =========================================================
             {
                 batch: '7m_exam2',
@@ -687,7 +685,7 @@
             },
 
             // =========================================================
-            // 7M EXAM 3 (Existing)
+            // 7M EXAM 3
             // =========================================================
             {
                 batch: '7m_exam3',
@@ -732,7 +730,7 @@
             },
 
             // =========================================================
-            // 7M EXAM 4 (Existing)
+            // 7M EXAM 4
             // =========================================================
             {
                 batch: '7m_exam4',
@@ -830,7 +828,7 @@
             },
 
             // =========================================================
-            // ✅ 8M EXAM 1
+            // 8M EXAM 1
             // =========================================================
             {
                 batch: '8m_exam1',
@@ -934,7 +932,7 @@
             },
 
             // =========================================================
-            // ✅ 8M EXAM 2
+            // 8M EXAM 2
             // =========================================================
             {
                 batch: '8m_exam2',
@@ -1029,7 +1027,7 @@
                 category: 'writing',
                 type: 'Writing Task (80-100 words)',
                 en: 'A Visit to a Museum (Cultural Port Visit)',
-                my: 'ပြတိုက်သို့ သွားရောက်လည်ပတ်ခြင်း (ယဉ်ကျေးမှုဆိုင်ရာ ဆိပ်ကမ်းလည်ပတ်ခြင်း)',
+                my: 'ပြတိုက်သို့ သွားရောက်လည်ပတ်ခြင်း',
                 sub: ['Write about a visit to a museum. (80-100 words) / ပြတိုက်သို့ သွားရောက်လည်ပတ်ခြင်းအကြောင်း ရေးပါ။'],
                 answer: {
                     en: 'Visiting a museum is an educational and enriching experience that allows us to explore history, art, and culture. Recently, I visited a maritime museum that displayed ancient ship models, navigation tools, and historical artifacts from early explorers. Walking through the galleries helped me understand how seafaring and navigation technology evolved over centuries. It is a wonderful way to preserve our heritage and inspire younger generations to appreciate maritime history.',
@@ -1071,7 +1069,7 @@
             },
 
             // =========================================================
-            // ✅ 8M EXAM 3
+            // 8M EXAM 3
             // =========================================================
             {
                 batch: '8m_exam3',
@@ -1154,9 +1152,8 @@
             },
 
             // =========================================================
-            // ✅ NEW: 9M EXAM 1 (၉ လပိုင်း အပိုင်း ၁)
+            // 9M EXAM 1
             // =========================================================
-            // 1. Bus Stop (Speaking Picture)
             {
                 batch: '9m_exam1',
                 category: 'speaking',
@@ -1172,9 +1169,7 @@
                     en: 'In the picture, I can see a bus stop with several people waiting. Some people are standing while others are sitting on the bench. They are looking towards the road, waiting for the bus to arrive. Public transportation like buses is very helpful in daily life because it provides an affordable and convenient way to travel to work, school, and other places. It also helps reduce traffic congestion and pollution in cities.',
                     my: 'ပုံထဲမှာ လူအများအပြား စောင့်ဆိုင်းနေတဲ့ ဘတ်စ်ကားမှတ်တိုင်တစ်ခုကို မြင်ရတယ်။ တချို့လူတွေ ရပ်နေပြီး တချို့က ခုံတန်းပေါ်မှာ ထိုင်နေကြတယ်။ သူတို့က ဘတ်စ်ကားလာဖို့ လမ်းဘက်ကို ကြည့်နေကြတယ်။ ဘတ်စ်ကားလိုမျိုး အများပြည်သူသုံးယာဉ်တွေက နေ့စဉ်ဘဝမှာ အလွန်အကူအညီဖြစ်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ အလုပ်၊ ကျောင်းနဲ့ အခြားနေရာတွေကို သွားဖို့ တတ်နိုင်တဲ့နဲ့ အဆင်ပြေတဲ့ နည်းလမ်းကို ပေးတယ်။ မြို့တွေမှာ ယာဉ်ကြောပိတ်ဆို့မှုနဲ့ လေထုညစ်ညမ်းမှုကိုလည်း လျှော့ချပေးတယ်။'
                 }
-            },
-            // 2. Healthy Food & Exercise (Speaking Picture)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -1189,9 +1184,7 @@
                     en: 'In the picture, I can see a person exercising and eating healthy food like fruits, vegetables, and salad. Healthy food gives us energy and nutrients to stay strong and active. I eat fruits like apples and bananas, and vegetables like broccoli and spinach. Exercise is important because it keeps our body fit, reduces stress, and prevents diseases like diabetes and heart problems. Regular exercise and healthy eating together create a strong and healthy body.',
                     my: 'ပုံထဲမှာ လူတစ်ယောက် လေ့ကျင့်ခန်းလုပ်နေပြီး သစ်သီး၊ ဟင်းသီးဟင်းရွက်နဲ့ သုပ်လိုမျိုး ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာတွေ စားနေတာကို မြင်ရတယ်။ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ကို သန်စွမ်းပြီး တက်ကြွနေဖို့ စွမ်းအင်နဲ့ အာဟာရဓာတ်တွေ ပေးတယ်။ ကျွန်တော် ပန်းသီးနဲ့ ငှက်ပျောသီးလိုမျိုး သစ်သီးတွေနဲ့ ဘရိုကိုလီနဲ့ ဟင်းနုနွယ်ရွက်လိုမျိုး ဟင်းသီးဟင်းရွက်တွေ စားတယ်။ လေ့ကျင့်ခန်းက အရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ကိုယ်ခန္ဓာကို ကြံ့ခိုင်စေတယ်၊ စိတ်ဖိစီးမှုကို လျှော့ချပေးတယ်၊ ဆီးချိုနဲ့ နှလုံးရောဂါလိုမျိုး ရောဂါတွေကို ကာကွယ်ပေးတယ်။ ပုံမှန်လေ့ကျင့်ခန်းနဲ့ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက သန်စွမ်းကျန်းမာတဲ့ ခန္ဓာကိုယ်ကို ဖန်တီးပေးတယ်။'
                 }
-            },
-            // 3. Firefighting (Speaking Picture)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -1206,9 +1199,7 @@
                     en: 'In the picture, I can see a firefighter using a fire extinguisher and a fire hose to put out a fire. The firefighter is wearing protective clothing, a helmet, and safety boots. Fire safety training is very important because it teaches people how to prevent fires, how to use fire extinguishers correctly, and how to evacuate safely during an emergency. Without proper training, people may panic and make dangerous mistakes. Regular fire drills help everyone stay prepared and protect lives.',
                     my: 'ပုံထဲမှာ မီးသတ်သမားတစ်ယောက် မီးသတ်ဆေးဘူးနဲ့ မီးသတ်ပိုက်ကို သုံးပြီး မီးငြှိမ်းသတ်နေတာကို မြင်ရတယ်။ မီးသတ်သမားက အကာအကွယ်အဝတ်အစား၊ ဦးထုပ်နဲ့ ဘေးကင်းရေးဖိနပ်တွေ ဝတ်ထားတယ်။ မီးဘေးလုံခြုံရေးသင်တန်းက အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ လူတွေကို မီးဘယ်လိုကာကွယ်ရမယ်၊ မီးသတ်ဆေးဘူးကို ဘယ်လိုမှန်ကန်စွာသုံးရမယ်၊ အရေးပေါ်အခြေအနေမှာ ဘယ်လိုဘေးကင်းစွာ ကယ်ထွက်ရမယ်ဆိုတာ သင်ပေးလို့ပါ။ သင့်လျော်တဲ့ သင်တန်းမရှိရင် လူတွေက ထိတ်လန့်ပြီး အန္တရာယ်ရှိတဲ့ အမှားတွေ လုပ်မိနိုင်တယ်။ ပုံမှန်မီးဘေးလေ့ကျင့်ခန်းတွေက လူတိုင်းကို အသင့်ပြင်ဆင်ထားဖို့နဲ့ အသက်တွေကို ကာကွယ်ဖို့ ကူညီပေးတယ်။'
                 }
-            },
-            // 4. Family Having a Meal (Speaking Picture)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'speaking',
                 type: 'Speaking (Picture Description)',
@@ -1223,9 +1214,7 @@
                     en: 'In the picture, I can see a happy family sitting around a dining table sharing a meal together. There are parents and children enjoying food and talking with each other. Eating together as a family is very important because it strengthens family bonds and creates opportunities for communication. It also helps children learn good eating habits and table manners. In our busy modern lives, family meal time provides a moment to connect, share stories, and enjoy quality time together.',
                     my: 'ပုံထဲမှာ ပျော်ရွှင်တဲ့ မိသားစုတစ်စု ထမင်းစားပွဲတစ်ဝိုက်မှာ အတူတကွ ထိုင်စားနေတာကို မြင်ရတယ်။ မိဘတွေနဲ့ ကလေးတွေ အစားအစာတွေ စားသုံးပြီး အချင်းချင်း စကားပြောနေကြတယ်။ မိသားစုနဲ့အတူ အတူတကွ စားသောက်ခြင်းက အရမ်းအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ မိသားစုဆက်ဆံရေးကို ခိုင်မာစေပြီး ဆက်သွယ်ပြောဆိုရန် အခွင့်အလမ်းတွေ ဖန်တီးပေးလို့ပါ။ ကလေးတွေကို စားသောက်မှုအလေ့အထကောင်းတွေနဲ့ စားပွဲအမူအကျင့်တွေ သင်ယူရာလည်း အထောက်အကူပြုတယ်။ ခေတ်သစ်အလုပ်ရှုပ်တဲ့ဘဝမှာ မိသားစုအတူစားချိန်က ဆက်သွယ်ဖို့၊ အတွေ့အကြုံတွေမျှဝေဖို့နဲ့ အတူတကွ အရည်အသွေးရှိတဲ့ အချိန်တွေကို ခံစားဖို့ အခွင့်အရေးပေးတယ်။'
                 }
-            },
-            // 5. Sleep Enough (Debate)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate / Discussion)',
@@ -1240,9 +1229,7 @@
                     en: 'Yes, I strongly agree that getting enough sleep is very important for health. Sleep is essential for physical and mental recovery. I usually get about 7 to 8 hours of sleep each night. Not getting enough sleep can cause many problems like difficulty concentrating, weak immune system, mood swings, and increased risk of serious health issues like heart disease and diabetes. Good sleep habits help us stay alert, energetic, and productive throughout the day.',
                     my: 'ဟုတ်ကဲ့၊ လုံလောက်စွာ အိပ်စက်ခြင်းက ကျန်းမာရေးအတွက် အရမ်းအရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ အိပ်စက်ခြင်းက ရုပ်ပိုင်းဆိုင်ရာနဲ့ စိတ်ပိုင်းဆိုင်ရာ ပြန်လည်ကောင်းမွန်ဖို့ မရှိမဖြစ်လိုအပ်တယ်။ ကျွန်တော် ညတိုင်း ၇ နာရီကနေ ၈ နာရီလောက် အိပ်တယ်။ အိပ်ရေးမဝခြင်းက အာရုံစူးစိုက်ရခက်ခြင်း၊ ကိုယ်ခံအားစနစ်အားနည်းခြင်း၊ စိတ်အပြောင်းအလဲမြန်ခြင်းနဲ့ နှလုံးရောဂါနဲ့ ဆီးချိုလိုမျိုး ပြင်းထန်တဲ့ ကျန်းမာရေးပြဿနာတွေ ဖြစ်နိုင်ခြေ များလာခြင်းတွေ ဖြစ်စေနိုင်တယ်။ အိပ်စက်ခြင်းအလေ့အထကောင်းတွေက ကျွန်တော်တို့ကို နိုးကြားပြီး စွမ်းအင်ပြည့်ဝကာ တစ်နေ့တာလုံး ထိရောက်မှုရှိစေတယ်။'
                 }
-            },
-            // 6. Enough Water (Debate)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate / Discussion)',
@@ -1257,9 +1244,7 @@
                     en: 'Yes, I completely agree that drinking enough water is essential for health. Water is vital for our body to function properly. I drink about 2 to 3 liters of water every day. If we don\'t drink enough water, we can become dehydrated, which can cause fatigue, dizziness, headaches, and digestive problems. In severe cases, dehydration can harm our kidneys and other organs. Staying hydrated helps our skin stay healthy, improves our concentration, and supports overall well-being.',
                     my: 'ဟုတ်ကဲ့၊ ရေဓာတ်လုံလောက်စွာ သောက်သုံးခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။ ရေဟာ ကိုယ်ခန္ဓာက မှန်ကန်စွာ လည်ပတ်ဖို့ အသက်သွေးကြောဖြစ်တယ်။ ကျွန်တော် တစ်နေ့ ရေ ၂ လီတာကနေ ၃ လီတာလောက် သောက်တယ်။ ရေဓာတ်မလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်မှု ဖြစ်နိုင်ပြီး ပင်ပန်းနွမ်းနယ်ခြင်း၊ မူးဝေခြင်း၊ ခေါင်းကိုက်ခြင်းနဲ့ အစာခြေစနစ်ပြဿနာတွေ ဖြစ်စေနိုင်တယ်။ ပြင်းထန်တဲ့အခြေအနေမှာ ရေဓာတ်ခန်းခြောက်ခြင်းက ကျောက်ကပ်နဲ့ အခြားအင်္ဂါအစိတ်အပိုင်းတွေကို ထိခိုက်စေနိုင်တယ်။ ရေဓာတ်ပြည့်ဝနေခြင်းက အရေပြားကို ကျန်းမာစေတယ်၊ အာရုံစူးစိုက်နိုင်စွမ်းကို ကောင်းမွန်စေတယ်၊ ခြုံငုံကျန်းမာရေးကို အထောက်အကူပြုတယ်။'
                 }
-            },
-            // 7. English is Important (Debate)
-            {
+            }, {
                 batch: '9m_exam1',
                 category: 'debate',
                 type: 'Speaking (Debate / Discussion)',
@@ -1274,284 +1259,246 @@
                     en: 'Yes, I strongly agree that English is very important for everyone in today\'s globalized world. English is the most widely spoken language for international communication. For seafarers, English is even more crucial because it is the official language of the sea. Crew members on ships come from different countries, and they use English to communicate safety instructions, navigation commands, and emergency procedures. To improve English skills, we can read books, watch movies, practice speaking with others, and take courses. Consistent practice and exposure to the language are the best ways to improve.',
                     my: 'ဟုတ်ကဲ့၊ ယနေ့ခေတ် ကမ္ဘာ့ဖလားပြင်ဖြစ်နေတဲ့ ကမ္ဘာမှာ အင်္ဂလိပ်စာက လူတိုင်းအတွက် အရမ်းအရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ အင်္ဂလိပ်စာဟာ နိုင်ငံတကာဆက်သွယ်ရေးအတွက် အကျယ်ပြန့်ဆုံး ပြောဆိုသုံးစွဲတဲ့ ဘာသာစကားဖြစ်တယ်။ ရေကြောင်းသားတွေအတွက် အင်္ဂလိပ်စာက ပိုပြီးအရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ ဒါက ပင်လယ်ပြင်ရဲ့ တရားဝင်ဘာသာစကားဖြစ်လို့ပါ။ သင်္ဘောပေါ်က အမှုထမ်းတွေက နိုင်ငံအမျိုးမျိုးကလာကြပြီး ဘေးကင်းရေးညွှန်ကြားချက်တွေ၊ သွားလာရေးအမိန့်တွေနဲ့ အရေးပေါ်လုပ်ထုံးလုပ်နည်းတွေကို ဆက်သွယ်ဖို့ အင်္ဂလိပ်စာကို သုံးကြတယ်။ အင်္ဂလိပ်စာစွမ်းရည်ကို မြှင့်တင်ဖို့ စာအုပ်တွေဖတ်နိုင်တယ်၊ ရုပ်ရှင်တွေကြည့်နိုင်တယ်၊ တစ်ယောက်နဲ့တစ်ယောက် စကားပြောလေ့ကျင့်နိုင်တယ်၊ သင်တန်းတွေတက်နိုင်တယ်။ စဉ်ဆက်မပြတ် လေ့ကျင့်ခြင်းနဲ့ ဘာသာစကားနဲ့ ထိတွေ့ခြင်းက တိုးတက်ဖို့ အကောင်းဆုံးနည်းလမ်းတွေပါ။'
                 }
-            }
+            },
+
             // =========================================================
-// ✅ NEW: 9M EXAM 4 (၉ လပိုင်း အပိုင်း ၄)
-// =========================================================
-// 1. General Questions (Personal Info)
-{
-    batch: '9m_exam4',
-    category: 'personal',
-    type: 'Speaking (General Questions)',
-    en: 'Personal Information & Daily Life',
-    my: 'ကိုယ်ရေးကိုယ်တာ အချက်အလက်နှင့် နေ့စဉ်ဘဝ',
-    sub: [
-        'What is your name? / နာမည် ဘယ်လိုခေါ်လဲ?',
-        'How old are you? / အသက် ဘယ်လောက်လဲ?',
-        'Where are you from? / ဘယ်ကလာလဲ?',
-        'What are the popular places in your hometown? / ဇာတိမြို့မှာ ဘယ်နေရာတွေ ကျော်ကြားလဲ?',
-        'What do you usually do on your phone? / ဖုန်းပေါ်မှာ များသောအားဖြင့် ဘာလုပ်လဲ?',
-        'Who motivates you? / မင်းကို ဘယ်သူ လှုံ့ဆော်ပေးလဲ?'
-    ],
-    answer: {
-        en: 'My name is Aung Myo. I am 24 years old. I am from Yangon, Myanmar. The popular places in my hometown are Shwedagon Pagoda, Sule Pagoda, and Bogyoke Market. On my phone, I usually check messages, watch educational videos, and read news. My mother motivates me the most because she always encourages me to work hard and never give up.',
-        my: 'ကျွန်တော့်နာမည်က အောင်မျိုးပါ။ အသက် ၂၄ နှစ်ပါ။ မြန်မာနိုင်ငံ၊ ရန်ကုန်ကလာတာပါ။ ကျွန်တော့်ဇာတိမြို့မှာ ကျော်ကြားတဲ့နေရာတွေက ရွှေတိဂုံစေတီတော်၊ ဆူးလေစေတီတော်နဲ့ ဗိုလ်ချုပ်ဈေးပါ။ ဖုန်းပေါ်မှာ များသောအားဖြင့် စာတွေစစ်တယ်၊ ပညာရေးဗီဒီယိုတွေကြည့်တယ်၊ သတင်းတွေဖတ်တယ်။ ကျွန်တော့်ကို အမေက အများဆုံး လှုံ့ဆော်ပေးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူက ကျွန်တော့်ကို အမြဲကြိုးစားပြီး လက်မလျှော့ဖို့ အားပေးလို့ပါ။'
-    }
-},
-// 2. Most Excited Experience (Graduation)
-{
-    batch: '9m_exam4',
-    category: 'personal',
-    type: 'Speaking (Experience)',
-    en: 'Most Excited Experience - Graduation Day',
-    my: 'အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံ - ဘွဲ့ယူခဲ့တဲ့အချိန်',
-    sub: [
-        'What is the most exciting experience in your life? / မင်းဘဝမှာ အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံက ဘာလဲ?',
-        'What degree did you get? / ဘာဘွဲ့ ရခဲ့လဲ?',
-        'Which school did you graduate from? / ဘယ်ကျောင်းကနေ ဘွဲ့ရခဲ့တာလဲ?',
-        'What projects or activities did you do at school? / ကျောင်းမှာ ဘယ် project/activity တွေ လုပ်ခဲ့လဲ?'
-    ],
-    answer: {
-        en: 'The most exciting experience in my life was my graduation day. I received a Bachelor of Arts degree in English. I graduated from Yangon University of Distance Education. During my school years, I participated in many activities such as English speaking clubs, volunteer programs, and group projects. I also helped organize a charity event for children. These experiences helped me build confidence, teamwork, and leadership skills.',
-        my: 'ကျွန်တော့်ဘဝမှာ အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံက ကျွန်တော့်ဘွဲ့ယူခဲ့တဲ့နေ့ပါ။ ကျွန်တော် အင်္ဂလိပ်စာဖြင့် ဝိဇ္ဇာဘွဲ့ ရရှိခဲ့တယ်။ ရန်ကုန်အဝေးသင်တက္ကသိုလ်ကနေ ဘွဲ့ရခဲ့တာပါ။ ကျောင်းနေစဉ်အတွင်း အင်္ဂလိပ်စကားပြောကလပ်၊ စေတနာ့ဝန်ထမ်းအစီအစဉ်တွေနဲ့ အုပ်စုလိုက်လုပ်ငန်းတွေလိုမျိုး လှုပ်ရှားမှုတွေ အများကြီး ပါဝင်ခဲ့တယ်။ ကလေးတွေအတွက် ပရဟိတပွဲတစ်ခုကို စီစဉ်ရာမှာလည်း ကူညီခဲ့တယ်။ ဒီအတွေ့အကြုံတွေက ကျွန်တော့်ကို ယုံကြည်မှု၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုစွမ်းရည်တွေ တည်ဆောက်ပေးခဲ့တယ်။'
-    }
-},
-// 3. Picture Description - Travel Items
-{
-    batch: '9m_exam4',
-    category: 'speaking',
-    type: 'Speaking (Picture Description)',
-    en: 'Picture: Travel Items (Luggage, Bag, Notebook)',
-    my: 'ဓါတ်ပုံ: ခရီးသွားပစ္စည်းများ (အိတ်၊ လက်ဆွဲအိတ်၊ မှတ်စုစာအုပ်)',
-    sub: [
-        'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
-        'Where would you like to travel? / ဘယ်နေရာကို သွားရောက်လည်ပတ်ချင်လဲ?',
-        'What do you always take on vacation? / အားလပ်ရပ်မှာ အမြဲ ဘာတွေယူသွားလဲ?',
-        'What will you do next weekend? / နောက်တစ်ပတ် weekends ကျရင် ဘာလုပ်မလဲ?',
-        'Where will you go shopping? / ဘယ်ကို shopping ထွက်မှာလဲ?',
-        'Where is the shopping place located? / shopping ထွက်မယ့်နေရာက ဘယ်နားမှာရှိလဲ?'
-    ],
-    answer: {
-        en: 'In the picture, I can see travel items like luggage, a handbag, and a notebook. These are things people pack when going on a trip. I would like to travel to Japan because I want to see its beautiful temples and modern cities. On vacation, I always take my passport, phone charger, clothes, and a small notebook for writing. Next weekend, I will go shopping with my family. We will go to a shopping mall near the bus stop in my township. It is located about 10 minutes from my house by car.',
-        my: 'ပုံထဲမှာ ခရီးသွားပစ္စည်းတွေဖြစ်တဲ့ အိတ်၊ လက်ဆွဲအိတ်နဲ့ မှတ်စုစာအုပ်တွေကို မြင်ရတယ်။ ဒါတွေက ခရီးသွားတဲ့အခါ လူတွေ ထည့်သွင်းတဲ့ ပစ္စည်းတွေပါ။ ကျွန်တော် ဂျပန်ကို သွားရောက်လည်ပတ်ချင်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ လှပတဲ့ဘုရားကျောင်းတွေနဲ့ ခေတ်မီမြို့တွေကို မြင်ချင်လို့ပါ။ အားလပ်ရပ်မှာ နိုင်ငံကူးလက်မှတ်၊ ဖုန်းအားသွင်းကြိုး၊ အဝတ်အစားတွေနဲ့ စာရေးဖို့ မှတ်စုစာအုပ်လေးတစ်အုပ် အမြဲယူသွားတယ်။ နောက်တစ်ပတ် weekends မှာ မိသားစုနဲ့ shopping ထွက်မယ်။ ကျွန်တော်တို့ မြို့နယ်ထဲက ဘတ်စ်ကားမှတ်တိုင်အနီးမှာရှိတဲ့ shopping mall ကို သွားမယ်။ အိမ်ကနေ ကားနဲ့ ၁၀ မိနစ်လောက် ဝေးတယ်။'
-    }
-},
-// 4. Picture Description - Fire Extinguisher Usage
-{
-    batch: '9m_exam4',
-    category: 'speaking',
-    type: 'Speaking (Picture Description)',
-    en: 'Picture: Firefighting - Fire Extinguisher Usage',
-    my: 'ဓါတ်ပုံ: မီးသတ်ခြင်း - မီးသတ်ဆေးဘူး အသုံးပြုပုံ',
-    sub: [
-        'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
-        'Do you know how to use a fire extinguisher? / မီးသတ်ဆေးဘူး သုံးတတ်လား?',
-        'What are the steps to use a fire extinguisher? / မီးသတ်ဆေးဘူး အသုံးပြုပုံ အဆင့်ဆင့်က ဘာတွေလဲ?',
-        'Why is fire safety important? / မီးဘေးလုံခြုံရေးက ဘာကြောင့် အရေးကြီးသလဲ?'
-    ],
-    answer: {
-        en: 'In the picture, I can see a firefighter using a fire extinguisher to put out a fire. Yes, I know how to use a fire extinguisher. The steps are: First, pull the pin. Second, aim the nozzle at the base of the fire. Third, squeeze the handle. Fourth, sweep the nozzle side to side. Remember the word "PASS" - Pull, Aim, Squeeze, Sweep. Fire safety is important because fires can spread quickly and cause serious damage to property and lives. Knowing how to use a fire extinguisher can save lives.',
-        my: 'ပုံထဲမှာ မီးသတ်သမားတစ်ယောက် မီးသတ်ဆေးဘူးကိုသုံးပြီး မီးငြှိမ်းသတ်နေတာကို မြင်ရတယ်။ ဟုတ်ကဲ့၊ ကျွန်တော် မီးသတ်ဆေးဘူး သုံးတတ်ပါတယ်။ အဆင့်တွေက ပထမ၊ ဇာပင် (pin) ကို ဆွဲထုတ်ပါ။ ဒုတိယ၊ မီးရဲ့အောက်ခြေကို ပစ်မှတ်ထားပါ။ တတိယ၊ လက်ကိုင်ကို ဆွဲညှစ်ပါ။ စတုတ္ထ၊ နော်ဇယ်ကို ဘေးတစ်ဖက်တစ်ချက် လှုပ်ရှားပါ။ "PASS" ဆိုတဲ့ စကားလုံးကို မှတ်ထားပါ - Pull, Aim, Squeeze, Sweep။ မီးဘေးလုံခြုံရေးက အရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ မီးက လျင်မြန်စွာ ပျံ့နှံ့ပြီး ပစ္စည်းဥစ္စာနဲ့ အသက်တွေကို ပြင်းထန်စွာ ထိခိုက်စေနိုင်လို့ပါ။ မီးသတ်ဆေးဘူး သုံးတတ်ခြင်းက အသက်တွေကို ကယ်နိုင်တယ်။'
-    }
-},
-// 5. Debate - Friendly Coworkers
-{
-    batch: '9m_exam4',
-    category: 'debate',
-    type: 'Speaking (Debate / Discussion)',
-    en: 'Friendly Coworkers - Working Together',
-    my: 'ဖော်ရွေသော လုပ်ဖော်ကိုင်ဖက်များ - အတူတကွ အလုပ်လုပ်ခြင်း',
-    sub: [
-        'Do you agree that working with coworkers creates a better job? / လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ထင်လား?',
-        'What problems can happen when coworkers do not get along? / လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်မပြေရင် ဘယ်လိုပြဿနာတွေ ဖြစ်နိုင်လဲ?',
-        'How can coworkers help each other at work? / လုပ်ဖော်ကိုင်ဖက်တွေ အလုပ်မှာ တစ်ယောက်ကိုတစ်ယောက် ဘယ်လိုကူညီနိုင်လဲ?',
-        'Should coworkers respect each other? Why? / လုပ်ဖော်ကိုင်ဖက်တွေ တစ်ယောက်ကိုတစ်ယောက် လေးစားသင့်လား? ဘာကြောင့်လဲ?'
-    ],
-    answer: {
-        en: 'Yes, I agree that working with friendly coworkers creates a better job. When coworkers get along well, they communicate openly, share ideas, and solve problems together. This creates a positive work environment. If coworkers do not get along, problems can happen such as misunderstandings, delays in work, low productivity, and high stress. Coworkers can help each other by sharing knowledge, offering support during difficult tasks, and giving constructive feedback. Yes, coworkers should always respect each other because respect builds trust and teamwork. When people feel respected, they are more motivated and work harder. A respectful workplace leads to success for everyone.',
-        my: 'ဟုတ်ကဲ့၊ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ကျွန်တော် သဘောတူတယ်။ လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်ပြေကြရင် ပွင့်လင်းစွာ ဆက်သွယ်ပြောဆိုတယ်၊ အကြံဉာဏ်တွေမျှဝေတယ်၊ ပြဿနာတွေကို အတူတကွ ဖြေရှင်းကြတယ်။ ဒါက အပြုသဘောဆောင်တဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပေးတယ်။ လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်မပြေရင် နားလည်မှုလွဲမှားခြင်း၊ အလုပ်နှောင့်နှေးခြင်း၊ ကုန်ထုတ်စွမ်းအားနည်းခြင်းနဲ့ စိတ်ဖိစီးမှုမြင့်မားခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ လုပ်ဖော်ကိုင်ဖက်တွေက အသိပညာမျှဝေခြင်း၊ ခက်ခဲတဲ့အလုပ်တွေမှာ ပံ့ပိုးကူညီခြင်းနဲ့ အပြုသဘောဆောင်တဲ့ တုံ့ပြန်ချက်ပေးခြင်းတို့ဖြင့် တစ်ယောက်ကိုတစ်ယောက် ကူညီနိုင်တယ်။ ဟုတ်ကဲ့၊ လုပ်ဖော်ကိုင်ဖက်တွေ အမြဲတမ်း တစ်ယောက်ကိုတစ်ယောက် လေးစားသင့်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ လေးစားမှုက ယုံကြည်မှုနဲ့ အသင်းလိုက်လုပ်ဆောင်မှုကို တည်ဆောက်ပေးလို့ပါ။ လူတွေ လေးစားခံရတယ်လို့ ခံစားရရင် ပိုပြီးစိတ်အားထက်သန်ပြီး ပိုကြိုးစားလုပ်ကိုင်ကြတယ်။ လေးစားမှုရှိတဲ့ လုပ်ငန်းခွင်က လူတိုင်းအတွက် အောင်မြင်မှုကို ဖြစ်စေတယ်။'
-    }
-},
-// 6. Grammar - Tenses & Structures
-{
-    batch: '9m_exam4',
-    category: 'debate',
-    type: 'Grammar Practice',
-    en: 'Grammar Structures (interested + in, am/is/are + Ving, has/have + V3, Remember + to)',
-    my: 'သဒ္ဒါပုံစံများ (interested + in, am/is/are + Ving, has/have + V3, Remember + to)',
-    sub: [
-        'interested + in + Ving / Noun - I am interested in learning English.',
-        'am/is/are + Ving (Present Continuous) - She is reading a book now.',
-        'has/have + V3 (Present Perfect) - I have finished my homework.',
-        'Remember + to + V1 - Remember to bring your passport.'
-    ],
-    answer: {
-        en: 'Here are examples of the grammar structures: 1) Interested + in: "I am interested in learning new languages." 2) Present Continuous (am/is/are + Ving): "They are playing football in the park." 3) Present Perfect (has/have + V3): "She has visited Japan twice." 4) Remember + to + V1: "Remember to lock the door before you leave." These structures are very common in everyday English and are important for exams.',
-        my: 'သဒ္ဒါပုံစံတွေရဲ့ ဥပမာတွေက ဒီလိုပါ။ ၁) interested + in: "ကျွန်တော် ဘာသာစကားအသစ်တွေ သင်ယူရတာ စိတ်ဝင်စားတယ်။" ၂) Present Continuous (am/is/are + Ving): "သူတို့ ပန်းခြံထဲမှာ ဘောလုံးကစားနေကြတယ်။" ၃) Present Perfect (has/have + V3): "သူ ဂျပန်ကို နှစ်ကြိမ် သွားရောက်ဖူးတယ်။" ၄) Remember + to + V1: "မထွက်ခင်မှာ တံခါးသော့ခတ်ဖို့ မမေ့ပါနဲ့။" ဒီပုံစံတွေက နေ့စဉ်အင်္ဂလိပ်စာမှာ အလွန်အသုံးများပြီး စာမေးပွဲတွေအတွက် အရေးကြီးပါတယ်။'
-    }
-},
-// 7. Reading - Museum near port
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Reading Comprehension',
-    en: 'Reading: Visit to a Museum near the Port',
-    my: 'Reading: ဆိပ်ကမ်းအနီးရှိ ပြတိုက်သို့ သွားရောက်ခြင်း',
-    sub: [
-        'What did the writer do? / စာရေးသူ ဘာလုပ်ခဲ့လဲ?',
-        'Where is the museum located? / ပြတိုက်က ဘယ်မှာတည်ရှိလဲ?',
-        'What did the writer learn from the visit? / စာရေးသူ ဒီလည်ပတ်မှုကနေ ဘာသင်ယူခဲ့လဲ?'
-    ],
-    answer: {
-        en: 'Last month, I visited a museum located near the port. The museum displays the history of maritime trade and shipping. I saw old ship models, navigation instruments, and photographs of ancient ports. The museum guide explained how ships transported goods across the oceans. I learned a lot about the maritime industry and its importance to global trade. It was an educational and memorable experience.',
-        my: 'ပြီးခဲ့တဲ့လက ကျွန်တော် ဆိပ်ကမ်းအနီးမှာရှိတဲ့ ပြတိုက်တစ်ခုကို သွားရောက်လည်ပတ်ခဲ့တယ်။ ပြတိုက်က ရေကြောင်းကုန်သွယ်မှုနဲ့ သင်္ဘောသမိုင်းကို ပြသထားတယ်။ ရှေးဟောင်းသင်္ဘောပုံစံတွေ၊ သွားလာရေးကိရိယာတွေနဲ့ ရှေးခေတ်ဆိပ်ကမ်းတွေရဲ့ ဓာတ်ပုံတွေကို မြင်ခဲ့ရတယ်။ ပြတိုက်လမ်းညွှန်က သင်္ဘောတွေ သမုဒ္ဒရာတွေကို ဖြတ်ပြီး ကုန်ပစ္စည်းတွေ ဘယ်လိုသယ်ဆောင်ခဲ့ကြသလဲဆိုတာ ရှင်းပြခဲ့တယ်။ ရေကြောင်းလုပ်ငန်းနဲ့ ကမ္ဘာ့ကုန်သွယ်ရေးအတွက် သူ့ရဲ့အရေးပါမှုအကြောင်း အများကြီး သင်ယူခဲ့ရတယ်။ ဒါက ပညာရေးဆိုင်ရာနဲ့ အမှတ်တရဖြစ်စရာ အတွေ့အကြုံတစ်ခုပါ။'
-    }
-},
-// 8. Reading - Fashion Course
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Reading Comprehension',
-    en: 'Reading: Taking a Fashion Course',
-    my: 'Reading: Fashion သင်တန်းတက်ခြင်း',
-    sub: [
-        'What course is the writer going to take? / စာရေးသူ ဘယ်သင်တန်းတက်မလဲ?',
-        'Why does the writer want to take this course? / စာရေးသူ ဒီသင်တန်းကို ဘာကြောင့် တက်ချင်တာလဲ?',
-        'What will the writer learn? / စာရေးသူ ဘာတွေသင်ယူမယ်လဲ?'
-    ],
-    answer: {
-        en: 'Next month, I am going to take a fashion design course at a local training center. I have always been interested in fashion and clothing design. I want to learn how to create my own clothes and maybe start a small business in the future. In this course, I will learn about fabric selection, sewing techniques, pattern making, and fashion illustration. The course lasts for three months and includes both theory and practical sessions. I am very excited about it.',
-        my: 'နောက်လမှာ ကျွန်တော် ဒေသတွင်းသင်တန်းဌာနတစ်ခုမှာ fashion design သင်တန်းတက်မယ်။ ကျွန်တော် fashion နဲ့ အဝတ်အစားဒီဇိုင်းကို အမြဲစိတ်ဝင်စားခဲ့တယ်။ ကိုယ်တိုင် အဝတ်အစားတွေ ဖန်တီးနည်းကို သင်ယူပြီး အနာဂတ်မှာ စီးပွားရေးလုပ်ငန်းလေးတစ်ခု စတင်နိုင်မယ်လို့ မျှော်လင့်တယ်။ ဒီသင်တန်းမှာ အထည်အရွေးချယ်ခြင်း၊ ချုပ်နည်းပညာတွေ၊ ပုံစံဖန်တီးခြင်းနဲ့ fashion illustration တွေအကြောင်း သင်ယူမယ်။ သင်တန်းက သုံးလကြာပြီး သီအိုရီနဲ့ လက်တွေ့သင်ခန်းစာတွေ နှစ်မျိုးလုံး ပါဝင်တယ်။ ဒါကို ကျွန်တော် အရမ်းစိတ်လှုပ်ရှားနေတယ်။'
-    }
-},
-// 9. Reading - Passport Renewal
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Reading Comprehension',
-    en: 'Reading: Passport Renewal Process',
-    my: 'Reading: နိုင်ငံကူးလက်မှတ် သက်တမ်းတိုးခြင်း',
-    sub: [
-        'What is the writer going to do? / စာရေးသူ ဘာလုပ်မလဲ?',
-        'Why does the writer need to renew the passport? / စာရေးသူ နိုင်ငံကူးလက်မှတ် ဘာကြောင့် သက်တမ်းတိုးဖို့လိုတာလဲ?',
-        'What documents are needed for passport renewal? / နိုင်ငံကူးလက်မှတ် သက်တမ်းတိုးဖို့ ဘယ်စာရွက်စာတမ်းတွေ လိုအပ်လဲ?'
-    ],
-    answer: {
-        en: 'My passport will expire in three months, so I need to renew it soon. I will go to the passport office next week to submit my application. For renewal, I need my old passport, a copy of my national ID card, two recent photos, and a completed application form. The process usually takes about two weeks. I need the new passport because I am planning to travel abroad next year. Renewing the passport on time is important to avoid any travel problems.',
-        my: 'ကျွန်တော့်နိုင်ငံကူးလက်မှတ် သုံးလအတွင်း သက်တမ်းကုန်မယ်။ ဒါကြောင့် မကြာမီ သက်တမ်းတိုးဖို့လိုတယ်။ နောက်တစ်ပတ်မှာ လျှောက်လွှာတင်ဖို့ နိုင်ငံကူးလက်မှတ်ရုံးကို သွားမယ်။ သက်တမ်းတိုးဖို့ နိုင်ငံကူးလက်မှတ်အ�ောင်း၊ မှတ်ပုံတင်ကတ်ပြားမိတ္တူ၊ မကြာသေးမီက ဓာတ်ပုံနှစ်ပုံနဲ့ ဖြည့်စွက်ပြီးသား လျှောက်လွှာတစ်ခု လိုအပ်တယ်။ လုပ်ငန်းစဉ်က နှစ်ပတ်လောက်ကြာတယ်။ နောက်နှစ်မှာ နိုင်ငံခြားသွားဖို့ စီစဉ်ထားလို့ နိုင်ငံကူးလက်မှတ်အသစ် လိုအပ်တယ်။ ခရီးသွားပြဿနာတွေ မဖြစ်ရအောင် နိုင်ငံကူးလက်မှတ်ကို အချိန်မီ သက်တမ်းတိုးဖို့ အရေးကြီးတယ်။'
-    }
-},
-// 10. Writing - Rainy Season Activity
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Writing Task (80-100 words)',
-    en: 'An Activity I Did During the Rainy Season',
-    my: 'မိုးရာသီမှာ လုပ်ခဲ့တဲ့ activity တစ်ခုအကြောင်း',
-    sub: [
-        'Write about an activity you did during the rainy season. (80-100 words) / မိုးရာသီမှာ လုပ်ခဲ့တဲ့ activity တစ်ခုအကြောင်း ရေးပါ။'
-    ],
-    answer: {
-        en: 'During the rainy season last year, I joined a volunteer group to help flood victims in my township. We collected donations such as clothes, food, and medicine from local people. Then we packed them into relief bags and distributed them to families affected by the flood. It was a meaningful and emotional experience. Even though the weather was difficult, we worked together as a team. I felt happy to help others and learned the importance of community support during emergencies.',
-        my: 'ပြီးခဲ့တဲ့နှစ် မိုးရာသီမှာ ကျွန်တော် ကျွန်တော့်မြို့နယ်က ရေကြီးဒုက္ခသည်တွေကို ကူညီဖို့ စေတနာ့ဝန်ထမ်းအဖွဲ့တစ်ခုနဲ့ ပူးပေါင်းခဲ့တယ်။ အဝတ်အစား၊ အစားအစာနဲ့ ဆေးဝါးတွေလိုမျိုး လှူဒါန်းမှုတွေကို ဒေသခံတွေဆီကနေ စုဆောင်းခဲ့တယ်။ ပြီးတော့ အဲဒါတွေကို ကယ်ဆယ်ရေးအိတ်တွေထဲ ထည့်ပြီး ရေကြီးဒဏ်ခံခဲ့ရတဲ့ မိသားစုတွေဆီ ဖြန့်ဝေခဲ့တယ်။ ဒါက အဓိပ္ပာယ်ရှိပြီး စိတ်ခံစားမှုရှိတဲ့ အတွေ့အကြုံတစ်ခုပါ။ ရာသီဥတုက ခက်ခဲပေမယ့် ကျွန်တော်တို့ အဖွဲ့တစ်ဖွဲ့အနေနဲ့ အတူတကွ လုပ်ဆောင်ခဲ့ကြတယ်။ အခြားသူတွေကို ကူညီရတာ ဝမ်းသာပြီး အရေးပေါ်အခြေအနေတွေမှာ လူမှုအသိုင်းအဝိုင်း ပံ့ပိုးကူညီမှုရဲ့ အရေးပါမှုကို သင်ယူခဲ့ရတယ်။'
-    }
-},
-// 11. Writing - AI Tool
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Writing Task (80-100 words)',
-    en: 'An AI Tool I Recently Used',
-    my: 'မကြာသေးမီက သုံးခဲ့တဲ့ AI Tool တစ်ခုအကြောင်း',
-    sub: [
-        'Write about an AI tool you recently used. (80-100 words) / မကြာသေးမီက သုံးခဲ့တဲ့ AI Tool တစ်ခုအကြောင်း ရေးပါ။'
-    ],
-    answer: {
-        en: 'Recently, I used ChatGPT, an AI-powered chatbot, to help me with my English studies. I asked it to explain grammar rules, correct my writing, and give me practice questions. It provided clear explanations and helpful examples. I also used it to translate some difficult words from English to Myanmar. The tool was very fast and convenient. However, I always double-checked the information with my teacher or textbooks. Overall, AI tools like ChatGPT are useful for learning if we use them responsibly.',
-        my: 'မကြာသေးမီက ကျွန်တော် အင်္ဂလိပ်စာလေ့လာမှုအတွက် ကူညီဖို့ AI-powered chatbot ဖြစ်တဲ့ ChatGPT ကို သုံးခဲ့တယ်။ သဒ္ဒါစည်းမျဉ်းတွေ ရှင်းပြဖို့၊ ကျွန်တော့်အရေးအသားကို ပြင်ပေးဖို့နဲ့ လေ့ကျင့်ခန်းမေးခွန်းတွေ ပေးဖို့ တောင်းဆိုခဲ့တယ်။ ရှင်းလင်းတဲ့ ရှင်းပြချက်တွေနဲ့ အထောက်အကူဖြစ်တဲ့ ဥပမာတွေ ပေးခဲ့တယ်။ ခက်ခဲတဲ့ စကားလုံးတချို့ကို အင်္ဂလိပ်ကနေ မြန်မာကို ဘာသာပြန်ဖို့လည်း သုံးခဲ့တယ်။ အဲဒီ tool က အလွန်မြန်ပြီး အဆင်ပြေတယ်။ ဒါပေမယ့် အချက်အလက်တွေကို ဆရာ/ဆရာမ ဒါမှမဟုတ် ဖတ်စာအုပ်တွေနဲ့ အမြဲတမ်း ပြန်စစ်ဆေးခဲ့တယ်။ ခြုံငုံကြည့်ရင် ChatGPT လိုမျိုး AI tool တွေက တာဝန်ယူမှုရှိရှိ သုံးရင် သင်ယူဖို့ အသုံးဝင်တယ်။'
-    }
-},
-// 12. Writing - New Job Moved to Another City
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Writing Task (80-100 words)',
-    en: 'Moving to Another City for a New Job',
-    my: 'အလုပ်အသစ်တစ်ခုရလို့ တစ်ခြားမြို့ကို ပြောင်းလာခဲ့ရတဲ့အကြောင်း',
-    sub: [
-        'Write about moving to another city for a new job. (80-100 words) / အလုပ်အသစ်တစ်ခုရလို့ တစ်ခြားမြို့ကို ပြောင်းလာခဲ့ရတဲ့အကြောင်း ရေးပါ။'
-    ],
-    answer: {
-        en: 'Last year, I got a new job in Mandalay, so I had to move from my hometown in Yangon. At first, I felt nervous and excited at the same time. I had to find a new apartment, learn the new city, and adapt to a different environment. The people in Mandalay were very friendly, which made me feel welcome. My new job is interesting and challenging. I have learned many new skills and made good friends at work. Moving to a new city was a big change, but it has been a valuable experience.',
-        my: 'ပြီးခဲ့တဲ့နှစ်က ကျွန်တော် မန္တလေးမှာ အလုပ်အသစ်တစ်ခု ရခဲ့တယ်။ ဒါကြောင့် ရန်ကုန်က ကျွန်တော့်ဇာတိမြို့ကနေ ပြောင်းရွှေ့ခဲ့ရတယ်။ အစပိုင်းမှာ စိတ်လှုပ်ရှားပြီး တစ်ချိန်တည်းမှာ စိုးရိမ်ခဲ့တယ်။ တိုက်ခန်းအသစ်ရှာရတယ်၊ မြို့သစ်ကို လေ့လာရတယ်၊ မတူညီတဲ့ ပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေဖြစ်အောင် နေရတယ်။ မန္တလေးက လူတွေ အရမ်းဖော်ရွေတယ်။ ဒါက ကျွန်တော့်ကို ကြိုဆိုခံရတယ်လို့ ခံစားရစေတယ်။ အလုပ်အသစ်က စိတ်ဝင်စားစရာကောင်းပြီး စိန်ခေါ်မှုရှိတယ်။ ကျွမ်းကျင်မှုအသစ်တွေ အများကြီး သင်ယူခဲ့ရပြီး အလုပ်မှာ သူငယ်ချင်းကောင်းတွေ ရခဲ့တယ်။ မြို့သစ်ကို ပြောင်းရွှေ့တာက ကြီးမားတဲ့အပြောင်းအလဲတစ်ခုပါ။ ဒါပေမယ့် တန်ဖိုးရှိတဲ့ အတွေ့အကြုံတစ်ခု ဖြစ်ခဲ့တယ်။'
-    }
-},
-// 13. Writing - Work-Life Balance
-{
-    batch: '9m_exam4',
-    category: 'writing',
-    type: 'Writing Task (80-100 words)',
-    en: 'Maintaining Work-Life Balance',
-    my: 'အလုပ်နှင့် ဘဝမျှခြေ ထိန်းသိမ်းခြင်း',
-    sub: [
-        'Write about maintaining work-life balance. (80-100 words) / အလုပ်နဲ့ ဘဝမျှခြေ ထိန်းသိမ်းခြင်းအကြောင်း ရေးပါ။'
-    ],
-    answer: {
-        en: 'Maintaining a good work-life balance is essential for both physical and mental health. When we work too much, we can feel stressed, tired, and unhappy. To keep a balance, we should set clear working hours, take regular breaks, and spend quality time with family and friends. We should also do activities we enjoy, such as exercise, reading, or traveling. I try to keep a balance by finishing my work on time and exercising every evening. A balanced life makes us healthier, happier, and more productive at work.',
-        my: 'အလုပ်နဲ့ ဘဝမျှခြေကောင်းတစ်ခု ထိန်းသိမ်းခြင်းဟာ ရုပ်ပိုင်းဆိုင်ရာနဲ့ စိတ်ပိုင်းဆိုင်ရာ ကျန်းမာရေးနှစ်မျိုးလုံးအတွက် မရှိမဖြစ်လိုအပ်တယ်။ အလုပ်အလွန်အကျွံလုပ်ရင် စိတ်ဖိစီးမှု၊ ပင်ပန်းနွမ်းနယ်မှုနဲ့ မပျော်ရွှင်မှုတွေ ခံစားရနိုင်တယ်။ မျှခြေထိန်းသိမ်းဖို့ အလုပ်ချိန်တွေကို ရှင်းရှင်းလင်းလင်းသတ်မှတ်ရမယ်၊ ပုံမှန်အနားယူရမယ်၊ မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ အရည်အသွေးရှိတဲ့ အချိန်တွေ ကုန်ဆုံးရမယ်။ လေ့ကျင့်ခန်းလုပ်ခြင်း၊ စာဖတ်ခြင်း ဒါမှမဟုတ် ခရီးသွားခြင်းလိုမျိုး ပျော်ရွှင်စရာလှုပ်ရှားမှုတွေလည်း လုပ်သင့်တယ်။ ကျွန်တော် အလုပ်ကို အချိန်မှီပြီးအောင်လုပ်ပြီး ညနေတိုင်း လေ့ကျင့်ခန်းလုပ်ခြင်းဖြင့် မျှခြေထိန်းသိမ်းဖို့ ကြိုးစားတယ်။ မျှခြေရှိတဲ့ဘဝက ကျွန်တော်တို့ကို ပိုကျန်းမာ၊ ပိုပျော်ရွှင်ပြီး အလုပ်မှာ ပိုထိရောက်မှုရှိစေတယ်။'
-    }
-},
-// 14. Listening - General Questions
-{
-    batch: '9m_exam4',
-    category: 'speaking',
-    type: 'Listening Practice',
-    en: 'Listening: General Questions (How do you go to school? etc.)',
-    my: 'Listening: အထွေထွေမေးခွန်းများ (ကျောင်းကို ဘာနဲ့သွားလဲ စသဖြင့်)',
-    sub: [
-        'How do you go to school? / ကျောင်းကို ဘာနဲ့သွားလဲ?',
-        'What time do you usually wake up? / များသောအားဖြင့် ဘယ်အချိန် အိပ်ရာထလဲ?',
-        'What do you do after school? / ကျောင်းပြီးရင် ဘာလုပ်လဲ?'
-    ],
-    answer: {
-        en: 'These are common listening questions in the exam. For example: "How do you go to school?" - "I go to school by bus." "What time do you usually wake up?" - "I usually wake up at 6 AM." "What do you do after school?" - "After school, I do my homework and play sports with my friends." These questions test your ability to understand simple daily conversations.',
-        my: 'ဒါတွေက စာမေးပွဲမှာ အသုံးများတဲ့ listening မေးခွန်းတွေပါ။ ဥပမာ - "ကျောင်းကို ဘာနဲ့သွားလဲ?" - "ကျွန်တော် ဘတ်စ်ကားနဲ့ ကျောင်းသွားတယ်။" "များသောအားဖြင့် ဘယ်အချိန် အိပ်ရာထလဲ?" - "များသောအားဖြင့် မနက် ၆ နာရီ ထတယ်။" "ကျောင်းပြီးရင် ဘာလုပ်လဲ?" - "ကျောင်းပြီးရင် အိမ်စာလုပ်ပြီး သူငယ်ချင်းတွေနဲ့ အားကစားကစားတယ်။" ဒီမေးခွန်းတွေက ရိုးရှင်းတဲ့ နေ့စဉ်စကားပြောဆိုမှုတွေကို နားလည်နိုင်စွမ်းကို စမ်းသပ်တာပါ။'
-    }
-},
-// 15. Listening - Australia to Singapore by Plane
-{
-    batch: '9m_exam4',
-    category: 'speaking',
-    type: 'Listening Practice',
-    en: 'Listening: Traveling from Australia to Singapore by Plane',
-    my: 'Listening: Australia မှ Singapore ကို လေယာဉ်နဲ့သွားခြင်း',
-    sub: [
-        'Where did the person travel from? / လူက ဘယ်ကနေ ခရီးသွားခဲ့လဲ?',
-        'Where did the person travel to? / လူက ဘယ်ကို ခရီးသွားခဲ့လဲ?',
-        'How long was the flight? / လေယာဉ်ခရီးစဉ် ဘယ်လောက်ကြာခဲ့လဲ?'
-    ],
-    answer: {
-        en: 'In this listening passage, a person traveled from Australia to Singapore by plane. The flight took about 8 hours. The person flew from Sydney Airport and arrived at Changi Airport in Singapore. During the flight, the passenger watched movies, ate meals, and slept. The weather was good, and the flight was smooth. The person said it was a comfortable and enjoyable journey.',
-        my: 'ဒီ listening စာပိုဒ်မှာ လူတစ်ယောက်ဟာ Australia ကနေ Singapore ကို လေယာဉ်နဲ့ ခရီးသွားခဲ့တယ်။ လေယာဉ်ခရီးစဉ်က ၈ နာရီလောက် ကြာခဲ့တယ်။ အဲဒီလူက Sydney လေဆိပ်ကနေ ထွက်ခွာပြီး Singapore က Changi လေဆိပ်ကို ရောက်ခဲ့တယ်။ ခရီးစဉ်အတွင်း ခရီးသည် ရုပ်ရှင်တွေကြည့်တယ်၊ အစားအစာတွေစားတယ်၊ အိပ်တယ်။ ရာသီဥတုက ကောင်းပြီး လေယာဉ်ခရီးစဉ်က ချောမွေ့ခဲ့တယ်။ အဲဒီလူက သက်တောင့်သက်သာရှိပြီး ပျော်ရွှင်စရာကောင်းတဲ့ ခရီးစဉ်တစ်ခုလို့ ပြောခဲ့တယ်။'
-    }
-},
-// 16. Listening - Bridge Officer and Deck Officer Alarm Report
-{
-    batch: '9m_exam4',
-    category: 'safety',
-    type: 'Listening Practice',
-    en: 'Listening: Bridge Officer and Deck Officer - Alarm Report',
-    my: 'Listening: Bridge Officer နှင့် Deck Officer - Alarm Report',
-    sub: [
-        'What was the alarm about? / Alarm က ဘာအကြောင်းလဲ?',
-        'Who reported the alarm? / Alarm ကို ဘယ်သူ report လုပ်ခဲ့လဲ?',
-        'What action was taken? / ဘယ်လိုအရေးယူမှု လုပ်ခဲ့လဲ?'
-    ],
-    answer: {
-        en: 'In this listening passage, the Bridge Officer and the Deck Officer are communicating about an alarm on the ship. The Deck Officer reports that a fire alarm has activated in the cargo hold area. The Bridge Officer asks for the exact location and the type of alarm. The Deck Officer confirms it is a smoke detector alarm. The Bridge Officer orders the crew to investigate immediately and report back. This type of communication is very important for ship safety. Clear and accurate reporting helps the crew respond quickly to emergencies and prevent accidents.',
-        my: 'ဒီ listening စာပိုဒ်မှာ Bridge Officer နဲ့ Deck Officer တို့ဟာ သင်္ဘောပေါ်က alarm တစ်ခုအကြောင်း ဆက်သွယ်ပြောဆိုနေကြတယ်။ Deck Officer က cargo hold ဧရိယာမှာ မီးသတိပေးသံ (fire alarm) မြည်နေတယ်လို့ report လုပ်တယ်။ Bridge Officer က တိကျတဲ့တည်နေရာနဲ့ alarm အမျိုးအစားကို မေးတယ်။ Deck Officer က ဒါက မီးခိုးရှာဖွေစက် (smoke detector) alarm ဖြစ်တယ်လို့ အတည်ပြုတယ်။ Bridge Officer က အမှုထမ်းတွေကို ချက်ချင်းစစ်ဆေးပြီး ပြန်လည်သတင်းပို့ဖို့ အမိန့်ပေးတယ်။ ဒီလိုဆက်သွယ်ပြောဆိုမှုဟာ သင်္ဘောဘေးကင်းရေးအတွက် အလွန်အရေးကြီးတယ်။ ရှင်းလင်းတိကျတဲ့ report ပေးခြင်းက အမှုထမ်းတွေကို အရေးပေါ်အခြေအနေတွေကို လျင်မြန်စွာ တုံ့ပြန်နိုင်စေပြီး မတော်တဆမှုတွေကို ကာကွယ်ပေးတယ်။'
-    }
-}
+            // 9M EXAM 4 (FIXED - comma added above)
+            // =========================================================
+            {
+                batch: '9m_exam4',
+                category: 'personal',
+                type: 'Speaking (General Questions)',
+                en: 'Personal Information & Daily Life',
+                my: 'ကိုယ်ရေးကိုယ်တာ အချက်အလက်နှင့် နေ့စဉ်ဘဝ',
+                sub: [
+                    'What is your name? / နာမည် ဘယ်လိုခေါ်လဲ?',
+                    'How old are you? / အသက် ဘယ်လောက်လဲ?',
+                    'Where are you from? / ဘယ်ကလာလဲ?',
+                    'What are the popular places in your hometown? / ဇာတိမြို့မှာ ဘယ်နေရာတွေ ကျော်ကြားလဲ?',
+                    'What do you usually do on your phone? / ဖုန်းပေါ်မှာ များသောအားဖြင့် ဘာလုပ်လဲ?',
+                    'Who motivates you? / မင်းကို ဘယ်သူ လှုံ့ဆော်ပေးလဲ?'
+                ],
+                answer: {
+                    en: 'My name is Aung Myo. I am 24 years old. I am from Yangon, Myanmar. The popular places in my hometown are Shwedagon Pagoda, Sule Pagoda, and Bogyoke Market. On my phone, I usually check messages, watch educational videos, and read news. My mother motivates me the most because she always encourages me to work hard and never give up.',
+                    my: 'ကျွန်တော့်နာမည်က အောင်မျိုးပါ။ အသက် ၂၄ နှစ်ပါ။ မြန်မာနိုင်ငံ၊ ရန်ကုန်ကလာတာပါ။ ကျွန်တော့်ဇာတိမြို့မှာ ကျော်ကြားတဲ့နေရာတွေက ရွှေတိဂုံစေတီတော်၊ ဆူးလေစေတီတော်နဲ့ ဗိုလ်ချုပ်ဈေးပါ။ ဖုန်းပေါ်မှာ များသောအားဖြင့် စာတွေစစ်တယ်၊ ပညာရေးဗီဒီယိုတွေကြည့်တယ်၊ သတင်းတွေဖတ်တယ်။ ကျွန်တော့်ကို အမေက အများဆုံး လှုံ့ဆော်ပေးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ သူက ကျွန်တော့်ကို အမြဲကြိုးစားပြီး လက်မလျှော့ဖို့ အားပေးလို့ပါ။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'personal',
+                type: 'Speaking (Experience)',
+                en: 'Most Excited Experience - Graduation Day',
+                my: 'အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံ - ဘွဲ့ယူခဲ့တဲ့အချိန်',
+                sub: [
+                    'What is the most exciting experience in your life? / မင်းဘဝမှာ အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံက ဘာလဲ?',
+                    'What degree did you get? / ဘာဘွဲ့ ရခဲ့လဲ?',
+                    'Which school did you graduate from? / ဘယ်ကျောင်းကနေ ဘွဲ့ရခဲ့တာလဲ?',
+                    'What projects or activities did you do at school? / ကျောင်းမှာ ဘယ် project/activity တွေ လုပ်ခဲ့လဲ?'
+                ],
+                answer: {
+                    en: 'The most exciting experience in my life was my graduation day. I received a Bachelor of Arts degree in English. I graduated from Yangon University of Distance Education. During my school years, I participated in many activities such as English speaking clubs, volunteer programs, and group projects. I also helped organize a charity event for children. These experiences helped me build confidence, teamwork, and leadership skills.',
+                    my: 'ကျွန်တော့်ဘဝမှာ အစိတ်လှုပ်ရှားဆုံး အတွေ့အကြုံက ကျွန်တော့်ဘွဲ့ယူခဲ့တဲ့နေ့ပါ။ ကျွန်တော် အင်္ဂလိပ်စာဖြင့် ဝိဇ္ဇာဘွဲ့ ရရှိခဲ့တယ်။ ရန်ကုန်အဝေးသင်တက္ကသိုလ်ကနေ ဘွဲ့ရခဲ့တာပါ။ ကျောင်းနေစဉ်အတွင်း အင်္ဂလိပ်စကားပြောကလပ်၊ စေတနာ့ဝန်ထမ်းအစီအစဉ်တွေနဲ့ အုပ်စုလိုက်လုပ်ငန်းတွေလိုမျိုး လှုပ်ရှားမှုတွေ အများကြီး ပါဝင်ခဲ့တယ်။ ကလေးတွေအတွက် ပရဟိတပွဲတစ်ခုကို စီစဉ်ရာမှာလည်း ကူညီခဲ့တယ်။ ဒီအတွေ့အကြုံတွေက ကျွန်တော့်ကို ယုံကြည်မှု၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုစွမ်းရည်တွေ တည်ဆောက်ပေးခဲ့တယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'speaking',
+                type: 'Speaking (Picture Description)',
+                en: 'Picture: Travel Items (Luggage, Bag, Notebook)',
+                my: 'ဓါတ်ပုံ: ခရီးသွားပစ္စည်းများ (အိတ်၊ လက်ဆွဲအိတ်၊ မှတ်စုစာအုပ်)',
+                sub: [
+                    'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
+                    'Where would you like to travel? / ဘယ်နေရာကို သွားရောက်လည်ပတ်ချင်လဲ?',
+                    'What do you always take on vacation? / အားလပ်ရပ်မှာ အမြဲ ဘာတွေယူသွားလဲ?',
+                    'What will you do next weekend? / နောက်တစ်ပတ် weekends ကျရင် ဘာလုပ်မလဲ?',
+                    'Where will you go shopping? / ဘယ်ကို shopping ထွက်မှာလဲ?',
+                    'Where is the shopping place located? / shopping ထွက်မယ့်နေရာက ဘယ်နားမှာရှိလဲ?'
+                ],
+                answer: {
+                    en: 'In the picture, I can see travel items like luggage, a handbag, and a notebook. These are things people pack when going on a trip. I would like to travel to Japan because I want to see its beautiful temples and modern cities. On vacation, I always take my passport, phone charger, clothes, and a small notebook for writing. Next weekend, I will go shopping with my family. We will go to a shopping mall near the bus stop in my township. It is located about 10 minutes from my house by car.',
+                    my: 'ပုံထဲမှာ ခရီးသွားပစ္စည်းတွေဖြစ်တဲ့ အိတ်၊ လက်ဆွဲအိတ်နဲ့ မှတ်စုစာအုပ်တွေကို မြင်ရတယ်။ ဒါတွေက ခရီးသွားတဲ့အခါ လူတွေ ထည့်သွင်းတဲ့ ပစ္စည်းတွေပါ။ ကျွန်တော် ဂျပန်ကို သွားရောက်လည်ပတ်ချင်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ လှပတဲ့ဘုရားကျောင်းတွေနဲ့ ခေတ်မီမြို့တွေကို မြင်ချင်လို့ပါ။ အားလပ်ရပ်မှာ နိုင်ငံကူးလက်မှတ်၊ ဖုန်းအားသွင်းကြိုး၊ အဝတ်အစားတွေနဲ့ စာရေးဖို့ မှတ်စုစာအုပ်လေးတစ်အုပ် အမြဲယူသွားတယ်။ နောက်တစ်ပတ် weekends မှာ မိသားစုနဲ့ shopping ထွက်မယ်။ ကျွန်တော်တို့ မြို့နယ်ထဲက ဘတ်စ်ကားမှတ်တိုင်အနီးမှာရှိတဲ့ shopping mall ကို သွားမယ်။ အိမ်ကနေ ကားနဲ့ ၁၀ မိနစ်လောက် ဝေးတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'speaking',
+                type: 'Speaking (Picture Description)',
+                en: 'Picture: Firefighting - Fire Extinguisher Usage',
+                my: 'ဓါတ်ပုံ: မီးသတ်ခြင်း - မီးသတ်ဆေးဘူး အသုံးပြုပုံ',
+                sub: [
+                    'What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?',
+                    'Do you know how to use a fire extinguisher? / မီးသတ်ဆေးဘူး သုံးတတ်လား?',
+                    'What are the steps to use a fire extinguisher? / မီးသတ်ဆေးဘူး အသုံးပြုပုံ အဆင့်ဆင့်က ဘာတွေလဲ?',
+                    'Why is fire safety important? / မီးဘေးလုံခြုံရေးက ဘာကြောင့် အရေးကြီးသလဲ?'
+                ],
+                answer: {
+                    en: 'In the picture, I can see a firefighter using a fire extinguisher to put out a fire. Yes, I know how to use a fire extinguisher. The steps are: First, pull the pin. Second, aim the nozzle at the base of the fire. Third, squeeze the handle. Fourth, sweep the nozzle side to side. Remember the word "PASS" - Pull, Aim, Squeeze, Sweep. Fire safety is important because fires can spread quickly and cause serious damage to property and lives. Knowing how to use a fire extinguisher can save lives.',
+                    my: 'ပုံထဲမှာ မီးသတ်သမားတစ်ယောက် မီးသတ်ဆေးဘူးကိုသုံးပြီး မီးငြှိမ်းသတ်နေတာကို မြင်ရတယ်။ ဟုတ်ကဲ့၊ ကျွန်တော် မီးသတ်ဆေးဘူး သုံးတတ်ပါတယ်။ အဆင့်တွေက ပထမ၊ ဇာပင် (pin) ကို ဆွဲထုတ်ပါ။ ဒုတိယ၊ မီးရဲ့အောက်ခြေကို ပစ်မှတ်ထားပါ။ တတိယ၊ လက်ကိုင်ကို ဆွဲညှစ်ပါ။ စတုတ္ထ၊ နော်ဇယ်ကို ဘေးတစ်ဖက်တစ်ချက် လှုပ်ရှားပါ။ "PASS" ဆိုတဲ့ စကားလုံးကို မှတ်ထားပါ - Pull, Aim, Squeeze, Sweep။ မီးဘေးလုံခြုံရေးက အရေးကြီးတယ်။ ဘာဖြစ်လို့လဲဆိုတော့ မီးက လျင်မြန်စွာ ပျံ့နှံ့ပြီး ပစ္စည်းဥစ္စာနဲ့ အသက်တွေကို ပြင်းထန်စွာ ထိခိုက်စေနိုင်လို့ပါ။ မီးသတ်ဆေးဘူး သုံးတတ်ခြင်းက အသက်တွေကို ကယ်နိုင်တယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'debate',
+                type: 'Speaking (Debate / Discussion)',
+                en: 'Friendly Coworkers - Working Together',
+                my: 'ဖော်ရွေသော လုပ်ဖော်ကိုင်ဖက်များ - အတူတကွ အလုပ်လုပ်ခြင်း',
+                sub: [
+                    'Do you agree that working with coworkers creates a better job? / လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ထင်လား?',
+                    'What problems can happen when coworkers do not get along? / လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်မပြေရင် ဘယ်လိုပြဿနာတွေ ဖြစ်နိုင်လဲ?',
+                    'How can coworkers help each other at work? / လုပ်ဖော်ကိုင်ဖက်တွေ အလုပ်မှာ တစ်ယောက်ကိုတစ်ယောက် ဘယ်လိုကူညီနိုင်လဲ?',
+                    'Should coworkers respect each other? Why? / လုပ်ဖော်ကိုင်ဖက်တွေ တစ်ယောက်ကိုတစ်ယောက် လေးစားသင့်လား? ဘာကြောင့်လဲ?'
+                ],
+                answer: {
+                    en: 'Yes, I agree that working with friendly coworkers creates a better job. When coworkers get along well, they communicate openly, share ideas, and solve problems together. This creates a positive work environment. If coworkers do not get along, problems can happen such as misunderstandings, delays in work, low productivity, and high stress. Coworkers can help each other by sharing knowledge, offering support during difficult tasks, and giving constructive feedback. Yes, coworkers should always respect each other because respect builds trust and teamwork. When people feel respected, they are more motivated and work harder. A respectful workplace leads to success for everyone.',
+                    my: 'ဟုတ်ကဲ့၊ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ကျွန်တော် သဘောတူတယ်။ လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်ပြေကြရင် ပွင့်လင်းစွာ ဆက်သွယ်ပြောဆိုတယ်၊ အကြံဉာဏ်တွေမျှဝေတယ်၊ ပြဿနာတွေကို အတူတကွ ဖြေရှင်းကြတယ်။ ဒါက အပြုသဘောဆောင်တဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပေးတယ်။ လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်မပြေရင် နားလည်မှုလွဲမှားခြင်း၊ အလုပ်နှောင့်နှေးခြင်း၊ ကုန်ထုတ်စွမ်းအားနည်းခြင်းနဲ့ စိတ်ဖိစီးမှုမြင့်မားခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ လုပ်ဖော်ကိုင်ဖက်တွေက အသိပညာမျှဝေခြင်း၊ ခက်ခဲတဲ့အလုပ်တွေမှာ ပံ့ပိုးကူညီခြင်းနဲ့ အပြုသဘောဆောင်တဲ့ တုံ့ပြန်ချက်ပေးခြင်းတို့ဖြင့် တစ်ယောက်ကိုတစ်ယောက် ကူညီနိုင်တယ်။ ဟုတ်ကဲ့၊ လုပ်ဖော်ကိုင်ဖက်တွေ အမြဲတမ်း တစ်ယောက်ကိုတစ်ယောက် လေးစားသင့်တယ်။ ဘာဖြစ်လို့လဲဆိုတော့ လေးစားမှုက ယုံကြည်မှုနဲ့ အသင်းလိုက်လုပ်ဆောင်မှုကို တည်ဆောက်ပေးလို့ပါ။ လူတွေ လေးစားခံရတယ်လို့ ခံစားရရင် ပိုပြီးစိတ်အားထက်သန်ပြီး ပိုကြိုးစားလုပ်ကိုင်ကြတယ်။ လေးစားမှုရှိတဲ့ လုပ်ငန်းခွင်က လူတိုင်းအတွက် အောင်မြင်မှုကို ဖြစ်စေတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'debate',
+                type: 'Grammar Practice',
+                en: 'Grammar Structures (interested + in, am/is/are + Ving, has/have + V3, Remember + to)',
+                my: 'သဒ္ဒါပုံစံများ',
+                sub: [
+                    'interested + in + Ving / Noun - I am interested in learning English.',
+                    'am/is/are + Ving (Present Continuous) - She is reading a book now.',
+                    'has/have + V3 (Present Perfect) - I have finished my homework.',
+                    'Remember + to + V1 - Remember to bring your passport.'
+                ],
+                answer: {
+                    en: 'Here are examples of the grammar structures: 1) Interested + in: "I am interested in learning new languages." 2) Present Continuous (am/is/are + Ving): "They are playing football in the park." 3) Present Perfect (has/have + V3): "She has visited Japan twice." 4) Remember + to + V1: "Remember to lock the door before you leave." These structures are very common in everyday English and are important for exams.',
+                    my: 'သဒ္ဒါပုံစံတွေရဲ့ ဥပမာတွေက ဒီလိုပါ။ ၁) interested + in: "ကျွန်တော် ဘာသာစကားအသစ်တွေ သင်ယူရတာ စိတ်ဝင်စားတယ်။" ၂) Present Continuous (am/is/are + Ving): "သူတို့ ပန်းခြံထဲမှာ ဘောလုံးကစားနေကြတယ်။" ၃) Present Perfect (has/have + V3): "သူ ဂျပန်ကို နှစ်ကြိမ် သွားရောက်ဖူးတယ်။" ၄) Remember + to + V1: "မထွက်ခင်မှာ တံခါးသော့ခတ်ဖို့ မမေ့ပါနဲ့။" ဒီပုံစံတွေက နေ့စဉ်အင်္ဂလိပ်စာမှာ အလွန်အသုံးများပြီး စာမေးပွဲတွေအတွက် အရေးကြီးပါတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Reading Comprehension',
+                en: 'Reading: Visit to a Museum near the Port',
+                my: 'Reading: ဆိပ်ကမ်းအနီးရှိ ပြတိုက်သို့ သွားရောက်ခြင်း',
+                sub: [
+                    'What did the writer do? / စာရေးသူ ဘာလုပ်ခဲ့လဲ?',
+                    'Where is the museum located? / ပြတိုက်က ဘယ်မှာတည်ရှိလဲ?',
+                    'What did the writer learn from the visit? / စာရေးသူ ဒီလည်ပတ်မှုကနေ ဘာသင်ယူခဲ့လဲ?'
+                ],
+                answer: {
+                    en: 'Last month, I visited a museum located near the port. The museum displays the history of maritime trade and shipping. I saw old ship models, navigation instruments, and photographs of ancient ports. The museum guide explained how ships transported goods across the oceans. I learned a lot about the maritime industry and its importance to global trade. It was an educational and memorable experience.',
+                    my: 'ပြီးခဲ့တဲ့လက ကျွန်တော် ဆိပ်ကမ်းအနီးမှာရှိတဲ့ ပြတိုက်တစ်ခုကို သွားရောက်လည်ပတ်ခဲ့တယ်။ ပြတိုက်က ရေကြောင်းကုန်သွယ်မှုနဲ့ သင်္ဘောသမိုင်းကို ပြသထားတယ်။ ရှေးဟောင်းသင်္ဘောပုံစံတွေ၊ သွားလာရေးကိရိယာတွေနဲ့ ရှေးခေတ်ဆိပ်ကမ်းတွေရဲ့ ဓာတ်ပုံတွေကို မြင်ခဲ့ရတယ်။ ပြတိုက်လမ်းညွှန်က သင်္ဘောတွေ သမုဒ္ဒရာတွေကို ဖြတ်ပြီး ကုန်ပစ္စည်းတွေ ဘယ်လိုသယ်ဆောင်ခဲ့ကြသလဲဆိုတာ ရှင်းပြခဲ့တယ်။ ရေကြောင်းလုပ်ငန်းနဲ့ ကမ္ဘာ့ကုန်သွယ်ရေးအတွက် သူ့ရဲ့အရေးပါမှုအကြောင်း အများကြီး သင်ယူခဲ့ရတယ်။ ဒါက ပညာရေးဆိုင်ရာနဲ့ အမှတ်တရဖြစ်စရာ အတွေ့အကြုံတစ်ခုပါ။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Reading Comprehension',
+                en: 'Reading: Taking a Fashion Course',
+                my: 'Reading: Fashion သင်တန်းတက်ခြင်း',
+                sub: [
+                    'What course is the writer going to take? / စာရေးသူ ဘယ်သင်တန်းတက်မလဲ?',
+                    'Why does the writer want to take this course? / စာရေးသူ ဒီသင်တန်းကို ဘာကြောင့် တက်ချင်တာလဲ?',
+                    'What will the writer learn? / စာရေးသူ ဘာတွေသင်ယူမယ်လဲ?'
+                ],
+                answer: {
+                    en: 'Next month, I am going to take a fashion design course at a local training center. I have always been interested in fashion and clothing design. I want to learn how to create my own clothes and maybe start a small business in the future. In this course, I will learn about fabric selection, sewing techniques, pattern making, and fashion illustration. The course lasts for three months and includes both theory and practical sessions. I am very excited about it.',
+                    my: 'နောက်လမှာ ကျွန်တော် ဒေသတွင်းသင်တန်းဌာနတစ်ခုမှာ fashion design သင်တန်းတက်မယ်။ ကျွန်တော် fashion နဲ့ အဝတ်အစားဒီဇိုင်းကို အမြဲစိတ်ဝင်စားခဲ့တယ်။ ကိုယ်တိုင် အဝတ်အစားတွေ ဖန်တီးနည်းကို သင်ယူပြီး အနာဂတ်မှာ စီးပွားရေးလုပ်ငန်းလေးတစ်ခု စတင်နိုင်မယ်လို့ မျှော်လင့်တယ်။ ဒီသင်တန်းမှာ အထည်အရွေးချယ်ခြင်း၊ ချုပ်နည်းပညာတွေ၊ ပုံစံဖန်တီးခြင်းနဲ့ fashion illustration တွေအကြောင်း သင်ယူမယ်။ သင်တန်းက သုံးလကြာပြီး သီအိုရီနဲ့ လက်တွေ့သင်ခန်းစာတွေ နှစ်မျိုးလုံး ပါဝင်တယ်။ ဒါကို ကျွန်တော် အရမ်းစိတ်လှုပ်ရှားနေတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Reading Comprehension',
+                en: 'Reading: Passport Renewal Process',
+                my: 'Reading: နိုင်ငံကူးလက်မှတ် သက်တမ်းတိုးခြင်း',
+                sub: [
+                    'What is the writer going to do? / စာရေးသူ ဘာလုပ်မလဲ?',
+                    'Why does the writer need to renew the passport? / စာရေးသူ နိုင်ငံကူးလက်မှတ် ဘာကြောင့် သက်တမ်းတိုးဖို့လိုတာလဲ?',
+                    'What documents are needed for passport renewal? / နိုင်ငံကူးလက်မှတ် သက်တမ်းတိုးဖို့ ဘယ်စာရွက်စာတမ်းတွေ လိုအပ်လဲ?'
+                ],
+                answer: {
+                    en: 'My passport will expire in three months, so I need to renew it soon. I will go to the passport office next week to submit my application. For renewal, I need my old passport, a copy of my national ID card, two recent photos, and a completed application form. The process usually takes about two weeks. I need the new passport because I am planning to travel abroad next year. Renewing the passport on time is important to avoid any travel problems.',
+                    my: 'ကျွန်တော့်နိုင်ငံကူးလက်မှတ် သုံးလအတွင်း သက်တမ်းကုန်မယ်။ ဒါကြောင့် မကြာမီ သက်တမ်းတိုးဖို့လိုတယ်။ နောက်တစ်ပတ်မှာ လျှောက်လွှာတင်ဖို့ နိုင်ငံကူးလက်မှတ်ရုံးကို သွားမယ်။ သက်တမ်းတိုးဖို့ နိုင်ငံကူးလက်မှတ်အ�ောင်း၊ မှတ်ပုံတင်ကတ်ပြားမိတ္တူ၊ မကြာသေးမီက ဓာတ်ပုံနှစ်ပုံနဲ့ ဖြည့်စွက်ပြီးသား လျှောက်လွှာတစ်ခု လိုအပ်တယ်။ လုပ်ငန်းစဉ်က နှစ်ပတ်လောက်ကြာတယ်။ နောက်နှစ်မှာ နိုင်ငံခြားသွားဖို့ စီစဉ်ထားလို့ နိုင်ငံကူးလက်မှတ်အသစ် လိုအပ်တယ်။ ခရီးသွားပြဿနာတွေ မဖြစ်ရအောင် နိုင်ငံကူးလက်မှတ်ကို အချိန်မီ သက်တမ်းတိုးဖို့ အရေးကြီးတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'An Activity I Did During the Rainy Season',
+                my: 'မိုးရာသီမှာ လုပ်ခဲ့တဲ့ activity တစ်ခုအကြောင်း',
+                sub: ['Write about an activity you did during the rainy season. (80-100 words) / မိုးရာသီမှာ လုပ်ခဲ့တဲ့ activity တစ်ခုအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'During the rainy season last year, I joined a volunteer group to help flood victims in my township. We collected donations such as clothes, food, and medicine from local people. Then we packed them into relief bags and distributed them to families affected by the flood. It was a meaningful and emotional experience. Even though the weather was difficult, we worked together as a team. I felt happy to help others and learned the importance of community support during emergencies.',
+                    my: 'ပြီးခဲ့တဲ့နှစ် မိုးရာသီမှာ ကျွန်တော် ကျွန်တော့်မြို့နယ်က ရေကြီးဒုက္ခသည်တွေကို ကူညီဖို့ စေတနာ့ဝန်ထမ်းအဖွဲ့တစ်ခုနဲ့ ပူးပေါင်းခဲ့တယ်။ အဝတ်အစား၊ အစားအစာနဲ့ ဆေးဝါးတွေလိုမျိုး လှူဒါန်းမှုတွေကို ဒေသခံတွေဆီကနေ စုဆောင်းခဲ့တယ်။ ပြီးတော့ အဲဒါတွေကို ကယ်ဆယ်ရေးအိတ်တွေထဲ ထည့်ပြီး ရေကြီးဒဏ်ခံခဲ့ရတဲ့ မိသားစုတွေဆီ ဖြန့်ဝေခဲ့တယ်။ ဒါက အဓိပ္ပာယ်ရှိပြီး စိတ်ခံစားမှုရှိတဲ့ အတွေ့အကြုံတစ်ခုပါ။ ရာသီဥတုက ခက်ခဲပေမယ့် ကျွန်တော်တို့ အဖွဲ့တစ်ဖွဲ့အနေနဲ့ အတူတကွ လုပ်ဆောင်ခဲ့ကြတယ်။ အခြားသူတွေကို ကူညီရတာ ဝမ်းသာပြီး အရေးပေါ်အခြေအနေတွေမှာ လူမှုအသိုင်းအဝိုင်း ပံ့ပိုးကူညီမှုရဲ့ အရေးပါမှုကို သင်ယူခဲ့ရတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'An AI Tool I Recently Used',
+                my: 'မကြာသေးမီက သုံးခဲ့တဲ့ AI Tool တစ်ခုအကြောင်း',
+                sub: ['Write about an AI tool you recently used. (80-100 words) / မကြာသေးမီက သုံးခဲ့တဲ့ AI Tool တစ်ခုအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'Recently, I used ChatGPT, an AI-powered chatbot, to help me with my English studies. I asked it to explain grammar rules, correct my writing, and give me practice questions. It provided clear explanations and helpful examples. I also used it to translate some difficult words from English to Myanmar. The tool was very fast and convenient. However, I always double-checked the information with my teacher or textbooks. Overall, AI tools like ChatGPT are useful for learning if we use them responsibly.',
+                    my: 'မကြာသေးမီက ကျွန်တော် အင်္ဂလိပ်စာလေ့လာမှုအတွက် ကူညီဖို့ AI-powered chatbot ဖြစ်တဲ့ ChatGPT ကို သုံးခဲ့တယ်။ သဒ္ဒါစည်းမျဉ်းတွေ ရှင်းပြဖို့၊ ကျွန်တော့်အရေးအသားကို ပြင်ပေးဖို့နဲ့ လေ့ကျင့်ခန်းမေးခွန်းတွေ ပေးဖို့ တောင်းဆိုခဲ့တယ်။ ရှင်းလင်းတဲ့ ရှင်းပြချက်တွေနဲ့ အထောက်အကူဖြစ်တဲ့ ဥပမာတွေ ပေးခဲ့တယ်။ ခက်ခဲတဲ့ စကားလုံးတချို့ကို အင်္ဂလိပ်ကနေ မြန်မာကို ဘာသာပြန်ဖို့လည်း သုံးခဲ့တယ်။ အဲဒီ tool က အလွန်မြန်ပြီး အဆင်ပြေတယ်။ ဒါပေမယ့် အချက်အလက်တွေကို ဆရာ/ဆရာမ ဒါမှမဟုတ် ဖတ်စာအုပ်တွေနဲ့ အမြဲတမ်း ပြန်စစ်ဆေးခဲ့တယ်။ ခြုံငုံကြည့်ရင် ChatGPT လိုမျိုး AI tool တွေက တာဝန်ယူမှုရှိရှိ သုံးရင် သင်ယူဖို့ အသုံးဝင်တယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'Moving to Another City for a New Job',
+                my: 'အလုပ်အသစ်တစ်ခုရလို့ တစ်ခြားမြို့ကို ပြောင်းလာခဲ့ရတဲ့အကြောင်း',
+                sub: ['Write about moving to another city for a new job. (80-100 words) / အလုပ်အသစ်တစ်ခုရလို့ တစ်ခြားမြို့ကို ပြောင်းလာခဲ့ရတဲ့အကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'Last year, I got a new job in Mandalay, so I had to move from my hometown in Yangon. At first, I felt nervous and excited at the same time. I had to find a new apartment, learn the new city, and adapt to a different environment. The people in Mandalay were very friendly, which made me feel welcome. My new job is interesting and challenging. I have learned many new skills and made good friends at work. Moving to a new city was a big change, but it has been a valuable experience.',
+                    my: 'ပြီးခဲ့တဲ့နှစ်က ကျွန်တော် မန္တလေးမှာ အလုပ်အသစ်တစ်ခု ရခဲ့တယ်။ ဒါကြောင့် ရန်ကုန်က ကျွန်တော့်ဇာတိမြို့ကနေ ပြောင်းရွှေ့ခဲ့ရတယ်။ အစပိုင်းမှာ စိတ်လှုပ်ရှားပြီး တစ်ချိန်တည်းမှာ စိုးရိမ်ခဲ့တယ်။ တိုက်ခန်းအသစ်ရှာရတယ်၊ မြို့သစ်ကို လေ့လာရတယ်၊ မတူညီတဲ့ ပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေဖြစ်အောင် နေရတယ်။ မန္တလေးက လူတွေ အရမ်းဖော်ရွေတယ်။ ဒါက ကျွန်တော့်ကို ကြိုဆိုခံရတယ်လို့ ခံစားရစေတယ်။ အလုပ်အသစ်က စိတ်ဝင်စားစရာကောင်းပြီး စိန်ခေါ်မှုရှိတယ်။ ကျွမ်းကျင်မှုအသစ်တွေ အများကြီး သင်ယူခဲ့ရပြီး အလုပ်မှာ သူငယ်ချင်းကောင်းတွေ ရခဲ့တယ်။ မြို့သစ်ကို ပြောင်းရွှေ့တာက ကြီးမားတဲ့အပြောင်းအလဲတစ်ခုပါ။ ဒါပေမယ့် တန်ဖိုးရှိတဲ့ အတွေ့အကြုံတစ်ခု ဖြစ်ခဲ့တယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'writing',
+                type: 'Writing Task (80-100 words)',
+                en: 'Maintaining Work-Life Balance',
+                my: 'အလုပ်နှင့် ဘဝမျှခြေ ထိန်းသိမ်းခြင်း',
+                sub: ['Write about maintaining work-life balance. (80-100 words) / အလုပ်နဲ့ ဘဝမျှခြေ ထိန်းသိမ်းခြင်းအကြောင်း ရေးပါ။'],
+                answer: {
+                    en: 'Maintaining a good work-life balance is essential for both physical and mental health. When we work too much, we can feel stressed, tired, and unhappy. To keep a balance, we should set clear working hours, take regular breaks, and spend quality time with family and friends. We should also do activities we enjoy, such as exercise, reading, or traveling. I try to keep a balance by finishing my work on time and exercising every evening. A balanced life makes us healthier, happier, and more productive at work.',
+                    my: 'အလုပ်နဲ့ ဘဝမျှခြေကောင်းတစ်ခု ထိန်းသိမ်းခြင်းဟာ ရုပ်ပိုင်းဆိုင်ရာနဲ့ စိတ်ပိုင်းဆိုင်ရာ ကျန်းမာရေးနှစ်မျိုးလုံးအတွက် မရှိမဖြစ်လိုအပ်တယ်။ အလုပ်အလွန်အကျွံလုပ်ရင် စိတ်ဖိစီးမှု၊ ပင်ပန်းနွမ်းနယ်မှုနဲ့ မပျော်ရွှင်မှုတွေ ခံစားရနိုင်တယ်။ မျှခြေထိန်းသိမ်းဖို့ အလုပ်ချိန်တွေကို ရှင်းရှင်းလင်းလင်းသတ်မှတ်ရမယ်၊ ပုံမှန်အနားယူရမယ်၊ မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ အရည်အသွေးရှိတဲ့ အချိန်တွေ ကုန်ဆုံးရမယ်။ လေ့ကျင့်ခန်းလုပ်ခြင်း၊ စာဖတ်ခြင်း ဒါမှမဟုတ် ခရီးသွားခြင်းလိုမျိုး ပျော်ရွှင်စရာလှုပ်ရှားမှုတွေလည်း လုပ်သင့်တယ်။ ကျွန်တော် အလုပ်ကို အချိန်မှီပြီးအောင်လုပ်ပြီး ညနေတိုင်း လေ့ကျင့်ခန်းလုပ်ခြင်းဖြင့် မျှခြေထိန်းသိမ်းဖို့ ကြိုးစားတယ်။ မျှခြေရှိတဲ့ဘဝက ကျွန်တော်တို့ကို ပိုကျန်းမာ၊ ပိုပျော်ရွှင်ပြီး အလုပ်မှာ ပိုထိရောက်မှုရှိစေတယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'speaking',
+                type: 'Listening Practice',
+                en: 'Listening: General Questions (How do you go to school? etc.)',
+                my: 'Listening: အထွေထွေမေးခွန်းများ',
+                sub: [
+                    'How do you go to school? / ကျောင်းကို ဘာနဲ့သွားလဲ?',
+                    'What time do you usually wake up? / များသောအားဖြင့် ဘယ်အချိန် အိပ်ရာထလဲ?',
+                    'What do you do after school? / ကျောင်းပြီးရင် ဘာလုပ်လဲ?'
+                ],
+                answer: {
+                    en: 'These are common listening questions in the exam. For example: "How do you go to school?" - "I go to school by bus." "What time do you usually wake up?" - "I usually wake up at 6 AM." "What do you do after school?" - "After school, I do my homework and play sports with my friends." These questions test your ability to understand simple daily conversations.',
+                    my: 'ဒါတွေက စာမေးပွဲမှာ အသုံးများတဲ့ listening မေးခွန်းတွေပါ။ ဥပမာ - "ကျောင်းကို ဘာနဲ့သွားလဲ?" - "ကျွန်တော် ဘတ်စ်ကားနဲ့ ကျောင်းသွားတယ်။" "များသောအားဖြင့် ဘယ်အချိန် အိပ်ရာထလဲ?" - "များသောအားဖြင့် မနက် ၆ နာရီ ထတယ်။" "ကျောင်းပြီးရင် ဘာလုပ်လဲ?" - "ကျောင်းပြီးရင် အိမ်စာလုပ်ပြီး သူငယ်ချင်းတွေနဲ့ အားကစားကစားတယ်။" ဒီမေးခွန်းတွေက ရိုးရှင်းတဲ့ နေ့စဉ်စကားပြောဆိုမှုတွေကို နားလည်နိုင်စွမ်းကို စမ်းသပ်တာပါ။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'speaking',
+                type: 'Listening Practice',
+                en: 'Listening: Traveling from Australia to Singapore by Plane',
+                my: 'Listening: Australia မှ Singapore ကို လေယာဉ်နဲ့သွားခြင်း',
+                sub: [
+                    'Where did the person travel from? / လူက ဘယ်ကနေ ခရီးသွားခဲ့လဲ?',
+                    'Where did the person travel to? / လူက ဘယ်ကို ခရီးသွားခဲ့လဲ?',
+                    'How long was the flight? / လေယာဉ်ခရီးစဉ် ဘယ်လောက်ကြာခဲ့လဲ?'
+                ],
+                answer: {
+                    en: 'In this listening passage, a person traveled from Australia to Singapore by plane. The flight took about 8 hours. The person flew from Sydney Airport and arrived at Changi Airport in Singapore. During the flight, the passenger watched movies, ate meals, and slept. The weather was good, and the flight was smooth. The person said it was a comfortable and enjoyable journey.',
+                    my: 'ဒီ listening စာပိုဒ်မှာ လူတစ်ယောက်ဟာ Australia ကနေ Singapore ကို လေယာဉ်နဲ့ ခရီးသွားခဲ့တယ်။ လေယာဉ်ခရီးစဉ်က ၈ နာရီလောက် ကြာခဲ့တယ်။ အဲဒီလူက Sydney လေဆိပ်ကနေ ထွက်ခွာပြီး Singapore က Changi လေဆိပ်ကို ရောက်ခဲ့တယ်။ ခရီးစဉ်အတွင်း ခရီးသည် ရုပ်ရှင်တွေကြည့်တယ်၊ အစားအစာတွေစားတယ်၊ အိပ်တယ်။ ရာသီဥတုက ကောင်းပြီး လေယာဉ်ခရီးစဉ်က ချောမွေ့ခဲ့တယ်။ အဲဒီလူက သက်တောင့်သက်သာရှိပြီး ပျော်ရွှင်စရာကောင်းတဲ့ ခရီးစဉ်တစ်ခုလို့ ပြောခဲ့တယ်။'
+                }
+            }, {
+                batch: '9m_exam4',
+                category: 'safety',
+                type: 'Listening Practice',
+                en: 'Listening: Bridge Officer and Deck Officer - Alarm Report',
+                my: 'Listening: Bridge Officer နှင့် Deck Officer - Alarm Report',
+                sub: [
+                    'What was the alarm about? / Alarm က ဘာအကြောင်းလဲ?',
+                    'Who reported the alarm? / Alarm ကို ဘယ်သူ report လုပ်ခဲ့လဲ?',
+                    'What action was taken? / ဘယ်လိုအရေးယူမှု လုပ်ခဲ့လဲ?'
+                ],
+                answer: {
+                    en: 'In this listening passage, the Bridge Officer and the Deck Officer are communicating about an alarm on the ship. The Deck Officer reports that a fire alarm has activated in the cargo hold area. The Bridge Officer asks for the exact location and the type of alarm. The Deck Officer confirms it is a smoke detector alarm. The Bridge Officer orders the crew to investigate immediately and report back. This type of communication is very important for ship safety. Clear and accurate reporting helps the crew respond quickly to emergencies and prevent accidents.',
+                    my: 'ဒီ listening စာပိုဒ်မှာ Bridge Officer နဲ့ Deck Officer တို့ဟာ သင်္ဘောပေါ်က alarm တစ်ခုအကြောင်း ဆက်သွယ်ပြောဆိုနေကြတယ်။ Deck Officer က cargo hold ဧရိယာမှာ မီးသတိပေးသံ (fire alarm) မြည်နေတယ်လို့ report လုပ်တယ်။ Bridge Officer က တိကျတဲ့တည်နေရာနဲ့ alarm အမျိုးအစားကို မေးတယ်။ Deck Officer က ဒါက မီးခိုးရှာဖွေစက် (smoke detector) alarm ဖြစ်တယ်လို့ အတည်ပြုတယ်။ Bridge Officer က အမှုထမ်းတွေကို ချက်ချင်းစစ်ဆေးပြီး ပြန်လည်သတင်းပို့ဖို့ အမိန့်ပေးတယ်။ ဒီလိုဆက်သွယ်ပြောဆိုမှုဟာ သင်္ဘောဘေးကင်းရေးအတွက် အလွန်အရေးကြီးတယ်။ ရှင်းလင်းတိကျတဲ့ report ပေးခြင်းက အမှုထမ်းတွေကို အရေးပေါ်အခြေအနေတွေကို လျင်မြန်စွာ တုံ့ပြန်နိုင်စေပြီး မတော်တဆမှုတွေကို ကာကွယ်ပေးတယ်။'
+                }
+            }
         ];
 
         // ============================================================
@@ -1649,6 +1596,7 @@
             }
         }
 
+        // ✅ FIXED: Added 9m_exam4 mapping
         function getBatchName(batchCode) {
             const map = {
                 '7m_exam1': '7M Exam 1',
@@ -1658,7 +1606,8 @@
                 '8m_exam1': '8M Exam 1',
                 '8m_exam2': '8M Exam 2',
                 '8m_exam3': '8M Exam 3',
-                '9m_exam1': '9M Exam 1'
+                '9m_exam1': '9M Exam 1',
+                '9m_exam4': '9M Exam 4'
             };
             return map[batchCode] || batchCode;
         }
@@ -1683,8 +1632,7 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const batch = this.dataset.batch;
-                    const category = document.querySelector('.cat-btn.active')?.dataset.category ||
-                    'all';
+                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
                     const search = document.getElementById('searchInput').value;
                     renderQuestions(batch, category, search);
                 });
@@ -1693,8 +1641,7 @@
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const category = this.dataset.category;
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch ||
-                    'all';
+                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
                     const search = document.getElementById('searchInput').value;
                     renderQuestions(batch, category, search);
                 });
@@ -1705,10 +1652,8 @@
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch ||
-                        'all';
-                    const category = document.querySelector('.cat-btn.active')?.dataset
-                        .category || 'all';
+                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
+                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
                     renderQuestions(batch, category, this.value);
                 }, 300);
             });
@@ -1728,7 +1673,8 @@
 
         console.log('📂 Old Questions loaded successfully!');
         console.log('📚 Total questions:', questionsData.length);
-        console.log('✅ Official 9M Exam 1 (၉ လပိုင်း အပိုင်း ၁) added with 7 new questions!');
+        console.log('✅ 9M Exam 1 (၉ လပိုင်း အပိုင်း ၁) added!');
+        console.log('✅ 9M Exam 4 (၉ လပိုင်း အပိုင်း ၄) added with 16 new questions!');
     </script>
 </body>
 </html>
