@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Test 103 · Speaking Voice Test (Expert) – MEPT</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, -apple-system, sans-serif; }
+  body { background:#0f172a; min-height:100vh; color:#e2e8f0; display:flex; justify-content:center; padding:12px; }
+  .app { width:100%; max-width:640px; background:#1e293b; border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,0.5); padding:20px 16px 24px; position:relative; overflow:hidden; min-height:calc(100vh - 24px); }
+  .screen { display:none; flex-direction:column; gap:14px; }
+  .screen.active { display:flex; }
+
+  /* HEADER BAR */
+  .header-bar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#0f172a;
+    border-radius:14px;
+    padding:10px 14px;
+    margin-bottom:4px;
+    border:1px solid #334155;
+  }
+  .back-btn {
+    background:transparent;
+    border:1px solid #334155;
+    color:#94a3b8;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    transition:0.18s;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .back-btn:hover { background:#7f1d1d; color:#fecaca; border-color:#ef4444; }
+  .test-label { font-size:12.5px; color:#fbbf24; font-weight:800; letter-spacing:0.5px; }
+  .test-label small { display:block; font-size:10.5px; color:#64748b; font-weight:600; letter-spacing:0.3px; margin-top:2px; }
+
+  /* WELCOME */
+  .logo { text-align:center; margin:6px 0; }
+  .logo i { font-size:46px; color:#fbbf24; }
+  .logo h1 { font-size:22px; color:#f8fafc; margin-top:8px; }
+  .logo p { font-size:13px; color:#94a3b8; margin-top:6px; line-height:1.6; }
+  .info-grid { display:flex; flex-direction:column; gap:10px; }
+  .info-item { background:#0f172a; border-radius:14px; padding:13px 15px; border-left:4px solid #fbbf24; font-size:13.5px; line-height:1.6; color:#cbd5e1; }
+  .info-item strong { color:#f8fafc; }
+  .info-item .ti { color:#fbbf24; font-weight:700; }
+  .info-item.p2 { border-left-color:#f97316; }
+  .info-item.p3 { border-left-color:#a855f7; }
+
+  .cap-card { background:#0f172a; border-radius:14px; padding:13px 15px; border:1px solid #334155; }
+  .cap-card h4 { font-size:12px; color:#94a3b8; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+  .cap-list { display:flex; flex-wrap:wrap; gap:6px; }
+  .cap-pill { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:700; }
+  .cap-yes { background:#14532d; color:#86efac; }
+  .cap-no  { background:#7f1d1d; color:#fecaca; }
+
+  .btn { border:none; border-radius:14px; padding:14px 18px; font-size:15px; font-weight:700; cursor:pointer; transition:.18s; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .btn:active { transform:scale(0.97); }
+  .btn-primary { background:linear-gradient(135deg,#f59e0b,#ea580c); color:#fff; box-shadow:0 8px 20px rgba(245,158,11,0.35); }
+  .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
+  .btn-warn { background:#f59e0b; color:#1a1a1a; }
+  .btn-secondary { background:#334155; color:#e2e8f0; }
+  .btn-ghost { background:transparent; color:#94a3b8; border:1.5px solid #334155; }
+  .btn-ghost:hover { background:#0f172a; }
+  .btn-sm { padding:10px 14px; font-size:13.5px; }
+
+  /* TEST */
+  .topbar { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#94a3b8; font-weight:600; gap:8px; flex-wrap:wrap; }
+  .section-badge { background:#fbbf24; color:#1a1a1a; padding:4px 12px; border-radius:20px; font-size:11.5px; font-weight:700; }
+  .section-badge.p2 { background:#f97316; color:#fff; }
+  .section-badge.p3 { background:#a855f7; color:#fff; }
+  .mode-badge { padding:3px 10px; border-radius:20px; font-size:10.5px; font-weight:800; }
+  .mode-live { background:#166534; color:#bbf7d0; }
+  .mode-rec  { background:#7c2d12; color:#fdba74; }
+  .mode-text { background:#1e3a8a; color:#93c5fd; }
+
+  .timer-wrap { height:10px; background:#0f172a; border-radius:20px; overflow:hidden; }
+  .timer-bar { height:100%; width:100%; background:linear-gradient(90deg,#22c55e,#84cc16); border-radius:20px; transition: width .2s linear, background .4s; }
+  .timer-bar.warn { background:linear-gradient(90deg,#f59e0b,#f97316); }
+  .timer-bar.danger { background:linear-gradient(90deg,#ef4444,#dc2626); animation:pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.6;} }
+  .time-row { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#94a3b8; }
+  .time-left-num { font-size:20px; font-weight:800; color:#f8fafc; font-variant-numeric:tabular-nums; }
+  .rec-dot { display:inline-block; width:9px; height:9px; border-radius:50%; background:#ef4444; margin-right:6px; animation:pulse 1s infinite; vertical-align:middle; }
+
+  .q-card { background:#0f172a; border-radius:18px; padding:16px 15px; border:1px solid #78350f33; }
+  .q-section-title { font-size:11.5px; font-weight:800; color:#fbbf24; text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+  .q-section-title.p2 { color:#fb923c; }
+  .q-section-title.p3 { color:#c084fc; }
+  .q-text { font-size:15.5px; font-weight:600; color:#f1f5f9; line-height:1.6; }
+  .q-hint { font-size:12px; color:#64748b; margin-top:8px; font-style:italic; }
+
+  .picture-wrap { margin-top:12px; border-radius:12px; overflow:hidden; background:#fff; border:1px solid #334155; }
+  .picture-wrap svg { display:block; width:100%; height:auto; }
+  .picture-wrap.hidden { display:none; }
+
+  .transcript-card { background:#0f172a; border-radius:16px; padding:12px; border:1px solid #334155; flex:1; min-height:130px; display:flex; flex-direction:column; }
+  .transcript-label { font-size:11px; font-weight:800; color:#fbbf24; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap; }
+  .transcript-label .edit-tag { font-size:10px; color:#64748b; font-weight:600; text-transform:none; }
+  .transcript-view { font-size:13.5px; line-height:1.7; color:#e2e8f0; flex:1; overflow-y:auto; max-height:150px; white-space:pre-wrap; word-wrap:break-word; }
+  .transcript-view .interim { color:#94a3b8; font-style:italic; }
+  .transcript-view .placeholder { color:#475569; font-style:italic; }
+  textarea.transcript-input { width:100%; flex:1; min-height:120px; background:#0b1220; border:1px solid #334155; border-radius:10px; padding:10px 12px; color:#e2e8f0; font-size:13.5px; font-family:inherit; line-height:1.6; resize:vertical; outline:none; }
+  textarea.transcript-input:focus { border-color:#f59e0b; }
+  .word-count { font-size:11px; color:#64748b; margin-top:8px; text-align:right; font-weight:600; }
+
+  .controls { display:flex; gap:8px; flex-wrap:wrap; }
+  .controls .btn { flex:1; min-width:110px; }
+  .hidden { display:none !important; }
+
+  /* RESULT */
+  .grade-hero { text-align:center; padding:14px 10px 6px; }
+  .grade-circle { width:110px; height:110px; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:44px; font-weight:900; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+  .grade-Ap { background:linear-gradient(135deg,#a855f7,#7c3aed); }
+  .grade-A { background:linear-gradient(135deg,#22c55e,#15803d); }
+  .grade-B { background:linear-gradient(135deg,#3b82f6,#1d4ed8); }
+  .grade-C { background:linear-gradient(135deg,#f59e0b,#d97706); }
+  .grade-D { background:linear-gradient(135deg,#ef4444,#991b1b); }
+  .grade-score { font-size:32px; font-weight:800; color:#f8fafc; }
+  .grade-score small { font-size:16px; color:#94a3b8; font-weight:600; }
+  .grade-label { color:#94a3b8; font-size:13.5px; margin-top:4px; }
+
+  .result-list { display:flex; flex-direction:column; gap:10px; max-height:60vh; overflow-y:auto; padding-right:4px; }
+  .result-item { background:#0f172a; border-radius:14px; padding:12px 14px; border-left:4px solid #fbbf24; }
+  .result-item-head { display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:700; color:#94a3b8; margin-bottom:6px; gap:6px; flex-wrap:wrap; }
+  .result-item-head .marks { color:#fbbf24; font-size:13.5px; }
+  .result-q { font-size:13px; color:#cbd5e1; line-height:1.5; margin-bottom:8px; }
+  .result-meta { font-size:11.5px; color:#64748b; display:flex; gap:12px; flex-wrap:wrap; }
+  .result-meta b { color:#e2e8f0; }
+  .result-transcript { margin-top:8px; font-size:12px; color:#94a3b8; background:#1e293b; border-radius:8px; padding:8px 10px; max-height:100px; overflow-y:auto; line-height:1.5; white-space:pre-wrap; font-style:italic; }
+  .result-audio { margin-top:8px; }
+  .result-audio audio { width:100%; height:34px; border-radius:8px; }
+
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10.5px; font-weight:800; }
+  .badge-personal { background:#78350f; color:#fcd34d; }
+  .badge-picture { background:#7c2d12; color:#fdba74; }
+  .badge-debate { background:#4c1d95; color:#c4b5fd; }
+
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-thumb { background:#334155; border-radius:10px; }
+
+  .status-msg { background:#7f1d1d; border:1px solid #ef4444; color:#fecaca; padding:10px 14px; border-radius:12px; font-size:12.5px; line-height:1.5; }
+  .status-msg.info { background:#78350f; border-color:#f59e0b; color:#fde68a; }
+
+  /* TEST BADGE */
+  .test-id-badge {
+    display:inline-block;
+    background:linear-gradient(135deg,#f59e0b,#b45309);
+    color:#fff;
+    padding:3px 12px;
+    border-radius:20px;
+    font-size:11.5px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    margin-bottom:6px;
+    box-shadow:0 4px 12px rgba(245,158,11,0.4);
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- WELCOME -->
+  <div id="welcome" class="screen active">
+    <div class="header-bar">
+      <a href="voice-test.html" class="back-btn">← Back to Tests</a>
+      <div class="test-label" style="text-align:right;">
+        TEST 103
+        <small>Expert Level</small>
+      </div>
+    </div>
+
+    <div class="logo">
+      <div class="test-id-badge">TEST 103 · EXPERT</div>
+      <i>🎙️</i>
+      <h1>Speaking Voice Test — Expert</h1>
+      <p>မေးခွန်း ၇ ခု · Advanced Maritime Topics · Smart Keyword Scoring</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <strong>Part 1 · Personal Information</strong><br>
+        မေးခွန်း ၃ ခု · တစ်ခုလျှင် <span class="ti">၁ မိနစ်</span><br>
+        <span style="font-size:12px;color:#94a3b8;">💪 Challenging Experience · Officer Qualities · Stress Management</span>
+      </div>
+      <div class="info-item p2">
+        <strong>Part 2 · Picture Description</strong><br>
+        မေးခွန်း ၂ ခု · တစ်ခုလျှင် <span class="ti">၂ မိနစ်</span><br>
+        <span style="font-size:12px;color:#94a3b8;">⚙️ Engine Room + 🛟 Lifeboat / Muster Station</span>
+      </div>
+      <div class="info-item p3">
+        <strong>Part 3 · Debate (Advanced)</strong><br>
+        မေးခွန်း ၂ ခု · တစ်ခုလျှင် <span class="ti">၃ မိနစ်</span><br>
+        <span style="font-size:12px;color:#94a3b8;">🤖 Automation vs Human Crew + 🌍 Environment vs Economy</span>
+      </div>
+    </div>
+
+    <div class="cap-card">
+      <h4>📱 သင့် Device ရဲ့ အနေအထား</h4>
+      <div class="cap-list" id="capList"></div>
+    </div>
+
+    <div class="status-msg info" id="modeInfo"></div>
+
+    <div class="cap-card" style="border-color:#f59e0b;">
+      <h4>🎛️ Options</h4>
+      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#cbd5e1;cursor:pointer;">
+        <input type="checkbox" id="optShowTranscript" style="width:18px;height:18px;accent-color:#f59e0b;">
+        Show live transcript while speaking
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#cbd5e1;cursor:pointer;margin-top:8px;">
+        <input type="checkbox" id="optSaveAudio" checked style="width:18px;height:18px;accent-color:#f59e0b;">
+        Save audio recording (playback in result)
+      </label>
+    </div>
+
+    <button class="btn btn-primary" id="startTestBtn" style="margin-top:auto;">🚀 Expert Test စတင်မည်</button>
+  </div>
+
+  <!-- TEST -->
+  <div id="test" class="screen">
+    <div class="header-bar">
+      <a href="voice-test.html" class="back-btn" onclick="return confirm('Test မှ ထွက်မှာ သေချာလား? Progress ကို သိမ်းထားပါမည်။');">← Exit</a>
+      <div class="test-label" style="text-align:right;">
+        TEST 103
+        <small>Expert Level</small>
+      </div>
+    </div>
+
+    <div class="topbar">
+      <span>Q <b id="qNum" style="color:#f8fafc;">1</b> / <span id="qTotal">7</span></span>
+      <span class="section-badge" id="sectionBadge">Part 1</span>
+      <span class="mode-badge mode-live" id="modeBadge">LIVE</span>
+    </div>
+
+    <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
+    <div class="time-row">
+      <span id="recIndicator" class="hidden"><span class="rec-dot"></span>Recording...</span>
+      <span id="recIndicator2" style="color:#475569;">Ready</span>
+      <span class="time-left-num"><span id="timeLeft">60</span><small style="font-size:12px;color:#64748b;">s</small></span>
+    </div>
+
+    <div class="q-card">
+      <div class="q-section-title" id="sectionTitle">Part 1 · Personal Information</div>
+      <div class="q-text" id="questionText">—</div>
+      <div class="q-hint" id="qHint"></div>
+      <div class="picture-wrap hidden" id="pictureWrap"></div>
+    </div>
+
+    <div class="transcript-card">
+      <div class="transcript-label">
+        <span>📝 <span id="transcriptTitle">Live Transcript</span></span>
+        <span class="edit-tag" id="editTag"></span>
+      </div>
+      <div class="transcript-view" id="transcriptView"><span class="placeholder">"Start Answering" ကို နှိပ်ပြီး စတင်ပြောပါ...</span></div>
+      <textarea class="transcript-input hidden" id="transcriptInput" placeholder="သင့်အဖြေကို ဒီနေရာမှာ ရိုက်ထည့်နိုင်ပါသည်..."></textarea>
+      <div class="word-count"><span id="wordCount">0</span> words</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="startBtn">🎤 Start Answering</button>
+      <button class="btn btn-warn hidden" id="pauseBtn">⏸ Pause</button>
+      <button class="btn btn-secondary hidden" id="nextBtn">⏭ Next</button>
+      <button class="btn btn-ghost hidden" id="skipBtn">⏭ Skip</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="screen">
+    <div class="header-bar">
+      <a href="voice-test.html" class="back-btn">← Back to Tests</a>
+      <div class="test-label" style="text-align:right;">
+        TEST 103
+        <small>Result</small>
+      </div>
+    </div>
+
+    <div class="grade-hero">
+      <div class="grade-circle" id="gradeCircle">A</div>
+      <div class="grade-score"><span id="finalScore">0</span><small> / 100</small></div>
+      <div class="grade-label" id="gradeLabel">Excellent</div>
+    </div>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; font-size:12px; color:#94a3b8; justify-content:center; padding:0 10px;">
+      <span>📊 Avg Words: <b id="statWords" style="color:#e2e8f0;">0</b></span>
+      <span>🎯 Keyword: <b id="statKw" style="color:#e2e8f0;">0%</b></span>
+      <span>✅ Answered: <b id="statAns" style="color:#e2e8f0;">0/7</b></span>
+    </div>
+
+    <div class="result-list" id="resultList"></div>
+
+    <div class="controls" style="margin-top:8px;">
+      <button class="btn btn-primary" id="retakeBtn">🔁 ပြန်ဖြေမည်</button>
+      <a href="voice-test.html" class="btn btn-ghost" style="text-decoration:none;">🏠 Tests အားလုံး</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================================================================
+   CAPABILITY DETECTION
+================================================================ */
+const CAP = (() => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const hasSR = !!SR;
+  const hasGUM = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  const hasMR = !!(window.MediaRecorder) && hasGUM;
+  const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const liveSR = hasSR && !isIOS;
+  return { SR: hasSR, GUM: hasGUM, MR: hasMR, isSecure, isIOS, liveSR };
+})();
+
+/* ================================================================
+   QUESTIONS (Test 103 · Expert Level · 7 total)
+================================================================ */
+const QUESTIONS = [
+  /* PART 1 · PERSONAL INFORMATION (3 Qs · 60s) */
+  {
+    id: 1, part: 1,
+    sectionTitle: 'Part 1 · Personal Information (Expert)',
+    badge: 'Part 1', badgeClass: 'badge-personal',
+    category: 'Challenging Experience',
+    prompt: "Describe the most challenging experience in your life and explain how you handled it.",
+    timeLimit: 60,
+    answerEng: "In my life, my most challenging experience was preparing for my maritime examination while also helping my family during a difficult time. I had very little time to study and I felt a lot of pressure. To handle it, I made a strict study schedule and woke up early every morning to review my notes. I asked my teachers and friends for help whenever I did not understand something. I stayed calm, focused on one task at a time, and reminded myself that hard work would pay off. In the end, I passed the exam and learned an important lesson: with good planning, patience, and support from others, we can overcome even the toughest challenges.",
+    hint: 'အခက်အခဲ တစ်ခုကို ဘယ်လို ရင်ဆိုင်ဖြေရှင်းခဲ့လဲ အဆင့်လိုက် ပြောပါ။'
+  },
+  {
+    id: 2, part: 1,
+    sectionTitle: 'Part 1 · Personal Information (Expert)',
+    badge: 'Part 1', badgeClass: 'badge-personal',
+    category: 'Officer Qualities',
+    prompt: "What qualities make an effective maritime officer? Explain your opinion.",
+    timeLimit: 60,
+    answerEng: "In my opinion, an effective maritime officer needs several important qualities. First, strong leadership because they must guide and motivate the crew during routine work and emergencies. Second, good communication skills because clear orders prevent accidents. Third, technical knowledge of navigation, cargo handling, and safety procedures. Fourth, the ability to stay calm under pressure because emergencies at sea can be dangerous. Fifth, responsibility and discipline because a good officer follows regulations and leads by example. Finally, teamwork and respect for different cultures since crews are international. A maritime officer with all these qualities can keep the ship, the crew, and the cargo safe.",
+    hint: 'Leadership၊ communication၊ technical skill၊ calmness စသည့် အရည်အချင်းများ ဖော်ပြပါ။'
+  },
+  {
+    id: 3, part: 1,
+    sectionTitle: 'Part 1 · Personal Information (Expert)',
+    badge: 'Part 1', badgeClass: 'badge-personal',
+    category: 'Stress Management',
+    prompt: "How do you handle stress and pressure in difficult situations?",
+    timeLimit: 60,
+    answerEng: "When I face stress and pressure, I use a few strategies. First, I take slow, deep breaths to stay calm and think clearly. Second, I break the problem into small steps and deal with one step at a time instead of worrying about everything at once. Third, I talk to someone I trust — a friend, a family member, or a senior colleague — because sharing the problem often makes it easier. Fourth, I remind myself of similar situations I have already survived, which gives me confidence. Finally, I keep a healthy routine with enough sleep and exercise. In a maritime career, staying calm under pressure can save lives, so I practice these habits every day.",
+    hint: 'Stress ကို ဘယ်လို စီမံခန့်ခွဲလဲ နည်းလမ်း ၄-၅ ချက် ပြောပါ။'
+  },
+
+  /* PART 2 · PICTURE DESCRIPTION (2 Qs · 120s) */
+  {
+    id: 4, part: 2,
+    sectionTitle: 'Part 2 · Picture Description (Technical)',
+    badge: 'Part 2', badgeClass: 'badge-picture',
+    category: 'Technical Picture · Engine Room',
+    prompt: "Look at this picture of a ship's engine room. Describe the machinery, the equipment, and the scene in detail.",
+    timeLimit: 120,
+    picture: 'engine',
+    answerEng: "In this picture, I can see the inside of a ship's engine room. It is a large industrial space with many machines and pipes. In the center, I can see the main engine with several cylinders and pistons on top. Above, there are red, blue, and yellow pipes carrying fuel, water, and air. On the left wall, I can see two round pressure gauges that show the engine's pressure and temperature. On the right, there is a control panel with a green screen displaying the main engine RPM and load, and several coloured buttons — green, amber, red, and blue — for operating the machinery. I can also see a warning sign and an alarm panel. In the foreground, there is a silhouette of an engineer wearing a hard hat and overalls, checking the equipment. The engine room is the heart of the ship because it provides power for propulsion and electricity.",
+    hint: 'Main engine၊ cylinders၊ pistons၊ pipes၊ gauges၊ control panel၊ RPM၊ engineer စသည်တို့ ဖော်ပြပါ။'
+  },
+  {
+    id: 5, part: 2,
+    sectionTitle: 'Part 2 · Picture Description (Safety)',
+    badge: 'Part 2', badgeClass: 'badge-picture',
+    category: 'Safety Picture · Lifeboat / Muster Station',
+    prompt: "Look at this picture of a lifeboat and muster station. Describe the equipment, the crew, and what is happening.",
+    timeLimit: 120,
+    picture: 'lifeboat',
+    answerEng: "In this picture, I can see a large orange lifeboat hanging from davits on the side of a ship. The lifeboat has an enclosed cabin, seats inside, and is designed to carry many people during an emergency. On the deck, I can see the ship's railing, two white life rings with red stripes, and a green muster station sign with the letter M. Two crew members are standing near the railing, wearing orange lifejackets and hard hats, ready for a safety drill. Below the ship, I can see the blue sea with waves, and in the background the sky is clear and blue. Lifeboats are one of the most important safety equipment on ships because they allow the crew and passengers to abandon ship safely if there is a serious emergency. Regular drills help everyone know what to do.",
+    hint: 'Davits၊ lifeboat အရောင်၊ life ring၊ muster station၊ lifejacket၊ crew ဝတ်စုံ ဖော်ပြပါ။'
+  },
+
+  /* PART 3 · DEBATE (2 Qs · 180s) */
+  {
+    id: 6, part: 3,
+    sectionTitle: 'Part 3 · Debate (Advanced Maritime)',
+    badge: 'Part 3', badgeClass: 'badge-debate',
+    category: 'Maritime Debate · Automation vs Human Crew',
+    prompt: "Do you think automation will replace human crew on ships in the future? Give your opinion with reasons.",
+    timeLimit: 180,
+    answerEng: "In my opinion, automation will change the maritime industry, but it will not completely replace human crew in the near future. On one hand, automation can improve efficiency, reduce human error, and lower costs. For example, autopilot systems, automated cargo handling, and remote monitoring already help ships operate more safely. On the other hand, ships still need human officers for decision-making, emergency response, maintenance, and leadership. Machines cannot handle unexpected situations such as engine failures, piracy, or medical emergencies as well as experienced seafarers. In addition, international regulations still require a minimum number of crew on board. In conclusion, I believe automation will support seafarers rather than replace them, and human skills will always be essential at sea.",
+    hint: 'Automation ရဲ့ ကောင်းကျိုး/ဆိုးကျိုး နှစ်ဖက်စလုံး ပြောပြီး သင့်အမြင် ပေးပါ။'
+  },
+  {
+    id: 7, part: 3,
+    sectionTitle: 'Part 3 · Debate (Advanced Global)',
+    badge: 'Part 3', badgeClass: 'badge-debate',
+    category: 'Global Debate · Environment vs Economy',
+    prompt: "Should environmental protection be sacrificed for economic growth in the shipping industry? Discuss.",
+    timeLimit: 180,
+    answerEng: "In my opinion, environmental protection should not be sacrificed for economic growth in shipping. On one hand, shipping is essential for global trade, and stricter environmental rules can increase costs for companies. Some people argue that this could slow down economic development. On the other hand, the environmental damage from pollution, oil spills, and carbon emissions is far more expensive in the long term. Climate change, ocean acidification, and harm to marine life affect everyone. The IMO has introduced rules such as the sulfur cap and decarbonization targets, and many companies are investing in green technologies such as LNG, methanol, and wind-assisted propulsion. In my view, economic growth and environmental protection can go together if we invest in innovation and follow international regulations. Protecting the ocean is not just a choice — it is our responsibility for future generations.",
+    hint: 'IMO sulfur cap၊ decarbonization၊ green technology စသည်တို့ ထည့်ပြောပါ။'
+  }
+];
+
+/* ================================================================
+   PICTURE SVGs
+================================================================ */
+const PICTURE_ENGINE = `
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="engBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1f2e"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="engMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b7280"/>
+      <stop offset="100%" stop-color="#374151"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#engBg)"/>
+
+  <!-- Floor grating -->
+  <rect y="380" width="800" height="120" fill="#0b1220"/>
+  <g stroke="#1e293b" stroke-width="1.5" opacity="0.9">
+    <line x1="0" y1="390" x2="800" y2="390"/>
+    <line x1="0" y1="410" x2="800" y2="410"/>
+    <line x1="0" y1="430" x2="800" y2="430"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+    <line x1="0" y1="470" x2="800" y2="470"/>
+    <line x1="0" y1="490" x2="800" y2="490"/>
+    <line x1="60" y1="380" x2="60" y2="500"/>
+    <line x1="140" y1="380" x2="140" y2="500"/>
+    <line x1="220" y1="380" x2="220" y2="500"/>
+    <line x1="300" y1="380" x2="300" y2="500"/>
+    <line x1="380" y1="380" x2="380" y2="500"/>
+    <line x1="460" y1="380" x2="460" y2="500"/>
+    <line x1="540" y1="380" x2="540" y2="500"/>
+    <line x1="620" y1="380" x2="620" y2="500"/>
+    <line x1="700" y1="380" x2="700" y2="500"/>
+  </g>
+
+  <!-- Overhead pipes -->
+  <rect x="0" y="60" width="800" height="18" fill="#dc2626"/>
+  <rect x="0" y="60" width="800" height="4" fill="#7f1d1d"/>
+  <rect x="0" y="90" width="800" height="18" fill="#3b82f6"/>
+  <rect x="0" y="90" width="800" height="4" fill="#1e3a8a"/>
+  <rect x="0" y="120" width="800" height="18" fill="#eab308"/>
+  <rect x="0" y="120" width="800" height="4" fill="#854d0e"/>
+
+  <!-- Pipe joints -->
+  <circle cx="150" cy="69" r="14" fill="#7f1d1d" stroke="#450a0a" stroke-width="2"/>
+  <circle cx="400" cy="69" r="14" fill="#7f1d1d" stroke="#450a0a" stroke-width="2"/>
+  <circle cx="650" cy="69" r="14" fill="#7f1d1d" stroke="#450a0a" stroke-width="2"/>
+  <circle cx="250" cy="99" r="14" fill="#1e3a8a" stroke="#0c1e4a" stroke-width="2"/>
+  <circle cx="550" cy="99" r="14" fill="#1e3a8a" stroke="#0c1e4a" stroke-width="2"/>
+  <circle cx="180" cy="129" r="14" fill="#854d0e" stroke="#422006" stroke-width="2"/>
+  <circle cx="600" cy="129" r="14" fill="#854d0e" stroke="#422006" stroke-width="2"/>
+
+  <!-- Left gauges -->
+  <circle cx="90" cy="200" r="30" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+  <circle cx="90" cy="200" r="24" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <g stroke="#0f172a" stroke-width="1.5">
+    <line x1="90" y1="176" x2="90" y2="180"/>
+    <line x1="114" y1="200" x2="110" y2="200"/>
+    <line x1="90" y1="224" x2="90" y2="220"/>
+    <line x1="66" y1="200" x2="70" y2="200"/>
+  </g>
+  <line x1="90" y1="200" x2="105" y2="185" stroke="#dc2626" stroke-width="2.5"/>
+  <circle cx="90" cy="200" r="3" fill="#111827"/>
+
+  <circle cx="90" cy="270" r="30" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+  <circle cx="90" cy="270" r="24" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="270" x2="105" y2="255" stroke="#dc2626" stroke-width="2.5"/>
+  <circle cx="90" cy="270" r="3" fill="#111827"/>
+
+  <!-- Main engine block -->
+  <rect x="270" y="180" width="260" height="200" fill="url(#engMetal)" stroke="#1f2937" stroke-width="4" rx="6"/>
+  <rect x="285" y="200" width="230" height="160" fill="#4b5563" rx="4"/>
+  <!-- Engine ribs -->
+  <g stroke="#374151" stroke-width="3">
+    <line x1="310" y1="200" x2="310" y2="360"/>
+    <line x1="350" y1="200" x2="350" y2="360"/>
+    <line x1="390" y1="200" x2="390" y2="360"/>
+    <line x1="430" y1="200" x2="430" y2="360"/>
+    <line x1="470" y1="200" x2="470" y2="360"/>
+  </g>
+
+  <!-- Cylinders -->
+  <rect x="295" y="140" width="42" height="55" fill="#6b7280" stroke="#374151" stroke-width="3" rx="3"/>
+  <rect x="345" y="140" width="42" height="55" fill="#6b7280" stroke="#374151" stroke-width="3" rx="3"/>
+  <rect x="395" y="140" width="42" height="55" fill="#6b7280" stroke="#374151" stroke-width="3" rx="3"/>
+  <rect x="445" y="140" width="42" height="55" fill="#6b7280" stroke="#374151" stroke-width="3" rx="3"/>
+
+  <!-- Pistons -->
+  <rect x="308" y="115" width="16" height="30" fill="#9ca3af"/>
+  <rect x="358" y="115" width="16" height="30" fill="#9ca3af"/>
+  <rect x="408" y="115" width="16" height="30" fill="#9ca3af"/>
+  <rect x="458" y="115" width="16" height="30" fill="#9ca3af"/>
+
+  <!-- Right control panel -->
+  <rect x="600" y="170" width="180" height="205" fill="#1e293b" stroke="#0f172a" stroke-width="4" rx="6"/>
+  <rect x="615" y="185" width="150" height="85" fill="#052e16" stroke="#0f172a" stroke-width="2"/>
+  <text x="690" y="212" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#22c55e">MAIN ENGINE</text>
+  <text x="690" y="232" text-anchor="middle" font-family="monospace" font-size="10" fill="#4ade80">RPM: 85.4</text>
+  <text x="690" y="248" text-anchor="middle" font-family="monospace" font-size="10" fill="#4ade80">LOAD: 78%</text>
+  <text x="690" y="264" text-anchor="middle" font-family="monospace" font-size="10" fill="#4ade80">TEMP: 62°C</text>
+
+  <circle cx="630" cy="300" r="10" fill="#22c55e" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="665" cy="300" r="10" fill="#f59e0b" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="700" cy="300" r="10" fill="#ef4444" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="735" cy="300" r="10" fill="#3b82f6" stroke="#0f172a" stroke-width="2"/>
+
+  <rect x="615" y="325" width="150" height="30" fill="#0f172a" rx="4"/>
+  <text x="690" y="345" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#f87171">⚠ ALARM PANEL</text>
+
+  <!-- Warning sign -->
+  <rect x="30" y="330" width="60" height="60" fill="#facc15" rx="4"/>
+  <polygon points="60,338 82,378 38,378" fill="#111827"/>
+  <text x="60" y="372" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#facc15">!</text>
+
+  <!-- Engineer silhouette -->
+  <g transform="translate(230, 280)">
+    <circle cx="0" cy="0" r="14" fill="#0f172a"/>
+    <path d="M-16,-6 Q0,-26 16,-6 Z" fill="#facc15"/>
+    <rect x="-16" y="14" width="32" height="50" fill="#0f172a" rx="3"/>
+    <rect x="-24" y="20" width="8" height="30" fill="#0f172a"/>
+    <rect x="16" y="20" width="8" height="30" fill="#0f172a"/>
+    <rect x="-14" y="64" width="10" height="40" fill="#1e293b"/>
+    <rect x="4" y="64" width="10" height="40" fill="#1e293b"/>
+    <rect x="-16" y="100" width="12" height="10" fill="#0f172a" rx="2"/>
+    <rect x="4" y="100" width="12" height="10" fill="#0f172a" rx="2"/>
+  </g>
+
+  <!-- Label -->
+  <text x="400" y="490" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#64748b">ENGINE ROOM · PROPULSION SYSTEM</text>
+</svg>`;
+
+const PICTURE_LIFEBOAT = `
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lbSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="lbSea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="320" fill="url(#lbSky)"/>
+
+  <!-- Clouds -->
+  <g fill="#ffffff" opacity="0.95">
+    <ellipse cx="130" cy="70" rx="55" ry="20"/>
+    <ellipse cx="180" cy="62" rx="42" ry="16"/>
+    <ellipse cx="660" cy="90" rx="58" ry="20"/>
+    <ellipse cx="710" cy="82" rx="44" ry="16"/>
+  </g>
+
+  <!-- Ship deck / side -->
+  <rect x="0" y="200" width="800" height="120" fill="#475569"/>
+  <rect x="0" y="200" width="800" height="10" fill="#64748b"/>
+  <rect x="0" y="316" width="800" height="4" fill="#1e293b"/>
+
+  <!-- Deck stripes -->
+  <rect x="0" y="250" width="800" height="3" fill="#334155" opacity="0.6"/>
+  <rect x="0" y="280" width="800" height="3" fill="#334155" opacity="0.6"/>
+
+  <!-- Railing -->
+  <line x1="0" y1="160" x2="800" y2="160" stroke="#94a3b8" stroke-width="3"/>
+  <line x1="0" y1="185" x2="800" y2="185" stroke="#94a3b8" stroke-width="3"/>
+  <g stroke="#94a3b8" stroke-width="3">
+    <line x1="60" y1="160" x2="60" y2="200"/>
+    <line x1="160" y1="160" x2="160" y2="200"/>
+    <line x1="260" y1="160" x2="260" y2="200"/>
+    <line x1="640" y1="160" x2="640" y2="200"/>
+    <line x1="740" y1="160" x2="740" y2="200"/>
+  </g>
+
+  <!-- Davits -->
+  <path d="M80 130 Q80 50 180 50 L320 50" stroke="#334155" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M720 130 Q720 50 620 50 L480 50" stroke="#334155" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <circle cx="80" cy="130" r="10" fill="#1e293b"/>
+  <circle cx="720" cy="130" r="10" fill="#1e293b"/>
+
+  <!-- Lifeboat -->
+  <g>
+    <path d="M220 70 Q400 40 580 70 L580 145 Q400 175 220 145 Z" fill="#f97316" stroke="#7c2d12" stroke-width="4"/>
+    <path d="M240 80 Q400 55 560 80 L560 130 Q400 155 240 130 Z" fill="#ea580c"/>
+    <rect x="270" y="90" width="60" height="25" fill="#fef3c7" rx="3"/>
+    <rect x="350" y="90" width="60" height="25" fill="#fef3c7" rx="3"/>
+    <rect x="430" y="90" width="60" height="25" fill="#fef3c7" rx="3"/>
+    <rect x="320" y="55" width="140" height="25" fill="#ea580c" stroke="#7c2d12" stroke-width="2" rx="3"/>
+    <rect x="340" y="60" width="40" height="15" fill="#1e293b"/>
+    <rect x="400" y="60" width="40" height="15" fill="#1e293b"/>
+    <line x1="240" y1="70" x2="180" y2="50" stroke="#1f2937" stroke-width="3"/>
+    <line x1="560" y1="70" x2="620" y2="50" stroke="#1f2937" stroke-width="3"/>
+    <!-- Stripe -->
+    <path d="M220 125 Q400 155 580 125" fill="none" stroke="#fbbf24" stroke-width="4"/>
+  </g>
+
+  <!-- Life rings -->
+  <circle cx="100" cy="175" r="18" fill="#ffffff" stroke="#dc2626" stroke-width="5"/>
+  <circle cx="100" cy="175" r="9" fill="none" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="700" cy="175" r="18" fill="#ffffff" stroke="#dc2626" stroke-width="5"/>
+  <circle cx="700" cy="175" r="9" fill="none" stroke="#dc2626" stroke-width="3"/>
+
+  <!-- Muster station sign -->
+  <rect x="380" y="215" width="42" height="42" fill="#16a34a" rx="4" stroke="#065f46" stroke-width="2"/>
+  <text x="401" y="243" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#ffffff">M</text>
+
+  <!-- Crew 1 -->
+  <g transform="translate(500, 220)">
+    <circle cx="0" cy="0" r="12" fill="#fcd9b6"/>
+    <path d="M-12,-4 Q0,-22 12,-4 Z" fill="#f97316"/>
+    <rect x="-13" y="12" width="26" height="38" fill="#f97316" rx="3"/>
+    <rect x="-7" y="20" width="14" height="22" fill="#fbbf24"/>
+    <rect x="-10" y="48" width="8" height="28" fill="#1e293b"/>
+    <rect x="2" y="48" width="8" height="28" fill="#1e293b"/>
+  </g>
+
+  <!-- Crew 2 -->
+  <g transform="translate(560, 220)">
+    <circle cx="0" cy="0" r="12" fill="#fcd9b6"/>
+    <path d="M-12,-4 Q0,-22 12,-4 Z" fill="#f97316"/>
+    <rect x="-13" y="12" width="26" height="38" fill="#f97316" rx="3"/>
+    <rect x="-7" y="20" width="14" height="22" fill="#fbbf24"/>
+    <rect x="-10" y="48" width="8" height="28" fill="#1e293b"/>
+    <rect x="2" y="48" width="8" height="28" fill="#1e293b"/>
+  </g>
+
+  <!-- Sea -->
+  <rect y="320" width="800" height="180" fill="url(#lbSea)"/>
+  <path d="M0 340 Q100 328 200 340 T400 340 T600 340 T800 340 V500 H0 Z" fill="#0ea5e9" opacity="0.7"/>
+  <path d="M0 380 Q100 370 200 380 T400 380 T600 380 T800 380 V500 H0 Z" fill="#0284c7" opacity="0.8"/>
+  <path d="M0 430 Q100 420 200 430 T400 430 T600 430 T800 430 V500 H0 Z" fill="#0369a1" opacity="0.9"/>
+
+  <!-- Label -->
+  <text x="400" y="485" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#bae6fd">LIFEBOAT · MUSTER STATION · SAFETY DRILL</text>
+</svg>`;
+
+/* ================================================================
+   STATE
+================================================================ */
+const STORAGE_KEY = 'mept_testspeak103_state_v1';
+let currentSlide = 0;
+let answers = [];
+let liveText = '';
+let interimText = '';
+let manualMode = false;
+let showLiveTranscript = false;
+let saveAudio = true;
+
+let recognition = null;
+let recRunning = false;
+let mediaRecorder = null;
+let mediaStream = null;
+let audioChunks = [];
+let currentAudioBlob = null;
+let currentAudioURL = null;
+
+let timerInterval = null;
+let timeLeft = 0, timeTotal = 0, timerRunning = false;
+
+const $ = (id) => document.getElementById(id);
+
+/* ================================================================
+   CAPABILITY UI
+================================================================ */
+function renderCapabilities() {
+  const list = $('capList');
+  const items = [
+    { label: 'Live Speech Recognition', ok: CAP.liveSR },
+    { label: 'Audio Recording', ok: CAP.MR },
+    { label: 'Microphone (HTTPS)', ok: CAP.GUM && CAP.isSecure },
+    { label: 'Text Input', ok: true }
+  ];
+  list.innerHTML = items.map(i =>
+    `<span class="cap-pill ${i.ok ? 'cap-yes' : 'cap-no'}">${i.ok ? '✅' : '❌'} ${i.label}</span>`
+  ).join('');
+
+  let mode, cls, msg;
+  if (CAP.liveSR && CAP.MR) { mode = 'LIVE + REC'; cls = 'mode-live'; msg = '✅ Live Speech Recognition နဲ့ Audio Recording နှစ်မျိုးလုံး အလုပ်လုပ်ပါတယ်။'; }
+  else if (CAP.MR) { mode = 'REC + TYPE'; cls = 'mode-rec'; msg = '⚠️ Live Speech Recognition မရပါ။ အသံ record လုပ်ပြီး အဖြေကို စာဖြင့် ရိုက်ထည့်ပါ။'; }
+  else if (CAP.liveSR) { mode = 'LIVE ONLY'; cls = 'mode-live'; msg = 'ℹ️ Live Speech Recognition ကိုသာ သုံးနိုင်ပါမည်။'; }
+  else { mode = 'TEXT ONLY'; cls = 'mode-text'; msg = '⚠️ Speech Recognition / Recording မရပါ။ အဖြေကို စာဖြင့်သာ ရိုက်ထည့်ပါ။'; }
+  if (!CAP.isSecure) msg = '⚠️ HTTPS မဟုတ်သောကြောင့် Microphone အလုပ်မလုပ်ပါ။';
+  $('modeInfo').textContent = msg;
+  return { mode, cls };
+}
+
+/* ================================================================
+   SCREENS
+================================================================ */
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(name).classList.add('active');
+}
+
+/* ================================================================
+   PERSIST
+================================================================ */
+function saveState() {
+  try {
+    const data = {
+      currentSlide,
+      answers: answers.map(a => a ? { transcript: a.transcript, score: a.score, wc: a.wc, hits: a.hits, kwTotal: a.kwTotal, matched: a.matched, maxMarks: a.maxMarks, section: a.section, sectionTitle: a.sectionTitle, badge: a.badge, badgeClass: a.badgeClass, q: a.q, category: a.category } : null),
+      liveText, interimText, manualMode, timeLeft, timeTotal,
+      savedAt: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (Date.now() - (data.savedAt || 0) > 12 * 60 * 60 * 1000) { localStorage.removeItem(STORAGE_KEY); return null; }
+    return data;
+  } catch { return null; }
+}
+function clearState() { localStorage.removeItem(STORAGE_KEY); }
+
+/* ================================================================
+   SPEECH RECOGNITION
+================================================================ */
+function createRecognition() {
+  if (!CAP.SR) return null;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SR();
+  rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US'; rec.maxAlternatives = 1;
+  rec.onresult = (e) => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) liveText = (liveText + ' ' + t).replace(/\s+/g, ' ').trim();
+      else interim += t;
+    }
+    interimText = interim;
+    renderTranscript();
+  };
+  rec.onerror = (e) => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { recRunning = false; alert('Microphone ခွင့်ပြုချက် လိုအပ်ပါသည်။'); } };
+  rec.onend = () => { if (recRunning) { try { rec.start(); } catch {} } };
+  return rec;
+}
+function startRecognition() {
+  if (!CAP.liveSR) return;
+  if (!recognition) recognition = createRecognition();
+  if (!recognition) return;
+  recRunning = true;
+  try { recognition.start(); } catch {}
+}
+function stopRecognition() { recRunning = false; if (recognition) { try { recognition.stop(); } catch {} } }
+
+/* ================================================================
+   MEDIA RECORDER
+================================================================ */
+async function startMediaRecorder() {
+  if (!CAP.MR || !saveAudio) return;
+  try {
+    if (!mediaStream) mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    let mime = '';
+    const prefs = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'];
+    for (const m of prefs) if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) { mime = m; break; }
+    mediaRecorder = mime ? new MediaRecorder(mediaStream, { mimeType: mime }) : new MediaRecorder(mediaStream);
+    mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      if (audioChunks.length) {
+        currentAudioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+        if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
+        currentAudioURL = URL.createObjectURL(currentAudioBlob);
+      }
+    };
+    mediaRecorder.start(1000);
+  } catch (e) { console.warn('MediaRecorder error:', e); }
+}
+function stopMediaRecorder() {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch {} }
+}
+
+/* ================================================================
+   TRANSCRIPT DISPLAY
+================================================================ */
+function renderTranscript() {
+  const view = $('transcriptView');
+  const input = $('transcriptInput');
+  const full = (manualMode ? input.value : (liveText + ' ' + interimText)).trim();
+
+  if (manualMode) {
+    view.classList.add('hidden'); input.classList.remove('hidden');
+    if (input.value !== liveText) input.value = liveText;
+    $('transcriptTitle').textContent = 'Your Answer (Type)';
+    $('editTag').textContent = '✏️ Editable';
+  } else {
+    view.classList.remove('hidden'); input.classList.add('hidden');
+    $('transcriptTitle').textContent = showLiveTranscript ? 'Live Transcript' : 'Transcript (Hidden)';
+    $('editTag').textContent = showLiveTranscript ? '' : '👁️ hidden';
+    if (!full) {
+      view.innerHTML = '<span class="placeholder">"Start Answering" ကို နှိပ်ပြီး စတင်ပြောပါ...</span>';
+    } else if (!showLiveTranscript) {
+      const wc = countWords(full);
+      view.innerHTML = '<span style="color:#f59e0b;font-weight:700;">🔒 Transcript ဖုံးထားပါသည် (' + wc + ' words)</span><br><span style="color:#64748b;font-size:12px;">Settings မှာ "Show live transcript" ကို ဖွင့်နိုင်ပါသည်။</span>';
+    } else {
+      let html = escapeHtml(liveText);
+      if (interimText) html += ' <span class="interim">' + escapeHtml(interimText) + '</span>';
+      view.innerHTML = html;
+      view.scrollTop = view.scrollHeight;
+    }
+  }
+  $('wordCount').textContent = countWords(full);
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function countWords(text) { return text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length; }
+
+/* ================================================================
+   TIMER
+================================================================ */
+function updateTimerUI() {
+  const pct = timeTotal > 0 ? (timeLeft / timeTotal) * 100 : 0;
+  const bar = $('timerBar');
+  bar.style.width = pct + '%';
+  bar.classList.remove('warn', 'danger');
+  if (pct <= 15) bar.classList.add('danger');
+  else if (pct <= 40) bar.classList.add('warn');
+  $('timeLeft').textContent = Math.max(0, Math.ceil(timeLeft));
+}
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  timerInterval = setInterval(() => {
+    if (!timerRunning) return;
+    timeLeft -= 0.2;
+    if (timeLeft <= 0) {
+      timeLeft = 0; updateTimerUI(); stopTimer();
+      setTimeout(() => nextSlide(true), 400);
+      return;
+    }
+    updateTimerUI();
+    if (Math.round(timeLeft * 5) % 10 === 0) saveState();
+  }, 200);
+}
+function stopTimer() { timerRunning = false; if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
+
+/* ================================================================
+   RENDER SLIDE
+================================================================ */
+function renderSlide(isResume = false) {
+  const slide = QUESTIONS[currentSlide];
+  if (!slide) return;
+  $('qNum').textContent = slide.id;
+  $('qTotal').textContent = QUESTIONS.length;
+
+  const sBadge = $('sectionBadge');
+  sBadge.textContent = slide.badge;
+  sBadge.className = 'section-badge' + (slide.part === 2 ? ' p2' : slide.part === 3 ? ' p3' : '');
+
+  const sTitle = $('sectionTitle');
+  sTitle.textContent = slide.sectionTitle;
+  sTitle.className = 'q-section-title' + (slide.part === 2 ? ' p2' : slide.part === 3 ? ' p3' : '');
+
+  $('questionText').textContent = `${slide.id}. ${slide.prompt}`;
+  $('qHint').textContent = slide.hint || '';
+
+  const pw = $('pictureWrap');
+  if (slide.picture) {
+    pw.classList.remove('hidden');
+    if (slide.picture === 'engine') pw.innerHTML = PICTURE_ENGINE;
+    else if (slide.picture === 'lifeboat') pw.innerHTML = PICTURE_LIFEBOAT;
+  } else {
+    pw.classList.add('hidden'); pw.innerHTML = '';
+  }
+
+  if (!isResume) { timeTotal = slide.timeLimit; timeLeft = slide.timeLimit; }
+  updateTimerUI();
+
+  stopRecognition(); stopMediaRecorder();
+  if (!isResume) { liveText = ''; interimText = ''; manualMode = false; currentAudioBlob = null; currentAudioURL = null; }
+  renderTranscript();
+
+  $('startBtn').classList.remove('hidden');
+  $('startBtn').textContent = '🎤 Start Answering';
+  $('pauseBtn').classList.add('hidden');
+  $('nextBtn').classList.add('hidden');
+  $('skipBtn').classList.remove('hidden');
+  $('recIndicator').classList.add('hidden');
+  $('recIndicator2').textContent = 'Ready';
+  $('recIndicator2').style.color = '#475569';
+  saveState();
+}
+
+/* ================================================================
+   ACTIONS
+================================================================ */
+async function handleStart() {
+  if (CAP.MR && saveAudio) { try { await startMediaRecorder(); } catch {} }
+  if (CAP.liveSR) startRecognition();
+  startTimer();
+  $('startBtn').classList.add('hidden');
+  $('pauseBtn').classList.remove('hidden');
+  $('nextBtn').classList.remove('hidden');
+  $('skipBtn').classList.add('hidden');
+  $('pauseBtn').textContent = '⏸ Pause';
+  updateRecIndicator(true);
+}
+function handlePause() {
+  if (timerRunning) {
+    stopTimer(); stopRecognition(); stopMediaRecorder();
+    $('pauseBtn').textContent = '▶ Resume';
+    updateRecIndicator(false);
+  } else {
+    startTimer();
+    if (CAP.liveSR) startRecognition();
+    if (CAP.MR && saveAudio) startMediaRecorder();
+    $('pauseBtn').textContent = '⏸ Pause';
+    updateRecIndicator(true);
+  }
+}
+function updateRecIndicator(recording) {
+  if (recording) {
+    $('recIndicator').classList.remove('hidden');
+    $('recIndicator2').textContent = 'Recording...';
+    $('recIndicator2').style.color = '#ef4444';
+  } else {
+    $('recIndicator').classList.add('hidden');
+    $('recIndicator2').textContent = 'Paused';
+    $('recIndicator2').style.color = '#94a3b8';
+  }
+}
+
+function finalizeCurrentSlide() {
+  const slide = QUESTIONS[currentSlide];
+  const transcript = (manualMode ? $('transcriptInput').value : (liveText + ' ' + interimText)).trim();
+  const scored = scoreSlide(transcript, slide);
+  answers[currentSlide] = {
+    transcript, audioBlob: currentAudioBlob, audioBlobURL: currentAudioURL,
+    score: scored.score, wc: scored.wc, hits: scored.hits, kwTotal: scored.kwTotal, matched: scored.matched,
+    maxMarks: 100,
+    section: slide.part, sectionTitle: slide.sectionTitle,
+    badge: slide.badge, badgeClass: slide.badgeClass,
+    q: slide.prompt, category: slide.category
+  };
+}
+
+function nextSlide() {
+  finalizeCurrentSlide();
+  stopTimer(); stopRecognition(); stopMediaRecorder();
+  liveText = ''; interimText = ''; manualMode = false;
+  currentAudioBlob = null;
+  if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
+  currentAudioURL = null;
+  renderTranscript();
+  currentSlide++;
+  saveState();
+  if (currentSlide >= QUESTIONS.length) { finishTest(); return; }
+  renderSlide(false);
+}
+function skipSlide() { nextSlide(); }
+
+/* ================================================================
+   SMART SCORING
+================================================================ */
+const STOP_WORDS = new Set(["is","am","are","was","were","be","been","being","have","has","had","do","does","did","a","an","the","and","but","if","or","because","as","until","while","of","at","by","for","with","about","against","between","into","through","during","before","after","above","below","to","from","up","down","in","out","on","off","over","under","again","further","then","once","here","there","when","where","why","how","all","any","both","each","few","more","most","other","some","such","no","nor","not","only","own","same","so","than","too","very","can","will","just","should","now","i","you","he","she","it","we","they","me","him","her","us","them","my","your","his","its","our","their","this","that","these","those","also","would","could","may","might","must","shall","one","two","three"]);
+
+function extractKeywords(text) {
+  const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+  return [...new Set(words.filter(w => w.length > 2 && !STOP_WORDS.has(w)))];
+}
+
+function scoreSlide(transcript, slide) {
+  const cleanText = transcript.trim();
+  if (!cleanText) return { score: 0, wc: 0, hits: 0, kwTotal: 0, matched: [] };
+  const wc = countWords(cleanText);
+  const keywords = extractKeywords(slide.answerEng);
+  const lower = cleanText.toLowerCase();
+  let hits = 0; const matched = [];
+  keywords.forEach(kw => { if (lower.includes(kw)) { hits++; matched.push(kw); } });
+  const kwRatio = keywords.length ? hits / keywords.length : 0;
+  const modelWC = countWords(slide.answerEng);
+  const wcRatio = Math.min(1, wc / Math.max(15, modelWC * 0.6));
+  let raw = 0.55 * kwRatio + 0.35 * wcRatio;
+  const sentences = cleanText.split(/[.!?]+/).filter(s => s.trim().length > 3).length;
+  raw += Math.min(0.10, sentences * 0.02);
+  let score = Math.round(Math.min(1, raw) * 100);
+  if (wc >= 10 && score < 15) score = 15;
+  if (wc >= 25 && score < 25) score = 25;
+  return { score, wc, hits, kwTotal: keywords.length, matched };
+}
+
+/* ================================================================
+   FINISH
+================================================================ */
+function finishTest() {
+  stopTimer(); stopRecognition(); stopMediaRecorder();
+  let total = 0, answered = 0, totalWords = 0, totalKw = 0, totalKwMax = 0;
+  answers.forEach(a => {
+    if (a && a.transcript && a.transcript.trim()) {
+      answered++; total += a.score; totalWords += a.wc;
+      totalKw += a.hits; totalKwMax += a.kwTotal;
+    }
+  });
+  const finalScore = answered > 0 ? Math.round(total / answered) : 0;
+  const avgWords = answered > 0 ? Math.round(totalWords / answered) : 0;
+  const kwPct = totalKwMax > 0 ? Math.round((totalKw / totalKwMax) * 100) : 0;
+
+  let grade, gradeLabel, gradeClass;
+  if (finalScore >= 85) { grade = 'A+'; gradeLabel = 'Outstanding 🌟 Expert Level'; gradeClass = 'grade-Ap'; }
+  else if (finalScore >= 70) { grade = 'A'; gradeLabel = 'Excellent 🎉'; gradeClass = 'grade-A'; }
+  else if (finalScore >= 55) { grade = 'B'; gradeLabel = 'Good 👍'; gradeClass = 'grade-B'; }
+  else if (finalScore >= 40) { grade = 'C'; gradeLabel = 'Fair 🙂'; gradeClass = 'grade-C'; }
+  else { grade = 'D'; gradeLabel = 'Needs Improvement'; gradeClass = 'grade-D'; }
+
+  const gc = $('gradeCircle');
+  gc.textContent = grade; gc.className = 'grade-circle ' + gradeClass;
+  $('finalScore').textContent = finalScore;
+  $('gradeLabel').textContent = gradeLabel;
+  $('statWords').textContent = avgWords;
+  $('statKw').textContent = kwPct + '%';
+  $('statAns').textContent = answered + '/' + QUESTIONS.length;
+
+  const list = $('resultList');
+  list.innerHTML = answers.map((a, i) => {
+    if (!a) return '';
+    const transcript = a.transcript ? escapeHtml(a.transcript) : '<i style="color:#475569;">(no answer)</i>';
+    const audioHTML = a.audioBlobURL ? `<div class="result-audio"><audio controls src="${a.audioBlobURL}" preload="metadata"></audio></div>` : '';
+    const matchedHTML = a.matched && a.matched.length ? `<div style="margin-top:6px;font-size:11px;color:#86efac;line-height:1.6;">✓ Matched: ${a.matched.slice(0, 12).join(', ')}${a.matched.length > 12 ? '...' : ''}</div>` : '';
+    return `
+      <div class="result-item">
+        <div class="result-item-head">
+          <span><span class="badge ${a.badgeClass}">${a.category || a.badge}</span> &nbsp;Q${i + 1}</span>
+          <span class="marks">${a.score} / 100</span>
+        </div>
+        <div class="result-q">${escapeHtml(a.q)}</div>
+        <div class="result-meta">
+          <span>Words: <b>${a.wc}</b></span>
+          <span>Keywords: <b>${a.hits}/${a.kwTotal}</b></span>
+        </div>
+        ${audioHTML}
+        <div class="result-transcript">${transcript}</div>
+        ${matchedHTML}
+      </div>`;
+  }).join('');
+
+  clearState();
+  showScreen('result');
+}
+
+/* ================================================================
+   MANUAL MODE
+================================================================ */
+function enableManualMode() { manualMode = true; $('transcriptInput').value = (liveText + ' ' + interimText).trim(); renderTranscript(); $('transcriptInput').focus(); }
+function enableAutoMode() { manualMode = false; liveText = $('transcriptInput').value; interimText = ''; renderTranscript(); }
+
+/* ================================================================
+   INIT
+================================================================ */
+function init() {
+  const cap = renderCapabilities();
+  $('modeBadge').textContent = cap.mode;
+  $('modeBadge').className = 'mode-badge ' + cap.cls;
+  $('qTotal').textContent = QUESTIONS.length;
+
+  const saved = loadState();
+  if (saved && saved.answers && saved.answers.some(a => a) && saved.currentSlide < QUESTIONS.length) {
+    if (confirm('📌 ယခင် ဖြေဆိုထားသော အဖြေများ ရှိပါသည်။ ဆက်လက်ဖြေဆိုမလား?\n(OK = ဆက်ဖြေ, Cancel = အသစ်စ)')) {
+      currentSlide = saved.currentSlide || 0;
+      answers = (saved.answers || []).map(a => a ? { ...a, audioBlob: null, audioBlobURL: null } : null);
+      liveText = saved.liveText || ''; interimText = saved.interimText || '';
+      manualMode = saved.manualMode || false;
+      timeTotal = saved.timeTotal || QUESTIONS[currentSlide].timeLimit;
+      timeLeft = saved.timeLeft || timeTotal;
+      showScreen('test'); renderSlide(true); return;
+    } else { clearState(); answers = []; currentSlide = 0; }
+  }
+  showScreen('welcome');
+}
+
+/* ================================================================
+   EVENT LISTENERS
+================================================================ */
+$('startTestBtn').addEventListener('click', () => {
+  showLiveTranscript = $('optShowTranscript').checked;
+  saveAudio = $('optSaveAudio').checked;
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ audio: true }).catch(() => {});
+  }
+  answers = []; currentSlide = 0;
+  liveText = ''; interimText = ''; manualMode = false;
+  clearState();
+  showScreen('test'); renderSlide(false);
+});
+
+$('startBtn').addEventListener('click', handleStart);
+$('pauseBtn').addEventListener('click', handlePause);
+$('nextBtn').addEventListener('click', () => nextSlide());
+$('skipBtn').addEventListener('click', skipSlide);
+
+(function injectManualToggle() {
+  const card = document.querySelector('.transcript-card');
+  const btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'btn btn-ghost btn-sm'; btn.id = 'manualToggle';
+  btn.style.marginTop = '6px'; btn.textContent = '✏️ Type manually instead';
+  btn.addEventListener('click', () => {
+    if (manualMode) { enableAutoMode(); btn.textContent = '✏️ Type manually instead'; }
+    else { enableManualMode(); btn.textContent = '🎤 Use microphone instead'; }
+  });
+  card.appendChild(btn);
+})();
+
+(function injectLiveToggle() {
+  const label = document.querySelector('.transcript-label');
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.style.cssText = 'background:#0f172a;border:1px solid #334155;color:#94a3b8;font-size:10.5px;padding:3px 8px;border-radius:8px;cursor:pointer;font-weight:700;';
+  btn.id = 'liveToggle'; btn.textContent = '👁️ Show';
+  btn.addEventListener('click', () => {
+    showLiveTranscript = !showLiveTranscript;
+    btn.textContent = showLiveTranscript ? '🙈 Hide' : '👁️ Show';
+    renderTranscript();
+  });
+  label.appendChild(btn);
+})();
+
+$('transcriptInput').addEventListener('input', () => { $('wordCount').textContent = countWords($('transcriptInput').value); });
+
+$('retakeBtn').addEventListener('click', () => {
+  clearState(); answers = []; currentSlide = 0;
+  liveText = ''; interimText = ''; manualMode = false;
+  showScreen('welcome');
+});
+
+window.addEventListener('beforeunload', (e) => {
+  if ($('test').classList.contains('active')) { saveState(); e.preventDefault(); e.returnValue = ''; }
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && $('test').classList.contains('active')) saveState();
+});
+
+init();
+</script>
+</body>
+</html>
