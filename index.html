@@ -308,7 +308,7 @@
     }
 
     /* ================================================================
-       PLATFORM FEATURES SECTION (NEW)
+       PLATFORM FEATURES SECTION
        ================================================================ */
     .platform-section { padding: 60px 0; }
     .platform-head {
@@ -1100,7 +1100,7 @@
     </section>
 
     <!-- ================================================================
-         PLATFORM FEATURES — ဤ Platform တွင် ဘာတွေ လေ့လာနိုင်သလဲ
+         PLATFORM FEATURES
          ================================================================ -->
     <section class="platform-section">
       <div class="platform-head">
@@ -1109,7 +1109,6 @@
 
       <div class="platform-grid">
 
-        <!-- Learning Hub -->
         <div class="platform-card">
           <div class="platform-card-head">
             <div class="pf-icon">📚</div>
@@ -1122,7 +1121,6 @@
           </ul>
         </div>
 
-        <!-- MEPT Mock Test -->
         <div class="platform-card">
           <div class="platform-card-head">
             <div class="pf-icon">📝</div>
@@ -1135,7 +1133,6 @@
           </ul>
         </div>
 
-        <!-- Speaking Voice Test -->
         <div class="platform-card">
           <div class="platform-card-head">
             <div class="pf-icon">🎙️</div>
@@ -1149,7 +1146,6 @@
           </ul>
         </div>
 
-        <!-- Picture Speaking -->
         <div class="platform-card">
           <div class="platform-card-head">
             <div class="pf-icon">🖼️</div>
@@ -1161,7 +1157,6 @@
           </ul>
         </div>
 
-        <!-- Old Questions (full width) -->
         <div class="platform-card full-width">
           <div class="platform-card-head">
             <div class="pf-icon">📂</div>
@@ -1404,11 +1399,13 @@
       return;
     }
 
+    // ✅ Session save — learning.html နှင့် တွဲဖက်အလုပ်လုပ်ရန်
     const session = {
       username: username,
       loginAt: new Date().toISOString()
     };
     localStorage.setItem('mept_session', JSON.stringify(session));
+
     showDashboard(session);
     closeLogin();
     loginForm.reset();
