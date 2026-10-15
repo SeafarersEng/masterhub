@@ -623,6 +623,38 @@
     }
     .login-error.show { display: block; }
 
+    .login-success {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #bbf7d0;
+      display: none;
+      text-align: center;
+    }
+    .login-success.show { display: block; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(26, 18, 8, 0.3);
+      border-top-color: #1a1208;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-hero:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
     .tg-note {
       margin-top: 20px;
       padding-top: 18px;
@@ -638,6 +670,24 @@
       text-decoration: none;
     }
     .tg-note a:hover { text-decoration: underline; }
+
+    /* Device ID Badge */
+    .device-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 100px;
+      font-size: 11px;
+      color: #bbf7d0;
+      font-family: 'SF Mono', monospace;
+      margin-top: 16px;
+      justify-content: center;
+    }
+    .device-badge i { color: #22c55e; }
+    .device-badge b { color: #fff; }
 
     /* ================================================================
        DASHBOARD
@@ -1237,11 +1287,18 @@
         <small class="hint">✅ Key တစ်ခုကို Device တစ်ခုမှာသာ Activate လုပ်နိုင်ပါသည်။</small>
       </div>
 
-      <button type="submit" class="btn-hero btn-hero-gold" style="width:100%;">
+      <button type="submit" class="btn-hero btn-hero-gold" style="width:100%;" id="loginBtn">
         <i class="fas fa-sign-in-alt"></i> Login ဝင်မည်
       </button>
       <div id="loginError" class="login-error"></div>
+      <div id="loginSuccess" class="login-success"></div>
     </form>
+
+    <div class="device-badge">
+      <i class="fas fa-shield-alt"></i>
+      <span>Device:</span>
+      <b id="deviceIdDisplay">...</b>
+    </div>
 
     <div class="tg-note">
       📱 Account ဖွင့်ရန်
@@ -1363,52 +1420,171 @@
 <!-- ================= SCRIPT ================= -->
 <script>
   // ================================================================
+  // ⚙️ CONFIGURATION — Apps Script URL + Token
+  // ================================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec";
+  const SECRET_TOKEN = "MySecretToken123";  // ⚠️ Apps Script ထဲက Token နဲ့ တူညီရမည်
+
+  // ================================================================
+  // 🔐 DEVICE ID GENERATOR
+  // ================================================================
+  function generateDeviceId() {
+    const parts = [
+      navigator.userAgent || '',
+      navigator.language || '',
+      navigator.platform || '',
+      screen.width + 'x' + screen.height,
+      screen.colorDepth || '',
+      new Date().getTimezoneOffset(),
+      navigator.hardwareConcurrency || '',
+      navigator.deviceMemory || '',
+      navigator.maxTouchPoints || ''
+    ];
+    try {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = '14px Arial';
+      ctx.fillStyle = '#f60';
+      ctx.fillRect(125, 1, 62, 20);
+      ctx.fillStyle = '#069';
+      ctx.fillText('MEPT-FP', 2, 15);
+      parts.push(canvas.toDataURL());
+    } catch (e) {
+      parts.push('canvas-err');
+    }
+    const combined = parts.join('|');
+    let hash = 2166136261;
+    for (let i = 0; i < combined.length; i++) {
+      hash ^= combined.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    hash = hash >>> 0;
+    return 'DEV-' + hash.toString(36).toUpperCase().padStart(7, '0');
+  }
+
+  const DEVICE_ID = generateDeviceId();
+
+  // ================================================================
+  // DOM
+  // ================================================================
+  const loginOverlay  = document.getElementById('login-overlay');
+  const loginForm     = document.getElementById('loginForm');
+  const loginError    = document.getElementById('loginError');
+  const loginSuccess  = document.getElementById('loginSuccess');
+  const loginBtn      = document.getElementById('loginBtn');
+  const deviceIdDisp  = document.getElementById('deviceIdDisplay');
+  const landingEl     = document.getElementById('landing-container');
+  const dashEl        = document.getElementById('dashboard');
+  const welcomeUser   = document.getElementById('welcomeUser');
+  const logoutBtn     = document.getElementById('logoutBtn');
+
+  if (deviceIdDisp) deviceIdDisp.textContent = DEVICE_ID;
+
+  // ================================================================
   // LOGIN OVERLAY
   // ================================================================
-  const loginOverlay = document.getElementById('login-overlay');
-  const loginForm    = document.getElementById('loginForm');
-  const loginError   = document.getElementById('loginError');
-  const landingEl    = document.getElementById('landing-container');
-  const dashEl       = document.getElementById('dashboard');
-  const welcomeUser  = document.getElementById('welcomeUser');
-  const logoutBtn    = document.getElementById('logoutBtn');
-
   function openLogin() {
     loginOverlay.classList.add('open');
+    loginError.classList.remove('show');
+    loginSuccess.classList.remove('show');
     setTimeout(() => document.getElementById('username').focus(), 200);
   }
   function closeLogin() {
     loginOverlay.classList.remove('open');
     loginError.classList.remove('show');
+    loginSuccess.classList.remove('show');
   }
   loginOverlay.addEventListener('click', (e) => {
     if (e.target === loginOverlay) closeLogin();
   });
 
   // ================================================================
-  // LOGIN SUBMIT
+  // SHOW / HIDE MESSAGES
   // ================================================================
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+  function showError(msg) {
+    loginSuccess.classList.remove('show');
+    loginError.textContent = msg;
+    loginError.classList.add('show');
+  }
+  function showSuccess(msg) {
+    loginError.classList.remove('show');
+    loginSuccess.textContent = msg;
+    loginSuccess.classList.add('show');
+  }
+  function setLoading(on) {
+    if (on) {
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<span class="spinner"></span> စစ်ဆေးနေသည်...';
+    } else {
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login ဝင်မည်';
+    }
+  }
 
-    if (!username || !password) {
-      loginError.textContent = '⚠️ Username နှင့် Key နှစ်ခုလုံး ဖြည့်ပါ။';
-      loginError.classList.add('show');
+  // ================================================================
+  // LOGIN SUBMIT — Apps Script ချိတ်ဆက်
+  // ================================================================
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.classList.remove('show');
+    loginSuccess.classList.remove('show');
+
+    const username = document.getElementById('username').value.trim();
+    const key = document.getElementById('password').value.trim();
+
+    if (!username || !key) {
+      showError('⚠️ Username နှင့် Key နှစ်ခုလုံး ဖြည့်ပါ။');
       return;
     }
 
-    // ✅ Session save — learning.html နှင့် တွဲဖက်အလုပ်လုပ်ရန်
-    const session = {
-      username: username,
-      loginAt: new Date().toISOString()
-    };
-    localStorage.setItem('mept_session', JSON.stringify(session));
+    setLoading(true);
 
-    showDashboard(session);
-    closeLogin();
-    loginForm.reset();
+    try {
+      // Apps Script သို့ POST
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          token: SECRET_TOKEN,
+          key: key,
+          username: username,
+          deviceId: DEVICE_ID
+        }),
+        redirect: 'follow'
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (data.success === true) {
+        // ✅ Login အောင်မြင်
+        showSuccess('✅ ' + (data.message || 'Login အောင်မြင်ပါသည်။'));
+
+        const session = {
+          username: username,
+          key: key,
+          deviceId: DEVICE_ID,
+          loginAt: new Date().toISOString()
+        };
+        localStorage.setItem('mept_session', JSON.stringify(session));
+
+        setTimeout(() => {
+          showDashboard(session);
+          closeLogin();
+          loginForm.reset();
+        }, 800);
+
+      } else {
+        // ❌ Login မအောင်မြင်
+        showError('❌ ' + (data.message || 'Login မအောင်မြင်ပါ။'));
+      }
+
+    } catch (err) {
+      console.error('Login error:', err);
+      setLoading(false);
+      showError('⚠️ ကွန်ရက် အမှား ဖြစ်ပွားသည်။ Internet စစ်ပြီး ထပ်ကြိုးစားပါ။');
+    }
   });
 
   // ================================================================
