@@ -1,795 +1,934 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Picture Speaking – MEPT Learning</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        /* ===== RESET & BASE (mobile-first) ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picture Speaking – MEPT Master Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ============ BASE ============ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0a1a3a 0%, #0f2f5f 50%, #0a1a3a 100%);
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+      color: #eef2ff;
+    }
 
-        body {
-            background: #f0f4f9;
-            min-height: 100vh;
-            padding: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+    /* animated background orbs */
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 500px; height: 500px;
+      background: #1d4ed8;
+      top: -180px; left: -150px;
+      animation: floatA 18s ease-in-out infinite;
+    }
+    body::after {
+      width: 460px; height: 460px;
+      background: #0891b2;
+      bottom: -180px; right: -150px;
+      animation: floatB 22s ease-in-out infinite;
+    }
+    @keyframes floatA {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(50px, 40px); }
+    }
+    @keyframes floatB {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(-40px, -50px); }
+    }
 
-        .container {
-            max-width: 480px;
-            width: 100%;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 28px;
-            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
-            padding: 20px 16px 30px;
-        }
+    /* ============ CONTAINER ============ */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        /* ===== HEADER ===== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #eef2f7;
-            padding-bottom: 14px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+    /* ============ NAVBAR ============ */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 22px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .navbar h1 {
+      font-size: 20px; color: #fff; font-weight: 800;
+      display: flex; align-items: center; gap: 10px;
+      letter-spacing: 0.3px;
+    }
+    .navbar h1 i {
+      color: #38bdf8;
+      font-size: 22px;
+    }
+    .navbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-back, .btn-home {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 100px;
+      font-size: 13.5px; font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+      font-family: inherit;
+      display: inline-flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .btn-back:hover, .btn-home:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+    .btn-back:active, .btn-home:active { transform: scale(0.97); }
+    .btn-home {
+      background: linear-gradient(120deg, #3b82f6, #06b6d4);
+      border-color: transparent;
+      box-shadow: 0 8px 20px -8px rgba(59, 130, 246, 0.8);
+    }
 
-        .header h2 {
-            font-size: 20px;
-            color: #0a2a4a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    /* ============ HERO ============ */
+    .hero-section {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 26px 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.28), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-section h2 {
+      font-size: 22px; color: #fff;
+      font-weight: 800; margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-section h2 i {
+      color: #38bdf8;
+      font-size: 24px;
+    }
+    .hero-section p {
+      font-size: 14.5px;
+      color: #c4d2e8;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      padding: 6px 14px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 100px;
+      color: #bbf7d0;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-        .header h2 i {
-            color: #2563eb;
-            font-size: 22px;
-        }
+    /* ============ GRID ============ */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .grid-container { grid-template-columns: 1fr; }
+    }
 
-        .btn-back {
-            background: #eef2f7;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 13px;
-            color: #1f3a5f;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-        }
+    /* ============ CARD ============ */
+    .speaking-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 24px 22px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .speaking-card:hover {
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 24px 50px -22px rgba(59, 130, 246, 0.5);
+    }
 
-        .btn-back:hover {
-            background: #dce3ed;
-        }
-        .btn-back:active {
-            transform: scale(0.96);
-        }
+    /* ============ TAG ============ */
+    .speaking-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #bfdbfe;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
 
-        /* ===== SPEAKING CARD ===== */
-        .speaking-card {
-            background: #fafcff;
-            border-radius: 18px;
-            padding: 18px 16px;
-            margin-bottom: 16px;
-            border-left: 6px solid #2563eb;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            transition: 0.15s;
-        }
+    /* ============ CARD HEADER ============ */
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      color: #38bdf8;
+      flex-shrink: 0;
+    }
+    .card-header h3 {
+      font-size: 17px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      line-height: 1.3;
+    }
 
-        .speaking-tag {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 2px 14px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+    /* ============ PICTURE ============ */
+    .picture-container {
+      margin: 8px 0 14px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px dashed rgba(56, 189, 248, 0.35);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .picture-container img {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #0a1a3a;
+      box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.7);
+      transition: 0.4s;
+      pointer-events: none;
+    }
+    .speaking-card:hover .picture-container img {
+      transform: scale(1.02);
+    }
+    .picture-container .img-placeholder {
+      display: none;
+      padding: 24px 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 10px;
+      color: #fecaca;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .picture-container .img-placeholder i {
+      font-size: 26px;
+      display: block;
+      margin-bottom: 8px;
+      color: #f87171;
+    }
 
-        .speaking-card h3 {
-            font-size: 17px;
-            color: #0a2a4a;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
+    /* ============ DESCRIPTION ============ */
+    .description-text {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #c4d2e8;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
 
-        .speaking-card h3 i {
-            color: #2563eb;
-            margin-right: 6px;
-        }
+    /* ============ REVEAL BUTTON ============ */
+    .reveal-trigger-btn {
+      background: linear-gradient(120deg, #3b82f6, #06b6d4);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: inherit;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.25s;
+      width: 100%;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 24px -10px rgba(59, 130, 246, 0.8);
+    }
+    .reveal-trigger-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px -12px rgba(59, 130, 246, 1);
+    }
+    .reveal-trigger-btn:active { transform: scale(0.98); }
 
-        /* ===== PICTURE CONTAINER ===== */
-        .picture-container {
-            margin: 12px 0;
-            text-align: center;
-            background: #f8faff;
-            border-radius: 12px;
-            padding: 10px;
-            border: 1px dashed #bfdbfe;
-        }
+    /* ============ DETAILS BOX ============ */
+    .details-box {
+      display: none;
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 16px 18px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      gap: 14px;
+      flex-direction: column;
+      animation: slideDown 0.35s ease;
+    }
+    .details-box.show {
+      display: flex;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .picture-container img {
-            max-width: 100%;
-            width: 100%;
-            height: auto;
-            max-height: 260px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            background: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .detail-row + .detail-row {
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .detail-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        .picture-container .img-placeholder {
-            display: none;
-            padding: 20px;
-            background: #fef2f2;
-            border-radius: 8px;
-            color: #dc2626;
-            font-weight: 500;
-            font-size: 14px;
-        }
+    /* ============ BULLETS ============ */
+    .bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bullet-item {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #d4def0;
+      padding: 10px 14px 10px 16px;
+      background: rgba(59, 130, 246, 0.08);
+      border-radius: 10px;
+      border-left: 3px solid #3b82f6;
+    }
+    .bullet-item strong {
+      color: #fbbf24;
+      font-weight: 700;
+    }
 
-        /* ===== DESCRIPTION ===== */
-        .description-text {
-            font-size: 14px;
-            line-height: 1.8;
-            color: #1f3a5f;
-            background: #f8faff;
-            padding: 12px 14px;
-            border-radius: 10px;
-            border: 1px solid #e8edf5;
-            margin-bottom: 12px;
-        }
+    /* ============ VOCAB ============ */
+    .vocab-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 4px;
+    }
+    .vocab-box span {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #bae6fd;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .vocab-box span:hover {
+      background: rgba(56, 189, 248, 0.28);
+      transform: translateY(-1px);
+    }
 
-        /* ===== BULLET LIST ===== */
-        .bullet-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin: 10px 0 12px;
-            padding-left: 8px;
-        }
+    /* ============ FOOTER ============ */
+    .footer {
+      margin-top: 30px;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      font-size: 12.5px;
+      color: #8fa6c4;
+      letter-spacing: 0.5px;
+    }
+    .footer i {
+      color: #38bdf8;
+      margin: 0 4px;
+    }
+    .footer b {
+      color: #7dd3fc;
+      font-weight: 700;
+    }
 
-        .bullet-item {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #1f3a5f;
-            padding: 6px 12px;
-            background: #f8faff;
-            border-radius: 6px;
-            border-left: 3px solid #2563eb;
-        }
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 768px) {
+      body { padding: 14px; }
+      .navbar { padding: 14px 16px; }
+      .navbar h1 { font-size: 17px; }
+      .navbar h1 i { font-size: 18px; }
+      .hero-section { padding: 20px 18px; }
+      .hero-section h2 { font-size: 18px; }
+      .hero-section h2 i { font-size: 20px; }
+      .hero-section p { font-size: 13.5px; }
+      .speaking-card { padding: 20px 16px; }
+      .card-header h3 { font-size: 15.5px; }
+      .card-icon { width: 42px; height: 42px; font-size: 19px; }
+      .picture-container img { max-height: 220px; }
+      .btn-back, .btn-home {
+        padding: 7px 16px;
+        font-size: 12.5px;
+      }
+    }
 
-        .bullet-item strong {
-            color: #1e40af;
-        }
-
-        /* ===== VOCAB BOX ===== */
-        .vocab-box {
-            background: #eff6ff;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #1f3a5f;
-            margin: 10px 0 4px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-            border: 1px solid #dbeafe;
-        }
-
-        .vocab-box strong {
-            color: #2563eb;
-            margin-right: 4px;
-            font-size: 12px;
-        }
-
-        .vocab-box span {
-            background: #fff;
-            padding: 2px 12px;
-            border-radius: 50px;
-            border: 1px solid #bfdbfe;
-            font-size: 12px;
-            color: #1e3a5f;
-        }
-
-        /* ===== REVEAL BUTTON ===== */
-        .reveal-trigger-btn {
-            background: #eef2f7;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #2563eb;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 4px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .reveal-trigger-btn:active {
-            background: #dce3ed;
-            transform: scale(0.97);
-        }
-
-        /* ===== DETAILS BOX ===== */
-        .details-box {
-            display: none;
-            margin-top: 14px;
-            background: #f0f7ff;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border: 1px solid #bfdbfe;
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .details-box.show {
-            display: flex;
-        }
-
-        .detail-row {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 4px 0;
-            border-bottom: 1px solid #e2edf7;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #2563eb;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            margin-top: 20px;
-            padding-top: 14px;
-            border-top: 2px solid #eef2f7;
-            text-align: center;
-            font-size: 11px;
-            color: #94a3b8;
-        }
-
-        .footer i {
-            color: #2563eb;
-            margin: 0 4px;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 420px) {
-            .container {
-                padding: 14px 12px 20px;
-            }
-            .speaking-card {
-                padding: 14px 12px;
-            }
-            .speaking-card h3 {
-                font-size: 15px;
-            }
-            .description-text {
-                font-size: 13px;
-                padding: 10px 12px;
-            }
-            .bullet-item {
-                font-size: 13px;
-                padding: 5px 10px;
-            }
-            .header h2 {
-                font-size: 17px;
-            }
-            .btn-back {
-                font-size: 12px;
-                padding: 5px 12px;
-            }
-            .picture-container img {
-                max-height: 200px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .vocab-box span {
-                font-size: 11px;
-                padding: 1px 10px;
-            }
-        }
-    </style>
+    @media (max-width: 420px) {
+      .speaking-card { padding: 18px 14px; }
+      .card-header h3 { font-size: 14.5px; }
+      .description-text { font-size: 12.5px; padding: 12px 14px; }
+      .bullet-item { font-size: 12.5px; padding: 9px 12px; }
+      .vocab-box span { font-size: 11px; padding: 4px 12px; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
+  <div class="container">
 
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <h2><i class="fas fa-image"></i> Picture Speaking</h2>
-            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
-        </div>
-
-        <!-- ===== CONTENT ===== -->
-        <div id="pictureSpeakingList"></div>
-
-        <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            <i class="fas fa-check-circle"></i> 14 picture topics &bull; MEPT
-        </div>
-
+    <!-- ================= NAVBAR ================= -->
+    <div class="navbar">
+      <h1><i class="fas fa-image"></i> Picture Speaking</h1>
+      <div class="navbar-actions">
+        <a href="learning.html" class="btn-back">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <a href="login.html" class="btn-home">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </div>
     </div>
-<script>
-  (function () {
-    const raw = localStorage.getItem('mept_session');
-    if (!raw) {
-      window.location.replace('index.html');
-      return;
-    }
-    try {
-      const session = JSON.parse(raw);
-      if (!session || !session.username) {
+
+    <!-- ================= HERO ================= -->
+    <section class="hero-section">
+      <h2><i class="fas fa-camera"></i> Picture Description Practice</h2>
+      <p>
+        Maritime English နှင့် General English ပုံများကို ကြည့်ရှုပြီး Speaking စွမ်းရည်ကို လေ့ကျင့်ပါ။
+        ပုံတစ်ပုံချင်းစီအတွက် description, key points နှင့် vocabulary များကို ကြည့်ရှုနိုင်ပါသည်။
+      </p>
+      <div class="hero-badge">
+        <i class="fas fa-check-circle"></i> 26 Picture Topics
+      </div>
+    </section>
+
+    <!-- ================= CONTENT ================= -->
+    <div id="pictureSpeakingList" class="grid-container"></div>
+
+    <!-- ================= FOOTER ================= -->
+    <div class="footer">
+      <i class="fas fa-anchor"></i> MEPT <b>Picture Speaking</b> <i class="fas fa-anchor"></i>
+      <br>
+      <span style="font-size: 11px;">Maritime English Test · TTNY Team</span>
+    </div>
+
+  </div>
+
+  <!-- ================= LOGIN GUARD ================= -->
+  <script>
+    // ================================================================
+    // 🔐 LOGIN GUARD — mept_session စစ်
+    // ================================================================
+    (function () {
+      const raw = localStorage.getItem('mept_session');
+      if (!raw) {
+        window.location.replace('index.html');
+        return;
+      }
+      try {
+        const session = JSON.parse(raw);
+        if (!session || !session.id) {
+          localStorage.removeItem('mept_session');
+          window.location.replace('index.html');
+        }
+      } catch (e) {
         localStorage.removeItem('mept_session');
         window.location.replace('index.html');
       }
-    } catch (e) {
-      localStorage.removeItem('mept_session');
-      window.location.replace('index.html');
-    }
-  })();
-</script>
-    <script>
-        // ============================================================
-        // PICTURE SPEAKING TOPICS (14 topics)
-        // ============================================================
-        const PICTURE_SPEAKING_TOPICS = [{
-            id: 1,
-            title: "Fire Extinguisher",
-            description: "A fire extinguisher is a vital safety device used to put out small, controllable fires on board a ship. Every crew member must know its location and how to operate it safely using the PASS method—Pull, Aim, Squeeze, and Sweep. Using the correct type of extinguisher for electrical, oil, or paper fires is essential to prevent accidents.",
-            bullets: [
-                "In this picture, I can see a red fire extinguisher mounted on the wall.",
-                "The person is checking the pressure gauge to ensure it is ready for use.",
-                "<strong>This is important</strong> because quick access to a working extinguisher can stop a small fire from spreading."
-            ],
-            vocab: "fire extinguisher, PASS method, pressure gauge, electrical fires, oil fires, safety device"
-        }, {
-            id: 2,
-            title: "Man Overboard (MOB)",
-            description: "A Man Overboard situation is a critical life-threatening emergency at sea. When someone falls into the water, the immediate priority is to alert the crew, mark the location, and keep continuous visual contact with the person. Quick action and teamwork are crucial to saving a life in rough ocean conditions.",
-            bullets: [
-                "In this picture, I can see a lifebuoy being thrown into the water.",
-                "The crew member is shouting 'Man Overboard' and pointing directly at the person in the sea.",
-                "<strong>This is important</strong> because keeping visual contact is essential to locate and rescue the victim quickly."
-            ],
-            vocab: "Man Overboard, lifebuoy, visual contact, rescue, emergency, teamwork"
-        }, {
-            id: 3,
-            title: "Abandon Ship",
-            description: "Abandoning ship is the final emergency action taken only under direct orders from the Master when the vessel cannot be saved. Crew members must act calmly, wear warm clothing, put on their lifejackets or immersion suits, and gather at their designated muster stations with essential survival gear.",
-            bullets: [
-                "In this picture, I can see crew members wearing lifejackets and gathering at the muster station.",
-                "They are preparing to launch the lifeboat under the officer's command.",
-                "<strong>This is important</strong> because strict discipline and order save lives during a total evacuation."
-            ],
-            vocab: "Abandon Ship, Master, muster station, immersion suits, lifeboat, evacuation"
-        }, {
-            id: 4,
-            title: "Restricted Area",
-            description: "Restricted areas on a ship are specific zones, such as the Navigation Bridge, Engine Control Room, and Cargo Control Room, where entry is controlled. To comply with ISPS security rules, unauthorized personnel are strictly prohibited from entering these areas without explicit permission from duty officers.",
-            bullets: [
-                "In this picture, I can see a warning sign that says 'Restricted Area - No Unauthorized Entry.'",
-                "An officer is checking the identity badge of a person before allowing entry.",
-                "<strong>This is important</strong> because securing critical spaces prevents accidents, unauthorized operations, and security threats."
-            ],
-            vocab: "Restricted Area, ISPS, Navigation Bridge, unauthorized, identity badge, security"
-        }, {
-            id: 5,
-            title: "Oil Pollution",
-            description: "Oil pollution poses a severe environmental threat to marine life and coastal ecosystems. Ships must comply strictly with MARPOL Annex I regulations during bunkering, cargo operations, and sludge transfer to prevent any oil spills into the sea.",
-            bullets: [
-                "In this picture, I can see an oil spill spreading on the deck during bunkering.",
-                "The crew members are using SOPEP absorbent pads and booms to clean up the oil.",
-                "<strong>This is important</strong> because preventing oil from reaching the sea protects marine life and avoids heavy legal fines."
-            ],
-            vocab: "Oil Pollution, MARPOL, bunkering, SOPEP, absorbent pads, marine life"
-        }, {
-            id: 6,
-            title: "Alcohol Policy",
-            description: "To maintain safety at sea, shipping companies enforce a strict alcohol policy, often maintaining zero tolerance. Alcohol impairs judgment and physical coordination, significantly increasing the risk of accidents during watches and hazardous operations.",
-            bullets: [
-                "In this picture, I can see a safety officer conducting a breathalyzer test on a crew member.",
-                "The seafarer is blowing into the testing device before starting his watch duty.",
-                "<strong>This is important</strong> because working under the influence of alcohol endangers the safety of the entire ship."
-            ],
-            vocab: "Alcohol Policy, zero tolerance, breathalyzer, watch duty, judgment, safety"
-        }, {
-            id: 7,
-            title: "Heavy Weather",
-            description: "Heavy weather conditions present severe operational challenges, including high waves, strong winds, and heavy vessel rolling. Before entering rough seas, crew members must secure all loose gear, double-check cargo lashings, and seal all weather-tight doors to keep the vessel stable and safe.",
-            bullets: [
-                "In this picture, I can see massive ocean waves crashing against the ship's main deck.",
-                "The crew is securing loose equipment and tightening lashings in advance.",
-                "<strong>This is important</strong> because proper preparation prevents cargo shift, structural damage, and crew injuries."
-            ],
-            vocab: "Heavy Weather, rolling, lashings, weather-tight, cargo shift, structural damage"
-        }, {
-            id: 8,
-            title: "Garbage Management Plan",
-            description: "Under MARPOL Annex V, every ship must maintain a Garbage Management Plan to properly collect, store, and dispose of waste. Plastics must never be discharged into the sea, and all garbage must be strictly segregated into designated bins on board.",
-            bullets: [
-                "In this picture, I can see color-coded garbage bins labeled for plastics, food waste, and paper.",
-                "A crew member is sorting waste items into the correct disposal bins.",
-                "<strong>This is important</strong> because proper waste management keeps the sea clean and complies with international maritime law."
-            ],
-            vocab: "Garbage Management, MARPOL, color-coded bins, plastics, segregation, maritime law"
-        }, {
-            id: 9,
-            title: "Personal Protective Equipment (PPE)",
-            description: "Personal Protective Equipment (PPE) is the primary defense against workplace injuries on board. Standard PPE includes safety helmets, steel-toe boots, protective gloves, goggles, coveralls, and hearing protection, which must be worn depending on the job risks.",
-            bullets: [
-                "In this picture, I can see a worker wearing a safety helmet, coveralls, gloves, and safety boots.",
-                "The person is inspecting his gear before beginning a deck maintenance task.",
-                "<strong>This is important</strong> because wearing appropriate PPE prevents serious injuries from falling objects, chemicals, and mechanical hazards."
-            ],
-            vocab: "PPE, safety helmet, coveralls, goggles, maintenance, mechanical hazards"
-        }, {
-            id: 10,
-            title: "Oil Leak",
-            description: "An oil leak in the engine room or on deck creates serious fire and slip hazards. Immediate corrective actions involve stopping the machinery, containing the leak with a drip tray, and reporting the incident to the duty engineer or officer.",
-            bullets: [
-                "In this picture, I can see oil leaking from a pipe flange onto the engine room floor.",
-                "An engineer is placing a drip tray beneath the leak and tightening the pipe fitting.",
-                "<strong>This is important</strong> because prompt action prevents slip accidents, environmental contamination, and potential fire hazards."
-            ],
-            vocab: "Oil Leak, engine room, drip tray, pipe flange, contamination, fire hazards"
-        }, {
-            id: 11,
-            title: "Explosion",
-            description: "An explosion on board can cause catastrophic damage, fires, and immediate structural danger to the vessel. In the event of an explosion, crew members must immediately raise the general alarm, report the location, and follow emergency response procedures.",
-            bullets: [
-                "In this picture, I can see heavy smoke and flame rising from a compartment on board.",
-                "The fire squad is advancing with a fire hose line to fight the fire.",
-                "<strong>This is important</strong> because fast emergency response isolates the damage and prevents further explosions."
-            ],
-            vocab: "Explosion, catastrophic damage, general alarm, fire squad, emergency response"
-        }, {
-            id: 12,
-            title: "First Aid",
-            description: "First aid is the immediate care given to an injured or ill crew member before professional medical help is available. Seafarers trained in first aid use basic techniques like CPR, wound dressing, and fracture stabilization to preserve life and prevent condition worsening.",
-            bullets: [
-                "In this picture, I can see a trained crew member applying a clean bandage to a colleague's injured arm.",
-                "The first responder is checking the casualty's breathing and pulse carefully.",
-                "<strong>This is important</strong> because timely first aid stabilizes the patient's condition until medical assistance arrives."
-            ],
-            vocab: "First Aid, CPR, wound dressing, fracture, first responder, casualty"
-        }, {
-            id: 13,
-            title: "Lifejacket",
-            description: "A lifejacket is an essential life-saving appliance designed to keep an unconscious person afloat with their mouth and nose clear of the water. Crew members must ensure their lifejackets are in good working condition, fitted with a working light, whistle, and retro-reflective tape.",
-            bullets: [
-                "In this picture, I can see an orange lifejacket equipped with a whistle and automatic light.",
-                "The seafarer is tightening the waist straps to ensure a secure and proper fit.",
-                "<strong>This is important</strong> because a correctly fitted lifejacket keeps a person afloat during water immersion emergencies."
-            ],
-            vocab: "Lifejacket, unconscious, retro-reflective tape, waist straps, immersion, emergency"
-        }, {
-            id: 14,
-            title: "Enclosed Space Entry",
-            description: "Enclosed spaces such as ballast tanks, cargo holds, and chain lockers pose high risks of oxygen depletion and toxic gas accumulation. Entry is strictly regulated and requires an Entry Permit, thorough atmosphere testing, continuous ventilation, and a designated standby person at the entrance.",
-            bullets: [
-                "In this picture, I can see an officer testing the air inside a manhole using a gas detector.",
-                "A standby crew member is holding a communication radio outside the entrance.",
-                "<strong>This is important</strong> because testing the atmosphere prevents fatal accidents caused by toxic gases or lack of oxygen."
-            ],
-            vocab: "Enclosed Space, Entry Permit, gas detector, oxygen depletion, toxic gas, standby person"
-        },
-         {
-    id: 15,
-    title: "Doctor Visit",
-    description: "A doctor is examining a patient in a modern clinic. The doctor is using a stethoscope to check the patient's heart. The patient looks calm and the clinic is clean and well-lit.",
-    image: "doctor_visit.png",
-    bullets: [
-        "In this picture, I can see a doctor in a white coat examining a patient.",
-        "The doctor is using a stethoscope to listen to the patient's heartbeat.",
-        "The patient is sitting on the examination bed and looks calm.",
-        "The clinic is clean, bright, and looks very professional.",
-        "<strong>This is important</strong> because regular health check-ups help prevent serious illnesses.",
-        "I think it is very important to visit the doctor regularly.",
-        "This picture reminds me that we should take care of our health."
-    ],
-    vocab: "doctor, patient, stethoscope, clinic, examination, health check-up, heartbeat, professional"
-}, {
-    id: 16,
-    title: "Friends Playing Football",
-    description: "A group of young friends is playing football on a green grass field. One player is kicking the ball while others are running and cheering. The weather is sunny and the atmosphere is energetic.",
-    image: "friends_playing_football.png",
-    bullets: [
-        "In this picture, I can see a group of young friends playing football.",
-        "They are on a green grass field under a bright blue sky.",
-        "One player is kicking the ball towards the goal with a lot of power.",
-        "Other players are running and trying to help their team.",
-        "Everyone looks very happy and energetic.",
-        "<strong>This is important</strong> because playing sports promotes teamwork and physical fitness.",
-        "I think playing football is a great way to stay healthy and make friends."
-    ],
-    vocab: "football, field, players, kicking, teamwork, fitness, energetic, goal"
-}, {
-    id: 17,
-    title: "Social Media Usage",
-    description: "A young person is sitting on a sofa using a smartphone. The screen shows social media apps like Instagram and Facebook. They look relaxed and engaged in what they are viewing.",
-    image: "social_media_usage.png",
-    bullets: [
-        "In this picture, I can see a young person using a smartphone.",
-        "They are sitting on a comfortable sofa at home.",
-        "The screen shows social media apps like Instagram and Facebook.",
-        "They look very relaxed and interested in what they are seeing.",
-        "I think social media is very popular these days.",
-        "<strong>This is important</strong> because social media connects people but should be used in moderation.",
-        "We should be careful not to spend too much time on our phones."
-    ],
-    vocab: "smartphone, social media, Instagram, Facebook, screen, connection, relaxed, comfortable"
-}, {
-    id: 18,
-    title: "Travel Package",
-    description: "A travel package is arranged on a wooden table. It includes a suitcase, backpack, smartphone, folded clothes, and an open passport. Everything looks neatly organized and ready for a trip.",
-    image: "travel_package.png",
-    bullets: [
-        "In this picture, I can see travel items arranged neatly on a wooden table.",
-        "There is a large suitcase and a backpack next to it.",
-        "I can also see a smartphone, some folded clothes, and an open passport.",
-        "Everything looks very organized and ready for a journey.",
-        "I think the person is preparing for a holiday or a business trip.",
-        "<strong>This is important</strong> because being well-prepared makes travel more enjoyable and stress-free.",
-        "I always like to pack my bags carefully before a trip."
-    ],
-    vocab: "suitcase, backpack, passport, luggage, travel, organized, prepared, journey"
-}, {
-    id: 19,
-    title: "Online Shopping",
-    description: "A person is shopping online on a laptop. The screen shows an e-commerce website with various products. They are holding a credit card and look satisfied with their purchase.",
-    image: "online_shopping.png",
-    bullets: [
-        "In this picture, I can see a person doing online shopping.",
-        "They are using a laptop and looking at an e-commerce website.",
-        "The screen shows different products with prices and pictures.",
-        "They are holding a credit card and look very satisfied.",
-        "I think they found a good product and are about to buy it.",
-        "<strong>This is important</strong> because online shopping is very convenient and offers many choices.",
-        "I often buy things online because it saves time."
-    ],
-    vocab: "online shopping, laptop, e-commerce, website, credit card, purchase, convenient, choices"
-}, {
-    id: 20,
-    title: "Bus Station Waiting",
-    description: "Passengers are waiting for the bus at a busy station. Some people are sitting on benches, while others are standing with their luggage. A large bus is arriving in the background.",
-    image: "bus_station_waiting.png",
-    bullets: [
-        "In this picture, I can see a busy bus station.",
-        "Many passengers are waiting for the bus to arrive.",
-        "Some people are sitting on benches and reading or using their phones.",
-        "Others are standing with their luggage and looking towards the road.",
-        "A large bus is coming in the background.",
-        "<strong>This is important</strong> because public transport is essential for daily commuting and travel.",
-        "I often take the bus to go to work or to visit friends."
-    ],
-    vocab: "bus station, passengers, luggage, benches, public transport, commuting, waiting"
-}, {
-    id: 21,
-    title: "Beach Activities",
-    description: "A beautiful beach scene with people playing volleyball, swimming in the sea, and relaxing on the sand. Children are building sandcastles. The sky is bright and the water is clear.",
-    image: "beach_activities.png",
-    bullets: [
-        "In this picture, I can see a beautiful beach on a sunny day.",
-        "Some people are playing volleyball on the sand.",
-        "Others are swimming in the clear blue sea.",
-        "A group of children is building sandcastles near the shore.",
-        "Some people are just relaxing on the sand and enjoying the sun.",
-        "<strong>This is important</strong> because spending time at the beach is a great way to relax and enjoy nature.",
-        "I love going to the beach during summer holidays."
-    ],
-    vocab: "beach, volleyball, swimming, sand, relax, summer, shore, sunny"
-}, {
-    id: 22,
-    title: "Park Walking",
-    description: "A peaceful park scene with people walking and jogging on a winding path. Trees and flowers are in full bloom. A family is sitting on a bench enjoying the sunny weather.",
-    image: "park_walking.png",
-    bullets: [
-        "In this picture, I can see a peaceful and beautiful park.",
-        "There is a winding path where people are walking and jogging.",
-        "The trees and flowers are in full bloom and look very colourful.",
-        "A family is sitting on a bench and enjoying the nice weather.",
-        "Some children are running and playing on the grass.",
-        "<strong>This is important</strong> because walking in the park is a healthy and relaxing outdoor activity.",
-        "I like to go to the park when I want to relax and get some fresh air."
-    ],
-    vocab: "park, walking, jogging, bench, flowers, healthy lifestyle, peaceful, colourful"
-}, {
-    id: 23,
-    title: "Party Celebration",
-    description: "A lively party scene with friends celebrating together. Colorful balloons, decorations, and a birthday cake are on the table. Everyone is smiling and having a good time.",
-    image: "party_celebration.png",
-    bullets: [
-        "In this picture, I can see friends celebrating a special occasion together.",
-        "There are many colourful balloons and decorations everywhere.",
-        "A big birthday cake is on the table with candles.",
-        "Everyone looks very happy and is smiling.",
-        "I think someone is celebrating their birthday.",
-        "<strong>This is important</strong> because celebrating with friends and family strengthens relationships.",
-        "I really enjoy going to parties and celebrating with my friends."
-    ],
-    vocab: "party, celebration, balloons, decorations, birthday cake, friends, special occasion"
-}, {
-    id: 24,
-    title: "Coffee Shop",
-    description: "A cozy coffee shop scene with a person sitting at a wooden table holding a cup of coffee. A laptop and notebook are on the table. The atmosphere is warm and relaxing.",
-    image: "coffee_shop.png",
-    bullets: [
-        "In this picture, I can see a person sitting in a nice coffee shop.",
-        "They are sitting at a wooden table with a cup of coffee.",
-        "There is a laptop and a notebook on the table.",
-        "The atmosphere looks very warm, comfortable, and relaxing.",
-        "I think they are studying or working while enjoying their coffee.",
-        "<strong>This is important</strong> because coffee shops are popular places for relaxing, studying, or meeting friends.",
-        "I like to visit coffee shops when I want to relax or meet with friends."
-    ],
-    vocab: "coffee shop, coffee cup, laptop, relaxing, warm atmosphere, studying, comfortable"
-}, {
-    id: 25,
-    title: "Airport Departure",
-    description: "A busy airport terminal with passengers walking with luggage and checking in at counters. Large windows show airplanes parked on the tarmac. The atmosphere is busy and exciting.",
-    image: "airport_departure.png",
-    bullets: [
-        "In this picture, I can see a busy airport terminal.",
-        "Many passengers are walking with their luggage.",
-        "Some people are checking in at the airline counters.",
-        "Through the large windows, I can see airplanes parked on the tarmac.",
-        "The atmosphere looks very busy and exciting.",
-        "<strong>This is important</strong> because airports connect people to destinations around the world.",
-        "I always feel excited when I am at the airport before a trip."
-    ],
-    vocab: "airport, terminal, luggage, passengers, boarding, travel, tarmac, check-in"
-}, {
-    id: 26,
-    title: "Restaurant Dining",
-    description: "A warm and inviting restaurant scene with people enjoying a delicious meal together. The table is set with plates of food, glasses, and cutlery. Everyone looks happy and satisfied.",
-    image: "restaurant_dining.png",
-    bullets: [
-        "In this picture, I can see people having dinner at a nice restaurant.",
-        "The table is beautifully set with plates, glasses, and cutlery.",
-        "There are different dishes on the table that look very delicious.",
-        "Everyone is smiling and looks very happy.",
-        "I think they are enjoying a special dinner together.",
-        "<strong>This is important</strong> because dining out is a wonderful way to enjoy good food and quality time with loved ones.",
-        "I really enjoy eating out with my family and friends."
-    ],
-    vocab: "restaurant, dining, food, plates, enjoying, quality time, delicious, special dinner"
-}                                
-                                         
+    })();
+  </script>
 
+  <!-- ================= DATA + RENDER ================= -->
+  <script>
+    // ============================================================
+    // PICTURE SPEAKING TOPICS (26 topics)
+    // ============================================================
+    const PICTURE_SPEAKING_TOPICS = [
+      { id: 1, title: "Fire Extinguisher",
+        description: "A fire extinguisher is a vital safety device used to put out small, controllable fires on board a ship. Every crew member must know its location and how to operate it safely using the PASS method—Pull, Aim, Squeeze, and Sweep. Using the correct type of extinguisher for electrical, oil, or paper fires is essential to prevent accidents.",
+        bullets: [
+          "In this picture, I can see a red fire extinguisher mounted on the wall.",
+          "The person is checking the pressure gauge to ensure it is ready for use.",
+          "<strong>This is important</strong> because quick access to a working extinguisher can stop a small fire from spreading."
+        ],
+        vocab: "fire extinguisher, PASS method, pressure gauge, electrical fires, oil fires, safety device"
+      },
+      { id: 2, title: "Man Overboard (MOB)",
+        description: "A Man Overboard situation is a critical life-threatening emergency at sea. When someone falls into the water, the immediate priority is to alert the crew, mark the location, and keep continuous visual contact with the person. Quick action and teamwork are crucial to saving a life in rough ocean conditions.",
+        bullets: [
+          "In this picture, I can see a lifebuoy being thrown into the water.",
+          "The crew member is shouting 'Man Overboard' and pointing directly at the person in the sea.",
+          "<strong>This is important</strong> because keeping visual contact is essential to locate and rescue the victim quickly."
+        ],
+        vocab: "Man Overboard, lifebuoy, visual contact, rescue, emergency, teamwork"
+      },
+      { id: 3, title: "Abandon Ship",
+        description: "Abandoning ship is the final emergency action taken only under direct orders from the Master when the vessel cannot be saved. Crew members must act calmly, wear warm clothing, put on their lifejackets or immersion suits, and gather at their designated muster stations with essential survival gear.",
+        bullets: [
+          "In this picture, I can see crew members wearing lifejackets and gathering at the muster station.",
+          "They are preparing to launch the lifeboat under the officer's command.",
+          "<strong>This is important</strong> because strict discipline and order save lives during a total evacuation."
+        ],
+        vocab: "Abandon Ship, Master, muster station, immersion suits, lifeboat, evacuation"
+      },
+      { id: 4, title: "Restricted Area",
+        description: "Restricted areas on a ship are specific zones, such as the Navigation Bridge, Engine Control Room, and Cargo Control Room, where entry is controlled. To comply with ISPS security rules, unauthorized personnel are strictly prohibited from entering these areas without explicit permission from duty officers.",
+        bullets: [
+          "In this picture, I can see a warning sign that says 'Restricted Area - No Unauthorized Entry.'",
+          "An officer is checking the identity badge of a person before allowing entry.",
+          "<strong>This is important</strong> because securing critical spaces prevents accidents, unauthorized operations, and security threats."
+        ],
+        vocab: "Restricted Area, ISPS, Navigation Bridge, unauthorized, identity badge, security"
+      },
+      { id: 5, title: "Oil Pollution",
+        description: "Oil pollution poses a severe environmental threat to marine life and coastal ecosystems. Ships must comply strictly with MARPOL Annex I regulations during bunkering, cargo operations, and sludge transfer to prevent any oil spills into the sea.",
+        bullets: [
+          "In this picture, I can see an oil spill spreading on the deck during bunkering.",
+          "The crew members are using SOPEP absorbent pads and booms to clean up the oil.",
+          "<strong>This is important</strong> because preventing oil from reaching the sea protects marine life and avoids heavy legal fines."
+        ],
+        vocab: "Oil Pollution, MARPOL, bunkering, SOPEP, absorbent pads, marine life"
+      },
+      { id: 6, title: "Alcohol Policy",
+        description: "To maintain safety at sea, shipping companies enforce a strict alcohol policy, often maintaining zero tolerance. Alcohol impairs judgment and physical coordination, significantly increasing the risk of accidents during watches and hazardous operations.",
+        bullets: [
+          "In this picture, I can see a safety officer conducting a breathalyzer test on a crew member.",
+          "The seafarer is blowing into the testing device before starting his watch duty.",
+          "<strong>This is important</strong> because working under the influence of alcohol endangers the safety of the entire ship."
+        ],
+        vocab: "Alcohol Policy, zero tolerance, breathalyzer, watch duty, judgment, safety"
+      },
+      { id: 7, title: "Heavy Weather",
+        description: "Heavy weather conditions present severe operational challenges, including high waves, strong winds, and heavy vessel rolling. Before entering rough seas, crew members must secure all loose gear, double-check cargo lashings, and seal all weather-tight doors to keep the vessel stable and safe.",
+        bullets: [
+          "In this picture, I can see massive ocean waves crashing against the ship's main deck.",
+          "The crew is securing loose equipment and tightening lashings in advance.",
+          "<strong>This is important</strong> because proper preparation prevents cargo shift, structural damage, and crew injuries."
+        ],
+        vocab: "Heavy Weather, rolling, lashings, weather-tight, cargo shift, structural damage"
+      },
+      { id: 8, title: "Garbage Management Plan",
+        description: "Under MARPOL Annex V, every ship must maintain a Garbage Management Plan to properly collect, store, and dispose of waste. Plastics must never be discharged into the sea, and all garbage must be strictly segregated into designated bins on board.",
+        bullets: [
+          "In this picture, I can see color-coded garbage bins labeled for plastics, food waste, and paper.",
+          "A crew member is sorting waste items into the correct disposal bins.",
+          "<strong>This is important</strong> because proper waste management keeps the sea clean and complies with international maritime law."
+        ],
+        vocab: "Garbage Management, MARPOL, color-coded bins, plastics, segregation, maritime law"
+      },
+      { id: 9, title: "Personal Protective Equipment (PPE)",
+        description: "Personal Protective Equipment (PPE) is the primary defense against workplace injuries on board. Standard PPE includes safety helmets, steel-toe boots, protective gloves, goggles, coveralls, and hearing protection, which must be worn depending on the job risks.",
+        bullets: [
+          "In this picture, I can see a worker wearing a safety helmet, coveralls, gloves, and safety boots.",
+          "The person is inspecting his gear before beginning a deck maintenance task.",
+          "<strong>This is important</strong> because wearing appropriate PPE prevents serious injuries from falling objects, chemicals, and mechanical hazards."
+        ],
+        vocab: "PPE, safety helmet, coveralls, goggles, maintenance, mechanical hazards"
+      },
+      { id: 10, title: "Oil Leak",
+        description: "An oil leak in the engine room or on deck creates serious fire and slip hazards. Immediate corrective actions involve stopping the machinery, containing the leak with a drip tray, and reporting the incident to the duty engineer or officer.",
+        bullets: [
+          "In this picture, I can see oil leaking from a pipe flange onto the engine room floor.",
+          "An engineer is placing a drip tray beneath the leak and tightening the pipe fitting.",
+          "<strong>This is important</strong> because prompt action prevents slip accidents, environmental contamination, and potential fire hazards."
+        ],
+        vocab: "Oil Leak, engine room, drip tray, pipe flange, contamination, fire hazards"
+      },
+      { id: 11, title: "Explosion",
+        description: "An explosion on board can cause catastrophic damage, fires, and immediate structural danger to the vessel. In the event of an explosion, crew members must immediately raise the general alarm, report the location, and follow emergency response procedures.",
+        bullets: [
+          "In this picture, I can see heavy smoke and flame rising from a compartment on board.",
+          "The fire squad is advancing with a fire hose line to fight the fire.",
+          "<strong>This is important</strong> because fast emergency response isolates the damage and prevents further explosions."
+        ],
+        vocab: "Explosion, catastrophic damage, general alarm, fire squad, emergency response"
+      },
+      { id: 12, title: "First Aid",
+        description: "First aid is the immediate care given to an injured or ill crew member before professional medical help is available. Seafarers trained in first aid use basic techniques like CPR, wound dressing, and fracture stabilization to preserve life and prevent condition worsening.",
+        bullets: [
+          "In this picture, I can see a trained crew member applying a clean bandage to a colleague's injured arm.",
+          "The first responder is checking the casualty's breathing and pulse carefully.",
+          "<strong>This is important</strong> because timely first aid stabilizes the patient's condition until medical assistance arrives."
+        ],
+        vocab: "First Aid, CPR, wound dressing, fracture, first responder, casualty"
+      },
+      { id: 13, title: "Lifejacket",
+        description: "A lifejacket is an essential life-saving appliance designed to keep an unconscious person afloat with their mouth and nose clear of the water. Crew members must ensure their lifejackets are in good working condition, fitted with a working light, whistle, and retro-reflective tape.",
+        bullets: [
+          "In this picture, I can see an orange lifejacket equipped with a whistle and automatic light.",
+          "The seafarer is tightening the waist straps to ensure a secure and proper fit.",
+          "<strong>This is important</strong> because a correctly fitted lifejacket keeps a person afloat during water immersion emergencies."
+        ],
+        vocab: "Lifejacket, unconscious, retro-reflective tape, waist straps, immersion, emergency"
+      },
+      { id: 14, title: "Enclosed Space Entry",
+        description: "Enclosed spaces such as ballast tanks, cargo holds, and chain lockers pose high risks of oxygen depletion and toxic gas accumulation. Entry is strictly regulated and requires an Entry Permit, thorough atmosphere testing, continuous ventilation, and a designated standby person at the entrance.",
+        bullets: [
+          "In this picture, I can see an officer testing the air inside a manhole using a gas detector.",
+          "A standby crew member is holding a communication radio outside the entrance.",
+          "<strong>This is important</strong> because testing the atmosphere prevents fatal accidents caused by toxic gases or lack of oxygen."
+        ],
+        vocab: "Enclosed Space, Entry Permit, gas detector, oxygen depletion, toxic gas, standby person"
+      },
+      { id: 15, title: "Doctor Visit",
+        description: "A doctor is examining a patient in a modern clinic. The doctor is using a stethoscope to check the patient's heart. The patient looks calm and the clinic is clean and well-lit.",
+        bullets: [
+          "In this picture, I can see a doctor in a white coat examining a patient.",
+          "The doctor is using a stethoscope to listen to the patient's heartbeat.",
+          "The patient is sitting on the examination bed and looks calm.",
+          "The clinic is clean, bright, and looks very professional.",
+          "<strong>This is important</strong> because regular health check-ups help prevent serious illnesses.",
+          "I think it is very important to visit the doctor regularly.",
+          "This picture reminds me that we should take care of our health."
+        ],
+        vocab: "doctor, patient, stethoscope, clinic, examination, health check-up, heartbeat, professional"
+      },
+      { id: 16, title: "Friends Playing Football",
+        description: "A group of young friends is playing football on a green grass field. One player is kicking the ball while others are running and cheering. The weather is sunny and the atmosphere is energetic.",
+        bullets: [
+          "In this picture, I can see a group of young friends playing football.",
+          "They are on a green grass field under a bright blue sky.",
+          "One player is kicking the ball towards the goal with a lot of power.",
+          "Other players are running and trying to help their team.",
+          "Everyone looks very happy and energetic.",
+          "<strong>This is important</strong> because playing sports promotes teamwork and physical fitness.",
+          "I think playing football is a great way to stay healthy and make friends."
+        ],
+        vocab: "football, field, players, kicking, teamwork, fitness, energetic, goal"
+      },
+      { id: 17, title: "Social Media Usage",
+        description: "A young person is sitting on a sofa using a smartphone. The screen shows social media apps like Instagram and Facebook. They look relaxed and engaged in what they are viewing.",
+        bullets: [
+          "In this picture, I can see a young person using a smartphone.",
+          "They are sitting on a comfortable sofa at home.",
+          "The screen shows social media apps like Instagram and Facebook.",
+          "They look very relaxed and interested in what they are seeing.",
+          "I think social media is very popular these days.",
+          "<strong>This is important</strong> because social media connects people but should be used in moderation.",
+          "We should be careful not to spend too much time on our phones."
+        ],
+        vocab: "smartphone, social media, Instagram, Facebook, screen, connection, relaxed, comfortable"
+      },
+      { id: 18, title: "Travel Package",
+        description: "A travel package is arranged on a wooden table. It includes a suitcase, backpack, smartphone, folded clothes, and an open passport. Everything looks neatly organized and ready for a trip.",
+        bullets: [
+          "In this picture, I can see travel items arranged neatly on a wooden table.",
+          "There is a large suitcase and a backpack next to it.",
+          "I can also see a smartphone, some folded clothes, and an open passport.",
+          "Everything looks very organized and ready for a journey.",
+          "I think the person is preparing for a holiday or a business trip.",
+          "<strong>This is important</strong> because being well-prepared makes travel more enjoyable and stress-free.",
+          "I always like to pack my bags carefully before a trip."
+        ],
+        vocab: "suitcase, backpack, passport, luggage, travel, organized, prepared, journey"
+      },
+      { id: 19, title: "Online Shopping",
+        description: "A person is shopping online on a laptop. The screen shows an e-commerce website with various products. They are holding a credit card and look satisfied with their purchase.",
+        bullets: [
+          "In this picture, I can see a person doing online shopping.",
+          "They are using a laptop and looking at an e-commerce website.",
+          "The screen shows different products with prices and pictures.",
+          "They are holding a credit card and look very satisfied.",
+          "I think they found a good product and are about to buy it.",
+          "<strong>This is important</strong> because online shopping is very convenient and offers many choices.",
+          "I often buy things online because it saves time."
+        ],
+        vocab: "online shopping, laptop, e-commerce, website, credit card, purchase, convenient, choices"
+      },
+      { id: 20, title: "Bus Station Waiting",
+        description: "Passengers are waiting for the bus at a busy station. Some people are sitting on benches, while others are standing with their luggage. A large bus is arriving in the background.",
+        bullets: [
+          "In this picture, I can see a busy bus station.",
+          "Many passengers are waiting for the bus to arrive.",
+          "Some people are sitting on benches and reading or using their phones.",
+          "Others are standing with their luggage and looking towards the road.",
+          "A large bus is coming in the background.",
+          "<strong>This is important</strong> because public transport is essential for daily commuting and travel.",
+          "I often take the bus to go to work or to visit friends."
+        ],
+        vocab: "bus station, passengers, luggage, benches, public transport, commuting, waiting"
+      },
+      { id: 21, title: "Beach Activities",
+        description: "A beautiful beach scene with people playing volleyball, swimming in the sea, and relaxing on the sand. Children are building sandcastles. The sky is bright and the water is clear.",
+        bullets: [
+          "In this picture, I can see a beautiful beach on a sunny day.",
+          "Some people are playing volleyball on the sand.",
+          "Others are swimming in the clear blue sea.",
+          "A group of children is building sandcastles near the shore.",
+          "Some people are just relaxing on the sand and enjoying the sun.",
+          "<strong>This is important</strong> because spending time at the beach is a great way to relax and enjoy nature.",
+          "I love going to the beach during summer holidays."
+        ],
+        vocab: "beach, volleyball, swimming, sand, relax, summer, shore, sunny"
+      },
+      { id: 22, title: "Park Walking",
+        description: "A peaceful park scene with people walking and jogging on a winding path. Trees and flowers are in full bloom. A family is sitting on a bench enjoying the sunny weather.",
+        bullets: [
+          "In this picture, I can see a peaceful and beautiful park.",
+          "There is a winding path where people are walking and jogging.",
+          "The trees and flowers are in full bloom and look very colourful.",
+          "A family is sitting on a bench and enjoying the nice weather.",
+          "Some children are running and playing on the grass.",
+          "<strong>This is important</strong> because walking in the park is a healthy and relaxing outdoor activity.",
+          "I like to go to the park when I want to relax and get some fresh air."
+        ],
+        vocab: "park, walking, jogging, bench, flowers, healthy lifestyle, peaceful, colourful"
+      },
+      { id: 23, title: "Party Celebration",
+        description: "A lively party scene with friends celebrating together. Colorful balloons, decorations, and a birthday cake are on the table. Everyone is smiling and having a good time.",
+        bullets: [
+          "In this picture, I can see friends celebrating a special occasion together.",
+          "There are many colourful balloons and decorations everywhere.",
+          "A big birthday cake is on the table with candles.",
+          "Everyone looks very happy and is smiling.",
+          "I think someone is celebrating their birthday.",
+          "<strong>This is important</strong> because celebrating with friends and family strengthens relationships.",
+          "I really enjoy going to parties and celebrating with my friends."
+        ],
+        vocab: "party, celebration, balloons, decorations, birthday cake, friends, special occasion"
+      },
+      { id: 24, title: "Coffee Shop",
+        description: "A cozy coffee shop scene with a person sitting at a wooden table holding a cup of coffee. A laptop and notebook are on the table. The atmosphere is warm and relaxing.",
+        bullets: [
+          "In this picture, I can see a person sitting in a nice coffee shop.",
+          "They are sitting at a wooden table with a cup of coffee.",
+          "There is a laptop and a notebook on the table.",
+          "The atmosphere looks very warm, comfortable, and relaxing.",
+          "I think they are studying or working while enjoying their coffee.",
+          "<strong>This is important</strong> because coffee shops are popular places for relaxing, studying, or meeting friends.",
+          "I like to visit coffee shops when I want to relax or meet with friends."
+        ],
+        vocab: "coffee shop, coffee cup, laptop, relaxing, warm atmosphere, studying, comfortable"
+      },
+      { id: 25, title: "Airport Departure",
+        description: "A busy airport terminal with passengers walking with luggage and checking in at counters. Large windows show airplanes parked on the tarmac. The atmosphere is busy and exciting.",
+        bullets: [
+          "In this picture, I can see a busy airport terminal.",
+          "Many passengers are walking with their luggage.",
+          "Some people are checking in at the airline counters.",
+          "Through the large windows, I can see airplanes parked on the tarmac.",
+          "The atmosphere looks very busy and exciting.",
+          "<strong>This is important</strong> because airports connect people to destinations around the world.",
+          "I always feel excited when I am at the airport before a trip."
+        ],
+        vocab: "airport, terminal, luggage, passengers, boarding, travel, tarmac, check-in"
+      },
+      { id: 26, title: "Restaurant Dining",
+        description: "A warm and inviting restaurant scene with people enjoying a delicious meal together. The table is set with plates of food, glasses, and cutlery. Everyone looks happy and satisfied.",
+        bullets: [
+          "In this picture, I can see people having dinner at a nice restaurant.",
+          "The table is beautifully set with plates, glasses, and cutlery.",
+          "There are different dishes on the table that look very delicious.",
+          "Everyone is smiling and looks very happy.",
+          "I think they are enjoying a special dinner together.",
+          "<strong>This is important</strong> because dining out is a wonderful way to enjoy good food and quality time with loved ones.",
+          "I really enjoy eating out with my family and friends."
+        ],
+        vocab: "restaurant, dining, food, plates, enjoying, quality time, delicious, special dinner"
+      }
+    ];
 
+    // ============================================================
+    // IMAGE FILENAME MAPPING
+    // ============================================================
+    const imageFiles = {
+      "Fire Extinguisher": "FireExtinguisher.png",
+      "Man Overboard (MOB)": "ManOverboard.png",
+      "Abandon Ship": "AbandonShip.png",
+      "Restricted Area": "RestrictedArea.png",
+      "Oil Pollution": "OilPollution.png",
+      "Alcohol Policy": "AlcoholPolicy.png",
+      "Heavy Weather": "HeavyWeather.png",
+      "Garbage Management Plan": "GarbageManagement.png",
+      "Personal Protective Equipment (PPE)": "PPE.png",
+      "Oil Leak": "OilLeak.png",
+      "Explosion": "Explosion.png",
+      "Beach Activities": "beach_activities.png",
+      "Park Walking": "park_walking.png",
+      "Party Celebration": "party_celebration.png",
+      "First Aid": "FirstAid.png",
+      "Travel Package": "travel_package.png",
+      "Online Shopping": "online_shopping.png",
+      "Bus Station Waiting": "bus_station_waiting.png",
+      "Lifejacket": "Lifejacket.png",
+      "Doctor Visit": "doctor_visit.png",
+      "Friends Playing Football": "friends_playing_football.png",
+      "Social Media Usage": "social_media_usage.png",
+      "Enclosed Space Entry": "EnclosedSpaceEntry.png",
+      "Restaurant Dining": "restaurant_dining.png",
+      "Airport Departure": "airport_departure.png",
+      "Coffee Shop": "coffee_shop.png"
+    };
 
-                                         
-                                        
-        ];
+    // ============================================================
+    // RENDER
+    // ============================================================
+    function renderPictureSpeaking() {
+      const container = document.getElementById('pictureSpeakingList');
+      if (!container) return;
 
-        // ============================================================
-        // IMAGE FILENAME MAPPING (root directory, no folder)
-        // ============================================================
-        const imageFiles = {
-            "Fire Extinguisher": "FireExtinguisher.png",
-            "Man Overboard (MOB)": "ManOverboard.png",
-            "Abandon Ship": "AbandonShip.png",
-            "Restricted Area": "RestrictedArea.png",
-            "Oil Pollution": "OilPollution.png",
-            "Alcohol Policy": "AlcoholPolicy.png",
-            "Heavy Weather": "HeavyWeather.png",
-            "Garbage Management Plan": "GarbageManagement.png",
-            "Personal Protective Equipment (PPE)": "PPE.png",
-            "Oil Leak": "OilLeak.png",
-            "Explosion": "Explosion.png","Beach Activities":"beach_activities.png","Park Walking":"park_walking.png","Party Celebration":"party_celebration.png",
-            "First Aid": "FirstAid.png","Travel Package":"travel_package.png","Online Shopping":"online_shopping.png","Bus Station Waiting": "bus_station_waiting.png",
-            "Lifejacket": "Lifejacket.png","Doctor Visit":"doctor_visit.png", "Friends Playing Football":"friends_playing_football.png","Social Media Usage":"social_media_usage.png",
-            "Enclosed Space Entry": "EnclosedSpaceEntry.png", "Restaurant Dining":"restaurant_dining.png","Airport Departure":"airport_departure.png","Coffee Shop":"coffee_shop.png"
-        };
+      container.innerHTML = PICTURE_SPEAKING_TOPICS.map(t => {
+        const imageSrc = imageFiles[t.title] || '';
+        const bulletsHtml = (t.bullets || []).map(b => `<div class="bullet-item">${b}</div>`).join('');
+        const vocabHtml = (t.vocab || '').split(',').map(v => `<span>${v.trim()}</span>`).join('');
 
-        // ============================================================
-        // RENDER
-        // ============================================================
-        function renderPictureSpeaking() {
-            const container = document.getElementById('pictureSpeakingList');
-            if (!container) return;
+        return `
+          <div class="speaking-card">
+            <span class="speaking-tag">
+              <i class="fas fa-image"></i> Picture Description
+            </span>
 
-            container.innerHTML = PICTURE_SPEAKING_TOPICS.map(t => {
-                const imageSrc = imageFiles[t.title] || '';
-                return `
-                <div class="speaking-card">
-                    <span class="speaking-tag"><i class="fas fa-image"></i> Picture Description</span>
-                    <h3><i class="fas fa-camera"></i> ${t.title}</h3>
-                    
-                    <!-- ===== PICTURE ===== -->
-                    <div class="picture-container">
-                        <img src="${imageSrc}" alt="${t.title}" 
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-                        <div class="img-placeholder">
-                            <i class="fas fa-image" style="font-size: 24px; display: block; margin-bottom: 8px;"></i>
-                            Image not found: ${imageSrc}<br>
-                            <span style="font-size: 12px; font-weight: normal;">Place the image in the same folder as this HTML file.</span>
-                        </div>
-                    </div>
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+              <h3>${t.title}</h3>
+            </div>
 
-                    <div class="description-text">
-                        ${t.description}
-                    </div>
+            <div class="picture-container" onclick="toggleDetailsFromImage(this)">
+              <img src="${imageSrc}" alt="${t.title}"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+              <div class="img-placeholder">
+                <i class="fas fa-image"></i>
+                Image not found: ${imageSrc}<br>
+                <span style="font-size: 11.5px; opacity: 0.85;">Place the image in the same folder as this HTML file.</span>
+              </div>
+            </div>
 
-                    <button class="reveal-trigger-btn" onclick="toggleDetails(this)">
-                        <i class="fas fa-plus-circle"></i> Show Details & Vocabulary
-                    </button>
+            <div class="description-text">
+              ${t.description}
+            </div>
 
-                    <div class="details-box">
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-list-ul"></i> Key Points</span>
-                            <div class="bullet-list">
-                                ${t.bullets.map(b => `<div class="bullet-item">${b}</div>`).join('')}
-                            </div>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-book"></i> Vocabulary</span>
-                            <div class="vocab-box">
-                                ${t.vocab.split(',').map(v => `<span>${v.trim()}</span>`).join(' ')}
-                            </div>
-                        </div>
-                    </div>
+            <button class="reveal-trigger-btn" onclick="toggleDetails(this)">
+              <i class="fas fa-plus-circle"></i> Show Details & Vocabulary
+            </button>
+
+            <div class="details-box">
+              <div class="detail-row">
+                <span class="detail-label"><i class="fas fa-list-ul"></i> Key Points</span>
+                <div class="bullet-list">
+                  ${bulletsHtml}
                 </div>
-            `}).join('');
-        }
+              </div>
+              <div class="detail-row">
+                <span class="detail-label"><i class="fas fa-book"></i> Vocabulary</span>
+                <div class="vocab-box">
+                  ${vocabHtml}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-        // ============================================================
-        // TOGGLE DETAILS
-        // ============================================================
-        function toggleDetails(btn) {
-            const box = btn.nextElementSibling;
-            if (!box || !box.classList.contains('details-box')) return;
-            const isShowing = box.classList.contains('show');
-            // close all others
-            document.querySelectorAll('.details-box.show').forEach(b => b.classList.remove('show'));
-            if (!isShowing) {
-                box.classList.add('show');
-                btn.innerHTML = '<i class="fas fa-minus-circle"></i> Hide Details & Vocabulary';
-            } else {
-                box.classList.remove('show');
-                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Show Details & Vocabulary';
-            }
-        }
+    // ============================================================
+    // TOGGLE DETAILS (Button)
+    // ============================================================
+    function toggleDetails(btn) {
+      const box = btn.nextElementSibling;
+      if (!box || !box.classList.contains('details-box')) return;
+      const isShowing = box.classList.contains('show');
+      // close all others
+      document.querySelectorAll('.details-box.show').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.reveal-trigger-btn').forEach(b => {
+        b.innerHTML = '<i class="fas fa-plus-circle"></i> Show Details & Vocabulary';
+      });
+      if (!isShowing) {
+        box.classList.add('show');
+        btn.innerHTML = '<i class="fas fa-minus-circle"></i> Hide Details & Vocabulary';
+      }
+    }
 
-        // ============================================================
-        // INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', renderPictureSpeaking);
-    </script>
+    // ============================================================
+    // TOGGLE DETAILS (From Picture Click)
+    // ============================================================
+    function toggleDetailsFromImage(container) {
+      const card = container.closest('.speaking-card');
+      if (!card) return;
+      const btn = card.querySelector('.reveal-trigger-btn');
+      if (btn) toggleDetails(btn);
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', renderPictureSpeaking);
+  </script>
 
 </body>
 </html>
