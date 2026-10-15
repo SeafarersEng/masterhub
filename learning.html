@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background Orbs */
         body::before, body::after {
             content: "";
             position: fixed;
@@ -51,7 +50,6 @@
             50% { transform: translate(-40px, -50px); }
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             max-width: 600px;
             width: 100%;
@@ -72,7 +70,6 @@
             to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -107,7 +104,6 @@
         }
         .user-badge i { font-size: 8px; color: #22c55e; }
 
-        /* ===== HOME BUTTON ===== */
         .home-btn {
             background: rgba(59, 130, 246, 0.15);
             border: 1px solid rgba(59, 130, 246, 0.4);
@@ -131,7 +127,6 @@
         }
         .home-btn:active { transform: scale(0.95); }
 
-        /* ===== WELCOME ===== */
         .welcome { text-align: center; padding: 4px 0 20px; }
         .welcome .icon-big {
             font-size: 42px;
@@ -155,7 +150,6 @@
             line-height: 1.6;
         }
 
-        /* ===== GRID NAV ===== */
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -212,7 +206,6 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        /* ===== STATS BAR ===== */
         .stats {
             display: flex;
             flex-wrap: wrap;
@@ -236,7 +229,6 @@
         }
         .stats .stat-item i { color: #38bdf8; font-size: 11px; }
 
-        /* ===== FOOTER ===== */
         .footer {
             margin-top: 20px;
             padding-top: 14px;
@@ -248,7 +240,6 @@
         }
         .footer i { color: #38bdf8; margin: 0 4px; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 520px) {
             body { padding: 12px; }
             .container { padding: 20px 16px 26px; border-radius: 20px; }
@@ -263,7 +254,6 @@
 
     <div class="container">
 
-        <!-- HEADER -->
         <div class="header">
             <h2><i class="fas fa-ship"></i> MEPT Hub</h2>
             <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -276,14 +266,12 @@
             </div>
         </div>
 
-        <!-- WELCOME -->
         <div class="welcome">
             <div class="icon-big">📚</div>
             <h1>Learning Hub</h1>
             <p>Maritime English practice — all in one place</p>
         </div>
 
-        <!-- GRID NAV -->
         <div class="nav-grid">
             <a href="grammar.html" class="nav-card">
                 <i class="fas fa-book"></i>
@@ -322,7 +310,6 @@
             </a>
         </div>
 
-        <!-- STATS BAR -->
         <div class="stats">
             <span class="stat-item"><i class="fas fa-check-circle"></i> 6 Modules</span>
             <span class="stat-item"><i class="fas fa-tasks"></i> 180+ Exercises</span>
@@ -330,7 +317,6 @@
             <span class="stat-item"><i class="fas fa-headphones"></i> Audio</span>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer">
             <i class="fas fa-anchor"></i> MEPT &bull; Maritime English <i class="fas fa-anchor"></i>
         </div>
@@ -338,33 +324,48 @@
     </div>
 
     <!-- ================================================================
-         🔐 LOGIN GUARD — mept_session စစ် + index.html သို့ redirect
+         🔐 LOGIN GUARD — DEBUG VERSION
          ================================================================ -->
     <script>
+        console.log('=== Learning Hub Guard Started ===');
+        console.log('mept_session:', localStorage.getItem('mept_session'));
+        console.log('isLoggedIn:', localStorage.getItem('isLoggedIn'));
+        console.log('user:', localStorage.getItem('user'));
+
         (function () {
             const raw = localStorage.getItem('mept_session');
-            const badge = document.getElementById('userBadge');
+
+            // ⚠️ ဒီနေရာမှာ debug — ဘာ key ရှိလဲ စစ်ပါ
+            console.log('Guard checking mept_session:', raw);
 
             if (!raw) {
                 // session မရှိ → index.html (Login) သို့
+                console.warn('❌ mept_session မရှိ → index.html သို့ redirect');
                 window.location.replace('index.html');
                 return;
             }
 
             try {
                 const session = JSON.parse(raw);
-                // index.html က { username, loginAt } ကို သိမ်းတယ်
+                console.log('Parsed session:', session);
+
+                // username ကို စစ်
                 if (!session || !session.username) {
+                    console.warn('❌ session.username မရှိ → index.html သို့ redirect');
                     localStorage.removeItem('mept_session');
                     window.location.replace('index.html');
                     return;
                 }
 
-                // User badge မှာ username ပြ
+                // ✅ Success
+                console.log('✅ Session OK. User:', session.username);
+
+                const badge = document.getElementById('userBadge');
                 if (badge) {
                     badge.innerHTML = '<i class="fas fa-circle"></i> ' + session.username;
                 }
             } catch (e) {
+                console.error('❌ Parse error:', e);
                 localStorage.removeItem('mept_session');
                 window.location.replace('index.html');
             }
