@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Free Test – MEPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 16px 14px 24px;
+            box-shadow: 0 8px 30px rgba(0, 20, 50, 0.08);
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .top-bar h2 {
+            font-size: 18px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-bar h2 i { color: #1a4d8f; }
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #1f3a5f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-back:active { transform: scale(0.95); background: #dce3ed; }
+        .timer-bar {
+            background: #f8fafc;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .timer-bar i { color: #1a4d8f; }
+
+        .free-badge {
+            background: linear-gradient(120deg, #f0b429, #f59e0b);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            background: #f8faff;
+            border-radius: 16px;
+            padding: 14px 12px;
+            margin-bottom: 16px;
+            border-left: 5px solid #1a4d8f;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i { color: #1a4d8f; width: 22px; text-align: center; }
+
+        /* ===== SUB-SECTION (for 8 parts) ===== */
+        .subsection {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #f0b429;
+        }
+        .subsection-title {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #0a2a4a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .subsection-title .part-num {
+            background: linear-gradient(120deg, #1a4d8f, #0f4c75);
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .subsection-title .part-emoji {
+            font-size: 18px;
+        }
+
+        .question {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .question:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .q-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0a2a4a;
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+        .q-text .q-label {
+            font-weight: 400;
+            color: #64748b;
+            font-size: 13px;
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 1px 8px;
+            border-radius: 20px;
+            margin-right: 4px;
+        }
+        .q-text .underlined {
+            text-decoration: underline;
+            text-decoration-color: #f0b429;
+            text-decoration-thickness: 2.5px;
+            text-underline-offset: 3px;
+            font-weight: 700;
+            color: #92400e;
+        }
+        .options { display: flex; flex-direction: column; gap: 3px; padding-left: 4px; }
+        .options label {
+            font-size: 14px;
+            color: #1f3a5f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 6px;
+            cursor: pointer;
+            touch-action: manipulation;
+            border-radius: 8px;
+            transition: 0.15s;
+        }
+        .options label:active { background: #eef2f7; }
+        .options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4d8f;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ===== READING ===== */
+        .passage {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #1f3a5f;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+        .passage strong { color: #0a2a4a; }
+
+        /* ===== WRITING ===== */
+        .writing-option {
+            background: #fff;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 8px;
+        }
+        .writing-option h5 { color: #0a2a4a; font-size: 14px; margin-bottom: 3px; }
+        .writing-option p { font-size: 13px; color: #475569; margin-bottom: 6px; }
+        .writing-option textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d9e6;
+            font-family: inherit;
+            font-size: 13px;
+            background: #fafcff;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-submit {
+            background: #1a4d8f;
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 8px 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+        .btn-submit:active { transform: scale(0.97); background: #0f3a6b; }
+        .btn-reset {
+            background: #eef2f7;
+            color: #1f3a5f;
+            border: none;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 4px 0;
+            touch-action: manipulation;
+        }
+        .btn-reset:active { transform: scale(0.97); background: #dce3ed; }
+
+        /* ===== RESULTS ===== */
+        #resultsContainer { display: none; animation: fadeIn 0.4s ease; margin-top: 16px; }
+        #resultsContainer.show { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-section {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 5px solid #1a4d8f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .result-section .label { font-weight: 600; font-size: 14px; color: #0a2a4a; }
+        .result-section .grade {
+            font-weight: 800;
+            font-size: 18px;
+            padding: 2px 14px;
+            border-radius: 50px;
+        }
+        .grade-a { background: #dcfce7; color: #166534; }
+        .grade-b { background: #fef9e7; color: #92400e; }
+        .grade-c { background: #fee2e2; color: #991b1b; }
+
+        .overall-result {
+            background: #1a4d8f;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .overall-result.fail { background: #991b1b; }
+        .overall-result .sub {
+            font-weight: 400;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .container { padding: 12px 10px 16px; }
+            .top-bar h2 { font-size: 16px; }
+            .section { padding: 12px 10px; }
+            .section-title { font-size: 15px; }
+            .subsection { padding: 10px; }
+            .subsection-title { font-size: 13.5px; }
+            .q-text { font-size: 13px; }
+            .options label { font-size: 13px; }
+            .passage { font-size: 13px; padding: 8px 10px; }
+            .writing-option textarea { font-size: 13px; }
+            .btn-submit { font-size: 15px; padding: 12px 0; }
+        }
+        @media (max-width: 380px) {
+            .result-section { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .timer-bar { justify-content: center; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #f0f4f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #b8c9e0; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <h2>
+                <i class="fas fa-gift"></i> Free Test
+                <span class="free-badge">FREE</span>
+            </h2>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <span class="timer-bar" id="timerDisplay"><i class="fas fa-clock"></i> 60:00</span>
+                <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Home</a>
+            </div>
+        </div>
+
+        <form id="testForm" onsubmit="return false;">
+
+            <!-- ===== 8 PARTS OF SPEECH (40 Qs) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-language"></i> 8 Parts of Speech (40 Qs)</div>
+                <div id="partsQuestions"></div>
+            </div>
+
+            <!-- ===== READING (20 Qs) ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-book-open"></i> Reading (20 Qs)</div>
+                <div id="readingQuestions"></div>
+            </div>
+
+            <!-- ===== WRITING ===== -->
+            <div class="section">
+                <div class="section-title"><i class="fas fa-pen-fancy"></i> Writing</div>
+                <div id="writingQuestions"></div>
+            </div>
+
+            <button type="button" class="btn-submit" id="submitBtn"><i class="fas fa-check-circle"></i> Submit &amp; Grade</button>
+            <button type="button" class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> Reset All</button>
+        </form>
+
+        <div id="resultsContainer">
+            <div id="resultsContent"></div>
+            <button type="button" class="btn-reset" onclick="window.location.reload();"><i class="fas fa-redo"></i> Try Again</button>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 1. 8 PARTS OF SPEECH DATA (8 parts × 5 questions = 40)
+        // ================================================================
+        const PARTS_DATA = [
+            {
+                part: "Noun",
+                emoji: "📦",
+                desc: "နာမ် — လူ၊ နေရာ၊ အရာ၊ အကြောင်းအရာကို ခေါ်သော စကားလုံး",
+                questions: [
+                    { q: "The <span class='underlined'>captain</span> gave the order to the crew.", opts: ["A) Noun", "B) Verb", "C) Adjective"], ans: "A" },
+                    { q: "The ship arrived at the <span class='underlined'>port</span> yesterday.", opts: ["A) Adverb", "B) Noun", "C) Conjunction"], ans: "B" },
+                    { q: "Safety is our top <span class='underlined'>priority</span> on board.", opts: ["A) Noun", "B) Pronoun", "C) Preposition"], ans: "A" },
+                    { q: "The <span class='underlined'>engineer</span> repaired the main engine.", opts: ["A) Verb", "B) Adjective", "C) Noun"], ans: "C" },
+                    { q: "My <span class='underlined'>hometown</span> is Yangon.", opts: ["A) Noun", "B) Adverb", "C) Interjection"], ans: "A" }
+                ]
+            },
+            {
+                part: "Pronoun",
+                emoji: "👤",
+                desc: "နာမ်စား — နာမ်ကို အစားထိုးသုံးသော စကားလုံး",
+                questions: [
+                    { q: "<span class='underlined'>He</span> is the chief officer on this ship.", opts: ["A) Noun", "B) Pronoun", "C) Verb"], ans: "B" },
+                    { q: "The bosun asked <span class='underlined'>us</span> to clean the deck.", opts: ["A) Pronoun", "B) Preposition", "C) Adverb"], ans: "A" },
+                    { q: "<span class='underlined'>They</span> are working in the engine room.", opts: ["A) Adjective", "B) Noun", "C) Pronoun"], ans: "C" },
+                    { q: "This life jacket is <span class='underlined'>mine</span>.", opts: ["A) Pronoun", "B) Verb", "C) Conjunction"], ans: "A" },
+                    { q: "<span class='underlined'>We</span> must attend the safety drill.", opts: ["A) Adverb", "B) Pronoun", "C) Noun"], ans: "B" }
+                ]
+            },
+            {
+                part: "Verb",
+                emoji: "🏃",
+                desc: "ကြိယာ — လုပ်ဆောင်မှုကို ပြသော စကားလုံး",
+                questions: [
+                    { q: "The crew <span class='underlined'>cleans</span> the deck every morning.", opts: ["A) Noun", "B) Verb", "C) Adjective"], ans: "B" },
+                    { q: "The ship <span class='underlined'>sailed</span> across the Pacific Ocean.", opts: ["A) Verb", "B) Adverb", "C) Pronoun"], ans: "A" },
+                    { q: "We must <span class='underlined'>wear</span> safety helmets on deck.", opts: ["A) Noun", "B) Preposition", "C) Verb"], ans: "C" },
+                    { q: "The engineer <span class='underlined'>checked</span> the valve carefully.", opts: ["A) Verb", "B) Adjective", "C) Noun"], ans: "A" },
+                    { q: "Please <span class='underlined'>report</span> any problems to the officer.", opts: ["A) Conjunction", "B) Verb", "C) Adverb"], ans: "B" }
+                ]
+            },
+            {
+                part: "Adjective",
+                emoji: "🎨",
+                desc: "နာမဝိသေသန — နာမ်ကို အထူးပြုသော စကားလုံး",
+                questions: [
+                    { q: "The <span class='underlined'>rough</span> sea made everyone seasick.", opts: ["A) Adverb", "B) Adjective", "C) Verb"], ans: "B" },
+                    { q: "It was a <span class='underlined'>dangerous</span> operation on deck.", opts: ["A) Adjective", "B) Noun", "C) Pronoun"], ans: "A" },
+                    { q: "The <span class='underlined'>heavy</span> cargo was loaded carefully.", opts: ["A) Preposition", "B) Conjunction", "C) Adjective"], ans: "C" },
+                    { q: "She is a <span class='underlined'>skillful</span> navigator.", opts: ["A) Adjective", "B) Verb", "C) Noun"], ans: "A" },
+                    { q: "The <span class='underlined'>old</span> vessel was sold last year.", opts: ["A) Adverb", "B) Adjective", "C) Interjection"], ans: "B" }
+                ]
+            },
+            {
+                part: "Adverb",
+                emoji: "⚡",
+                desc: "ကြိယာဝိသေသန — ကြိယာ/နာမဝိသေသနကို အထူးပြုသော စကားလုံး",
+                questions: [
+                    { q: "The crew worked <span class='underlined'>quickly</span> to fix the leak.", opts: ["A) Noun", "B) Adverb", "C) Verb"], ans: "B" },
+                    { q: "He speaks maritime English very <span class='underlined'>well</span>.", opts: ["A) Adverb", "B) Adjective", "C) Pronoun"], ans: "A" },
+                    { q: "The ship <span class='underlined'>slowly</span> entered the harbor.", opts: ["A) Noun", "B) Preposition", "C) Adverb"], ans: "C" },
+                    { q: "She <span class='underlined'>always</span> checks the safety equipment.", opts: ["A) Adverb", "B) Verb", "C) Adjective"], ans: "A" },
+                    { q: "The engineer arrived <span class='underlined'>late</span> for the meeting.", opts: ["A) Noun", "B) Adverb", "C) Interjection"], ans: "B" }
+                ]
+            },
+            {
+                part: "Preposition",
+                emoji: "🔗",
+                desc: "ဝိဘတ် — နေရာ၊ အချိန်၊ ဆက်စပ်မှုကို ပြသော စကားလုံး",
+                questions: [
+                    { q: "The lifeboat is <span class='underlined'>on</span> the deck.", opts: ["A) Preposition", "B) Conjunction", "C) Adverb"], ans: "A" },
+                    { q: "We will arrive <span class='underlined'>at</span> the port at noon.", opts: ["A) Noun", "B) Preposition", "C) Verb"], ans: "B" },
+                    { q: "The tools are <span class='underlined'>in</span> the toolbox.", opts: ["A) Adjective", "B) Pronoun", "C) Preposition"], ans: "C" },
+                    { q: "He walked <span class='underlined'>through</span> the engine room.", opts: ["A) Preposition", "B) Adverb", "C) Noun"], ans: "A" },
+                    { q: "The ship sailed <span class='underlined'>between</span> the two islands.", opts: ["A) Verb", "B) Preposition", "C) Conjunction"], ans: "B" }
+                ]
+            },
+            {
+                part: "Conjunction",
+                emoji: "➕",
+                desc: "သမ္ဗန္ဓ — စကားလုံး၊ စာကြောင်းများကို ဆက်စပ်သော စကားလုံး",
+                questions: [
+                    { q: "The captain <span class='underlined'>and</span> the bosun were on the bridge.", opts: ["A) Conjunction", "B) Preposition", "C) Adverb"], ans: "A" },
+                    { q: "I wanted to work <span class='underlined'>but</span> I was too tired.", opts: ["A) Pronoun", "B) Conjunction", "C) Noun"], ans: "B" },
+                    { q: "We stopped <span class='underlined'>because</span> the weather was bad.", opts: ["A) Verb", "B) Adjective", "C) Conjunction"], ans: "C" },
+                    { q: "Either the bosun <span class='underlined'>or</span> the AB will do it.", opts: ["A) Conjunction", "B) Preposition", "C) Interjection"], ans: "A" },
+                    { q: "She works hard <span class='underlined'>so</span> she can be promoted.", opts: ["A) Adverb", "B) Conjunction", "C) Pronoun"], ans: "B" }
+                ]
+            },
+            {
+                part: "Interjection",
+                emoji: "❗",
+                desc: "အာမေဍိတ် — ခံစားချက်ကို ရုတ်တရက် ဖော်ပြသော စကားလုံး",
+                questions: [
+                    { q: "<span class='underlined'>Wow</span>! That was a huge wave.", opts: ["A) Interjection", "B) Adverb", "C) Verb"], ans: "A" },
+                    { q: "<span class='underlined'>Hey</span>! Watch out for the swinging crane!", opts: ["A) Noun", "B) Interjection", "C) Preposition"], ans: "B" },
+                    { q: "<span class='underlined'>Oh no</span>! The engine has stopped.", opts: ["A) Adjective", "B) Pronoun", "C) Interjection"], ans: "C" },
+                    { q: "<span class='underlined'>Hurray</span>! We finally reached the port.", opts: ["A) Interjection", "B) Conjunction", "C) Adverb"], ans: "A" },
+                    { q: "<span class='underlined'>Ouch</span>! I hurt my hand on the railing.", opts: ["A) Verb", "B) Interjection", "C) Noun"], ans: "B" }
+                ]
+            }
+        ];
+
+        // ================================================================
+        // 2. READING DATA
+        // ================================================================
+        const READING_DATA = [{
+            title: "Working on a Cruise Ship",
+            text: "Working on a cruise ship is very different from other ships. The crew must be friendly and helpful because they deal with thousands of passengers every week. Many workers come from different countries, so English is the main language used on board. The working day can be long, often 10 to 12 hours. However, crew members get free food and a place to sleep. In their free time, they can use the gym, watch movies, or call their families using the internet. Safety is also very important. Every week, there are safety drills for fire and emergency situations. All crew must attend these drills.",
+            questions: [
+                { q: "Cruise ship crew must be friendly.", ans: "T" },
+                { q: "English is rarely used on a cruise ship.", ans: "F" },
+                { q: "Workers usually work less than 8 hours a day.", ans: "F" },
+                { q: "Crew can use the gym in their free time.", ans: "T" },
+                { q: "Safety drills happen every month.", ans: "F" }
+            ]
+        }, {
+            title: "Importance of English for Seafarers",
+            text: "English is the international language of the sea. All seafarers must know basic English to communicate with other crew members, port authorities, and during emergencies. The IMO (International Maritime Organization) has standard phrases called SMCP (Standard Marine Communication Phrases) that all seafarers should use. Understanding English also helps seafarers read safety instructions, charts, and manuals. If a seafarer cannot speak English well, it can be dangerous because they might not understand important orders. That is why many maritime schools teach English as a very important subject.",
+            questions: [
+                { q: "English is the international language of the sea.", ans: "T" },
+                { q: "Seafarers do not need to communicate with port authorities.", ans: "F" },
+                { q: "SMCP stands for Standard Marine Communication Phrases.", ans: "T" },
+                { q: "Understanding English helps seafarers read safety instructions.", ans: "T" },
+                { q: "Not speaking English well has no risks.", ans: "F" }
+            ]
+        }, {
+            title: "Safety at Sea",
+            text: "Safety is the most important aspect of maritime operations. Every ship must have sufficient lifeboats, life rafts, and life jackets for all people on board. Fire extinguishers and fire hoses must be regularly checked. The crew participates in regular safety drills to prepare for emergencies. The International Convention for the Safety of Life at Sea (SOLAS) sets the minimum safety standards for ships. All crew members must be familiar with the ship's safety procedures and emergency signals.",
+            questions: [
+                { q: "Lifeboats are not required on ships.", ans: "F" },
+                { q: "Fire extinguishers must be checked regularly.", ans: "T" },
+                { q: "SOLAS stands for Safety of Life at Sea.", ans: "T" },
+                { q: "Crew do not need to know emergency signals.", ans: "F" },
+                { q: "Safety drills are optional for the crew.", ans: "F" }
+            ]
+        }, {
+            title: "The Role of a Bosun",
+            text: "The bosun, or boatswain, is a senior member of the deck department. He is responsible for the deck crew and all maintenance work on deck. The bosun supervises painting, chipping, and cleaning operations. He also maintains the ship's mooring lines, anchor, and deck equipment. The bosun reports directly to the chief officer and ensures that all deck work is done safely and efficiently. A good bosun has strong leadership skills and extensive knowledge of maritime operations.",
+            questions: [
+                { q: "The bosun supervises the deck crew.", ans: "T" },
+                { q: "The bosun reports to the captain.", ans: "F" },
+                { q: "The bosun maintains mooring lines.", ans: "T" },
+                { q: "A bosun does not need leadership skills.", ans: "F" },
+                { q: "Painting is not part of the bosun's duties.", ans: "F" }
+            ]
+        }];
+
+        // ================================================================
+        // 3. WRITING DATA
+        // ================================================================
+        const WRITING_PART1 = [
+            { id: 'A', title: "Report a Slippery Deck",
+                task: "Write a short message to the Bosun about a slippery area near the gangway. Explain why it is dangerous. (approx. 25 words)" },
+            { id: 'B', title: "Request for PPE",
+                task: "Write a short message to the Safety Officer asking for new gloves because yours are damaged. (approx. 25 words)" },
+            { id: 'C', title: "Request for Maintenance",
+                task: "Write a short message to the Chief Officer about a faulty light on the deck. (approx. 25 words)" },
+            { id: 'D', title: "Report a Spill",
+                task: "Write a short message to the Second Engineer about a small oil spill in the engine room. (approx. 25 words)" }
+        ];
+        const WRITING_PART2 = [
+            { id: 'A', title: "Teamwork on Board",
+                task: "Describe a time when you had to work as a team on the ship. What was the task? How did you help each other? Why was teamwork important? (80-100 words)" },
+            { id: 'B', title: "Learning a New Skill",
+                task: "Write about a new skill you learned on the ship. Who taught you? How did you practice? How will this skill help you in your career? (80-100 words)" },
+            { id: 'C', title: "Dealing with an Emergency",
+                task: "Describe an emergency situation you faced on board. What happened? How did you respond? What did you learn from the experience? (80-100 words)" },
+            { id: 'D', title: "Life at Sea",
+                task: "Describe a typical day on the ship. What do you do from morning to evening? What do you enjoy most about life at sea? (80-100 words)" }
+        ];
+
+        // ================================================================
+        // 4. TIMER (60 min for 3 sections)
+        // ================================================================
+        let timerInterval;
+        let timeLeft = 60 * 60;
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                document.getElementById('timerDisplay').innerHTML =
+                    `<i class="fas fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ အချိန်ပြည့်ပါပြီ။');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // ================================================================
+        // 5. RENDER 8 PARTS OF SPEECH
+        // ================================================================
+        function renderParts() {
+            const container = document.getElementById('partsQuestions');
+            let html = '';
+            let globalQ = 1;
+            let flatIndex = 0;
+
+            PARTS_DATA.forEach((part, pIdx) => {
+                html += `
+                    <div class="subsection">
+                        <div class="subsection-title">
+                            <span class="part-num">${pIdx + 1}</span>
+                            <span class="part-emoji">${part.emoji}</span>
+                            <span>${part.part}</span>
+                        </div>
+                        <div style="font-size:12.5px; color:#64748b; margin-bottom:10px; font-style:italic;">
+                            ${part.desc}
+                        </div>
+                `;
+
+                part.questions.forEach((q, qIdx) => {
+                    html += `<div class="question">
+                        <div class="q-text">
+                            <span class="q-label">Q${globalQ}.</span>
+                            ${q.q}
+                            <div style="font-size:12px; color:#92400e; margin-top:4px; font-weight:400;">
+                                — အောက်ခံစကားလုံးသည် ဘယ် Part of Speech လဲ?
+                            </div>
+                        </div>
+                        <div class="options">`;
+
+                    q.opts.forEach(opt => {
+                        const val = opt.charAt(0);
+                        html += `<label><input type="radio" name="pq${flatIndex}" value="${val}"> ${opt}</label>`;
+                    });
+
+                    html += `</div></div>`;
+                    globalQ++;
+                    flatIndex++;
+                });
+
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 6. RENDER READING / WRITING
+        // ================================================================
+        function renderReading() {
+            const container = document.getElementById('readingQuestions');
+            let html = '', qNum = 1;
+            READING_DATA.forEach(pass => {
+                html += `<div class="passage"><strong>${pass.title}</strong>\n${pass.text}</div>`;
+                pass.questions.forEach(q => {
+                    html +=
+                        `<div class="question"><div class="q-text"><span class="q-label">Q${qNum}.</span> ${q.q}</div>
+                        <div class="options" style="flex-direction:row; gap:16px;">
+                            <label><input type="radio" name="rq${qNum-1}" value="T"> True</label>
+                            <label><input type="radio" name="rq${qNum-1}" value="F"> False</label>
+                        </div></div>`;
+                    qNum++;
+                });
+            });
+            container.innerHTML = html;
+        }
+
+        function renderWriting() {
+            const container = document.getElementById('writingQuestions');
+            let html =
+                `<div style="font-weight:600; color:#0a2a4a; margin-bottom:8px;">Part 1 (approx. 25 words) – Choose ONE</div>`;
+            WRITING_PART1.forEach(w => {
+                html +=
+                    `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w1${w.id}" rows="3" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            html +=
+                `<div style="font-weight:600; color:#0a2a4a; margin:12px 0 8px;">Part 2 (80–100 words) – Choose ONE</div>`;
+            WRITING_PART2.forEach(w => {
+                html +=
+                    `<div class="writing-option"><h5>Option ${w.id}: ${w.title}</h5><p>${w.task}</p><textarea id="w2${w.id}" rows="5" placeholder="Type your answer here..."></textarea></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // 7. SUBMIT & GRADE
+        // ================================================================
+        function getGrade(pct) {
+            if (pct >= 90) return { grade: 'A', class: 'grade-a' };
+            if (pct >= 70) return { grade: 'B', class: 'grade-b' };
+            return { grade: 'C', class: 'grade-c' };
+        }
+
+        function submitExam() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let total = 0, max = 0;
+
+            // ---- 8 Parts of Speech (40 × 1 = 40) ----
+            let pScore = 0;
+            const pAnswers = PARTS_DATA.flatMap(part => part.questions.map(q => q.ans));
+            pAnswers.forEach((ans, i) => {
+                const sel = document.querySelector(`input[name="pq${i}"]:checked`);
+                if (sel && sel.value === ans) pScore++;
+            });
+            total += pScore; max += 40;
+
+            // ---- Reading (20 × 1.5 = 30) ----
+            let rScore = 0;
+            const rAnswers = READING_DATA.flatMap(p => p.questions.map(q => q.ans));
+            rAnswers.forEach((ans, idx) => {
+                const sel = document.querySelector(`input[name="rq${idx}"]:checked`);
+                if (sel && sel.value === ans) rScore += 1.5;
+            });
+            total += rScore; max += 30;
+
+            // ---- Writing (Part1:10, Part2:15) ----
+            let wScore = 0;
+            let p1Text = '';
+            WRITING_PART1.forEach(w => {
+                const text = document.getElementById(`w1${w.id}`)?.value || '';
+                if (text.length > p1Text.length) p1Text = text;
+            });
+            const wc1 = p1Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(10, Math.floor(wc1 / 3));
+            if (wc1 >= 20) wScore = 10;
+
+            let p2Text = '';
+            WRITING_PART2.forEach(w => {
+                const text = document.getElementById(`w2${w.id}`)?.value || '';
+                if (text.length > p2Text.length) p2Text = text;
+            });
+            const wc2 = p2Text.split(/\s+/).filter(w => w.length > 0).length;
+            wScore += Math.min(15, Math.floor(wc2 / 5));
+            if (wc2 >= 60) wScore = 15;
+            total += wScore; max += 25;
+
+            const pct = Math.round((total / max) * 100);
+            const pGrade = getGrade(Math.round((pScore / 40) * 100));
+            const rGrade = getGrade(Math.round((rScore / 30) * 100));
+            const wGrade = getGrade(Math.round((wScore / 25) * 100));
+            const finalPass = !(pGrade.grade === 'C' || rGrade.grade === 'C' || wGrade.grade === 'C');
+
+            let html =
+                `<div style="font-size:17px; font-weight:700; margin-bottom:12px; color:#0a2a4a;"><i class="fas fa-chart-pie"></i> Free Test Results</div>`;
+
+            const sections = [
+                { label: '8 Parts of Speech', score: pScore, max: 40 },
+                { label: 'Reading', score: rScore, max: 30 },
+                { label: 'Writing', score: wScore, max: 25 }
+            ];
+
+            sections.forEach(sec => {
+                const p = Math.round((sec.score / sec.max) * 100);
+                const g = getGrade(p);
+                html += `
+                    <div class="result-section">
+                        <span class="label">${sec.label}</span>
+                        <span class="grade ${g.class}">${g.grade} (${sec.score}/${sec.max})</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="overall-result ${finalPass ? '' : 'fail'}">
+                    <div>Overall: ${finalPass ? 'PASS' : 'FAIL'}</div>
+                    <div class="sub">${finalPass ? 'All sections passed' : 'Fail: One or more sections graded C'}</div>
+                    <div style="font-size:14px; font-weight:400; margin-top:4px;">Score: ${total}/${max} (${pct}%)</div>
+                </div>
+            `;
+
+            document.getElementById('resultsContent').innerHTML = html;
+            document.getElementById('resultsContainer').classList.add('show');
+            document.getElementById('testForm').style.display = 'none';
+
+            window.scrollTo({ top: document.getElementById('resultsContainer').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        // ================================================================
+        // 8. RESET
+        // ================================================================
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('testForm').reset();
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.getElementById('testForm').style.display = 'block';
+            timeLeft = 60 * 60;
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ================================================================
+        // 9. INIT
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderParts();
+            renderReading();
+            renderWriting();
+            startTimer();
+            document.getElementById('submitBtn').addEventListener('click', submitExam);
+        });
+
+        console.log('✅ Free Test loaded — 8 Parts of Speech + Reading + Writing');
+        console.log('❌ No Speaking, No Listening, No traditional Grammar');
+    </script>
+
+</body>
+</html>
