@@ -458,7 +458,7 @@
         <a href="learning.html" class="btn-back">
           <i class="fas fa-arrow-left"></i> Back
         </a>
-        <a href="login.html" class="btn-home">
+        <a href="index.html" class="btn-home">
           <i class="fas fa-home"></i> Home
         </a>
       </div>
@@ -491,7 +491,7 @@
   <!-- ================= LOGIN GUARD ================= -->
   <script>
     // ================================================================
-    // 🔐 LOGIN GUARD — mept_session စစ်
+    // 🔐 LOGIN GUARD — mept_session စစ် (username စစ်ရမယ်)
     // ================================================================
     (function () {
       const raw = localStorage.getItem('mept_session');
@@ -501,7 +501,8 @@
       }
       try {
         const session = JSON.parse(raw);
-        if (!session || !session.id) {
+        // ✅ index.html က { username, loginAt } ကို သိမ်းတယ်
+        if (!session || !session.username) {
           localStorage.removeItem('mept_session');
           window.location.replace('index.html');
         }
@@ -897,13 +898,12 @@
     }
 
     // ============================================================
-    // TOGGLE DETAILS (Button)
+    // TOGGLE DETAILS
     // ============================================================
     function toggleDetails(btn) {
       const box = btn.nextElementSibling;
       if (!box || !box.classList.contains('details-box')) return;
       const isShowing = box.classList.contains('show');
-      // close all others
       document.querySelectorAll('.details-box.show').forEach(b => b.classList.remove('show'));
       document.querySelectorAll('.reveal-trigger-btn').forEach(b => {
         b.innerHTML = '<i class="fas fa-plus-circle"></i> Show Details & Vocabulary';
@@ -914,9 +914,6 @@
       }
     }
 
-    // ============================================================
-    // TOGGLE DETAILS (From Picture Click)
-    // ============================================================
     function toggleDetailsFromImage(container) {
       const card = container.closest('.speaking-card');
       if (!card) return;
@@ -924,9 +921,6 @@
       if (btn) toggleDetails(btn);
     }
 
-    // ============================================================
-    // INIT
-    // ============================================================
     document.addEventListener('DOMContentLoaded', renderPictureSpeaking);
   </script>
 
