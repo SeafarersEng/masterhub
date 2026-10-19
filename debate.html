@@ -7,12 +7,15 @@
     <title>Debate Practice – MEPT Master Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- ===== LOGIN GUARD: hide content until verified ===== -->
+    <!-- ===== LOGIN GUARD: mept_session စစ် ===== -->
     <script>
         (function () {
             document.documentElement.style.visibility = 'hidden';
-            var isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn !== 'true') {
+            var raw = localStorage.getItem('mept_session');
+            var session = null;
+            try { session = raw ? JSON.parse(raw) : null; } catch (e) { session = null; }
+
+            if (!session || !session.username) {
                 try { sessionStorage.setItem('redirectAfterLogin', window.location.pathname); } catch (e) {}
                 window.location.replace('index.html');
             } else {
@@ -22,629 +25,636 @@
     </script>
 
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============ BASE ============ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Myanmar Text', system-ui, sans-serif;
+            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: #f0f4f9;
+            background: #050b18;
             min-height: 100vh;
-            padding: 12px;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+            color: #eef2ff;
+            line-height: 1.7;
         }
 
-        /* ===== TOP BAR ===== */
-        .top-bar {
-            background: #1a4d8f;
-            color: white;
-            padding: 14px 18px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(26, 77, 143, 0.25);
+        /* animated background orbs */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::before {
+            width: 600px; height: 600px;
+            background: #1d4ed8;
+            top: -220px; left: -180px;
+            animation: floatA 20s ease-in-out infinite;
+        }
+        body::after {
+            width: 540px; height: 540px;
+            background: #0891b2;
+            bottom: -220px; right: -180px;
+            animation: floatB 24s ease-in-out infinite;
+        }
+        @keyframes floatA {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(60px, 50px) scale(1.1); }
+        }
+        @keyframes floatB {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(-50px, -60px) scale(1.08); }
         }
 
-        .top-bar h1 {
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-align: center;
+        .grid-overlay {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+            background-size: 70px 70px;
+            -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%);
+            mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%);
         }
 
-        .top-bar h1 i { font-size: 22px; }
-
-        .back-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 18px;
-            border-radius: 50px;
-            transition: 0.2s;
-            text-align: center;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .back-link:active {
-            background: rgba(255, 255, 255, 0.30);
-            transform: scale(0.97);
-        }
-
-        .logout-btn {
-            background: rgba(220, 38, 38, 0.85);
-        }
-        .logout-btn:hover { background: rgba(220, 38, 38, 1); }
-
-        /* ===== CONTAINER ===== */
         .container {
-            max-width: 100%;
+            max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+            padding-bottom: 40px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== STATS ===== */
-        .stats-bar {
+        /* ============ TOP BAR ============ */
+        .top-bar {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 22px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin-bottom: 22px;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px 16px;
-            background: #ffffff;
-            padding: 10px 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            gap: 12px;
+        }
+        .top-bar h1 {
+            font-size: 19px;
+            color: #fff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .top-bar h1 i { color: #38bdf8; font-size: 20px; }
+
+        .top-bar-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-back, .btn-logout {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 9px 20px;
+            border-radius: 100px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fecaca;
+        }
+        .btn-logout:hover { background: rgba(239, 68, 68, 0.28); color: #fff; transform: translateY(-2px); }
+
+        /* ============ HERO ============ */
+        .hero-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            padding: 26px 24px;
+            backdrop-filter: blur(16px);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.28), transparent 70%);
+            pointer-events: none;
+        }
+        .hero-section h2 {
+            font-size: 22px;
+            color: #fff;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-section h2 i { color: #38bdf8; font-size: 24px; }
+        .hero-section p {
+            font-size: 14px;
+            color: #c4d2e8;
+            line-height: 1.75;
+            position: relative;
+            z-index: 1;
         }
 
-        .stats-bar .stat-item { font-size: 13px; color: #475569; }
-        .stats-bar .stat-item strong { color: #0a2a4a; }
-        .stats-bar .stat-item i { color: #1a4d8f; margin-right: 4px; }
-
-        /* ===== FILTER ===== */
-        .filter-box {
-            display: flex;
-            flex-direction: column;
+        /* ============ STATS ============ */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 20px;
-            background: #ffffff;
-            padding: 14px 16px;
+        }
+        @media (max-width: 480px) {
+            .stats-bar { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.3s;
+        }
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.35);
+            transform: translateY(-2px);
+        }
+        .stat-item i { color: #38bdf8; font-size: 16px; margin-bottom: 2px; }
+        .stat-item .stat-num {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .stat-item .stat-label {
+            font-size: 10.5px;
+            color: #8fa6c4;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
+        /* ============ FILTER ============ */
+        .filter-box {
+            position: relative;
+            margin-bottom: 22px;
+        }
+        .filter-box .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8fa6c4;
+            font-size: 15px;
+            pointer-events: none;
+        }
         .filter-box .search-input {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 15px 18px 15px 46px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 14.5px;
+            font-family: inherit;
             outline: none;
             transition: 0.25s;
         }
-
+        .filter-box .search-input::placeholder { color: #5a6889; }
         .filter-box .search-input:focus {
-            border-color: #1a4d8f;
-            box-shadow: 0 0 0 4px rgba(26, 77, 143, 0.08);
+            border-color: rgba(56, 189, 248, 0.6);
+            background: rgba(56, 189, 248, 0.08);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
         }
 
-        /* ===== DEBATE CARD ===== */
+        /* ============ DEBATE CARD ============ */
         .debate-list {
             display: flex;
             flex-direction: column;
             gap: 18px;
         }
-
         .debate-card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 20px 18px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-            border-left: 6px solid #1a4d8f;
-            transition: 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 24px 22px;
+            backdrop-filter: blur(16px);
+            transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .debate-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3b82f6, #06b6d4);
+            opacity: 0.8;
+        }
+        .debate-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 24px 50px -22px rgba(56, 189, 248, 0.45);
         }
 
-        .debate-card:active { transform: scale(0.995); }
-
-        .debate-card .topic-number {
-            display: inline-block;
-            background: #1a4d8f;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 2px 12px;
-            border-radius: 50px;
-            margin-bottom: 8px;
+        .topic-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #7dd3fc;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+            letter-spacing: 0.4px;
         }
 
-        .debate-card .topic-en {
+        .topic-en {
             font-size: 17px;
             font-weight: 800;
-            color: #0a2a4a;
-            line-height: 1.4;
-            margin-bottom: 2px;
+            color: #fff;
+            line-height: 1.45;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
         }
-
-        .debate-card .topic-my {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1a4d8f;
-            margin-bottom: 12px;
-        }
-
-        .debate-card .question-box {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 12px 14px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 14px;
-        }
-
-        .debate-card .question-box .q-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: #94a3b8;
-            margin-bottom: 4px;
-        }
-
-        .debate-card .question-box .q-text {
+        .topic-my {
             font-size: 14px;
             font-weight: 600;
-            color: #0a2a4a;
-            line-height: 1.5;
-        }
-
-        .debate-card .question-box .q-text-my {
-            font-size: 13px;
-            color: #475569;
-            margin-top: 4px;
+            color: #7dd3fc;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
 
-        /* ===== FOLLOW UP ===== */
-        .followup-box {
-            background: #fefce8;
-            border-radius: 12px;
-            padding: 10px 14px;
-            border: 1px solid #fde68a;
+        /* ============ QUESTION BOX ============ */
+        .question-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 16px;
             margin-bottom: 14px;
         }
-
-        .followup-box .f-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: #b45309;
-            margin-bottom: 6px;
+        .q-label {
             display: flex;
             align-items: center;
             gap: 6px;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+        .q-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+        .q-text-my {
+            font-size: 13px;
+            color: #a8b8d4;
+            line-height: 1.7;
+            font-style: italic;
         }
 
-        .followup-box ul { list-style: none; padding: 0; margin: 0; }
-
+        /* ============ FOLLOW-UP BOX ============ */
+        .followup-box {
+            background: rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .f-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #fbbf24;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+        .followup-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
         .followup-box ul li {
             font-size: 13px;
-            color: #78350f;
-            padding: 3px 0 3px 16px;
+            color: #fde68a;
+            padding-left: 18px;
             position: relative;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-
         .followup-box ul li::before {
             content: "▸";
             position: absolute;
-            left: 0;
-            color: #d97706;
-            font-weight: 700;
+            left: 4px;
+            color: #f59e0b;
+            font-weight: 800;
         }
 
-        /* ===== STEP BY STEP ===== */
-        .steps-section { margin-top: 6px; }
-
-        .steps-section .steps-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #0a2a4a;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* ============ STEPS ============ */
+        .steps-section {
+            margin-bottom: 16px;
         }
-
-        .steps-section .steps-title i { color: #1a4d8f; }
-
-        .step-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
-            background: #f0f7ff;
-            border-radius: 10px;
-            padding: 10px 12px;
-            border-left: 4px solid #1a4d8f;
-        }
-
-        .step-item .step-num {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            background: #1a4d8f;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .step-item .step-content { flex: 1; }
-
-        .step-item .step-content .step-en {
-            font-size: 13px;
-            color: #0a2a4a;
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        .step-item .step-content .step-my {
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.6;
-            margin-top: 2px;
-        }
-
-        /* ===== ANSWER TOGGLE ===== */
-        .answer-toggle {
-            margin-top: 12px;
-            border-top: 2px dashed #e2e8f0;
-            padding-top: 12px;
-        }
-
-        .toggle-btn {
-            background: #1a4d8f;
-            border: none;
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
+        .steps-title {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin: 0 auto;
-            touch-action: manipulation;
+            font-size: 12px;
+            font-weight: 800;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
+        }
+        .steps-title i { font-size: 14px; }
+        .step-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-left: 3px solid #3b82f6;
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            color: #fff;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .step-en {
+            font-size: 13px;
+            color: #eef2ff;
+            line-height: 1.6;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .step-my {
+            font-size: 12.5px;
+            color: #a8b8d4;
+            line-height: 1.65;
         }
 
-        .toggle-btn:active {
-            background: #0f3a6b;
-            transform: scale(0.97);
+        /* ============ ANSWER TOGGLE ============ */
+        .answer-toggle {
+            border-top: 1px dashed rgba(255, 255, 255, 0.12);
+            padding-top: 16px;
         }
+        .toggle-btn {
+            width: 100%;
+            padding: 13px 20px;
+            background: linear-gradient(120deg, #3b82f6, #06b6d4);
+            border: none;
+            color: #fff;
+            border-radius: 100px;
+            font-size: 13.5px;
+            font-weight: 800;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 10px 24px -10px rgba(59, 130, 246, 0.8);
+        }
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px -12px rgba(59, 130, 246, 1);
+        }
+        .toggle-btn:active { transform: scale(0.98); }
 
         .full-answer {
             display: none;
-            margin-top: 12px;
-            background: #f0f7ff;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border: 1px solid #d4e2f0;
-            gap: 10px;
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 16px;
+            gap: 12px;
             flex-direction: column;
+            animation: slideDown 0.35s ease;
         }
-
         .full-answer.show { display: flex; }
-
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .full-answer .ans-block {
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.85;
+        }
         .full-answer .en-answer {
-            font-size: 14px;
-            color: #0a2a4a;
-            padding: 10px 12px;
-            background: #ffffff;
-            border-radius: 8px;
-            border-left: 4px solid #1a4d8f;
-            line-height: 1.8;
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 3px solid #3b82f6;
+            color: #d4def0;
         }
-
         .full-answer .my-answer {
-            font-size: 14px;
-            color: #1f3a5f;
-            padding: 10px 12px;
-            background: #ffffff;
-            border-radius: 8px;
-            border-left: 4px solid #d4891e;
-            line-height: 1.8;
+            background: rgba(251, 191, 36, 0.06);
+            border-left: 3px solid #f59e0b;
+            color: #d4def0;
         }
+        .full-answer .ans-flag {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .full-answer .my-answer .ans-flag { color: #fbbf24; }
 
-        /* ===== EMPTY STATE ===== */
+        /* ============ EMPTY STATE ============ */
         .empty-state {
             text-align: center;
-            padding: 30px 20px;
-            color: #94a3b8;
-            font-size: 15px;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            color: #8fa6c4;
         }
-
         .empty-state i {
-            font-size: 40px;
+            font-size: 44px;
             display: block;
-            margin-bottom: 10px;
-            opacity: 0.5;
+            margin-bottom: 12px;
+            opacity: 0.4;
         }
+        .empty-state p { font-size: 15px; }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .debate-card { padding: 16px 14px; }
-            .debate-card .topic-en { font-size: 15px; }
-            .debate-card .topic-my { font-size: 14px; }
-            .step-item .step-content .step-en,
-            .step-item .step-content .step-my { font-size: 12px; }
-            .full-answer .en-answer,
-            .full-answer .my-answer { font-size: 13px; }
+        /* ============ FOOTER ============ */
+        .footer {
+            margin-top: 30px;
+            padding: 22px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            font-size: 12px;
+            color: #8fa6c4;
+            letter-spacing: 0.5px;
         }
+        .footer i { color: #38bdf8; margin: 0 4px; }
+        .footer b { color: #7dd3fc; }
 
-        @media (max-width: 380px) {
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .top-bar { padding: 14px 16px; }
             .top-bar h1 { font-size: 16px; }
-            .debate-card .topic-en { font-size: 14px; }
+            .btn-back, .btn-logout { padding: 7px 14px; font-size: 12px; }
+            .hero-section { padding: 20px 18px; }
+            .hero-section h2 { font-size: 18px; }
+            .debate-card { padding: 20px 16px; }
+            .topic-en { font-size: 15px; }
+            .topic-my { font-size: 13px; }
+            .q-text { font-size: 13px; }
+            .q-text-my { font-size: 12.5px; }
+            .step-en { font-size: 12.5px; }
+            .step-my { font-size: 12px; }
+            .full-answer .ans-block { font-size: 13px; padding: 12px 14px; }
         }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f0f4f9; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #b8c9e0; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #8aa3c0; }
-
-        /* ===== MEPT MASTER HUB — PREMIUM UI OVERRIDE ===== */
-        :root{
-            --bg:#f5f7fb;
-            --surface:rgba(255,255,255,.92);
-            --surface-solid:#fff;
-            --text:#152238;
-            --muted:#68758a;
-            --line:#e7ebf2;
-            --primary:#315bea;
-            --primary-2:#6948e8;
-            --primary-soft:#eef2ff;
-            --success:#13a673;
-            --shadow:0 10px 35px rgba(27,42,74,.08);
-            --shadow-hover:0 18px 45px rgba(27,42,74,.13);
-            --radius:22px;
+        @media (max-width: 380px) {
+            .stats-bar { gap: 6px; }
+            .stat-item { padding: 10px 8px; }
+            .stat-item .stat-num { font-size: 18px; }
+            .stat-item .stat-label { font-size: 9.5px; }
         }
-        html{scroll-behavior:smooth}
-        body{
-            background:
-                radial-gradient(circle at 5% 0%,rgba(49,91,234,.10),transparent 28rem),
-                radial-gradient(circle at 95% 8%,rgba(105,72,232,.09),transparent 30rem),
-                var(--bg) !important;
-            color:var(--text);
-            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Myanmar",sans-serif;
-        }
-        .top-bar{
-            position:sticky !important;
-            top:0;
-            z-index:1000;
-            background:rgba(15,27,52,.92) !important;
-            backdrop-filter:blur(18px);
-            -webkit-backdrop-filter:blur(18px);
-            box-shadow:0 8px 30px rgba(15,27,52,.18) !important;
-            border-bottom:1px solid rgba(255,255,255,.10);
-        }
-        .top-bar h1{letter-spacing:-.025em;font-weight:800 !important;}
-        .top-bar a, .top-bar .back-link{
-            border:1px solid rgba(255,255,255,.14);
-            background:rgba(255,255,255,.08);
-            border-radius:12px;
-            padding:9px 13px !important;
-            transition:.2s ease;
-        }
-        .top-bar a:hover, .top-bar .back-link:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
-        .top-bar .logout-btn{
-            background:rgba(220,38,38,.85) !important;
-            border-color:rgba(255,255,255,.14) !important;
-        }
-        .top-bar .logout-btn:hover{background:rgba(220,38,38,1) !important;}
-        .stats-bar{
-            display:grid !important;
-            grid-template-columns:repeat(3,minmax(0,1fr));
-            gap:14px !important;
-            margin:22px 0 !important;
-        }
-        .stat-item{
-            background:var(--surface) !important;
-            border:1px solid var(--line) !important;
-            border-radius:18px !important;
-            box-shadow:var(--shadow) !important;
-            padding:16px 18px !important;
-            transition:.2s ease;
-        }
-        .stat-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover) !important}
-        .stat-item strong{font-size:22px !important;font-weight:850 !important;color:var(--primary) !important;}
-        .filter-box{
-            background:rgba(255,255,255,.94) !important;
-            border:1px solid var(--line) !important;
-            border-radius:16px !important;
-            box-shadow:var(--shadow) !important;
-        }
-        .filter-box .search-input{
-            border:1px solid #dfe5ef !important;
-            background:#fff !important;
-            border-radius:16px !important;
-            box-shadow:0 8px 25px rgba(27,42,74,.07) !important;
-            min-height:52px;
-            padding:0 18px 0 48px !important;
-            font-size:15px !important;
-        }
-        .filter-box .search-input:focus{
-            border-color:rgba(49,91,234,.55) !important;
-            box-shadow:0 0 0 4px rgba(49,91,234,.10),0 10px 30px rgba(27,42,74,.08) !important;
-        }
-        .debate-card{
-            background:var(--surface-solid) !important;
-            border:1px solid var(--line) !important;
-            border-radius:var(--radius) !important;
-            box-shadow:var(--shadow) !important;
-            overflow:hidden;
-            transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
-        }
-        .debate-card:hover{
-            transform:translateY(-3px);
-            box-shadow:var(--shadow-hover) !important;
-            border-color:#d9e0ee !important;
-        }
-        .debate-card + .debate-card{margin-top:16px !important}
-        .debate-card .topic-number{
-            background:var(--primary-soft) !important;
-            color:#3d50bd !important;
-            border:1px solid #dce3ff;
-            border-radius:999px !important;
-            padding:5px 10px !important;
-            font-size:11px !important;
-            font-weight:800 !important;
-            letter-spacing:.02em;
-        }
-        .debate-card .topic-en{
-            font-size:18px !important;
-            line-height:1.55 !important;
-            font-weight:800 !important;
-            letter-spacing:-.015em;
-        }
-        .debate-card .topic-my{
-            line-height:1.85 !important;
-            font-family:"Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif;
-        }
-        .followup-box{
-            background:#f8faff !important;
-            border:1px solid #e8edfb !important;
-            border-radius:16px !important;
-            padding:14px 16px !important;
-        }
-        .step-item{
-            background:#fbfcfe !important;
-            border:1px solid var(--line) !important;
-            border-radius:14px !important;
-            padding:13px 15px !important;
-        }
-        .toggle-btn{
-            background:linear-gradient(135deg,var(--primary),var(--primary-2)) !important;
-            border:0 !important;
-            box-shadow:0 8px 18px rgba(49,91,234,.22) !important;
-            color:#fff !important;
-            font-weight:800 !important;
-            border-radius:12px !important;
-        }
-        .toggle-btn:hover{transform:translateY(-1px);filter:brightness(1.04)}
-        .full-answer{
-            background:linear-gradient(180deg,#f8faff,#fff) !important;
-            border:1px solid #e3e8f5 !important;
-            border-radius:16px !important;
-            line-height:1.8 !important;
-        }
-        .debate-list{padding-bottom:70px}
-        .empty-state{
-            background:rgba(255,255,255,.8);
-            border:1px dashed #cfd7e7;
-            border-radius:20px;
-            padding:40px 20px;
-            text-align:center;
-            color:var(--muted);
-        }
-        @media (max-width:700px){
-            .top-bar h1{font-size:18px !important}
-            .stats-bar{gap:9px !important;margin:14px 0 !important}
-            .stat-item{padding:12px 10px !important;border-radius:15px !important}
-            .stat-item strong{font-size:18px !important}
-            .debate-card{border-radius:18px !important}
-            .debate-card .topic-en{font-size:16px !important}
-        }
-
-        /* ===== DARK MODE ===== */
-        #uiThemeToggle{
-            margin-left:8px;
-            border:1px solid rgba(255,255,255,.16);
-            background:rgba(255,255,255,.08);
-            color:#fff;
-            border-radius:12px;
-            min-width:42px;
-            height:40px;
-            cursor:pointer;
-        }
-        body.dark-ui{
-            --bg:#0b1220; --surface:rgba(18,28,46,.92); --surface-solid:#111c2e;
-            --text:#e8eef9; --muted:#9aa8bd; --line:#26344b; --primary-soft:#18264c;
-            background:radial-gradient(circle at 10% 0%,rgba(49,91,234,.18),transparent 28rem),#0b1220 !important;
-        }
-        body.dark-ui .filter-box{background:#111c2e !important;border-color:#2b3a52 !important;}
-        body.dark-ui .filter-box .search-input{background:#111c2e !important;color:#eef4ff !important;border-color:#2b3a52 !important}
-        body.dark-ui .followup-box{background:#111c2e !important;border-color:#293950 !important}
-        body.dark-ui .step-item{background:#0f1929 !important;border-color:#293950 !important}
-        body.dark-ui .full-answer{background:#101b2c !important;border-color:#2b3a52 !important}
-        body.dark-ui .full-answer .en-answer,
-        body.dark-ui .full-answer .my-answer{background:#0d1826 !important;color:#e8eef9 !important;}
-        body.dark-ui .debate-card .question-box{background:#0f1929 !important;border-color:#293950 !important;}
-        body.dark-ui .debate-card .question-box .q-text{color:#e8eef9 !important;}
-        body.dark-ui .debate-card .question-box .q-text-my{color:#9aa8bd !important;}
-        body.dark-ui .step-item .step-content .step-en{color:#e8eef9 !important;}
-        body.dark-ui .step-item .step-content .step-my{color:#9aa8bd !important;}
-        body.dark-ui .debate-card .topic-en{color:#e8eef9 !important;}
     </style>
 </head>
 <body>
 
-    <!-- ===== TOP BAR ===== -->
-    <header class="top-bar">
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Main Dashboard</a>
-            <button type="button" class="back-link logout-btn" onclick="logoutUser()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </div>
-        <h1><i class="fas fa-comments"></i> Debate Practice – MEPT Master Hub</h1>
-    </header>
+    <div class="grid-overlay"></div>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="container">
+    <div class="container">
 
-        <!-- Stats -->
-        <div class="stats-bar" id="statsBar">
-            <span class="stat-item"><i class="fas fa-comments"></i> ခေါင်းစဉ် <strong id="totalCount">0</strong> ခု</span>
-            <span class="stat-item"><i class="fas fa-check-circle"></i> အဖြေပါ <strong id="answerCount">0</strong> ခု</span>
-            <span class="stat-item"><i class="fas fa-question-circle"></i> Follow-up <strong id="followupCount">0</strong> ခု</span>
+        <!-- ================= TOP BAR ================= -->
+        <div class="top-bar">
+            <h1><i class="fas fa-comments"></i> Debate Practice</h1>
+            <div class="top-bar-actions">
+                <a href="index.html" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <button type="button" class="btn-logout" onclick="logoutUser()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
         </div>
 
-        <!-- Search -->
+        <!-- ================= HERO ================= -->
+        <div class="hero-section">
+            <h2><i class="fas fa-gavel"></i> MEPT Debate Practice</h2>
+            <p>
+                MEPT Speaking စာမေးပွဲရဲ့ Debate ပိုင်းအတွက် အမေးများတဲ့ ခေါင်းစဉ် ၁၃ ခုကို
+                လေ့ကျင့်ပါ။ ခေါင်းစဉ်တစ်ခုချင်းစီအတွက် Follow-up Questions, Step-by-Step
+                ဖြေနည်းနဲ့ Sample Answer အပြည့်အစုံ ပါဝင်ပါတယ်။
+            </p>
+        </div>
+
+        <!-- ================= STATS ================= -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fas fa-comments"></i>
+                <span class="stat-num" id="totalCount">0</span>
+                <span class="stat-label">Topics</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-check-circle"></i>
+                <span class="stat-num" id="answerCount">0</span>
+                <span class="stat-label">Answers</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-question-circle"></i>
+                <span class="stat-num" id="followupCount">0</span>
+                <span class="stat-label">Follow-ups</span>
+            </div>
+        </div>
+
+        <!-- ================= SEARCH ================= -->
         <div class="filter-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 ခေါင်းစဉ်ရှာဖွေရန် (ဥပမာ - Safety, Food, English...)">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput"
+                   placeholder="🔍 ခေါင်းစဉ်ရှာဖွေရန် (ဥပမာ - Safety, Food, English...)">
         </div>
 
-        <!-- Debate List -->
-        <div class="debate-list" id="debateList">
-            <!-- Dynamically rendered -->
-        </div>
-    </main>
+        <!-- ================= DEBATE LIST ================= -->
+        <div class="debate-list" id="debateList"></div>
 
+        <!-- ================= FOOTER ================= -->
+        <div class="footer">
+            <i class="fas fa-anchor"></i> MEPT <b>Debate Practice</b> · Maritime English Test <i class="fas fa-anchor"></i>
+            <br>
+            <span style="font-size: 11px;">Copyright &copy; 2026 TTNY Team. All rights reserved.</span>
+        </div>
+
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
     <script>
         // ============================================================
-        // LOGOUT FUNCTION
+        // LOGOUT — mept_session ကို ဖျက်
         // ============================================================
         function logoutUser() {
             if (confirm('Logout လုပ်ရန် သေချာပါသလား?')) {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userName');
+                localStorage.removeItem('mept_session');
                 sessionStorage.clear();
                 window.location.replace('index.html');
             }
@@ -654,7 +664,6 @@
         // DEBATE DATA (13 topics)
         // ============================================================
         const debateData = [
-            // 1
             {
                 topicEn: 'Safety Vest and Safety Sign (Agree or Disagree?) How do these protect you from accidents?',
                 topicMy: 'ဘေးကင်းရေး အင်္ကျီနှင့် သတိပေး ဆိုင်းဘုတ်များ (သဘောတူ/မတူ) ဒါတွေက မတော်တဆမှုများမှ ဘယ်လိုကာကွယ်ပေးသလဲ?',
@@ -676,7 +685,6 @@
                     my: 'ဟုတ်ကဲ့၊ ဘေးကင်းရေးအင်္ကျီဝတ်ခြင်းနဲ့ သတိပေးဆိုင်းဘုတ်တွေကို လိုက်နာခြင်းကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ဘေးကင်းရေးအင်္ကျီတွေက အလုပ်သမားတွေကို အထူးသဖြင့် မှောင်တဲ့ ဒါမှမဟုတ် လူစည်ကားတဲ့နေရာတွေမှာ မြင်သာစေတဲ့အတွက် ယာဉ်မောင်းတွေနဲ့ စက်ကိရိယာမောင်းသူတွေ သူတို့ကို မြင်ပြီး မတော်တဆမှုတွေ ရှောင်နိုင်တယ်။ သတိပေးဆိုင်းဘုတ်တွေက ချော်တဲ့ကြမ်းပြင်၊ ပြုတ်ကျတဲ့ပစ္စည်းတွေ ဒါမှမဟုတ် တားမြစ်ထားတဲ့နေရာတွေလိုမျိုး အန္တရာယ်တွေအကြောင်း သတိပေးတယ်။ ဥပမာ၊ "စိုစွတ်သောကြမ်းပြင်" ဆိုင်းဘုတ်က ချော်လဲခြင်းကို ကာကွယ်ပေးပြီး ရောင်ပြန်အင်္ကျီက ညဘက်မှာ အလုပ်သမားတွေကို ယာဉ်မောင်းတွေ မြင်နိုင်အောင် ကူညီပေးတယ်။ ဒီအစီအမံတွေက ရိုးရှင်းပေမယ့် အလွန်ထိရောက်တယ်။ အသက်တွေကို ကယ်တင်ပြီး ဒဏ်ရာတွေကို ကာကွယ်ကာ လူတိုင်းအတွက် ပိုလုံခြုံတဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပေးတယ်။ ဘေးကင်းရေးကို အမြဲတမ်း ဦးစားပေးသင့်တယ်။'
                 }
             },
-            // 2
             {
                 topicEn: 'Healthy Food',
                 topicMy: 'ကျန်းမာရေးနှင့်ညီညွတ်သော အစားအစာ',
@@ -698,7 +706,6 @@
                     my: 'ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာစားခြင်းက အလွန်အရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ သတ္တုဓာတ်တွေ ပေးတယ်။ သန်စွမ်း၊ တက်ကြွအောင်ထားပြီး ဆီးချိုနဲ့ နှလုံးရောဂါလိုမျိုး ရောဂါတွေကို ကာကွယ်ပေးတယ်။ ဥပမာ၊ နေ့တိုင်း သစ်သီးနဲ့ ဟင်းသီးဟင်းရွက်တွေ စားခြင်းက ကိုယ်ခံအားစနစ်ကို ခိုင်မာစေပြီး သကြားနဲ့ ဆီအများကြီးပါတဲ့ အစားအစာတွေ အလွန်အကျွံစားရင် နေမကောင်းဖြစ်နိုင်တယ်။ အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာဟာ ကျွန်တော်တို့ရဲ့ အနာဂတ်ကျန်းမာရေးအတွက် ရင်းနှီးမြှုပ်နှံမှုတစ်ခုပါ။ ပိုရှည်ပြီး ပိုပျော်ရွှင်တဲ့ဘဝကို နေထိုင်ဖို့ နေ့တိုင်း ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာကို ရွေးချယ်သင့်တယ်။'
                 }
             },
-            // 3
             {
                 topicEn: 'Friendly Coworkers - Working Together',
                 topicMy: 'ဖော်ရွေသော လုပ်ဖော်ကိုင်ဖက်များ - အတူတကွ အလုပ်လုပ်ခြင်း',
@@ -720,7 +727,6 @@
                     my: 'ဟုတ်ကဲ့၊ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ကျွန်တော် သဘောတူတယ်။ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက ပွင့်လင်းစွာ ဆက်သွယ်ပြောဆိုတယ်၊ အကြံဉာဏ်တွေမျှဝေတယ်၊ ပြဿနာတွေကို အတူတကွ ဖြေရှင်းကြတယ်။ ဒါက အပြုသဘောဆောင်တဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပြီး စိတ်ဖိစီးမှုကို လျှော့ချပေးတယ်။ လုပ်ဖော်ကိုင်ဖက်တွေက အသိပညာမျှဝေခြင်း၊ ခက်ခဲတဲ့အလုပ်တွေမှာ ပံ့ပိုးကူညီခြင်းနဲ့ အပြုသဘောဆောင်တဲ့ တုံ့ပြန်ချက်ပေးခြင်းတို့ဖြင့် တစ်ယောက်ကိုတစ်ယောက် ကူညီနိုင်တယ်။ အရေးပေါ်အခြေအနေတွေမှာ တစ်ယောက်ကိုတစ်ယောက် အစားထိုးလုပ်ပေးနိုင်တယ်။ လုပ်ဖော်ကိုင်ဖက်တွေ အဆင်မပြေရင် နားလည်မှုလွဲမှားခြင်း၊ နှောင့်နှေးခြင်းနဲ့ ကုန်ထုတ်စွမ်းအားနည်းခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ အတိုချုပ်ပြောရရင် ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက အလုပ်ကို ပိုလွယ်ကူ၊ ပိုပျော်ရွှင်၊ ပိုထိရောက်စေတယ်။ လေးစားမှုနဲ့ အသင်းလိုက်လုပ်ဆောင်မှုက အောင်မြင်မှုရဲ့ သော့ချက်ပါ။'
                 }
             },
-            // 4
             {
                 topicEn: 'Social Media & Internet Usage',
                 topicMy: 'လူမှုမီဒီယာနှင့် အင်တာနက်အသုံးပြုခြင်း',
@@ -742,7 +748,6 @@
                     my: 'လူတွေဟာ ဆက်သွယ်ရေး၊ ပညာရေး၊ စီးပွားရေးနဲ့ ဖျော်ဖြေရေးအတွက် အင်တာနက်နဲ့ လူမှုမီဒီယာကို အသုံးပြုကြတယ်။ Facebook လိုမျိုး အက်ပ်တွေနဲ့ စာတိုပေးပို့ရေးကိရိယာတွေက မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ ကမ္ဘာအနှံ့ ဆက်သွယ်နေဖို့ ကူညီပေးတယ်။ ဒါက အသစ်အဆန်းတွေ သင်ယူဖို့၊ အလုပ်အကိုင်အခွင့်အလမ်းတွေ ရှာဖွေဖို့နဲ့ ကျွန်တော်တို့ရဲ့ အကြံဉာဏ်တွေကို လျင်မြန်စွာ မျှဝေဖို့ ကူညီပေးတယ်။ ဒါပေမယ့် အလွန်အကျွံသုံးရင် စွဲလမ်းခြင်း၊ မျက်စိပင်ပန်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်မှုနည်းခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ သတင်းအတုနဲ့ ဆိုက်ဘာဘူလီယင်တွေလည်း ပြင်းထန်တဲ့ ပြဿနာတွေပါ။ ကျွန်တော့်အမြင်မှာ လူမှုမီဒီယာက ကောင်းတာရော ဆိုးတာရော ရှိတယ်။ အဓိကက ပညာရှိရှိသုံးဖို့၊ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ဖို့နဲ့ အွန်လိုင်းမှာ လုံခြုံအောင်နေဖို့ပါ။'
                 }
             },
-            // 5
             {
                 topicEn: 'Healthy Food vs Fast Food',
                 topicMy: 'ကျန်းမာရေးနှင့်ညီညွတ်သော အစားအစာနှင့် အမြန်အစားအစာ',
@@ -764,7 +769,6 @@
                     my: 'ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက အမြန်အစားအစာထက် ပိုကောင်းတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ ရေရှည်စွမ်းအင်တွေ ပေးတယ်။ ရောဂါတွေကို ကာကွယ်ပြီး ကြံ့ခိုင်အောင်ထားတယ်။ အမြန်အစားအစာမှာ အဆီအမျိုးအစားဆိုးတွေ၊ ဆိုဒီယမ်နဲ့ သကြားဓာတ်တွေ မြင့်မားစွာပါဝင်တယ်။ အဝလွန်ခြင်း၊ နှလုံးပြဿနာတွေနဲ့ ဆီးချိုရောဂါတွေ ဖြစ်စေနိုင်တယ်။ အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်နဲ့ အနာဂတ်အတွက် ပိုကောင်းတဲ့ ရွေးချယ်မှုပါ။ အမြန်အစားအစာကို နေ့တိုင်းမဟုတ်ဘဲ ရံဖန်ရံခါသာ စားသင့်တယ်။'
                 }
             },
-            // 6
             {
                 topicEn: 'Importance of Water and Sleep',
                 topicMy: 'ရေနှင့် အိပ်စက်ခြင်း၏ အရေးပါမှု',
@@ -786,7 +790,6 @@
                     my: 'ဟုတ်ကဲ့၊ ရေနဲ့ အိပ်စက်ခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။ ရေက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို ရေဓာတ်ဖြည့်ပေးပြီး အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းလိုမျိုး အရေးကြီးတဲ့ လုပ်ငန်းဆောင်တာတွေကို ကူညီပေးတယ်။ ရေမလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်ပြီး ပင်ပန်းခြင်း ဒါမှမဟုတ် မူးဝေခြင်းတွေ ခံစားရနိုင်တယ်။ အိပ်စက်ခြင်းက ဦးနှောက်နဲ့ ခန္ဓာကိုယ်ကို ဆဲလ်တွေပြုပြင်ဖို့၊ မှတ်ဉာဏ်တွေ စုစည်းဖို့နဲ့ ခိုင်မာတဲ့ ကိုယ်ခံအားစနစ်ကို ထိန်းသိမ်းဖို့ အခွင့်အရေးပေးတယ်။ အိပ်ရေးမဝရင် ပင်ပန်းနွမ်းနယ်ခြင်း၊ အာရုံစူးစိုက်မှုနည်းခြင်းနဲ့ စိတ်အပြောင်းအလဲမြန်ခြင်းတွေ ဖြစ်စေတယ်။ အတိုချုပ်ပြောရရင် ရေနဲ့ အိပ်စက်ခြင်းဟာ ကျန်းမာရေးကောင်းဖို့ အုတ်မြစ်တွေပါ။ ရေလုံလောက်စွာသောက်ပြီး ညတိုင်း ၇–၈ နာရီ အိပ်သင့်တယ်။'
                 }
             },
-            // 7
             {
                 topicEn: 'Free Time and Punctuality',
                 topicMy: 'အားလပ်ချိန်နှင့် အချိန်မှန်ခြင်း',
@@ -808,7 +811,6 @@
                     my: 'ဟုတ်ကဲ့၊ အားလပ်ချိန်နဲ့ အချိန်မှန်ခြင်း နှစ်ခုစလုံးက အရေးကြီးတယ်လို့ ကျွန်တော် သဘောတူတယ်။ အားလပ်ချိန်က စိတ်ဖိစီးမှုကို လျှော့ချပေးပြီး ဝါသနာတွေကို လုပ်ကိုင်နိုင်စေတယ်၊ အနားယူနိုင်တယ်၊ မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ အချိန်ဖြုန်းနိုင်တယ်။ စွမ်းအင်ပြန်လည်ဖြည့်တင်းပြီး ကျန်းမာအောင်နေနိုင်တယ်။ အချိန်မှန်ခြင်းက သူတစ်ပါးကို လေးစားမှုကို ပြသပြီး ကိုယ်ရေးကိုယ်တာ စည်းကမ်းနဲ့ ပရော်ဖက်ရှင်နယ်ဆန်မှုကို ထင်ဟပ်စေတယ်။ ယုံကြည်မှုကို တည်ဆောက်ပြီး အဖွဲ့တွေ ချောမွေ့စွာ အလုပ်လုပ်နိုင်အောင် ကူညီပေးတယ်။ အတိုချုပ်ပြောရရင် အားလပ်ချိန်က ကျွန်တော်တို့ကို ကျန်းမာပျော်ရွှင်အောင်ထားပြီး အချိန်မှန်ခြင်းက ယုံကြည်စိတ်ချရပြီး အောင်မြင်အောင်ထားတယ်။ မျှခြေရှိတဲ့ဘဝအတွက် နှစ်ခုစလုံး မရှိမဖြစ်လိုအပ်ပါတယ်။'
                 }
             },
-            // 8
             {
                 topicEn: 'English Proficiency – Does Higher Proficiency Guarantee Better Job Opportunities?',
                 topicMy: 'အင်္ဂလိပ်စာကျွမ်းကျင်မှု – ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းများ ပိုမိုရရှိစေသလား?',
@@ -830,7 +832,6 @@
                     my: 'အင်္ဂလိပ်စာ ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းတွေကို သိသိသာသာ တိုးမြင့်စေတယ်လို့ ကျွန်တော်ယုံကြည်တယ်။ ဒါပေမယ့် တစ်ခုတည်းနဲ့ အာမခံချက်မပေးနိုင်ဘူး။ ယနေ့ခေတ် ကမ္ဘာ့ဖလားပြင်ဖြစ်နေတဲ့ ကမ္ဘာမှာ အင်္ဂလိပ်စာဟာ စီးပွားရေး၊ လေကြောင်းနဲ့ ရေကြောင်းလုပ်ငန်းတွေရဲ့ အဓိကဘာသာစကားဖြစ်တယ်။ အင်္ဂလိပ်စာစွမ်းရည်ကောင်းတဲ့ ရေကြောင်းသားတွေဟာ နိုင်ငံပေါင်းစုံက အမှုထမ်းတွေနဲ့ ရှင်းလင်းစွာ ဆက်သွယ်နိုင်တယ်၊ ဘေးကင်းရေး ညွှန်ကြားချက်တွေကို နားလည်နိုင်တယ်၊ အရေးပေါ်အခြေအနေတွေကို ထိရောက်စွာ ကိုင်တွယ်နိုင်တယ်။ ဒါပေမယ့် အလုပ်ရှင်တွေက နည်းပညာဆိုင်ရာ အသိပညာ၊ အတွေ့အကြုံ၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုလိုမျိုး ပျော့ပြောင်းတဲ့စွမ်းရည်တွေနဲ့ ခိုင်မာတဲ့ အလုပ်ကျင့်ဝတ်တွေကိုလည်း ရှာဖွေကြတယ်။ ဒါကြောင့် အင်္ဂလိပ်စာကျွမ်းကျင်မှုက အားသာချက်ကြီးတစ်ခုဖြစ်ပေမယ့် အသက်မွေးဝမ်းကျောင်းအောင်မြင်မှုက အချက်များစွာရဲ့ ပေါင်းစပ်မှုအပေါ် မူတည်ပါတယ်။ နယ်ပယ်အားလုံးမှာ စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ မရှိမဖြစ်လိုအပ်ပါတယ်။'
                 }
             },
-            // 9
             {
                 topicEn: 'Learning a New Skill – Is Continuous Learning of New Skills Essential for Career Growth?',
                 topicMy: 'ကျွမ်းကျင်မှုအသစ်သင်ယူခြင်း – ကျွမ်းကျင်မှုအသစ်များကို စဉ်ဆက်မပြတ်သင်ယူခြင်းသည် အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်သလား?',
@@ -853,7 +854,6 @@
                     my: 'ကျွမ်းကျင်မှုအသစ်တွေကို စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။ ကမ္ဘာကြီးက အထူးသဖြင့် ရေကြောင်းလုပ်ငန်းမှာ လျှင်မြန်စွာ ပြောင်းလဲနေတယ်။ အလိုအလျောက်သွားလာရေးစနစ်တွေ၊ သဘာဝပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေရှိတဲ့ လောင်စာဆီတွေနဲ့ ဒစ်ဂျစ်တယ်ကုန်တင်ကုန်ချလုပ်ငန်းတွေလိုမျိုး နည်းပညာအသစ်တွေ နှစ်စဉ်ပေါ်ထွက်နေတယ်။ ကျွမ်းကျင်မှုအဆင့်မြှင့်တင်ဖို့ ပျက်ကွက်တဲ့ ရေကြောင်းသားတွေ နောက်ကျကျန်နေနိုင်တယ်။ အခြားတစ်ဖက်မှာ ဆက်လက်သင်ယူနေတဲ့သူတွေက ပိုမိုတန်ဖိုးရှိလာတယ်၊ လိုက်လျောညီထွေဖြစ်လာတယ်၊ ခံနိုင်ရည်ရှိလာတယ်။ ယနေ့ခေတ် ရေကြောင်းသားတွေအတွက် အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေမှာ ဒစ်ဂျစ်တယ်တတ်မြောက်မှု၊ အင်္ဂလိပ်စာဆက်သွယ်မှု၊ အရေးပေါ်တုံ့ပြန်မှုနဲ့ သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ အသိပညာတွေ ပါဝင်တယ်။ သင်ယူခြင်းဟာ တစ်သက်တာခရီးတစ်ခုဖြစ်ပြီး ကျွမ်းကျင်မှုအသစ်တိုင်းက အခွင့်အလမ်းအသစ်တွေဆီ တံခါးဖွင့်ပေးတယ်။'
                 }
             },
-            // 10
             {
                 topicEn: 'Drinking Enough Water',
                 topicMy: 'ရေဓာတ်လုံလောက်စွာ သောက်သုံးခြင်း',
@@ -875,7 +875,6 @@
                     my: 'ဟုတ်ကဲ့၊ ရေဓာတ်လုံလောက်စွာ သောက်သုံးခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။ ရေဟာ ကျွန်တော်တို့ခန္ဓာကိုယ် မှန်ကန်စွာလည်ပတ်ဖို့ အသက်သွေးကြောဖြစ်တယ်။ အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းတို့ကို ကူညီပေးတယ်။ အရေပြားကို ကျန်းမာစေပြီး ဦးနှောက်ကို နိုးကြားစေတယ်။ ရေဓာတ်မလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်မှု ဖြစ်နိုင်ပြီး ပင်ပန်းနွမ်းနယ်ခြင်း၊ မူးဝေခြင်း၊ ခေါင်းကိုက်ခြင်းနဲ့ အစာခြေစနစ်ပြဿနာတွေ ဖြစ်စေနိုင်တယ်။ ပြင်းထန်တဲ့အခြေအနေမှာ ကျောက်ကပ်ကို ထိခိုက်စေနိုင်တယ်။ ရေဓာတ်ပြည့်ဝနေခြင်းဟာ ရိုးရှင်းပေမယ့် စွမ်းအားရှိတဲ့ အလေ့အထတစ်ခုပါ။ နေ့တိုင်း ရေ ၂–၃ လီတာလောက် သောက်သင့်တယ်။'
                 }
             },
-            // 11
             {
                 topicEn: 'Online shopping save time',
                 topicMy: 'အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်ကို သက်သာစေသည်',
@@ -897,7 +896,6 @@
                     my: 'ဟုတ်ကဲ့၊ အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်အများကြီး သက်သာစေတယ်လို့ ကျွန်တော် သဘောတူတယ်။ ခရီးမသွားဘဲ၊ တန်းစီမစောင့်ဘဲ၊ ယာဉ်ကြောပိတ်ဆို့မှုနဲ့ မရုန်းကန်ဘဲ အိမ်ကနေ ၂၄ နာရီ ဈေးဝယ်နိုင်တယ်။ ဈေးနှုန်းတွေကို အလွယ်တကူ နှိုင်းယှဉ်နိုင်ပြီး ဘယ်နေရာကမဆို ကုန်ပစ္စည်းတွေ ရှာနိုင်တယ်။ ဒါပေမယ့် အွန်လိုင်းဈေးဝယ်ခြင်းမှာ ပို့ဆောင်ရေးနှောင့်နှေးခြင်း၊ ပစ္စည်းမှားပို့ခြင်းနဲ့ အွန်လိုင်းလိမ်လည်မှု အန္တရာယ်တွေလိုမျိုး အားနည်းချက်တွေလည်း ရှိတယ်။ အတိုချုပ်ပြောရရင် ယုံကြည်ရတဲ့ ဝဘ်ဆိုက်တွေကို သုံးပြီး သုံးသပ်ချက်တွေကို သေချာစစ်ဆေးရင် အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်ကို အများကြီး သက်သာစေတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။'
                 }
             },
-            // 12
             {
                 topicEn: 'Using online too much these day',
                 topicMy: 'ယနေ့ခေတ်တွင် အွန်လိုင်းကို အလွန်အကျွံအသုံးပြုခြင်း',
@@ -919,7 +917,6 @@
                     my: 'ဟုတ်ကဲ့၊ ယနေ့ခေတ်မှာ လူအများအပြား အင်တာနက်ကို အလွန်အကျွံသုံးနေကြတယ်လို့ ကျွန်တော် ယုံကြည်တယ်။ လူအများအပြားဟာ လူမှုမီဒီယာတွေကို လှန်ကြည့်ခြင်း၊ ဂိမ်းကစားခြင်း ဒါမှမဟုတ် ဗီဒီယိုတွေ ကြည့်ခြင်းတို့အတွက် နာရီများစွာ ကုန်ဆုံးစေတယ်။ တချို့ဆို အော့ဖ်လိုင်းဖြစ်နေရင် စိတ်ပူပန်ခြင်း ဒါမှမဟုတ် မငြိမ်မသက်ဖြစ်ခြင်းတွေ ခံစားရတယ်။ အင်တာနက်ကို အလွန်အကျွံသုံးခြင်းက မျက်စိပင်ပန်းခြင်း၊ အိပ်စက်မှုမကောင်းခြင်း၊ ကိုယ်လက်လှုပ်ရှားမှုနည်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်ရေးစွမ်းရည်အားနည်းခြင်းတို့ကို ဖြစ်စေနိုင်တယ်။ စိတ်ကျန်းမာရေးကိုလည်း ထိခိုက်စေနိုင်တယ်။ ကျွန်တော့်အမြင်မှာ အင်တာနက်ဟာ အသုံးဝင်တဲ့ ကိရိယာတစ်ခုပါ။ ဒါပေမယ့် ပညာရှိရှိသုံးရမယ်။ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ပြီး အော့ဖ်လိုင်းလှုပ်ရှားမှုတွေမှာ အချိန်ပိုပေးသင့်တယ်။'
                 }
             },
-            // 13
             {
                 topicEn: 'Personal Grooming',
                 topicMy: 'ကိုယ်ရေးကိုယ်တာ သန့်ရှင်းသပ်ရပ်မှု',
@@ -971,7 +968,7 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-search"></i>
-                        ဤရှာဖွေမှုအတွက် ခေါင်းစဉ်မရှိပါ။
+                        <p>ဤရှာဖွေမှုအတွက် ခေါင်းစဉ်မရှိပါ။</p>
                     </div>
                 `;
                 return;
@@ -984,7 +981,9 @@
 
                 html += `
                     <div class="debate-card">
-                        <span class="topic-number">Topic ${globalIndex}</span>
+                        <span class="topic-number">
+                            <i class="fas fa-tag"></i> Topic ${globalIndex}
+                        </span>
                         <div class="topic-en">${d.topicEn}</div>
                         <div class="topic-my">${d.topicMy}</div>
 
@@ -1019,8 +1018,14 @@
                                 <i class="fas fa-eye"></i> အဖြေအပြည့်အစုံကြည့်မည်
                             </button>
                             <div id="${answerId}" class="full-answer">
-                                <div class="en-answer">🇬🇧 ${d.answer.en}</div>
-                                <div class="my-answer">🇲🇲 ${d.answer.my}</div>
+                                <div class="ans-block en-answer">
+                                    <span class="ans-flag">🇬🇧 English Answer</span>
+                                    ${d.answer.en}
+                                </div>
+                                <div class="ans-block my-answer">
+                                    <span class="ans-flag">🇲🇲 မြန်မာအဖြေ</span>
+                                    ${d.answer.my}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1046,7 +1051,7 @@
         }
 
         // ============================================================
-        // EVENT LISTENERS
+        // INIT
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             renderDebates('');
@@ -1061,9 +1066,7 @@
             });
         });
 
-        // ============================================================
-        // COPY PROTECTION (basic)
-        // ============================================================
+        // Copy protection (basic)
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('keydown', e => {
@@ -1073,37 +1076,9 @@
             if (e.key === 'F12') e.preventDefault();
         });
 
-        console.log('💬 Debate Practice loaded successfully!');
+        console.log('💬 Debate Practice loaded — mept_session guard active');
         console.log('📚 Total topics:', debateData.length);
     </script>
 
-    <script>
-        // ============================================================
-        // DARK MODE TOGGLE
-        // ============================================================
-        (function(){
-            const btn = document.createElement('button');
-            btn.id = 'uiThemeToggle';
-            btn.type = 'button';
-            btn.setAttribute('aria-label', 'Toggle dark mode');
-            btn.innerHTML = '☾';
-
-            const bar = document.querySelector('.top-bar h1') || document.querySelector('.top-bar');
-            if (bar) bar.appendChild(btn);
-
-            const saved = localStorage.getItem('mept-ui-theme');
-            if (saved === 'dark') {
-                document.body.classList.add('dark-ui');
-                btn.innerHTML = '☀';
-            }
-
-            btn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-ui');
-                const dark = document.body.classList.contains('dark-ui');
-                localStorage.setItem('mept-ui-theme', dark ? 'dark' : 'light');
-                btn.innerHTML = dark ? '☀' : '☾';
-            });
-        })();
-    </script>
 </body>
 </html>
