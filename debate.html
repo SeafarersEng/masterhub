@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="robots" content="noindex, nofollow">
     <title>Debate Practice – MEPT Master Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ===== LOGIN GUARD: hide content until verified ===== -->
+    <script>
+        (function () {
+            document.documentElement.style.visibility = 'hidden';
+            var isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                try { sessionStorage.setItem('redirectAfterLogin', window.location.pathname); } catch (e) {}
+                window.location.replace('index.html');
+            } else {
+                document.documentElement.style.visibility = 'visible';
+            }
+        })();
+    </script>
+
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -44,9 +60,7 @@
             text-align: center;
         }
 
-        .top-bar h1 i {
-            font-size: 22px;
-        }
+        .top-bar h1 i { font-size: 22px; }
 
         .back-link {
             color: white;
@@ -62,12 +76,20 @@
             border-radius: 50px;
             transition: 0.2s;
             text-align: center;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
         }
 
         .back-link:active {
             background: rgba(255, 255, 255, 0.30);
             transform: scale(0.97);
         }
+
+        .logout-btn {
+            background: rgba(220, 38, 38, 0.85);
+        }
+        .logout-btn:hover { background: rgba(220, 38, 38, 1); }
 
         /* ===== CONTAINER ===== */
         .container {
@@ -88,19 +110,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .stats-bar .stat-item {
-            font-size: 13px;
-            color: #475569;
-        }
-
-        .stats-bar .stat-item strong {
-            color: #0a2a4a;
-        }
-
-        .stats-bar .stat-item i {
-            color: #1a4d8f;
-            margin-right: 4px;
-        }
+        .stats-bar .stat-item { font-size: 13px; color: #475569; }
+        .stats-bar .stat-item strong { color: #0a2a4a; }
+        .stats-bar .stat-item i { color: #1a4d8f; margin-right: 4px; }
 
         /* ===== FILTER ===== */
         .filter-box {
@@ -145,9 +157,7 @@
             transition: 0.2s;
         }
 
-        .debate-card:active {
-            transform: scale(0.995);
-        }
+        .debate-card:active { transform: scale(0.995); }
 
         .debate-card .topic-number {
             display: inline-block;
@@ -227,11 +237,7 @@
             gap: 6px;
         }
 
-        .followup-box ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+        .followup-box ul { list-style: none; padding: 0; margin: 0; }
 
         .followup-box ul li {
             font-size: 13px;
@@ -250,9 +256,7 @@
         }
 
         /* ===== STEP BY STEP ===== */
-        .steps-section {
-            margin-top: 6px;
-        }
+        .steps-section { margin-top: 6px; }
 
         .steps-section .steps-title {
             font-size: 13px;
@@ -264,9 +268,7 @@
             gap: 6px;
         }
 
-        .steps-section .steps-title i {
-            color: #1a4d8f;
-        }
+        .steps-section .steps-title i { color: #1a4d8f; }
 
         .step-item {
             display: flex;
@@ -292,9 +294,7 @@
             font-weight: 700;
         }
 
-        .step-item .step-content {
-            flex: 1;
-        }
+        .step-item .step-content { flex: 1; }
 
         .step-item .step-content .step-en {
             font-size: 13px;
@@ -350,9 +350,7 @@
             flex-direction: column;
         }
 
-        .full-answer.show {
-            display: flex;
-        }
+        .full-answer.show { display: flex; }
 
         .full-answer .en-answer {
             font-size: 14px;
@@ -391,286 +389,219 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .debate-card {
-                padding: 16px 14px;
-            }
-            .debate-card .topic-en {
-                font-size: 15px;
-            }
-            .debate-card .topic-my {
-                font-size: 14px;
-            }
+            .debate-card { padding: 16px 14px; }
+            .debate-card .topic-en { font-size: 15px; }
+            .debate-card .topic-my { font-size: 14px; }
             .step-item .step-content .step-en,
-            .step-item .step-content .step-my {
-                font-size: 12px;
-            }
+            .step-item .step-content .step-my { font-size: 12px; }
             .full-answer .en-answer,
-            .full-answer .my-answer {
-                font-size: 13px;
-            }
+            .full-answer .my-answer { font-size: 13px; }
         }
 
         @media (max-width: 380px) {
-            .top-bar h1 {
-                font-size: 16px;
-            }
-            .debate-card .topic-en {
-                font-size: 14px;
-            }
+            .top-bar h1 { font-size: 16px; }
+            .debate-card .topic-en { font-size: 14px; }
         }
 
         /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f0f4f9;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #b8c9e0;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8aa3c0;
-        }
-    
-/* ===== MEPT MASTER HUB — PREMIUM UI OVERRIDE ===== */
-:root{
-  --bg:#f5f7fb;
-  --surface:rgba(255,255,255,.92);
-  --surface-solid:#fff;
-  --text:#152238;
-  --muted:#68758a;
-  --line:#e7ebf2;
-  --primary:#315bea;
-  --primary-2:#6948e8;
-  --primary-soft:#eef2ff;
-  --success:#13a673;
-  --shadow:0 10px 35px rgba(27,42,74,.08);
-  --shadow-hover:0 18px 45px rgba(27,42,74,.13);
-  --radius:22px;
-}
-html{scroll-behavior:smooth}
-body{
-  background:
-    radial-gradient(circle at 5% 0%,rgba(49,91,234,.10),transparent 28rem),
-    radial-gradient(circle at 95% 8%,rgba(105,72,232,.09),transparent 30rem),
-    var(--bg) !important;
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Myanmar",sans-serif;
-}
-.topbar{
-  position:sticky !important;
-  top:0;
-  z-index:1000;
-  background:rgba(15,27,52,.92) !important;
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 8px 30px rgba(15,27,52,.18) !important;
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-.topbar .container{
-  min-height:72px;
-}
-.topbar h1{
-  letter-spacing:-.025em;
-  font-weight:800 !important;
-}
-.topbar a{
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.08);
-  border-radius:12px;
-  padding:9px 13px !important;
-  transition:.2s ease;
-}
-.topbar a:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
-.stats{
-  display:grid !important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px !important;
-  margin:22px 0 !important;
-}
-.stat{
-  background:var(--surface) !important;
-  border:1px solid var(--line) !important;
-  border-radius:18px !important;
-  box-shadow:var(--shadow) !important;
-  padding:16px 18px !important;
-  transition:.2s ease;
-}
-.stat:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover) !important}
-.stat .num{font-size:25px !important;font-weight:850 !important;color:var(--primary) !important}
-.stat .label{color:var(--muted) !important;font-size:12px !important;font-weight:700 !important}
-.search-wrap{
-  position:sticky;
-  top:82px;
-  z-index:900;
-  padding:10px 0 14px;
-}
-.search-wrap input,
-#searchInput{
-  width:100%;
-  border:1px solid #dfe5ef !important;
-  background:rgba(255,255,255,.94) !important;
-  border-radius:16px !important;
-  box-shadow:0 8px 25px rgba(27,42,74,.07) !important;
-  min-height:52px;
-  padding:0 18px 0 48px !important;
-  font-size:15px !important;
-  outline:none;
-  transition:.2s ease;
-}
-.search-wrap input:focus,
-#searchInput:focus{
-  border-color:rgba(49,91,234,.55) !important;
-  box-shadow:0 0 0 4px rgba(49,91,234,.10),0 10px 30px rgba(27,42,74,.08) !important;
-}
-.debate-card,
-.card{
-  background:var(--surface-solid) !important;
-  border:1px solid var(--line) !important;
-  border-radius:var(--radius) !important;
-  box-shadow:var(--shadow) !important;
-  overflow:hidden;
-  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
-}
-.debate-card:hover,
-.card:hover{
-  transform:translateY(-3px);
-  box-shadow:var(--shadow-hover) !important;
-  border-color:#d9e0ee !important;
-}
-.debate-card + .debate-card{margin-top:16px !important}
-.card-header,
-.debate-header{
-  padding:20px 22px !important;
-}
-.topic-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:var(--primary-soft) !important;
-  color:#3d50bd !important;
-  border:1px solid #dce3ff;
-  border-radius:999px !important;
-  padding:5px 10px !important;
-  font-size:11px !important;
-  font-weight:800 !important;
-  letter-spacing:.02em;
-}
-.question{
-  font-size:18px !important;
-  line-height:1.55 !important;
-  font-weight:800 !important;
-  letter-spacing:-.015em;
-}
-.question-my,
-.mm{
-  line-height:1.85 !important;
-  font-family:"Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif;
-}
-.followup,
-.followups{
-  background:#f8faff !important;
-  border:1px solid #e8edfb !important;
-  border-radius:16px !important;
-  padding:14px 16px !important;
-}
-.step,
-.steps{
-  background:#fbfcfe !important;
-  border:1px solid var(--line) !important;
-  border-radius:14px !important;
-  padding:13px 15px !important;
-}
-.answer-toggle,
-button{
-  border-radius:12px !important;
-  transition:.2s ease !important;
-}
-.answer-toggle{
-  background:linear-gradient(135deg,var(--primary),var(--primary-2)) !important;
-  border:0 !important;
-  box-shadow:0 8px 18px rgba(49,91,234,.22) !important;
-  color:#fff !important;
-  font-weight:800 !important;
-}
-.answer-toggle:hover{transform:translateY(-1px);filter:brightness(1.04)}
-.answer,
-.answer-box{
-  background:linear-gradient(180deg,#f8faff,#fff) !important;
-  border:1px solid #e3e8f5 !important;
-  border-radius:16px !important;
-  line-height:1.8 !important;
-}
-.answer strong{color:#2448bd}
-.debate-list{padding-bottom:70px}
-.empty-state{
-  background:rgba(255,255,255,.8);
-  border:1px dashed #cfd7e7;
-  border-radius:20px;
-  padding:40px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-/* subtle section hierarchy */
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:850 !important;
-  color:#1b2b48 !important;
-}
-.section-title::before{
-  content:"";
-  width:4px;
-  height:18px;
-  border-radius:4px;
-  background:linear-gradient(180deg,var(--primary),var(--primary-2));
-}
-/* Mobile-first polish */
-@media (max-width:700px){
-  .topbar .container{min-height:64px}
-  .topbar h1{font-size:18px !important}
-  .stats{gap:9px !important;margin:14px 0 !important}
-  .stat{padding:12px 10px !important;border-radius:15px !important}
-  .stat .num{font-size:20px !important}
-  .stat .label{font-size:10px !important}
-  .search-wrap{top:64px;padding:7px 0 10px}
-  .debate-card,.card{border-radius:18px !important}
-  .card-header,.debate-header{padding:17px !important}
-  .question{font-size:16px !important}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*:before,*:after{scroll-behavior:auto !important;transition:none !important}
-}
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f0f4f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #b8c9e0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8aa3c0; }
 
-</style>
+        /* ===== MEPT MASTER HUB — PREMIUM UI OVERRIDE ===== */
+        :root{
+            --bg:#f5f7fb;
+            --surface:rgba(255,255,255,.92);
+            --surface-solid:#fff;
+            --text:#152238;
+            --muted:#68758a;
+            --line:#e7ebf2;
+            --primary:#315bea;
+            --primary-2:#6948e8;
+            --primary-soft:#eef2ff;
+            --success:#13a673;
+            --shadow:0 10px 35px rgba(27,42,74,.08);
+            --shadow-hover:0 18px 45px rgba(27,42,74,.13);
+            --radius:22px;
+        }
+        html{scroll-behavior:smooth}
+        body{
+            background:
+                radial-gradient(circle at 5% 0%,rgba(49,91,234,.10),transparent 28rem),
+                radial-gradient(circle at 95% 8%,rgba(105,72,232,.09),transparent 30rem),
+                var(--bg) !important;
+            color:var(--text);
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Myanmar",sans-serif;
+        }
+        .top-bar{
+            position:sticky !important;
+            top:0;
+            z-index:1000;
+            background:rgba(15,27,52,.92) !important;
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+            box-shadow:0 8px 30px rgba(15,27,52,.18) !important;
+            border-bottom:1px solid rgba(255,255,255,.10);
+        }
+        .top-bar h1{letter-spacing:-.025em;font-weight:800 !important;}
+        .top-bar a, .top-bar .back-link{
+            border:1px solid rgba(255,255,255,.14);
+            background:rgba(255,255,255,.08);
+            border-radius:12px;
+            padding:9px 13px !important;
+            transition:.2s ease;
+        }
+        .top-bar a:hover, .top-bar .back-link:hover{background:rgba(255,255,255,.16);transform:translateY(-1px)}
+        .top-bar .logout-btn{
+            background:rgba(220,38,38,.85) !important;
+            border-color:rgba(255,255,255,.14) !important;
+        }
+        .top-bar .logout-btn:hover{background:rgba(220,38,38,1) !important;}
+        .stats-bar{
+            display:grid !important;
+            grid-template-columns:repeat(3,minmax(0,1fr));
+            gap:14px !important;
+            margin:22px 0 !important;
+        }
+        .stat-item{
+            background:var(--surface) !important;
+            border:1px solid var(--line) !important;
+            border-radius:18px !important;
+            box-shadow:var(--shadow) !important;
+            padding:16px 18px !important;
+            transition:.2s ease;
+        }
+        .stat-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover) !important}
+        .stat-item strong{font-size:22px !important;font-weight:850 !important;color:var(--primary) !important;}
+        .filter-box{
+            background:rgba(255,255,255,.94) !important;
+            border:1px solid var(--line) !important;
+            border-radius:16px !important;
+            box-shadow:var(--shadow) !important;
+        }
+        .filter-box .search-input{
+            border:1px solid #dfe5ef !important;
+            background:#fff !important;
+            border-radius:16px !important;
+            box-shadow:0 8px 25px rgba(27,42,74,.07) !important;
+            min-height:52px;
+            padding:0 18px 0 48px !important;
+            font-size:15px !important;
+        }
+        .filter-box .search-input:focus{
+            border-color:rgba(49,91,234,.55) !important;
+            box-shadow:0 0 0 4px rgba(49,91,234,.10),0 10px 30px rgba(27,42,74,.08) !important;
+        }
+        .debate-card{
+            background:var(--surface-solid) !important;
+            border:1px solid var(--line) !important;
+            border-radius:var(--radius) !important;
+            box-shadow:var(--shadow) !important;
+            overflow:hidden;
+            transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+        }
+        .debate-card:hover{
+            transform:translateY(-3px);
+            box-shadow:var(--shadow-hover) !important;
+            border-color:#d9e0ee !important;
+        }
+        .debate-card + .debate-card{margin-top:16px !important}
+        .debate-card .topic-number{
+            background:var(--primary-soft) !important;
+            color:#3d50bd !important;
+            border:1px solid #dce3ff;
+            border-radius:999px !important;
+            padding:5px 10px !important;
+            font-size:11px !important;
+            font-weight:800 !important;
+            letter-spacing:.02em;
+        }
+        .debate-card .topic-en{
+            font-size:18px !important;
+            line-height:1.55 !important;
+            font-weight:800 !important;
+            letter-spacing:-.015em;
+        }
+        .debate-card .topic-my{
+            line-height:1.85 !important;
+            font-family:"Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif;
+        }
+        .followup-box{
+            background:#f8faff !important;
+            border:1px solid #e8edfb !important;
+            border-radius:16px !important;
+            padding:14px 16px !important;
+        }
+        .step-item{
+            background:#fbfcfe !important;
+            border:1px solid var(--line) !important;
+            border-radius:14px !important;
+            padding:13px 15px !important;
+        }
+        .toggle-btn{
+            background:linear-gradient(135deg,var(--primary),var(--primary-2)) !important;
+            border:0 !important;
+            box-shadow:0 8px 18px rgba(49,91,234,.22) !important;
+            color:#fff !important;
+            font-weight:800 !important;
+            border-radius:12px !important;
+        }
+        .toggle-btn:hover{transform:translateY(-1px);filter:brightness(1.04)}
+        .full-answer{
+            background:linear-gradient(180deg,#f8faff,#fff) !important;
+            border:1px solid #e3e8f5 !important;
+            border-radius:16px !important;
+            line-height:1.8 !important;
+        }
+        .debate-list{padding-bottom:70px}
+        .empty-state{
+            background:rgba(255,255,255,.8);
+            border:1px dashed #cfd7e7;
+            border-radius:20px;
+            padding:40px 20px;
+            text-align:center;
+            color:var(--muted);
+        }
+        @media (max-width:700px){
+            .top-bar h1{font-size:18px !important}
+            .stats-bar{gap:9px !important;margin:14px 0 !important}
+            .stat-item{padding:12px 10px !important;border-radius:15px !important}
+            .stat-item strong{font-size:18px !important}
+            .debate-card{border-radius:18px !important}
+            .debate-card .topic-en{font-size:16px !important}
+        }
 
-<style>
-#uiThemeToggle{
-  margin-left:8px;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border-radius:12px;
-  min-width:42px;
-  height:40px;
-  cursor:pointer;
-}
-body.dark-ui{
-  --bg:#0b1220; --surface:rgba(18,28,46,.92); --surface-solid:#111c2e;
-  --text:#e8eef9; --muted:#9aa8bd; --line:#26344b; --primary-soft:#18264c;
-  background:radial-gradient(circle at 10% 0%,rgba(49,91,234,.18),transparent 28rem),#0b1220 !important;
-}
-body.dark-ui .search-wrap input,body.dark-ui #searchInput{background:#111c2e !important;color:#eef4ff !important;border-color:#2b3a52 !important}
-body.dark-ui .followup,body.dark-ui .followups{background:#111c2e !important;border-color:#293950 !important}
-body.dark-ui .step,body.dark-ui .steps{background:#0f1929 !important;border-color:#293950 !important}
-body.dark-ui .answer,body.dark-ui .answer-box{background:#101b2c !important;border-color:#2b3a52 !important}
-body.dark-ui .section-title{color:#e8eef9 !important}
-</style>
+        /* ===== DARK MODE ===== */
+        #uiThemeToggle{
+            margin-left:8px;
+            border:1px solid rgba(255,255,255,.16);
+            background:rgba(255,255,255,.08);
+            color:#fff;
+            border-radius:12px;
+            min-width:42px;
+            height:40px;
+            cursor:pointer;
+        }
+        body.dark-ui{
+            --bg:#0b1220; --surface:rgba(18,28,46,.92); --surface-solid:#111c2e;
+            --text:#e8eef9; --muted:#9aa8bd; --line:#26344b; --primary-soft:#18264c;
+            background:radial-gradient(circle at 10% 0%,rgba(49,91,234,.18),transparent 28rem),#0b1220 !important;
+        }
+        body.dark-ui .filter-box{background:#111c2e !important;border-color:#2b3a52 !important;}
+        body.dark-ui .filter-box .search-input{background:#111c2e !important;color:#eef4ff !important;border-color:#2b3a52 !important}
+        body.dark-ui .followup-box{background:#111c2e !important;border-color:#293950 !important}
+        body.dark-ui .step-item{background:#0f1929 !important;border-color:#293950 !important}
+        body.dark-ui .full-answer{background:#101b2c !important;border-color:#2b3a52 !important}
+        body.dark-ui .full-answer .en-answer,
+        body.dark-ui .full-answer .my-answer{background:#0d1826 !important;color:#e8eef9 !important;}
+        body.dark-ui .debate-card .question-box{background:#0f1929 !important;border-color:#293950 !important;}
+        body.dark-ui .debate-card .question-box .q-text{color:#e8eef9 !important;}
+        body.dark-ui .debate-card .question-box .q-text-my{color:#9aa8bd !important;}
+        body.dark-ui .step-item .step-content .step-en{color:#e8eef9 !important;}
+        body.dark-ui .step-item .step-content .step-my{color:#9aa8bd !important;}
+        body.dark-ui .debate-card .topic-en{color:#e8eef9 !important;}
+    </style>
 </head>
 <body>
 
@@ -678,6 +609,9 @@ body.dark-ui .section-title{color:#e8eef9 !important}
     <header class="top-bar">
         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
             <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Main Dashboard</a>
+            <button type="button" class="back-link logout-btn" onclick="logoutUser()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </div>
         <h1><i class="fas fa-comments"></i> Debate Practice – MEPT Master Hub</h1>
     </header>
@@ -705,7 +639,19 @@ body.dark-ui .section-title{color:#e8eef9 !important}
 
     <script>
         // ============================================================
-        // 1. DEBATE DATA (13 topics)
+        // LOGOUT FUNCTION
+        // ============================================================
+        function logoutUser() {
+            if (confirm('Logout လုပ်ရန် သေချာပါသလား?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                sessionStorage.clear();
+                window.location.replace('index.html');
+            }
+        }
+
+        // ============================================================
+        // DEBATE DATA (13 topics)
         // ============================================================
         const debateData = [
             // 1
@@ -720,22 +666,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'What could happen if workers ignore safety signs?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position clearly: "Yes, I strongly agree with wearing safety vests and following safety signs."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ရှင်းရှင်းလင်းလင်းပြောပါ: "ဟုတ်ကဲ့၊ ဘေးကင်းရေးအင်္ကျီဝတ်ခြင်းနဲ့ သတိပေးဆိုင်းဘုတ်တွေကို လိုက်နာခြင်းကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the purpose: Safety vests make workers visible, especially in dark or crowded places. Safety signs warn people about dangers like wet floors, falling objects, or restricted areas.',
-                        my: 'ရည်ရွယ်ချက်ကို ရှင်းပြပါ: ဘေးကင်းရေးအင်္ကျီတွေက အလုပ်သမားတွေကို အထူးသဖြင့် မှောင်တဲ့ ဒါမှမဟုတ် လူစည်ကားတဲ့နေရာတွေမှာ မြင်သာစေတယ်။ သတိပေးဆိုင်းဘုတ်တွေက ချော်တဲ့ကြမ်းပြင်၊ ပြုတ်ကျတဲ့ပစ္စည်းတွေ ဒါမှမဟုတ် တားမြစ်ထားတဲ့နေရာတွေလိုမျိုး အန္တရာယ်တွေအကြောင်း သတိပေးတယ်။'
-                    },
-                    {
-                        en: 'Give an example: For example, a "Wet Floor" sign tells people to walk carefully, preventing slips and falls. A reflective vest helps drivers see workers on the road at night.',
-                        my: 'ဥပမာပေးပါ: ဥပမာ၊ "စိုစွတ်သောကြမ်းပြင်" ဆိုင်းဘုတ်က လူတွေကို ဂရုတစိုက်လျှောက်ဖို့ ပြောပြီး ချော်လဲခြင်းကို ကာကွယ်ပေးတယ်။ ရောင်ပြန်အင်္ကျီက ညဘက်မှာ လမ်းပေါ်က အလုပ်သမားတွေကို ယာဉ်မောင်းတွေ မြင်နိုင်အောင် ကူညီပေးတယ်။'
-                    },
-                    {
-                        en: 'Conclude: These measures save lives and prevent injuries. Safety should always come first.',
-                        my: 'နိဂုံးချုပ်ပါ: ဒီအစီအမံတွေက အသက်တွေကို ကယ်တင်ပြီး ဒဏ်ရာတွေကို ကာကွယ်ပေးတယ်။ ဘေးကင်းရေးကို အမြဲတမ်း ဦးစားပေးသင့်တယ်။'
-                    }
+                    { en: 'State your position clearly: "Yes, I strongly agree with wearing safety vests and following safety signs."', my: 'သင့်ရပ်တည်ချက်ကို ရှင်းရှင်းလင်းလင်းပြောပါ: "ဟုတ်ကဲ့၊ ဘေးကင်းရေးအင်္ကျီဝတ်ခြင်းနဲ့ သတိပေးဆိုင်းဘုတ်တွေကို လိုက်နာခြင်းကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"' },
+                    { en: 'Explain the purpose: Safety vests make workers visible, especially in dark or crowded places. Safety signs warn people about dangers like wet floors, falling objects, or restricted areas.', my: 'ရည်ရွယ်ချက်ကို ရှင်းပြပါ: ဘေးကင်းရေးအင်္ကျီတွေက အလုပ်သမားတွေကို အထူးသဖြင့် မှောင်တဲ့ ဒါမှမဟုတ် လူစည်ကားတဲ့နေရာတွေမှာ မြင်သာစေတယ်။ သတိပေးဆိုင်းဘုတ်တွေက ချော်တဲ့ကြမ်းပြင်၊ ပြုတ်ကျတဲ့ပစ္စည်းတွေ ဒါမှမဟုတ် တားမြစ်ထားတဲ့နေရာတွေလိုမျိုး အန္တရာယ်တွေအကြောင်း သတိပေးတယ်။' },
+                    { en: 'Give an example: For example, a "Wet Floor" sign tells people to walk carefully, preventing slips and falls. A reflective vest helps drivers see workers on the road at night.', my: 'ဥပမာပေးပါ: ဥပမာ၊ "စိုစွတ်သောကြမ်းပြင်" ဆိုင်းဘုတ်က လူတွေကို ဂရုတစိုက်လျှောက်ဖို့ ပြောပြီး ချော်လဲခြင်းကို ကာကွယ်ပေးတယ်။ ရောင်ပြန်အင်္ကျီက ညဘက်မှာ လမ်းပေါ်က အလုပ်သမားတွေကို ယာဉ်မောင်းတွေ မြင်နိုင်အောင် ကူညီပေးတယ်။' },
+                    { en: 'Conclude: These measures save lives and prevent injuries. Safety should always come first.', my: 'နိဂုံးချုပ်ပါ: ဒီအစီအမံတွေက အသက်တွေကို ကယ်တင်ပြီး ဒဏ်ရာတွေကို ကာကွယ်ပေးတယ်။ ဘေးကင်းရေးကို အမြဲတမ်း ဦးစားပေးသင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I strongly agree with wearing safety vests and following safety signs. Safety vests make workers visible, especially in dark or busy areas, so drivers and machine operators can see them and avoid accidents. Safety signs warn people about dangers such as wet floors, falling objects, or restricted areas. For example, a "Wet Floor" sign prevents slips and falls, and a reflective vest helps drivers see workers at night. These measures are simple but very effective. They save lives, prevent injuries, and create a safer workplace for everyone. Safety should always come first.',
@@ -754,22 +688,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'Do you think healthy food is more expensive than fast food? Why or why not?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I strongly agree that eating healthy food is very important."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာစားခြင်းက အလွန်အရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the benefits: Healthy food gives our body essential nutrients, vitamins, and minerals. It keeps us strong, energetic, and helps prevent diseases like diabetes and heart problems.',
-                        my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ သတ္တုဓာတ်တွေ ပေးတယ်။ သန်စွမ်း၊ တက်ကြွအောင်ထားပြီး ဆီးချိုနဲ့ နှလုံးရောဂါလိုမျိုး ရောဂါတွေကို ကာကွယ်ပေးတယ်။'
-                    },
-                    {
-                        en: 'Give an example: For example, eating fruits and vegetables every day helps our immune system stay strong. Eating too much sugary or oily food can make us sick.',
-                        my: 'ဥပမာပေးပါ: ဥပမာ၊ နေ့တိုင်း သစ်သီးနဲ့ ဟင်းသီးဟင်းရွက်တွေ စားခြင်းက ကိုယ်ခံအားစနစ်ကို ခိုင်မာစေတယ်။ သကြားနဲ့ ဆီအများကြီးပါတဲ့ အစားအစာတွေ အလွန်အကျွံစားရင် နေမကောင်းဖြစ်နိုင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, healthy food is an investment in our future health. We should choose healthy food every day.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာဟာ ကျွန်တော်တို့ရဲ့ အနာဂတ်ကျန်းမာရေးအတွက် ရင်းနှီးမြှုပ်နှံမှုတစ်ခုပါ။ နေ့တိုင်း ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာကို ရွေးချယ်သင့်တယ်။'
-                    }
+                    { en: 'State your position: "Yes, I strongly agree that eating healthy food is very important."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာစားခြင်းက အလွန်အရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"' },
+                    { en: 'Explain the benefits: Healthy food gives our body essential nutrients, vitamins, and minerals. It keeps us strong, energetic, and helps prevent diseases like diabetes and heart problems.', my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ သတ္တုဓာတ်တွေ ပေးတယ်။ သန်စွမ်း၊ တက်ကြွအောင်ထားပြီး ဆီးချိုနဲ့ နှလုံးရောဂါလိုမျိုး ရောဂါတွေကို ကာကွယ်ပေးတယ်။' },
+                    { en: 'Give an example: For example, eating fruits and vegetables every day helps our immune system stay strong. Eating too much sugary or oily food can make us sick.', my: 'ဥပမာပေးပါ: ဥပမာ၊ နေ့တိုင်း သစ်သီးနဲ့ ဟင်းသီးဟင်းရွက်တွေ စားခြင်းက ကိုယ်ခံအားစနစ်ကို ခိုင်မာစေတယ်။ သကြားနဲ့ ဆီအများကြီးပါတဲ့ အစားအစာတွေ အလွန်အကျွံစားရင် နေမကောင်းဖြစ်နိုင်တယ်။' },
+                    { en: 'Conclude: In short, healthy food is an investment in our future health. We should choose healthy food every day.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာဟာ ကျွန်တော်တို့ရဲ့ အနာဂတ်ကျန်းမာရေးအတွက် ရင်းနှီးမြှုပ်နှံမှုတစ်ခုပါ။ နေ့တိုင်း ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာကို ရွေးချယ်သင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I strongly agree that eating healthy food is very important. Healthy food gives our body essential nutrients, vitamins, and minerals. It keeps us strong, energetic, and helps prevent diseases like diabetes and heart problems. For example, eating fruits and vegetables every day helps our immune system stay strong, while eating too much sugary or oily food can make us sick. In short, healthy food is an investment in our future health. We should choose healthy food every day to live a longer, happier life.',
@@ -788,22 +710,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'How can a new employee build good relationships with coworkers?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I agree that working with friendly coworkers creates a better job."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ကျွန်တော် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain why: Friendly coworkers communicate openly, share ideas, and solve problems together. This creates a positive work environment and reduces stress.',
-                        my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက ပွင့်လင်းစွာ ဆက်သွယ်ပြောဆိုတယ်၊ အကြံဉာဏ်တွေမျှဝေတယ်၊ ပြဿနာတွေကို အတူတကွ ဖြေရှင်းကြတယ်။ ဒါက အပြုသဘောဆောင်တဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပြီး စိတ်ဖိစီးမှုကို လျှော့ချပေးတယ်။'
-                    },
-                    {
-                        en: 'Explain how they help each other: Coworkers can share knowledge, offer support during difficult tasks, and give constructive feedback. They can also cover for each other during emergencies.',
-                        my: 'သူတို့ တစ်ယောက်ကိုတစ်ယောက် ဘယ်လိုကူညီကြသလဲ ရှင်းပြပါ: လုပ်ဖော်ကိုင်ဖက်တွေက အသိပညာမျှဝေခြင်း၊ ခက်ခဲတဲ့အလုပ်တွေမှာ ပံ့ပိုးကူညီခြင်းနဲ့ အပြုသဘောဆောင်တဲ့ တုံ့ပြန်ချက်ပေးခြင်းတို့ လုပ်နိုင်တယ်။ အရေးပေါ်အခြေအနေတွေမှာ တစ်ယောက်ကိုတစ်ယောက် အစားထိုးလုပ်ပေးနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, friendly coworkers make work easier, happier, and more productive. Respect and teamwork are the keys to success.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက အလုပ်ကို ပိုလွယ်ကူ၊ ပိုပျော်ရွှင်၊ ပိုထိရောက်စေတယ်။ လေးစားမှုနဲ့ အသင်းလိုက်လုပ်ဆောင်မှုက အောင်မြင်မှုရဲ့ သော့ချက်ပါ။'
-                    }
+                    { en: 'State your position: "Yes, I agree that working with friendly coworkers creates a better job."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ အလုပ်လုပ်တာက ပိုကောင်းမွန်တဲ့ အလုပ်တစ်ခုကို ဖန်တီးနိုင်တယ်လို့ ကျွန်တော် သဘောတူတယ်။"' },
+                    { en: 'Explain why: Friendly coworkers communicate openly, share ideas, and solve problems together. This creates a positive work environment and reduces stress.', my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက ပွင့်လင်းစွာ ဆက်သွယ်ပြောဆိုတယ်၊ အကြံဉာဏ်တွေမျှဝေတယ်၊ ပြဿနာတွေကို အတူတကွ ဖြေရှင်းကြတယ်။ ဒါက အပြုသဘောဆောင်တဲ့ လုပ်ငန်းခွင်ကို ဖန်တီးပြီး စိတ်ဖိစီးမှုကို လျှော့ချပေးတယ်။' },
+                    { en: 'Explain how they help each other: Coworkers can share knowledge, offer support during difficult tasks, and give constructive feedback. They can also cover for each other during emergencies.', my: 'သူတို့ တစ်ယောက်ကိုတစ်ယောက် ဘယ်လိုကူညီကြသလဲ ရှင်းပြပါ: လုပ်ဖော်ကိုင်ဖက်တွေက အသိပညာမျှဝေခြင်း၊ ခက်ခဲတဲ့အလုပ်တွေမှာ ပံ့ပိုးကူညီခြင်းနဲ့ အပြုသဘောဆောင်တဲ့ တုံ့ပြန်ချက်ပေးခြင်းတို့ လုပ်နိုင်တယ်။ အရေးပေါ်အခြေအနေတွေမှာ တစ်ယောက်ကိုတစ်ယောက် အစားထိုးလုပ်ပေးနိုင်တယ်။' },
+                    { en: 'Conclude: In short, friendly coworkers make work easier, happier, and more productive. Respect and teamwork are the keys to success.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ဖော်ရွေတဲ့ လုပ်ဖော်ကိုင်ဖက်တွေက အလုပ်ကို ပိုလွယ်ကူ၊ ပိုပျော်ရွှင်၊ ပိုထိရောက်စေတယ်။ လေးစားမှုနဲ့ အသင်းလိုက်လုပ်ဆောင်မှုက အောင်မြင်မှုရဲ့ သော့ချက်ပါ။' }
                 ],
                 answer: {
                     en: 'Yes, I agree that working with friendly coworkers creates a better job. Friendly coworkers communicate openly, share ideas, and solve problems together. This creates a positive work environment and reduces stress. Coworkers can help each other by sharing knowledge, offering support during difficult tasks, and giving constructive feedback. They can also cover for each other during emergencies. If coworkers do not get along, problems like misunderstandings, delays, and low productivity can happen. In short, friendly coworkers make work easier, happier, and more productive. Respect and teamwork are the keys to success.',
@@ -822,22 +732,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'How can we use social media in a positive way?'
                 ],
                 steps: [
-                    {
-                        en: 'Explain the reasons: People use the internet and social media for communication, education, business, and entertainment. Apps like Facebook and messaging tools help us stay connected with family and friends worldwide.',
-                        my: 'အကြောင်းရင်းတွေ ရှင်းပြပါ: လူတွေဟာ ဆက်သွယ်ရေး၊ ပညာရေး၊ စီးပွားရေးနဲ့ ဖျော်ဖြေရေးအတွက် အင်တာနက်နဲ့ လူမှုမီဒီယာကို အသုံးပြုကြတယ်။ Facebook လိုမျိုး အက်ပ်တွေနဲ့ စာတိုပေးပို့ရေးကိရိယာတွေက မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ ကမ္ဘာအနှံ့ ဆက်သွယ်နေဖို့ ကူညီပေးတယ်။'
-                    },
-                    {
-                        en: 'Explain the benefits: It helps us learn new things, find job opportunities, and share our ideas quickly. It also makes daily life more convenient.',
-                        my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ဒါက အသစ်အဆန်းတွေ သင်ယူဖို့၊ အလုပ်အကိုင်အခွင့်အလမ်းတွေ ရှာဖွေဖို့နဲ့ ကျွန်တော်တို့ရဲ့ အကြံဉာဏ်တွေကို လျင်မြန်စွာ မျှဝေဖို့ ကူညီပေးတယ်။ နေ့စဉ်ဘဝကိုလည်း ပိုအဆင်ပြေစေတယ်။'
-                    },
-                    {
-                        en: 'Explain the risks: However, using it too much can cause problems like addiction, eye strain, and less face-to-face communication. Fake news and cyberbullying are also serious issues.',
-                        my: 'အန္တရာယ်တွေ ရှင်းပြပါ: ဒါပေမယ့် အလွန်အကျွံသုံးရင် စွဲလမ်းခြင်း၊ မျက်စိပင်ပန်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်မှုနည်းခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ သတင်းအတုနဲ့ ဆိုက်ဘာဘူလီယင်တွေလည်း ပြင်းထန်တဲ့ ပြဿနာတွေပါ။'
-                    },
-                    {
-                        en: 'Conclude: In my opinion, social media is both good and bad. The key is to use it wisely, set time limits, and stay safe online.',
-                        my: 'နိဂုံးချုပ်ပါ: ကျွန်တော့်အမြင်မှာ လူမှုမီဒီယာက ကောင်းတာရော ဆိုးတာရော ရှိတယ်။ အဓိကက ပညာရှိရှိသုံးဖို့၊ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ဖို့နဲ့ အွန်လိုင်းမှာ လုံခြုံအောင်နေဖို့ပါ။'
-                    }
+                    { en: 'Explain the reasons: People use the internet and social media for communication, education, business, and entertainment. Apps like Facebook and messaging tools help us stay connected with family and friends worldwide.', my: 'အကြောင်းရင်းတွေ ရှင်းပြပါ: လူတွေဟာ ဆက်သွယ်ရေး၊ ပညာရေး၊ စီးပွားရေးနဲ့ ဖျော်ဖြေရေးအတွက် အင်တာနက်နဲ့ လူမှုမီဒီယာကို အသုံးပြုကြတယ်။ Facebook လိုမျိုး အက်ပ်တွေနဲ့ စာတိုပေးပို့ရေးကိရိယာတွေက မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ ကမ္ဘာအနှံ့ ဆက်သွယ်နေဖို့ ကူညီပေးတယ်။' },
+                    { en: 'Explain the benefits: It helps us learn new things, find job opportunities, and share our ideas quickly. It also makes daily life more convenient.', my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ဒါက အသစ်အဆန်းတွေ သင်ယူဖို့၊ အလုပ်အကိုင်အခွင့်အလမ်းတွေ ရှာဖွေဖို့နဲ့ ကျွန်တော်တို့ရဲ့ အကြံဉာဏ်တွေကို လျင်မြန်စွာ မျှဝေဖို့ ကူညီပေးတယ်။ နေ့စဉ်ဘဝကိုလည်း ပိုအဆင်ပြေစေတယ်။' },
+                    { en: 'Explain the risks: However, using it too much can cause problems like addiction, eye strain, and less face-to-face communication. Fake news and cyberbullying are also serious issues.', my: 'အန္တရာယ်တွေ ရှင်းပြပါ: ဒါပေမယ့် အလွန်အကျွံသုံးရင် စွဲလမ်းခြင်း၊ မျက်စိပင်ပန်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်မှုနည်းခြင်းလိုမျိုး ပြဿနာတွေ ဖြစ်နိုင်တယ်။ သတင်းအတုနဲ့ ဆိုက်ဘာဘူလီယင်တွေလည်း ပြင်းထန်တဲ့ ပြဿနာတွေပါ။' },
+                    { en: 'Conclude: In my opinion, social media is both good and bad. The key is to use it wisely, set time limits, and stay safe online.', my: 'နိဂုံးချုပ်ပါ: ကျွန်တော့်အမြင်မှာ လူမှုမီဒီယာက ကောင်းတာရော ဆိုးတာရော ရှိတယ်။ အဓိကက ပညာရှိရှိသုံးဖို့၊ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ဖို့နဲ့ အွန်လိုင်းမှာ လုံခြုံအောင်နေဖို့ပါ။' }
                 ],
                 answer: {
                     en: 'People use the internet and social media for communication, education, business, and entertainment. Apps like Facebook and messaging tools help us stay connected with family and friends worldwide. It helps us learn new things, find job opportunities, and share our ideas quickly. However, using it too much can cause problems like addiction, eye strain, and less face-to-face communication. Fake news and cyberbullying are also serious issues. In my opinion, social media is both good and bad. The key is to use it wisely, set time limits, and stay safe online.',
@@ -856,22 +754,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'Can fast food be healthy? How?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I strongly agree that healthy food is better than fast food."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက အမြန်အစားအစာထက် ပိုကောင်းတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the benefits of healthy food: Healthy food provides essential nutrients, vitamins, and sustained energy. It helps prevent diseases and keeps us fit.',
-                        my: 'ကျန်းမာရေးနှင့်ညီညွတ်သော အစားအစာရဲ့ အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ ရေရှည်စွမ်းအင်တွေ ပေးတယ်။ ရောဂါတွေကို ကာကွယ်ပြီး ကြံ့ခိုင်အောင်ထားတယ်။'
-                    },
-                    {
-                        en: 'Explain the disadvantages of fast food: Fast food is high in trans fats, sodium, and sugar. It can lead to obesity, heart problems, and diabetes.',
-                        my: 'အမြန်အစားအစာရဲ့ အားနည်းချက်တွေ ရှင်းပြပါ: အမြန်အစားအစာမှာ အဆီအမျိုးအစားဆိုးတွေ၊ ဆိုဒီယမ်နဲ့ သကြားဓာတ်တွေ မြင့်မားစွာပါဝင်တယ်။ အဝလွန်ခြင်း၊ နှလုံးပြဿနာတွေနဲ့ ဆီးချိုရောဂါတွေ ဖြစ်စေနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, healthy food is a better choice for our body and our future. We should eat fast food only occasionally, not every day.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်နဲ့ အနာဂတ်အတွက် ပိုကောင်းတဲ့ ရွေးချယ်မှုပါ။ အမြန်အစားအစာကို နေ့တိုင်းမဟုတ်ဘဲ ရံဖန်ရံခါသာ စားသင့်တယ်။'
-                    }
+                    { en: 'State your position: "Yes, I strongly agree that healthy food is better than fast food."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက အမြန်အစားအစာထက် ပိုကောင်းတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"' },
+                    { en: 'Explain the benefits of healthy food: Healthy food provides essential nutrients, vitamins, and sustained energy. It helps prevent diseases and keeps us fit.', my: 'ကျန်းမာရေးနှင့်ညီညွတ်သော အစားအစာရဲ့ အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက မရှိမဖြစ်လိုအပ်တဲ့ အာဟာရဓာတ်၊ ဗီတာမင်နဲ့ ရေရှည်စွမ်းအင်တွေ ပေးတယ်။ ရောဂါတွေကို ကာကွယ်ပြီး ကြံ့ခိုင်အောင်ထားတယ်။' },
+                    { en: 'Explain the disadvantages of fast food: Fast food is high in trans fats, sodium, and sugar. It can lead to obesity, heart problems, and diabetes.', my: 'အမြန်အစားအစာရဲ့ အားနည်းချက်တွေ ရှင်းပြပါ: အမြန်အစားအစာမှာ အဆီအမျိုးအစားဆိုးတွေ၊ ဆိုဒီယမ်နဲ့ သကြားဓာတ်တွေ မြင့်မားစွာပါဝင်တယ်။ အဝလွန်ခြင်း၊ နှလုံးပြဿနာတွေနဲ့ ဆီးချိုရောဂါတွေ ဖြစ်စေနိုင်တယ်။' },
+                    { en: 'Conclude: In short, healthy food is a better choice for our body and our future. We should eat fast food only occasionally, not every day.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အစားအစာက ကျွန်တော်တို့ခန္ဓာကိုယ်နဲ့ အနာဂတ်အတွက် ပိုကောင်းတဲ့ ရွေးချယ်မှုပါ။ အမြန်အစားအစာကို နေ့တိုင်းမဟုတ်ဘဲ ရံဖန်ရံခါသာ စားသင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I strongly agree that healthy food is better than fast food. Healthy food provides essential nutrients, vitamins, and sustained energy. It helps prevent diseases and keeps us fit. Fast food is high in trans fats, sodium, and sugar. It can lead to obesity, heart problems, and diabetes. In short, healthy food is a better choice for our body and our future. We should eat fast food only occasionally, not every day.',
@@ -890,22 +776,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'What happens to your body if you don\'t drink enough water or sleep enough?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I completely agree that water and sleep are essential for health."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ရေနဲ့ အိပ်စက်ခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the role of water: Water keeps our body hydrated and helps vital functions like digestion, circulation, and temperature control. Without enough water, we can become dehydrated and feel tired or dizzy.',
-                        my: 'ရေရဲ့ အခန်းကဏ္ဍကို ရှင်းပြပါ: ရေက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို ရေဓာတ်ဖြည့်ပေးပြီး အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းလိုမျိုး အရေးကြီးတဲ့ လုပ်ငန်းဆောင်တာတွေကို ကူညီပေးတယ်။ ရေမလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်ပြီး ပင်ပန်းခြင်း ဒါမှမဟုတ် မူးဝေခြင်းတွေ ခံစားရနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Explain the role of sleep: Sleep allows the brain and body to repair cells, consolidate memories, and maintain a strong immune system. Lack of sleep causes fatigue, poor concentration, and mood swings.',
-                        my: 'အိပ်စက်ခြင်းရဲ့ အခန်းကဏ္ဍကို ရှင်းပြပါ: အိပ်စက်ခြင်းက ဦးနှောက်နဲ့ ခန္ဓာကိုယ်ကို ဆဲလ်တွေပြုပြင်ဖို့၊ မှတ်ဉာဏ်တွေ စုစည်းဖို့နဲ့ ခိုင်မာတဲ့ ကိုယ်ခံအားစနစ်ကို ထိန်းသိမ်းဖို့ အခွင့်အရေးပေးတယ်။ အိပ်ရေးမဝရင် ပင်ပန်းနွမ်းနယ်ခြင်း၊ အာရုံစူးစိုက်မှုနည်းခြင်းနဲ့ စိတ်အပြောင်းအလဲမြန်ခြင်းတွေ ဖြစ်စေတယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, water and sleep are the foundations of good health. We should drink enough water and get 7–8 hours of sleep every night.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ရေနဲ့ အိပ်စက်ခြင်းဟာ ကျန်းမာရေးကောင်းဖို့ အုတ်မြစ်တွေပါ။ ရေလုံလောက်စွာသောက်ပြီး ညတိုင်း ၇–၈ နာရီ အိပ်သင့်တယ်။'
-                    }
+                    { en: 'State your position: "Yes, I completely agree that water and sleep are essential for health."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ရေနဲ့ အိပ်စက်ခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။"' },
+                    { en: 'Explain the role of water: Water keeps our body hydrated and helps vital functions like digestion, circulation, and temperature control. Without enough water, we can become dehydrated and feel tired or dizzy.', my: 'ရေရဲ့ အခန်းကဏ္ဍကို ရှင်းပြပါ: ရေက ကျွန်တော်တို့ခန္ဓာကိုယ်ကို ရေဓာတ်ဖြည့်ပေးပြီး အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းလိုမျိုး အရေးကြီးတဲ့ လုပ်ငန်းဆောင်တာတွေကို ကူညီပေးတယ်။ ရေမလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်ပြီး ပင်ပန်းခြင်း ဒါမှမဟုတ် မူးဝေခြင်းတွေ ခံစားရနိုင်တယ်။' },
+                    { en: 'Explain the role of sleep: Sleep allows the brain and body to repair cells, consolidate memories, and maintain a strong immune system. Lack of sleep causes fatigue, poor concentration, and mood swings.', my: 'အိပ်စက်ခြင်းရဲ့ အခန်းကဏ္ဍကို ရှင်းပြပါ: အိပ်စက်ခြင်းက ဦးနှောက်နဲ့ ခန္ဓာကိုယ်ကို ဆဲလ်တွေပြုပြင်ဖို့၊ မှတ်ဉာဏ်တွေ စုစည်းဖို့နဲ့ ခိုင်မာတဲ့ ကိုယ်ခံအားစနစ်ကို ထိန်းသိမ်းဖို့ အခွင့်အရေးပေးတယ်။ အိပ်ရေးမဝရင် ပင်ပန်းနွမ်းနယ်ခြင်း၊ အာရုံစူးစိုက်မှုနည်းခြင်းနဲ့ စိတ်အပြောင်းအလဲမြန်ခြင်းတွေ ဖြစ်စေတယ်။' },
+                    { en: 'Conclude: In short, water and sleep are the foundations of good health. We should drink enough water and get 7–8 hours of sleep every night.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ရေနဲ့ အိပ်စက်ခြင်းဟာ ကျန်းမာရေးကောင်းဖို့ အုတ်မြစ်တွေပါ။ ရေလုံလောက်စွာသောက်ပြီး ညတိုင်း ၇–၈ နာရီ အိပ်သင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I completely agree that water and sleep are essential for health. Water keeps our body hydrated and helps vital functions like digestion, circulation, and temperature control. Without enough water, we can become dehydrated and feel tired or dizzy. Sleep allows the brain and body to repair cells, consolidate memories, and maintain a strong immune system. Lack of sleep causes fatigue, poor concentration, and mood swings. In short, water and sleep are the foundations of good health. We should drink enough water and get 7–8 hours of sleep every night.',
@@ -924,22 +798,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'What happens when someone is always late?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I agree that both free time and punctuality are important."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ အားလပ်ချိန်နဲ့ အချိန်မှန်ခြင်း နှစ်ခုစလုံးက အရေးကြီးတယ်လို့ ကျွန်တော် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the importance of free time: Free time reduces stress and allows us to pursue hobbies, relax, and spend time with family and friends. It helps us recharge and stay healthy.',
-                        my: 'အားလပ်ချိန်ရဲ့ အရေးပါမှုကို ရှင်းပြပါ: အားလပ်ချိန်က စိတ်ဖိစီးမှုကို လျှော့ချပေးပြီး ဝါသနာတွေကို လုပ်ကိုင်နိုင်စေတယ်၊ အနားယူနိုင်တယ်၊ မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ အချိန်ဖြုန်းနိုင်တယ်။ စွမ်းအင်ပြန်လည်ဖြည့်တင်းပြီး ကျန်းမာအောင်နေနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Explain the importance of punctuality: Being on time shows respect for others and reflects personal discipline and professionalism. It builds trust and helps teams work smoothly.',
-                        my: 'အချိန်မှန်ခြင်းရဲ့ အရေးပါမှုကို ရှင်းပြပါ: အချိန်မှန်ခြင်းက သူတစ်ပါးကို လေးစားမှုကို ပြသပြီး ကိုယ်ရေးကိုယ်တာ စည်းကမ်းနဲ့ ပရော်ဖက်ရှင်နယ်ဆန်မှုကို ထင်ဟပ်စေတယ်။ ယုံကြည်မှုကို တည်ဆောက်ပြီး အဖွဲ့တွေ ချောမွေ့စွာ အလုပ်လုပ်နိုင်အောင် ကူညီပေးတယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, free time keeps us healthy and happy, while punctuality keeps us reliable and successful. Both are essential for a balanced life.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် အားလပ်ချိန်က ကျွန်တော်တို့ကို ကျန်းမာပျော်ရွှင်အောင်ထားပြီး အချိန်မှန်ခြင်းက ယုံကြည်စိတ်ချရပြီး အောင်မြင်အောင်ထားတယ်။ မျှခြေရှိတဲ့ဘဝအတွက် နှစ်ခုစလုံး မရှိမဖြစ်လိုအပ်ပါတယ်။'
-                    }
+                    { en: 'State your position: "Yes, I agree that both free time and punctuality are important."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ အားလပ်ချိန်နဲ့ အချိန်မှန်ခြင်း နှစ်ခုစလုံးက အရေးကြီးတယ်လို့ ကျွန်တော် သဘောတူတယ်။"' },
+                    { en: 'Explain the importance of free time: Free time reduces stress and allows us to pursue hobbies, relax, and spend time with family and friends. It helps us recharge and stay healthy.', my: 'အားလပ်ချိန်ရဲ့ အရေးပါမှုကို ရှင်းပြပါ: အားလပ်ချိန်က စိတ်ဖိစီးမှုကို လျှော့ချပေးပြီး ဝါသနာတွေကို လုပ်ကိုင်နိုင်စေတယ်၊ အနားယူနိုင်တယ်၊ မိသားစုနဲ့ သူငယ်ချင်းတွေနဲ့ အချိန်ဖြုန်းနိုင်တယ်။ စွမ်းအင်ပြန်လည်ဖြည့်တင်းပြီး ကျန်းမာအောင်နေနိုင်တယ်။' },
+                    { en: 'Explain the importance of punctuality: Being on time shows respect for others and reflects personal discipline and professionalism. It builds trust and helps teams work smoothly.', my: 'အချိန်မှန်ခြင်းရဲ့ အရေးပါမှုကို ရှင်းပြပါ: အချိန်မှန်ခြင်းက သူတစ်ပါးကို လေးစားမှုကို ပြသပြီး ကိုယ်ရေးကိုယ်တာ စည်းကမ်းနဲ့ ပရော်ဖက်ရှင်နယ်ဆန်မှုကို ထင်ဟပ်စေတယ်။ ယုံကြည်မှုကို တည်ဆောက်ပြီး အဖွဲ့တွေ ချောမွေ့စွာ အလုပ်လုပ်နိုင်အောင် ကူညီပေးတယ်။' },
+                    { en: 'Conclude: In short, free time keeps us healthy and happy, while punctuality keeps us reliable and successful. Both are essential for a balanced life.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် အားလပ်ချိန်က ကျွန်တော်တို့ကို ကျန်းမာပျော်ရွှင်အောင်ထားပြီး အချိန်မှန်ခြင်းက ယုံကြည်စိတ်ချရပြီး အောင်မြင်အောင်ထားတယ်။ မျှခြေရှိတဲ့ဘဝအတွက် နှစ်ခုစလုံး မရှိမဖြစ်လိုအပ်ပါတယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I agree that both free time and punctuality are important. Free time reduces stress and allows us to pursue hobbies, relax, and spend time with family and friends. It helps us recharge and stay healthy. Being on time shows respect for others and reflects personal discipline and professionalism. It builds trust and helps teams work smoothly. In short, free time keeps us healthy and happy, while punctuality keeps us reliable and successful. Both are essential for a balanced life.',
@@ -958,22 +820,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'How can someone improve their English skills?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "I believe that higher English proficiency significantly increases job opportunities, but it does not guarantee them on its own."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "အင်္ဂလိပ်စာ ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းတွေကို သိသိသာသာ တိုးမြင့်စေတယ်လို့ ကျွန်တော်ယုံကြည်တယ်။ ဒါပေမယ့် တစ်ခုတည်းနဲ့ အာမခံချက်မပေးနိုင်ဘူး။"'
-                    },
-                    {
-                        en: 'Explain the benefits of English: In today\'s globalized world, English is the primary language of business, aviation, and maritime operations. Seafarers with strong English skills can communicate clearly with multinational crews, understand safety instructions, and handle emergencies effectively.',
-                        my: 'အင်္ဂလိပ်စာရဲ့ အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ယနေ့ခေတ် ကမ္ဘာ့ဖလားပြင်ဖြစ်နေတဲ့ ကမ္ဘာမှာ အင်္ဂလိပ်စာဟာ စီးပွားရေး၊ လေကြောင်းနဲ့ ရေကြောင်းလုပ်ငန်းတွေရဲ့ အဓိကဘာသာစကားဖြစ်တယ်။ အင်္ဂလိပ်စာစွမ်းရည်ကောင်းတဲ့ ရေကြောင်းသားတွေဟာ နိုင်ငံပေါင်းစုံက အမှုထမ်းတွေနဲ့ ရှင်းလင်းစွာ ဆက်သွယ်နိုင်တယ်၊ ဘေးကင်းရေး ညွှန်ကြားချက်တွေကို နားလည်နိုင်တယ်၊ အရေးပေါ်အခြေအနေတွေကို ထိရောက်စွာ ကိုင်တွယ်နိုင်တယ်။'
-                    },
-                    {
-                        en: 'Explain other factors: However, employers also look for technical knowledge, experience, soft skills like teamwork and leadership, and a strong work ethic.',
-                        my: 'အခြားအချက်တွေ ရှင်းပြပါ: ဒါပေမယ့် အလုပ်ရှင်တွေက နည်းပညာဆိုင်ရာ အသိပညာ၊ အတွေ့အကြုံ၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုလိုမျိုး ပျော့ပြောင်းတဲ့စွမ်းရည်တွေနဲ့ ခိုင်မာတဲ့ အလုပ်ကျင့်ဝတ်တွေကိုလည်း ရှာဖွေကြတယ်။'
-                    },
-                    {
-                        en: 'Conclude: Therefore, English proficiency is a powerful advantage, but career success depends on a combination of many factors. Continuous learning in all areas is essential.',
-                        my: 'နိဂုံးချုပ်ပါ: ဒါကြောင့် အင်္ဂလိပ်စာကျွမ်းကျင်မှုက အားသာချက်ကြီးတစ်ခုဖြစ်ပေမယ့် အသက်မွေးဝမ်းကျောင်းအောင်မြင်မှုက အချက်များစွာရဲ့ ပေါင်းစပ်မှုအပေါ် မူတည်ပါတယ်။ နယ်ပယ်အားလုံးမှာ စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ မရှိမဖြစ်လိုအပ်ပါတယ်။'
-                    }
+                    { en: 'State your position: "I believe that higher English proficiency significantly increases job opportunities, but it does not guarantee them on its own."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "အင်္ဂလိပ်စာ ပိုမိုကျွမ်းကျင်ခြင်းက အလုပ်အကိုင်အခွင့်အလမ်းတွေကို သိသိသာသာ တိုးမြင့်စေတယ်လို့ ကျွန်တော်ယုံကြည်တယ်။ ဒါပေမယ့် တစ်ခုတည်းနဲ့ အာမခံချက်မပေးနိုင်ဘူး။"' },
+                    { en: 'Explain the benefits of English: In today\'s globalized world, English is the primary language of business, aviation, and maritime operations. Seafarers with strong English skills can communicate clearly with multinational crews, understand safety instructions, and handle emergencies effectively.', my: 'အင်္ဂလိပ်စာရဲ့ အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ယနေ့ခေတ် ကမ္ဘာ့ဖလားပြင်ဖြစ်နေတဲ့ ကမ္ဘာမှာ အင်္ဂလိပ်စာဟာ စီးပွားရေး၊ လေကြောင်းနဲ့ ရေကြောင်းလုပ်ငန်းတွေရဲ့ အဓိကဘာသာစကားဖြစ်တယ်။ အင်္ဂလိပ်စာစွမ်းရည်ကောင်းတဲ့ ရေကြောင်းသားတွေဟာ နိုင်ငံပေါင်းစုံက အမှုထမ်းတွေနဲ့ ရှင်းလင်းစွာ ဆက်သွယ်နိုင်တယ်၊ ဘေးကင်းရေး ညွှန်ကြားချက်တွေကို နားလည်နိုင်တယ်၊ အရေးပေါ်အခြေအနေတွေကို ထိရောက်စွာ ကိုင်တွယ်နိုင်တယ်။' },
+                    { en: 'Explain other factors: However, employers also look for technical knowledge, experience, soft skills like teamwork and leadership, and a strong work ethic.', my: 'အခြားအချက်တွေ ရှင်းပြပါ: ဒါပေမယ့် အလုပ်ရှင်တွေက နည်းပညာဆိုင်ရာ အသိပညာ၊ အတွေ့အကြုံ၊ အသင်းလိုက်လုပ်ဆောင်မှုနဲ့ ခေါင်းဆောင်မှုလိုမျိုး ပျော့ပြောင်းတဲ့စွမ်းရည်တွေနဲ့ ခိုင်မာတဲ့ အလုပ်ကျင့်ဝတ်တွေကိုလည်း ရှာဖွေကြတယ်။' },
+                    { en: 'Conclude: Therefore, English proficiency is a powerful advantage, but career success depends on a combination of many factors. Continuous learning in all areas is essential.', my: 'နိဂုံးချုပ်ပါ: ဒါကြောင့် အင်္ဂလိပ်စာကျွမ်းကျင်မှုက အားသာချက်ကြီးတစ်ခုဖြစ်ပေမယ့် အသက်မွေးဝမ်းကျောင်းအောင်မြင်မှုက အချက်များစွာရဲ့ ပေါင်းစပ်မှုအပေါ် မူတည်ပါတယ်။ နယ်ပယ်အားလုံးမှာ စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ မရှိမဖြစ်လိုအပ်ပါတယ်။' }
                 ],
                 answer: {
                     en: 'I believe that higher English proficiency significantly increases job opportunities, but it does not guarantee them on its own. In today\'s globalized world, English is the primary language of business, aviation, and maritime operations. Seafarers with strong English skills can communicate clearly with multinational crews, understand safety instructions, and handle emergencies effectively. However, employers also look for technical knowledge, experience, soft skills like teamwork and leadership, and a strong work ethic. Therefore, English proficiency is a powerful advantage, but career success depends on a combination of many factors. Continuous learning in all areas is essential.',
@@ -992,26 +842,11 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'What happens to workers who never learn new skills?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "I strongly agree that continuous learning of new skills is essential for career growth."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ကျွမ်းကျင်မှုအသစ်တွေကို စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain why: The world is changing rapidly, especially in the maritime industry. New technologies like automated navigation systems, environmentally friendly fuels, and digitalized cargo operations are emerging every year.',
-                        my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ကမ္ဘာကြီးက အထူးသဖြင့် ရေကြောင်းလုပ်ငန်းမှာ လျှင်မြန်စွာ ပြောင်းလဲနေတယ်။ အလိုအလျောက်သွားလာရေးစနစ်တွေ၊ သဘာဝပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေရှိတဲ့ လောင်စာဆီတွေနဲ့ ဒစ်ဂျစ်တယ်ကုန်တင်ကုန်ချလုပ်ငန်းတွေလိုမျိုး နည်းပညာအသစ်တွေ နှစ်စဉ်ပေါ်ထွက်နေတယ်။'
-                    },
-                    {
-                        en: 'Explain the consequences: Seafarers who fail to upskill risk falling behind. On the other hand, those who keep learning become more valuable, adaptable, and resilient.',
-                        my: 'အကျိုးဆက်တွေ ရှင်းပြပါ: ကျွမ်းကျင်မှုအဆင့်မြှင့်တင်ဖို့ ပျက်ကွက်တဲ့ ရေကြောင်းသားတွေ နောက်ကျကျန်နေနိုင်တယ်။ အခြားတစ်ဖက်မှာ ဆက်လက်သင်ယူနေတဲ့သူတွေက ပိုမိုတန်ဖိုးရှိလာတယ်၊ လိုက်လျောညီထွေဖြစ်လာတယ်၊ ခံနိုင်ရည်ရှိလာတယ်။'
-                    },
-                    {
-                        en: 'Give examples of important skills: For seafarers today, important skills include digital literacy, English communication, emergency response, and environmental awareness.',
-                        my: 'အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေ ဥပမာပေးပါ: ယနေ့ခေတ် ရေကြောင်းသားတွေအတွက် အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေမှာ ဒစ်ဂျစ်တယ်တတ်မြောက်မှု၊ အင်္ဂလိပ်စာဆက်သွယ်မှု၊ အရေးပေါ်တုံ့ပြန်မှုနဲ့ သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ အသိပညာတွေ ပါဝင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: Learning is a lifelong journey, and each new skill opens a door to new opportunities.',
-                        my: 'နိဂုံးချုပ်ပါ: သင်ယူခြင်းဟာ တစ်သက်တာခရီးတစ်ခုဖြစ်ပြီး ကျွမ်းကျင်မှုအသစ်တိုင်းက အခွင့်အလမ်းအသစ်တွေဆီ တံခါးဖွင့်ပေးတယ်။'
-                    }
+                    { en: 'State your position: "I strongly agree that continuous learning of new skills is essential for career growth."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ကျွမ်းကျင်မှုအသစ်တွေကို စဉ်ဆက်မပြတ် သင်ယူခြင်းဟာ အသက်မွေးဝမ်းကျောင်းတိုးတက်မှုအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"' },
+                    { en: 'Explain why: The world is changing rapidly, especially in the maritime industry. New technologies like automated navigation systems, environmentally friendly fuels, and digitalized cargo operations are emerging every year.', my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ကမ္ဘာကြီးက အထူးသဖြင့် ရေကြောင်းလုပ်ငန်းမှာ လျှင်မြန်စွာ ပြောင်းလဲနေတယ်။ အလိုအလျောက်သွားလာရေးစနစ်တွေ၊ သဘာဝပတ်ဝန်းကျင်နဲ့ လိုက်လျောညီထွေရှိတဲ့ လောင်စာဆီတွေနဲ့ ဒစ်ဂျစ်တယ်ကုန်တင်ကုန်ချလုပ်ငန်းတွေလိုမျိုး နည်းပညာအသစ်တွေ နှစ်စဉ်ပေါ်ထွက်နေတယ်။' },
+                    { en: 'Explain the consequences: Seafarers who fail to upskill risk falling behind. On the other hand, those who keep learning become more valuable, adaptable, and resilient.', my: 'အကျိုးဆက်တွေ ရှင်းပြပါ: ကျွမ်းကျင်မှုအဆင့်မြှင့်တင်ဖို့ ပျက်ကွက်တဲ့ ရေကြောင်းသားတွေ နောက်ကျကျန်နေနိုင်တယ်။ အခြားတစ်ဖက်မှာ ဆက်လက်သင်ယူနေတဲ့သူတွေက ပိုမိုတန်ဖိုးရှိလာတယ်၊ လိုက်လျောညီထွေဖြစ်လာတယ်၊ ခံနိုင်ရည်ရှိလာတယ်။' },
+                    { en: 'Give examples of important skills: For seafarers today, important skills include digital literacy, English communication, emergency response, and environmental awareness.', my: 'အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေ ဥပမာပေးပါ: ယနေ့ခေတ် ရေကြောင်းသားတွေအတွက် အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတွေမှာ ဒစ်ဂျစ်တယ်တတ်မြောက်မှု၊ အင်္ဂလိပ်စာဆက်သွယ်မှု၊ အရေးပေါ်တုံ့ပြန်မှုနဲ့ သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ အသိပညာတွေ ပါဝင်တယ်။' },
+                    { en: 'Conclude: Learning is a lifelong journey, and each new skill opens a door to new opportunities.', my: 'နိဂုံးချုပ်ပါ: သင်ယူခြင်းဟာ တစ်သက်တာခရီးတစ်ခုဖြစ်ပြီး ကျွမ်းကျင်မှုအသစ်တိုင်းက အခွင့်အလမ်းအသစ်တွေဆီ တံခါးဖွင့်ပေးတယ်။' }
                 ],
                 answer: {
                     en: 'I strongly agree that continuous learning of new skills is essential for career growth. The world is changing rapidly, especially in the maritime industry. New technologies like automated navigation systems, environmentally friendly fuels, and digitalized cargo operations are emerging every year. Seafarers who fail to upskill risk falling behind. On the other hand, those who keep learning become more valuable, adaptable, and resilient. For seafarers today, important skills include digital literacy, English communication, emergency response, and environmental awareness. Learning is a lifelong journey, and each new skill opens a door to new opportunities.',
@@ -1030,22 +865,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'What are some tips to remember to drink more water?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I completely agree that drinking enough water is essential for health."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ရေဓာတ်လုံလောက်စွာ သောက်သုံးခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain why: Water is vital for our body to function properly. It helps digestion, circulation, and temperature control. It also keeps our skin healthy and our mind alert.',
-                        my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ရေဟာ ကျွန်တော်တို့ခန္ဓာကိုယ် မှန်ကန်စွာလည်ပတ်ဖို့ အသက်သွေးကြောဖြစ်တယ်။ အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းတို့ကို ကူညီပေးတယ်။ အရေပြားကို ကျန်းမာစေပြီး ဦးနှောက်ကို နိုးကြားစေတယ်။'
-                    },
-                    {
-                        en: 'Explain the consequences: If we don\'t drink enough water, we can become dehydrated, which causes fatigue, dizziness, headaches, and digestive problems. In severe cases, it can harm our kidneys.',
-                        my: 'အကျိုးဆက်တွေ ရှင်းပြပါ: ရေဓာတ်မလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်မှု ဖြစ်နိုင်ပြီး ပင်ပန်းနွမ်းနယ်ခြင်း၊ မူးဝေခြင်း၊ ခေါင်းကိုက်ခြင်းနဲ့ အစာခြေစနစ်ပြဿနာတွေ ဖြစ်စေနိုင်တယ်။ ပြင်းထန်တဲ့အခြေအနေမှာ ကျောက်ကပ်ကို ထိခိုက်စေနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: Staying hydrated is a simple but powerful habit. We should drink about 2–3 liters of water every day.',
-                        my: 'နိဂုံးချုပ်ပါ: ရေဓာတ်ပြည့်ဝနေခြင်းဟာ ရိုးရှင်းပေမယ့် စွမ်းအားရှိတဲ့ အလေ့အထတစ်ခုပါ။ နေ့တိုင်း ရေ ၂–၃ လီတာလောက် သောက်သင့်တယ်။'
-                    }
+                    { en: 'State your position: "Yes, I completely agree that drinking enough water is essential for health."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ရေဓာတ်လုံလောက်စွာ သောက်သုံးခြင်းက ကျန်းမာရေးအတွက် မရှိမဖြစ်လိုအပ်တယ်ဆိုတာကို ကျွန်တော် အပြည့်အဝ သဘောတူတယ်။"' },
+                    { en: 'Explain why: Water is vital for our body to function properly. It helps digestion, circulation, and temperature control. It also keeps our skin healthy and our mind alert.', my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ရေဟာ ကျွန်တော်တို့ခန္ဓာကိုယ် မှန်ကန်စွာလည်ပတ်ဖို့ အသက်သွေးကြောဖြစ်တယ်။ အစာခြေခြင်း၊ သွေးလည်ပတ်ခြင်းနဲ့ အပူချိန်ထိန်းခြင်းတို့ကို ကူညီပေးတယ်။ အရေပြားကို ကျန်းမာစေပြီး ဦးနှောက်ကို နိုးကြားစေတယ်။' },
+                    { en: 'Explain the consequences: If we don\'t drink enough water, we can become dehydrated, which causes fatigue, dizziness, headaches, and digestive problems. In severe cases, it can harm our kidneys.', my: 'အကျိုးဆက်တွေ ရှင်းပြပါ: ရေဓာတ်မလုံလောက်ရင် ရေဓာတ်ခန်းခြောက်မှု ဖြစ်နိုင်ပြီး ပင်ပန်းနွမ်းနယ်ခြင်း၊ မူးဝေခြင်း၊ ခေါင်းကိုက်ခြင်းနဲ့ အစာခြေစနစ်ပြဿနာတွေ ဖြစ်စေနိုင်တယ်။ ပြင်းထန်တဲ့အခြေအနေမှာ ကျောက်ကပ်ကို ထိခိုက်စေနိုင်တယ်။' },
+                    { en: 'Conclude: Staying hydrated is a simple but powerful habit. We should drink about 2–3 liters of water every day.', my: 'နိဂုံးချုပ်ပါ: ရေဓာတ်ပြည့်ဝနေခြင်းဟာ ရိုးရှင်းပေမယ့် စွမ်းအားရှိတဲ့ အလေ့အထတစ်ခုပါ။ နေ့တိုင်း ရေ ၂–၃ လီတာလောက် သောက်သင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I completely agree that drinking enough water is essential for health. Water is vital for our body to function properly. It helps digestion, circulation, and temperature control. It also keeps our skin healthy and our mind alert. If we don\'t drink enough water, we can become dehydrated, which causes fatigue, dizziness, headaches, and digestive problems. In severe cases, it can harm our kidneys. Staying hydrated is a simple but powerful habit. We should drink about 2–3 liters of water every day.',
@@ -1064,22 +887,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'How can you stay safe when shopping online?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I agree that online shopping saves a lot of time."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်အများကြီး သက်သာစေတယ်လို့ ကျွန်တော် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain why: You can shop from home 24/7 without traveling, waiting in lines, or dealing with traffic. You can compare prices easily and find products from anywhere.',
-                        my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ခရီးမသွားဘဲ၊ တန်းစီမစောင့်ဘဲ၊ ယာဉ်ကြောပိတ်ဆို့မှုနဲ့ မရုန်းကန်ဘဲ အိမ်ကနေ ၂၄ နာရီ ဈေးဝယ်နိုင်တယ်။ ဈေးနှုန်းတွေကို အလွယ်တကူ နှိုင်းယှဉ်နိုင်ပြီး ဘယ်နေရာကမဆို ကုန်ပစ္စည်းတွေ ရှာနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Acknowledge the downside: However, online shopping also has disadvantages, such as delivery delays, wrong items, and the risk of online scams.',
-                        my: 'အားနည်းချက်ကို အသိအမှတ်ပြုပါ: ဒါပေမယ့် အွန်လိုင်းဈေးဝယ်ခြင်းမှာ ပို့ဆောင်ရေးနှောင့်နှေးခြင်း၊ ပစ္စည်းမှားပို့ခြင်းနဲ့ အွန်လိုင်းလိမ်လည်မှု အန္တရာယ်တွေလိုမျိုး အားနည်းချက်တွေလည်း ရှိတယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, online shopping is a great time-saver if we use trusted websites and check reviews carefully.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ယုံကြည်ရတဲ့ ဝဘ်ဆိုက်တွေကို သုံးပြီး သုံးသပ်ချက်တွေကို သေချာစစ်ဆေးရင် အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်ကို အများကြီး သက်သာစေတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။'
-                    }
+                    { en: 'State your position: "Yes, I agree that online shopping saves a lot of time."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်အများကြီး သက်သာစေတယ်လို့ ကျွန်တော် သဘောတူတယ်။"' },
+                    { en: 'Explain why: You can shop from home 24/7 without traveling, waiting in lines, or dealing with traffic. You can compare prices easily and find products from anywhere.', my: 'ဘာကြောင့်လဲ ရှင်းပြပါ: ခရီးမသွားဘဲ၊ တန်းစီမစောင့်ဘဲ၊ ယာဉ်ကြောပိတ်ဆို့မှုနဲ့ မရုန်းကန်ဘဲ အိမ်ကနေ ၂၄ နာရီ ဈေးဝယ်နိုင်တယ်။ ဈေးနှုန်းတွေကို အလွယ်တကူ နှိုင်းယှဉ်နိုင်ပြီး ဘယ်နေရာကမဆို ကုန်ပစ္စည်းတွေ ရှာနိုင်တယ်။' },
+                    { en: 'Acknowledge the downside: However, online shopping also has disadvantages, such as delivery delays, wrong items, and the risk of online scams.', my: 'အားနည်းချက်ကို အသိအမှတ်ပြုပါ: ဒါပေမယ့် အွန်လိုင်းဈေးဝယ်ခြင်းမှာ ပို့ဆောင်ရေးနှောင့်နှေးခြင်း၊ ပစ္စည်းမှားပို့ခြင်းနဲ့ အွန်လိုင်းလိမ်လည်မှု အန္တရာယ်တွေလိုမျိုး အားနည်းချက်တွေလည်း ရှိတယ်။' },
+                    { en: 'Conclude: In short, online shopping is a great time-saver if we use trusted websites and check reviews carefully.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ယုံကြည်ရတဲ့ ဝဘ်ဆိုက်တွေကို သုံးပြီး သုံးသပ်ချက်တွေကို သေချာစစ်ဆေးရင် အွန်လိုင်းဈေးဝယ်ခြင်းက အချိန်ကို အများကြီး သက်သာစေတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။' }
                 ],
                 answer: {
                     en: 'Yes, I agree that online shopping saves a lot of time. You can shop from home 24/7 without traveling, waiting in lines, or dealing with traffic. You can compare prices easily and find products from anywhere. However, online shopping also has disadvantages, such as delivery delays, wrong items, and the risk of online scams. In short, online shopping is a great time-saver if we use trusted websites and check reviews carefully.',
@@ -1098,22 +909,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'How can we reduce our screen time?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I believe that many people use the internet too much these days."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ယနေ့ခေတ်မှာ လူအများအပြား အင်တာနက်ကို အလွန်အကျွံသုံးနေကြတယ်လို့ ကျွန်တော် ယုံကြည်တယ်။"'
-                    },
-                    {
-                        en: 'Give evidence: Many people spend hours scrolling through social media, playing games, or watching videos. Some even feel anxious or restless when they are offline.',
-                        my: 'အထောက်အထား ပေးပါ: လူအများအပြားဟာ လူမှုမီဒီယာတွေကို လှန်ကြည့်ခြင်း၊ ဂိမ်းကစားခြင်း ဒါမှမဟုတ် ဗီဒီယိုတွေ ကြည့်ခြင်းတို့အတွက် နာရီများစွာ ကုန်ဆုံးစေတယ်။ တချို့ဆို အော့ဖ်လိုင်းဖြစ်နေရင် စိတ်ပူပန်ခြင်း ဒါမှမဟုတ် မငြိမ်မသက်ဖြစ်ခြင်းတွေ ခံစားရတယ်။'
-                    },
-                    {
-                        en: 'Explain the negative effects: Using the internet too much can cause eye strain, poor sleep, less physical activity, and weaker face-to-face communication skills. It can also affect mental health.',
-                        my: 'ဆိုးကျိုးတွေ ရှင်းပြပါ: အင်တာနက်ကို အလွန်အကျွံသုံးခြင်းက မျက်စိပင်ပန်းခြင်း၊ အိပ်စက်မှုမကောင်းခြင်း၊ ကိုယ်လက်လှုပ်ရှားမှုနည်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်ရေးစွမ်းရည်အားနည်းခြင်းတို့ကို ဖြစ်စေနိုင်တယ်။ စိတ်ကျန်းမာရေးကိုလည်း ထိခိုက်စေနိုင်တယ်။'
-                    },
-                    {
-                        en: 'Conclude: In my opinion, the internet is a useful tool, but we must use it wisely. We should set time limits and spend more time on offline activities.',
-                        my: 'နိဂုံးချုပ်ပါ: ကျွန်တော့်အမြင်မှာ အင်တာနက်ဟာ အသုံးဝင်တဲ့ ကိရိယာတစ်ခုပါ။ ဒါပေမယ့် ပညာရှိရှိသုံးရမယ်။ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ပြီး အော့ဖ်လိုင်းလှုပ်ရှားမှုတွေမှာ အချိန်ပိုပေးသင့်တယ်။'
-                    }
+                    { en: 'State your position: "Yes, I believe that many people use the internet too much these days."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ယနေ့ခေတ်မှာ လူအများအပြား အင်တာနက်ကို အလွန်အကျွံသုံးနေကြတယ်လို့ ကျွန်တော် ယုံကြည်တယ်။"' },
+                    { en: 'Give evidence: Many people spend hours scrolling through social media, playing games, or watching videos. Some even feel anxious or restless when they are offline.', my: 'အထောက်အထား ပေးပါ: လူအများအပြားဟာ လူမှုမီဒီယာတွေကို လှန်ကြည့်ခြင်း၊ ဂိမ်းကစားခြင်း ဒါမှမဟုတ် ဗီဒီယိုတွေ ကြည့်ခြင်းတို့အတွက် နာရီများစွာ ကုန်ဆုံးစေတယ်။ တချို့ဆို အော့ဖ်လိုင်းဖြစ်နေရင် စိတ်ပူပန်ခြင်း ဒါမှမဟုတ် မငြိမ်မသက်ဖြစ်ခြင်းတွေ ခံစားရတယ်။' },
+                    { en: 'Explain the negative effects: Using the internet too much can cause eye strain, poor sleep, less physical activity, and weaker face-to-face communication skills. It can also affect mental health.', my: 'ဆိုးကျိုးတွေ ရှင်းပြပါ: အင်တာနက်ကို အလွန်အကျွံသုံးခြင်းက မျက်စိပင်ပန်းခြင်း၊ အိပ်စက်မှုမကောင်းခြင်း၊ ကိုယ်လက်လှုပ်ရှားမှုနည်းခြင်းနဲ့ မျက်နှာချင်းဆိုင် ဆက်သွယ်ရေးစွမ်းရည်အားနည်းခြင်းတို့ကို ဖြစ်စေနိုင်တယ်။ စိတ်ကျန်းမာရေးကိုလည်း ထိခိုက်စေနိုင်တယ်။' },
+                    { en: 'Conclude: In my opinion, the internet is a useful tool, but we must use it wisely. We should set time limits and spend more time on offline activities.', my: 'နိဂုံးချုပ်ပါ: ကျွန်တော့်အမြင်မှာ အင်တာနက်ဟာ အသုံးဝင်တဲ့ ကိရိယာတစ်ခုပါ။ ဒါပေမယ့် ပညာရှိရှိသုံးရမယ်။ အချိန်ကန့်သတ်ချက်တွေ သတ်မှတ်ပြီး အော့ဖ်လိုင်းလှုပ်ရှားမှုတွေမှာ အချိန်ပိုပေးသင့်တယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I believe that many people use the internet too much these days. Many people spend hours scrolling through social media, playing games, or watching videos. Some even feel anxious or restless when they are offline. Using the internet too much can cause eye strain, poor sleep, less physical activity, and weaker face-to-face communication skills. It can also affect mental health. In my opinion, the internet is a useful tool, but we must use it wisely. We should set time limits and spend more time on offline activities.',
@@ -1132,22 +931,10 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                     'Why is personal grooming especially important in the workplace?'
                 ],
                 steps: [
-                    {
-                        en: 'State your position: "Yes, I strongly agree that personal grooming is important."',
-                        my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကိုယ်ရေးကိုယ်တာ သန့်ရှင်းသပ်ရပ်မှုက အရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"'
-                    },
-                    {
-                        en: 'Explain the benefits: Good grooming keeps us clean and healthy. It prevents body odor and skin problems. It also boosts our confidence and self-esteem.',
-                        my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကောင်းမွန်တဲ့ သန့်ရှင်းသပ်ရပ်မှုက ကျွန်တော်တို့ကို သန့်ရှင်းကျန်းမာအောင်ထားတယ်။ ခန္ဓာကိုယ်အနံ့နဲ့ အရေပြားပြဿနာတွေကို ကာကွယ်ပေးတယ်။ ကိုယ့်ကိုယ်ကို ယုံကြည်မှုနဲ့ တန်ဖိုးထားမှုကိုလည်း မြှင့်တင်ပေးတယ်။'
-                    },
-                    {
-                        en: 'Explain its social and professional importance: When we look clean and neat, people respect us more. In the workplace, good grooming creates a professional image and builds trust with customers and colleagues.',
-                        my: 'လူမှုရေးနဲ့ ပရော်ဖက်ရှင်နယ်ဆိုင်ရာ အရေးပါမှုကို ရှင်းပြပါ: ကျွန်တော်တို့ သန့်ရှင်းသပ်ရပ်စွာ ပုံပေါက်နေရင် လူတွေက ပိုလေးစားကြတယ်။ လုပ်ငန်းခွင်မှာ ကောင်းမွန်တဲ့ သန့်ရှင်းသပ်ရပ်မှုက ပရော်ဖက်ရှင်နယ်ပုံရိပ်ကို ဖန်တီးပြီး ဖောက်သည်တွေ၊ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ယုံကြည်မှုကို တည်ဆောက်ပေးတယ်။'
-                    },
-                    {
-                        en: 'Conclude: In short, personal grooming is not just about appearance—it is about health, confidence, and respect for ourselves and others.',
-                        my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကိုယ်ရေးကိုယ်တာ သန့်ရှင်းသပ်ရပ်မှုဟာ ရုပ်ပုံပေါက်ခြင်းတစ်ခုတည်း မဟုတ်ပါဘူး။ ကျန်းမာရေး၊ ယုံကြည်မှုနဲ့ ကိုယ်ရော သူတစ်ပါးကိုပါ လေးစားမှုတွေ ပါဝင်ပါတယ်။'
-                    }
+                    { en: 'State your position: "Yes, I strongly agree that personal grooming is important."', my: 'သင့်ရပ်တည်ချက်ကို ပြောပါ: "ဟုတ်ကဲ့၊ ကိုယ်ရေးကိုယ်တာ သန့်ရှင်းသပ်ရပ်မှုက အရေးကြီးတယ်ဆိုတာကို ကျွန်တော် အပြင်းအထန် သဘောတူတယ်။"' },
+                    { en: 'Explain the benefits: Good grooming keeps us clean and healthy. It prevents body odor and skin problems. It also boosts our confidence and self-esteem.', my: 'အကျိုးကျေးဇူးတွေ ရှင်းပြပါ: ကောင်းမွန်တဲ့ သန့်ရှင်းသပ်ရပ်မှုက ကျွန်တော်တို့ကို သန့်ရှင်းကျန်းမာအောင်ထားတယ်။ ခန္ဓာကိုယ်အနံ့နဲ့ အရေပြားပြဿနာတွေကို ကာကွယ်ပေးတယ်။ ကိုယ့်ကိုယ်ကို ယုံကြည်မှုနဲ့ တန်ဖိုးထားမှုကိုလည်း မြှင့်တင်ပေးတယ်။' },
+                    { en: 'Explain its social and professional importance: When we look clean and neat, people respect us more. In the workplace, good grooming creates a professional image and builds trust with customers and colleagues.', my: 'လူမှုရေးနဲ့ ပရော်ဖက်ရှင်နယ်ဆိုင်ရာ အရေးပါမှုကို ရှင်းပြပါ: ကျွန်တော်တို့ သန့်ရှင်းသပ်ရပ်စွာ ပုံပေါက်နေရင် လူတွေက ပိုလေးစားကြတယ်။ လုပ်ငန်းခွင်မှာ ကောင်းမွန်တဲ့ သန့်ရှင်းသပ်ရပ်မှုက ပရော်ဖက်ရှင်နယ်ပုံရိပ်ကို ဖန်တီးပြီး ဖောက်သည်တွေ၊ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ယုံကြည်မှုကို တည်ဆောက်ပေးတယ်။' },
+                    { en: 'Conclude: In short, personal grooming is not just about appearance—it is about health, confidence, and respect for ourselves and others.', my: 'နိဂုံးချုပ်ပါ: အတိုချုပ်ပြောရရင် ကိုယ်ရေးကိုယ်တာ သန့်ရှင်းသပ်ရပ်မှုဟာ ရုပ်ပုံပေါက်ခြင်းတစ်ခုတည်း မဟုတ်ပါဘူး။ ကျန်းမာရေး၊ ယုံကြည်မှုနဲ့ ကိုယ်ရော သူတစ်ပါးကိုပါ လေးစားမှုတွေ ပါဝင်ပါတယ်။' }
                 ],
                 answer: {
                     en: 'Yes, I strongly agree that personal grooming is important. Good grooming keeps us clean and healthy. It prevents body odor and skin problems. It also boosts our confidence and self-esteem. When we look clean and neat, people respect us more. In the workplace, good grooming creates a professional image and builds trust with customers and colleagues. In short, personal grooming is not just about appearance—it is about health, confidence, and respect for ourselves and others.',
@@ -1157,7 +944,7 @@ body.dark-ui .section-title{color:#e8eef9 !important}
         ];
 
         // ============================================================
-        // 2. RENDER FUNCTION
+        // RENDER FUNCTION
         // ============================================================
         function renderDebates(searchTerm) {
             const container = document.getElementById('debateList');
@@ -1175,7 +962,6 @@ body.dark-ui .section-title{color:#e8eef9 !important}
                 );
             }
 
-            // Stats
             document.getElementById('totalCount').textContent = filtered.length;
             document.getElementById('answerCount').textContent = filtered.length;
             const totalFollowups = filtered.reduce((sum, d) => sum + d.followups.length, 0);
@@ -1260,7 +1046,7 @@ body.dark-ui .section-title{color:#e8eef9 !important}
         }
 
         // ============================================================
-        // 3. EVENT LISTENERS
+        // EVENT LISTENERS
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             renderDebates('');
@@ -1276,7 +1062,7 @@ body.dark-ui .section-title{color:#e8eef9 !important}
         });
 
         // ============================================================
-        // 4. COPY PROTECTION (basic)
+        // COPY PROTECTION (basic)
         // ============================================================
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
@@ -1291,24 +1077,33 @@ body.dark-ui .section-title{color:#e8eef9 !important}
         console.log('📚 Total topics:', debateData.length);
     </script>
 
-<script>
-(function(){
-  const btn=document.createElement('button');
-  btn.id='uiThemeToggle';
-  btn.type='button';
-  btn.setAttribute('aria-label','Toggle dark mode');
-  btn.innerHTML='☾';
-  const bar=document.querySelector('.topbar .container') || document.querySelector('.topbar');
-  if(bar) bar.appendChild(btn);
-  const saved=localStorage.getItem('mept-ui-theme');
-  if(saved==='dark'){document.body.classList.add('dark-ui');btn.innerHTML='☀';}
-  btn.addEventListener('click',()=>{
-    document.body.classList.toggle('dark-ui');
-    const dark=document.body.classList.contains('dark-ui');
-    localStorage.setItem('mept-ui-theme',dark?'dark':'light');
-    btn.innerHTML=dark?'☀':'☾';
-  });
-})();
-</script>
+    <script>
+        // ============================================================
+        // DARK MODE TOGGLE
+        // ============================================================
+        (function(){
+            const btn = document.createElement('button');
+            btn.id = 'uiThemeToggle';
+            btn.type = 'button';
+            btn.setAttribute('aria-label', 'Toggle dark mode');
+            btn.innerHTML = '☾';
+
+            const bar = document.querySelector('.top-bar h1') || document.querySelector('.top-bar');
+            if (bar) bar.appendChild(btn);
+
+            const saved = localStorage.getItem('mept-ui-theme');
+            if (saved === 'dark') {
+                document.body.classList.add('dark-ui');
+                btn.innerHTML = '☀';
+            }
+
+            btn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-ui');
+                const dark = document.body.classList.contains('dark-ui');
+                localStorage.setItem('mept-ui-theme', dark ? 'dark' : 'light');
+                btn.innerHTML = dark ? '☀' : '☾';
+            });
+        })();
+    </script>
 </body>
 </html>
