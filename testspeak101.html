@@ -1,1077 +1,3313 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>Test 101 · Speaking Voice Test – MEPT</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
+<title>TEST 101 · Speaking Voice Test – MEPT</title>
+
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', system-ui, -apple-system, sans-serif; }
-  body { background:#0f172a; min-height:100vh; color:#e2e8f0; display:flex; justify-content:center; padding:12px; }
-  .app { width:100%; max-width:640px; background:#1e293b; border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,0.5); padding:20px 16px 24px; position:relative; overflow:hidden; min-height:calc(100vh - 24px); }
-  .screen { display:none; flex-direction:column; gap:14px; }
-  .screen.active { display:flex; }
+*{
+  box-sizing:border-box;
+}
 
-  /* HEADER BAR */
-  .header-bar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#0f172a;
-    border-radius:14px;
-    padding:10px 14px;
-    margin-bottom:4px;
-    border:1px solid #334155;
+html,body{
+  margin:0;
+  padding:0;
+  background:#07101d;
+  color:#eef4ff;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Roboto,Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+}
+
+button,
+textarea,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  width:min(640px,100%);
+  margin:auto;
+  min-height:100vh;
+  padding:18px;
+}
+
+.card{
+  background:linear-gradient(180deg,#101b2c,#0c1625);
+  border:1px solid #24344c;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 18px 50px rgba(0,0,0,.3);
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* ---------- WELCOME ---------- */
+
+.logo{
+  font-size:13px;
+  letter-spacing:.12em;
+  color:#7ea7ff;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+h1{
+  font-size:28px;
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+h2{
+  margin:0 0 12px;
+}
+
+.subtitle{
+  color:#aebbd0;
+  line-height:1.6;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:20px 0;
+}
+
+.info{
+  border:1px solid #263850;
+  background:#0b1524;
+  border-radius:14px;
+  padding:13px;
+}
+
+.info strong{
+  display:block;
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.info span{
+  color:#91a0b8;
+  font-size:13px;
+}
+
+.notice{
+  border:1px solid #34496a;
+  background:#0c1728;
+  border-radius:14px;
+  padding:14px;
+  color:#bdc9dc;
+  line-height:1.55;
+  margin:16px 0;
+}
+
+.permission{
+  border:1px solid #584d25;
+  background:#211e0d;
+  color:#eadb91;
+  border-radius:14px;
+  padding:13px;
+  font-size:13px;
+  line-height:1.5;
+  margin:14px 0;
+}
+
+.btn-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button.primary{
+  border:0;
+  background:#4f7cff;
+  color:white;
+  border-radius:13px;
+  padding:13px 18px;
+  font-weight:800;
+  min-height:46px;
+}
+
+button.secondary{
+  border:1px solid #344a68;
+  background:#111d2e;
+  color:#dce8ff;
+  border-radius:13px;
+  padding:12px 16px;
+  min-height:46px;
+}
+
+button.danger{
+  border:1px solid #713d46;
+  background:#2b1419;
+  color:#ffb8c2;
+  border-radius:13px;
+  padding:12px 16px;
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* ---------- TEST ---------- */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.test-label{
+  font-size:12px;
+  color:#8da1bd;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.progress{
+  height:7px;
+  background:#152338;
+  border-radius:99px;
+  overflow:hidden;
+  margin:8px 0 18px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:#5b84ff;
+  transition:width .25s ease;
+}
+
+.timer{
+  font-size:25px;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+}
+
+.timer.warning{
+  color:#ffcf66;
+}
+
+.timer.danger{
+  color:#ff7483;
+}
+
+.question-type{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#14223a;
+  color:#8db1ff;
+  border:1px solid #293e61;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.question{
+  font-size:22px;
+  line-height:1.42;
+  font-weight:800;
+  margin-bottom:16px;
+}
+
+.follow-label{
+  color:#ffcb69;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.06em;
+  margin-bottom:8px;
+}
+
+.picture{
+  width:100%;
+  border:1px solid #30435d;
+  border-radius:16px;
+  overflow:hidden;
+  margin:14px 0;
+  background:#091321;
+}
+
+.picture svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.examiner{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 13px;
+  background:#0b1727;
+  border:1px solid #263a55;
+  border-radius:13px;
+  margin:12px 0;
+}
+
+.examiner-icon{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  background:#172846;
+  border-radius:50%;
+}
+
+.examiner-text{
+  font-size:13px;
+  color:#a9b8cf;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:12px 0;
+  color:#a8b8ce;
+  font-size:13px;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#5d6b80;
+}
+
+.dot.live{
+  background:#48d68b;
+  box-shadow:0 0 12px rgba(72,214,139,.65);
+}
+
+.dot.paused{
+  background:#ffc85c;
+}
+
+.transcript-box{
+  border:1px solid #283b55;
+  background:#091321;
+  border-radius:15px;
+  padding:13px;
+  margin-top:12px;
+}
+
+.transcript-title{
+  color:#8498b4;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+  margin-bottom:8px;
+}
+
+.transcript{
+  min-height:74px;
+  max-height:190px;
+  overflow:auto;
+  color:#e2ebfa;
+  line-height:1.55;
+  font-size:14px;
+  white-space:pre-wrap;
+}
+
+.interim{
+  color:#6f83a0;
+}
+
+.manual{
+  width:100%;
+  min-height:100px;
+  resize:vertical;
+  background:#091321;
+  border:1px solid #314762;
+  color:#edf4ff;
+  border-radius:13px;
+  padding:12px;
+  outline:none;
+}
+
+.manual:focus{
+  border-color:#5a83ff;
+}
+
+.controls{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.controls button{
+  flex:1;
+  min-width:125px;
+}
+
+/* ---------- RESULT ---------- */
+
+.score{
+  text-align:center;
+  padding:22px 10px;
+}
+
+.score-number{
+  font-size:58px;
+  font-weight:950;
+  line-height:1;
+}
+
+.score-label{
+  color:#8fa1ba;
+  margin-top:7px;
+}
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin:18px 0;
+}
+
+.metric{
+  background:#0b1524;
+  border:1px solid #263850;
+  border-radius:13px;
+  padding:12px 8px;
+  text-align:center;
+}
+
+.metric strong{
+  display:block;
+  font-size:20px;
+}
+
+.metric span{
+  color:#8395ae;
+  font-size:11px;
+}
+
+.answer-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+
+.answer-card{
+  background:#0b1524;
+  border:1px solid #263850;
+  border-radius:14px;
+  padding:13px;
+}
+
+.answer-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+}
+
+.answer-number{
+  color:#86a9ff;
+  font-weight:900;
+}
+
+.answer-wc{
+  color:#8395ae;
+  font-size:12px;
+}
+
+.answer-q{
+  color:#d9e4f6;
+  font-weight:700;
+  line-height:1.4;
+}
+
+.answer-text{
+  color:#91a0b8;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.follow-answer{
+  margin-top:10px;
+  padding-left:12px;
+  border-left:2px solid #354d75;
+}
+
+.follow-answer b{
+  display:block;
+  color:#c9d6eb;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+audio{
+  width:100%;
+  margin-top:10px;
+  height:38px;
+}
+
+/* ---------- TOAST ---------- */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%) translateY(20px);
+  width:min(500px,calc(100% - 30px));
+  background:#172338;
+  border:1px solid #344967;
+  color:#eef4ff;
+  border-radius:13px;
+  padding:12px 14px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  z-index:100;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+@media(max-width:480px){
+  .app{
+    padding:11px;
   }
-  .back-btn {
-    background:transparent;
-    border:1px solid #334155;
-    color:#94a3b8;
-    padding:6px 14px;
-    border-radius:20px;
-    font-size:12.5px;
-    font-weight:700;
-    cursor:pointer;
-    font-family:inherit;
-    transition:0.18s;
-    text-decoration:none;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .back-btn:hover {
-    background:#7f1d1d;
-    color:#fecaca;
-    border-color:#ef4444;
-  }
-  .test-label {
-    font-size:12.5px;
-    color:#38bdf8;
-    font-weight:800;
-    letter-spacing:0.5px;
-  }
-  .test-label small {
-    display:block;
-    font-size:10.5px;
-    color:#64748b;
-    font-weight:600;
-    letter-spacing:0.3px;
-    margin-top:2px;
+
+  .card{
+    padding:15px;
+    border-radius:17px;
   }
 
-  /* WELCOME */
-  .logo { text-align:center; margin:6px 0; }
-  .logo i { font-size:46px; color:#38bdf8; }
-  .logo h1 { font-size:22px; color:#f8fafc; margin-top:8px; }
-  .logo p { font-size:13px; color:#94a3b8; margin-top:6px; line-height:1.6; }
-  .info-grid { display:flex; flex-direction:column; gap:10px; }
-  .info-item { background:#0f172a; border-radius:14px; padding:13px 15px; border-left:4px solid #38bdf8; font-size:13.5px; line-height:1.6; color:#cbd5e1; }
-  .info-item strong { color:#f8fafc; }
-  .info-item .ti { color:#38bdf8; font-weight:700; }
-  .info-item.p2 { border-left-color:#f97316; }
-  .info-item.p3 { border-left-color:#a855f7; }
-
-  .cap-card { background:#0f172a; border-radius:14px; padding:13px 15px; border:1px solid #334155; }
-  .cap-card h4 { font-size:12px; color:#94a3b8; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
-  .cap-list { display:flex; flex-wrap:wrap; gap:6px; }
-  .cap-pill { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:700; }
-  .cap-yes { background:#14532d; color:#86efac; }
-  .cap-no  { background:#7f1d1d; color:#fecaca; }
-
-  .btn { border:none; border-radius:14px; padding:14px 18px; font-size:15px; font-weight:700; cursor:pointer; transition:.18s; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; }
-  .btn:active { transform:scale(0.97); }
-  .btn-primary { background:linear-gradient(135deg,#0ea5e9,#3b82f6); color:#fff; box-shadow:0 8px 20px rgba(14,165,233,0.35); }
-  .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
-  .btn-warn { background:#f59e0b; color:#1a1a1a; }
-  .btn-secondary { background:#334155; color:#e2e8f0; }
-  .btn-ghost { background:transparent; color:#94a3b8; border:1.5px solid #334155; }
-  .btn-ghost:hover { background:#0f172a; }
-  .btn-sm { padding:10px 14px; font-size:13.5px; }
-
-  /* TEST */
-  .topbar { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#94a3b8; font-weight:600; gap:8px; flex-wrap:wrap; }
-  .section-badge { background:#0ea5e9; color:#fff; padding:4px 12px; border-radius:20px; font-size:11.5px; font-weight:700; }
-  .section-badge.p2 { background:#f97316; }
-  .section-badge.p3 { background:#a855f7; }
-  .mode-badge { padding:3px 10px; border-radius:20px; font-size:10.5px; font-weight:800; }
-  .mode-live { background:#166534; color:#bbf7d0; }
-  .mode-rec  { background:#7c2d12; color:#fdba74; }
-  .mode-text { background:#1e3a8a; color:#93c5fd; }
-
-  .timer-wrap { height:10px; background:#0f172a; border-radius:20px; overflow:hidden; }
-  .timer-bar { height:100%; width:100%; background:linear-gradient(90deg,#22c55e,#84cc16); border-radius:20px; transition: width .2s linear, background .4s; }
-  .timer-bar.warn { background:linear-gradient(90deg,#f59e0b,#f97316); }
-  .timer-bar.danger { background:linear-gradient(90deg,#ef4444,#dc2626); animation:pulse 1s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.6;} }
-  .time-row { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#94a3b8; }
-  .time-left-num { font-size:20px; font-weight:800; color:#f8fafc; font-variant-numeric:tabular-nums; }
-  .rec-dot { display:inline-block; width:9px; height:9px; border-radius:50%; background:#ef4444; margin-right:6px; animation:pulse 1s infinite; vertical-align:middle; }
-
-  .q-card { background:#0f172a; border-radius:18px; padding:16px 15px; border:1px solid #1e40af33; }
-  .q-section-title { font-size:11.5px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
-  .q-section-title.p2 { color:#fb923c; }
-  .q-section-title.p3 { color:#c084fc; }
-  .q-text { font-size:15.5px; font-weight:600; color:#f1f5f9; line-height:1.6; }
-  .q-hint { font-size:12px; color:#64748b; margin-top:8px; font-style:italic; }
-
-  .picture-wrap { margin-top:12px; border-radius:12px; overflow:hidden; background:#fff; border:1px solid #334155; }
-  .picture-wrap svg { display:block; width:100%; height:auto; }
-  .picture-wrap.hidden { display:none; }
-
-  .transcript-card { background:#0f172a; border-radius:16px; padding:12px; border:1px solid #334155; flex:1; min-height:130px; display:flex; flex-direction:column; }
-  .transcript-label { font-size:11px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap; }
-  .transcript-label .edit-tag { font-size:10px; color:#64748b; font-weight:600; text-transform:none; }
-  .transcript-view { font-size:13.5px; line-height:1.7; color:#e2e8f0; flex:1; overflow-y:auto; max-height:150px; white-space:pre-wrap; word-wrap:break-word; }
-  .transcript-view .interim { color:#94a3b8; font-style:italic; }
-  .transcript-view .placeholder { color:#475569; font-style:italic; }
-  textarea.transcript-input { width:100%; flex:1; min-height:120px; background:#0b1220; border:1px solid #334155; border-radius:10px; padding:10px 12px; color:#e2e8f0; font-size:13.5px; font-family:inherit; line-height:1.6; resize:vertical; outline:none; }
-  textarea.transcript-input:focus { border-color:#0ea5e9; }
-  .word-count { font-size:11px; color:#64748b; margin-top:8px; text-align:right; font-weight:600; }
-
-  .controls { display:flex; gap:8px; flex-wrap:wrap; }
-  .controls .btn { flex:1; min-width:110px; }
-  .hidden { display:none !important; }
-
-  /* RESULT */
-  .grade-hero { text-align:center; padding:14px 10px 6px; }
-  .grade-circle { width:110px; height:110px; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:44px; font-weight:900; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.4); }
-  .grade-Ap { background:linear-gradient(135deg,#a855f7,#7c3aed); }
-  .grade-A { background:linear-gradient(135deg,#22c55e,#15803d); }
-  .grade-B { background:linear-gradient(135deg,#3b82f6,#1d4ed8); }
-  .grade-C { background:linear-gradient(135deg,#f59e0b,#d97706); }
-  .grade-D { background:linear-gradient(135deg,#ef4444,#991b1b); }
-  .grade-score { font-size:32px; font-weight:800; color:#f8fafc; }
-  .grade-score small { font-size:16px; color:#94a3b8; font-weight:600; }
-  .grade-label { color:#94a3b8; font-size:13.5px; margin-top:4px; }
-
-  .result-list { display:flex; flex-direction:column; gap:10px; max-height:60vh; overflow-y:auto; padding-right:4px; }
-  .result-item { background:#0f172a; border-radius:14px; padding:12px 14px; border-left:4px solid #38bdf8; }
-  .result-item-head { display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:700; color:#94a3b8; margin-bottom:6px; gap:6px; flex-wrap:wrap; }
-  .result-item-head .marks { color:#38bdf8; font-size:13.5px; }
-  .result-q { font-size:13px; color:#cbd5e1; line-height:1.5; margin-bottom:8px; }
-  .result-meta { font-size:11.5px; color:#64748b; display:flex; gap:12px; flex-wrap:wrap; }
-  .result-meta b { color:#e2e8f0; }
-  .result-transcript { margin-top:8px; font-size:12px; color:#94a3b8; background:#1e293b; border-radius:8px; padding:8px 10px; max-height:100px; overflow-y:auto; line-height:1.5; white-space:pre-wrap; font-style:italic; }
-  .result-audio { margin-top:8px; }
-  .result-audio audio { width:100%; height:34px; border-radius:8px; }
-
-  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10.5px; font-weight:800; }
-  .badge-personal { background:#1e3a8a; color:#93c5fd; }
-  .badge-picture { background:#7c2d12; color:#fdba74; }
-  .badge-debate { background:#4c1d95; color:#c4b5fd; }
-
-  ::-webkit-scrollbar { width:6px; }
-  ::-webkit-scrollbar-thumb { background:#334155; border-radius:10px; }
-
-  .status-msg { background:#7f1d1d; border:1px solid #ef4444; color:#fecaca; padding:10px 14px; border-radius:12px; font-size:12.5px; line-height:1.5; }
-  .status-msg.info { background:#0c4a6e; border-color:#0ea5e9; color:#bae6fd; }
-
-  /* TEST BADGE */
-  .test-id-badge {
-    display:inline-block;
-    background:linear-gradient(135deg,#22c55e,#15803d);
-    color:#fff;
-    padding:3px 12px;
-    border-radius:20px;
-    font-size:11.5px;
-    font-weight:800;
-    letter-spacing:0.5px;
-    margin-bottom:6px;
+  h1{
+    font-size:24px;
   }
+
+  .question{
+    font-size:20px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .metric-grid{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<div class="app" id="app">
+<div class="app">
 
-  <!-- WELCOME -->
-  <div id="welcome" class="screen active">
-    <div class="header-bar">
-      <a href="voice-test.html" class="back-btn">← Back to Tests</a>
-      <div class="test-label" style="text-align:right;">
-        TEST 101
-        <small>Basic Foundations</small>
-      </div>
-    </div>
+  <!-- ================= WELCOME ================= -->
+  <section id="welcomeScreen" class="card">
 
-    <div class="logo">
-      <div class="test-id-badge">TEST 101 · BASIC</div>
-      <i>🎙️</i>
-      <h1>Speaking Voice Test</h1>
-      <p>မေးခွန်း ၇ ခု · Smart Keyword Scoring · Audio Recording · Live Transcript</p>
-    </div>
+    <div class="logo">TEST 101 · MEPT</div>
+
+    <h1>Speaking Voice Test</h1>
+
+    <p class="subtitle">
+      English speaking assessment with voice recognition,
+      audio recording and follow-up questions.
+    </p>
 
     <div class="info-grid">
-      <div class="info-item">
-        <strong>Part 1 · Personal Information</strong><br>
-        မေးခွန်း ၃ ခု · တစ်ခုလျှင် <span class="ti">၁ မိနစ်</span>
+      <div class="info">
+        <strong>🎤 7 Questions</strong>
+        <span>Personal, picture & discussion</span>
       </div>
-      <div class="info-item p2">
-        <strong>Part 2 · Picture Description</strong><br>
-        မေးခွန်း ၂ ခု · တစ်ခုလျှင် <span class="ti">၂ မိနစ်</span><br>
-        <span style="font-size:12px;color:#94a3b8;">🖼️ Maritime Picture + General Picture (Bus Stop)</span>
+
+      <div class="info">
+        <strong>🔊 Examiner Voice</strong>
+        <span>Questions are read aloud</span>
       </div>
-      <div class="info-item p3">
-        <strong>Part 3 · Debate</strong><br>
-        မေးခွန်း ၂ ခု · တစ်ခုလျှင် <span class="ti">၃ မိနစ်</span><br>
-        <span style="font-size:12px;color:#94a3b8;">⚓ Maritime Debate + General Debate (Sleep)</span>
+
+      <div class="info">
+        <strong>➕ Follow-ups</strong>
+        <span>Additional speaking questions</span>
       </div>
-    </div>
 
-    <div class="cap-card">
-      <h4>📱 သင့် Device ရဲ့ အနေအထား</h4>
-      <div class="cap-list" id="capList"></div>
-    </div>
-
-    <div class="status-msg info" id="modeInfo"></div>
-
-    <div class="cap-card" style="border-color:#0ea5e9;">
-      <h4>🎛️ Options</h4>
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#cbd5e1;cursor:pointer;">
-        <input type="checkbox" id="optShowTranscript" style="width:18px;height:18px;accent-color:#0ea5e9;">
-        Show live transcript while speaking
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#cbd5e1;cursor:pointer;margin-top:8px;">
-        <input type="checkbox" id="optSaveAudio" checked style="width:18px;height:18px;accent-color:#0ea5e9;">
-        Save audio recording (playback in result)
-      </label>
-    </div>
-
-    <button class="btn btn-primary" id="startTestBtn" style="margin-top:auto;">🚀 စတင်ဖြေဆိုမည်</button>
-  </div>
-
-  <!-- TEST -->
-  <div id="test" class="screen">
-    <div class="header-bar">
-      <a href="voice-test.html" class="back-btn" onclick="return confirm('Test မှ ထွက်မှာ သေချာလား? Progress ကို သိမ်းထားပါမည်။');">← Exit</a>
-      <div class="test-label" style="text-align:right;">
-        TEST 101
-        <small>Basic Foundations</small>
+      <div class="info">
+        <strong>⏱️ Timed</strong>
+        <span>Different time limits</span>
       </div>
     </div>
+
+    <div class="notice">
+      <b>Before you start</b><br><br>
+
+      1. Use <b>Google Chrome</b> or <b>Microsoft Edge</b> if possible.<br>
+      2. Use <b>HTTPS</b> or <b>localhost</b> for microphone access.<br>
+      3. When the browser asks for microphone permission,
+      select <b>Allow</b>.<br>
+      4. Speak clearly in English.
+    </div>
+
+    <div class="permission">
+      <b>🎤 About “Allow”</b><br>
+      Browser security does not allow a website to automatically
+      click the browser's <b>Allow</b> button. This app will
+      automatically request microphone permission when you press
+      <b>Start Test</b>; you only need to click <b>Allow</b> once.
+    </div>
+
+    <div class="btn-row">
+      <button id="testVoiceBtn" class="secondary">
+        🔊 Test Examiner Voice
+      </button>
+
+      <button id="startTestBtn" class="primary">
+        🚀 Start Test
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- ================= TEST ================= -->
+  <section id="testScreen" class="card hidden">
 
     <div class="topbar">
-      <span>Q <b id="qNum" style="color:#f8fafc;">1</b> / <span id="qTotal">7</span></span>
-      <span class="section-badge" id="sectionBadge">Part 1</span>
-      <span class="mode-badge mode-live" id="modeBadge">LIVE</span>
-    </div>
-
-    <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
-    <div class="time-row">
-      <span id="recIndicator" class="hidden"><span class="rec-dot"></span>Recording...</span>
-      <span id="recIndicator2" style="color:#475569;">Ready</span>
-      <span class="time-left-num"><span id="timeLeft">60</span><small style="font-size:12px;color:#64748b;">s</small></span>
-    </div>
-
-    <div class="q-card">
-      <div class="q-section-title" id="sectionTitle">Part 1 · Personal Information</div>
-      <div class="q-text" id="questionText">—</div>
-      <div class="q-hint" id="qHint"></div>
-      <div class="picture-wrap hidden" id="pictureWrap"></div>
-    </div>
-
-    <div class="transcript-card">
-      <div class="transcript-label">
-        <span>📝 <span id="transcriptTitle">Live Transcript</span></span>
-        <span class="edit-tag" id="editTag"></span>
+      <div>
+        <div class="test-label" id="questionCounter">
+          QUESTION 1 / 7
+        </div>
       </div>
-      <div class="transcript-view" id="transcriptView"><span class="placeholder">"Start Answering" ကို နှိပ်ပြီး စတင်ပြောပါ...</span></div>
-      <textarea class="transcript-input hidden" id="transcriptInput" placeholder="သင့်အဖြေကို ဒီနေရာမှာ ရိုက်ထည့်နိုင်ပါသည်..."></textarea>
-      <div class="word-count"><span id="wordCount">0</span> words</div>
+
+      <div id="timer" class="timer">
+        01:00
+      </div>
+    </div>
+
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="questionType" class="question-type">
+      🎤 SPEAKING
+    </div>
+
+    <div id="followLabel" class="follow-label hidden">
+      FOLLOW-UP QUESTION
+    </div>
+
+    <div id="questionText" class="question">
+      Question
+    </div>
+
+    <div id="pictureBox" class="picture hidden"></div>
+
+    <div class="examiner">
+      <div class="examiner-icon">🔊</div>
+      <div class="examiner-text" id="examinerStatus">
+        Examiner is ready.
+      </div>
+    </div>
+
+    <div class="status">
+      <span id="statusDot" class="dot"></span>
+      <span id="statusText">Press Start Answering.</span>
+    </div>
+
+    <div id="transcriptBox" class="transcript-box">
+      <div class="transcript-title">
+        LIVE TRANSCRIPT
+      </div>
+
+      <div id="transcript" class="transcript">
+        Your spoken answer will appear here.
+      </div>
+    </div>
+
+    <div id="manualBox" class="transcript-box hidden">
+      <div class="transcript-title">
+        MANUAL ANSWER
+      </div>
+
+      <textarea
+        id="manualText"
+        class="manual"
+        placeholder="Type your answer here if voice recognition is unavailable..."
+      ></textarea>
     </div>
 
     <div class="controls">
-      <button class="btn btn-primary" id="startBtn">🎤 Start Answering</button>
-      <button class="btn btn-warn hidden" id="pauseBtn">⏸ Pause</button>
-      <button class="btn btn-secondary hidden" id="nextBtn">⏭ Next</button>
-      <button class="btn btn-ghost hidden" id="skipBtn">⏭ Skip</button>
-    </div>
-  </div>
 
-  <!-- RESULT -->
-  <div id="result" class="screen">
-    <div class="header-bar">
-      <a href="voice-test.html" class="back-btn">← Back to Tests</a>
-      <div class="test-label" style="text-align:right;">
-        TEST 101
-        <small>Result</small>
+      <button id="startBtn" class="primary">
+        🎤 Start Answering
+      </button>
+
+      <button id="pauseBtn" class="secondary hidden">
+        ⏸ Pause
+      </button>
+
+      <button id="nextBtn" class="primary hidden">
+        ➡️ Next
+      </button>
+
+      <button id="skipBtn" class="secondary hidden">
+        Skip
+      </button>
+
+      <button id="manualBtn" class="secondary">
+        ⌨️ Type Answer
+      </button>
+
+      <button id="replayBtn" class="secondary">
+        🔊 Replay Question
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= RESULT ================= -->
+  <section id="resultScreen" class="card hidden">
+
+    <div class="logo">TEST COMPLETE</div>
+
+    <h1>Your Speaking Result</h1>
+
+    <div class="score">
+      <div id="scoreNumber" class="score-number">
+        0%
+      </div>
+
+      <div id="scoreLabel" class="score-label">
+        Assessment complete
       </div>
     </div>
 
-    <div class="grade-hero">
-      <div class="grade-circle" id="gradeCircle">A</div>
-      <div class="grade-score"><span id="finalScore">0</span><small> / 100</small></div>
-      <div class="grade-label" id="gradeLabel">Excellent</div>
+    <div class="metric-grid">
+
+      <div class="metric">
+        <strong id="totalWords">0</strong>
+        <span>WORDS</span>
+      </div>
+
+      <div class="metric">
+        <strong id="answeredCount">0</strong>
+        <span>ANSWERED</span>
+      </div>
+
+      <div class="metric">
+        <strong id="followCount">0</strong>
+        <span>FOLLOW-UPS</span>
+      </div>
+
     </div>
 
-    <div style="display:flex; gap:8px; flex-wrap:wrap; font-size:12px; color:#94a3b8; justify-content:center; padding:0 10px;">
-      <span>📊 Avg Words: <b id="statWords" style="color:#e2e8f0;">0</b></span>
-      <span>🎯 Keyword: <b id="statKw" style="color:#e2e8f0;">0%</b></span>
-      <span>✅ Answered: <b id="statAns" style="color:#e2e8f0;">0/7</b></span>
+    <div id="answerList" class="answer-list"></div>
+
+    <div class="btn-row" style="margin-top:18px;">
+      <button id="restartBtn" class="primary">
+        🔄 Restart Test
+      </button>
+
+      <button id="clearBtn" class="danger">
+        🗑 Clear Saved Data
+      </button>
     </div>
 
-    <div class="result-list" id="resultList"></div>
-
-    <div class="controls" style="margin-top:8px;">
-      <button class="btn btn-primary" id="retakeBtn">🔁 ပြန်ဖြေမည်</button>
-      <a href="voice-test.html" class="btn btn-ghost" style="text-decoration:none;">🏠 Tests အားလုံး</a>
-    </div>
-  </div>
+  </section>
 
 </div>
 
+<div id="toast" class="toast"></div>
+
+
 <script>
-/* ================================================================
-   CAPABILITY DETECTION
-================================================================ */
+/* ============================================================
+   CAPABILITIES
+============================================================ */
+
 const CAP = (() => {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  const SR =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
   const hasSR = !!SR;
-  const hasGUM = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-  const hasMR = !!(window.MediaRecorder) && hasGUM;
-  const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  const hasGUM =
+    !!(
+      navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia
+    );
+
+  const hasMR =
+    !!window.MediaRecorder && hasGUM;
+
+  const isSecure =
+    location.protocol === "https:" ||
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1";
+
   const ua = navigator.userAgent;
-  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-  const liveSR = hasSR && !isIOS;
-  return { SR: hasSR, GUM: hasGUM, MR: hasMR, isSecure, isIOS, liveSR };
+
+  const isIOS =
+    /iPad|iPhone|iPod/.test(ua) &&
+    !window.MSStream;
+
+  const liveSR =
+    hasSR && !isIOS;
+
+  return {
+    SR: hasSR,
+    GUM: hasGUM,
+    MR: hasMR,
+    isSecure,
+    isIOS,
+    liveSR
+  };
+
 })();
 
-/* ================================================================
-   QUESTIONS (Test 101 · 7 total)
-================================================================ */
+
+/* ============================================================
+   QUESTIONS
+============================================================ */
+
 const QUESTIONS = [
-  /* PART 1 · PERSONAL INFORMATION (3 Qs · 60s) */
+
   {
-    id: 1, part: 1,
-    sectionTitle: 'Part 1 · Personal Information',
-    badge: 'Part 1', badgeClass: 'badge-personal',
-    category: 'Personal Intro',
-    prompt: "Can you introduce yourself? Please tell me about your name, age, and where you are from.",
-    timeLimit: 60,
-    answerEng: "Hello, my name is Aung Ko. I am 24 years old. I come from Yangon, which is the largest city in Myanmar. I live in a peaceful neighborhood with my family. I am a friendly and hardworking person. I enjoy learning new things and I am always interested in improving my English skills. In my free time, I like reading books, especially adventure stories, and listening to music. I am currently preparing to work as a seafarer because I want to explore the world and support my family.",
-    hint: 'နာမည်၊ အသက်၊ မွေးရပ်ဇာတိ၊ အလုပ်အကိုင် အကြောင်း အစဉ်လိုက် ပြောပါ။'
-  },
-  {
-    id: 2, part: 1,
-    sectionTitle: 'Part 1 · Personal Information',
-    badge: 'Part 1', badgeClass: 'badge-personal',
-    category: 'My Hometown',
-    prompt: "Can you tell me about your hometown? What is it famous for?",
-    timeLimit: 60,
-    answerEng: "My hometown is Yangon. It is the former capital of Myanmar and the most populous city in the country. Yangon is famous for the Shwedagon Pagoda, which is one of the most sacred Buddhist sites in the world. The city is also known for its colonial-era buildings, bustling markets, and delicious street food. People in Yangon are very friendly and welcoming. The city has a mix of modern and traditional culture. I really love my hometown because it is full of life and history.",
-    hint: 'ဇာတိမြို့ရဲ့ နာမည်၊ ကျော်ကြားတဲ့ နေရာ၊ လူနေမှုပုံစံ အကြောင်း ဖော်ပြပါ။'
-  },
-  {
-    id: 3, part: 1,
-    sectionTitle: 'Part 1 · Personal Information',
-    badge: 'Part 1', badgeClass: 'badge-personal',
-    category: 'Famous Food & Places',
-    prompt: "What are some famous foods and places in your country?",
-    timeLimit: 60,
-    answerEng: "Myanmar has many delicious foods. Some of the most famous dishes include Mohinga, which is a fish noodle soup and is considered the national dish. Another popular food is Shan Noodle, which is a rice noodle dish with chicken or pork. Tea Leaf Salad, called Laphet Thoke, is also very famous. As for famous places, besides the Shwedagon Pagoda, there is the ancient city of Bagan with thousands of pagodas. Inle Lake is also a popular destination, known for its floating villages and unique leg-rowing fishermen.",
-    hint: 'အစားအစာ ၂-၃ မျိုးနဲ့ နေရာ ၂-၃ ခု အမည်နဲ့ ရှင်းပြပါ။'
+    id:1,
+    type:"PERSONAL",
+    duration:60,
+
+    prompt:
+      "Please introduce yourself. Tell me your name, your background, and what you are currently doing.",
+
+    followUps:[
+      "What do you like most about your hometown?",
+      "What are your main goals for the future?"
+    ],
+
+    keywords:[
+      "name",
+      "from",
+      "live",
+      "work",
+      "study",
+      "experience",
+      "goal"
+    ]
   },
 
-  /* PART 2 · PICTURE DESCRIPTION (2 Qs · 120s) */
   {
-    id: 4, part: 2,
-    sectionTitle: 'Part 2 · Picture Description (Maritime)',
-    badge: 'Part 2', badgeClass: 'badge-picture',
-    category: 'Maritime Picture · Restricted Area',
-    prompt: "Look at the picture carefully. Describe what you see and explain the importance of restricted areas on a ship.",
-    timeLimit: 120,
-    picture: 'restricted',
-    answerEng: "In this picture, I can see the entrance to a restricted area on a ship, which appears to be the engine room. There is a clear warning sign that says 'RESTRICTED AREA - AUTHORIZED PERSONNEL ONLY.' There are also other warning signs like 'HIGH VOLTAGE' and 'DANGER: NO ENTRY.' The entrance is blocked by a red safety barrier. I can see a crew member standing nearby wearing proper PPE, including a hard hat, safety vest, and gloves. Next to the entrance, there is a fire extinguisher and an emergency alarm. Restricted areas like this are very important because they contain dangerous machinery, high voltage equipment, or harmful chemicals. Only trained and authorized personnel should enter these areas.",
-    hint: 'ပုံထဲမှာ မြင်ရတဲ့ object, sign, person, colour အားလုံးကို အစဉ်လိုက် ဖော်ပြပါ။'
-  },
-  {
-    id: 5, part: 2,
-    sectionTitle: 'Part 2 · Picture Description (General)',
-    badge: 'Part 2', badgeClass: 'badge-picture',
-    category: 'General Picture · Waiting at Bus Stop',
-    prompt: "Look at this picture. Describe what you can see — the people, the place, the vehicles, and what is happening in the scene.",
-    timeLimit: 120,
-    picture: 'busstop',
-    answerEng: "In this picture, I can see a busy street scene at a bus stop during the daytime. The weather looks sunny and bright with a clear blue sky and some white clouds. There is a red bus stop shelter on the left side of the sidewalk, with a bench underneath it. A blue sign clearly says 'BUS STOP' on a pole. Three people are waiting for the bus. There is a young woman holding a handbag, a man carrying a backpack, and an elderly person with a walking stick. Behind them, I can see tall buildings, green trees, and a grey sidewalk next to a wide road. A yellow bus is arriving on the left side of the road, and a red car is parked on the right. People are patiently waiting to board the bus. Overall, it is a very typical everyday scene that we can see in many cities.",
-    hint: 'လူဘယ်နှစ်ယောက်၊ ဘာတွေလုပ်နေလဲ၊ ရာသီဥတု၊ အရောင်၊ ကား/ဘတ်စ်ကား အကြောင်း ဖော်ပြပါ။'
+    id:2,
+    type:"PERSONAL",
+    duration:60,
+
+    prompt:
+      "Please describe your hometown. What is it like, and what do you like about living there?",
+
+    followUps:[
+      "What do you like most about your hometown?",
+      "What is one thing you would like to improve in your hometown?"
+    ],
+
+    keywords:[
+      "hometown",
+      "city",
+      "town",
+      "people",
+      "food",
+      "place",
+      "family",
+      "beautiful"
+    ]
   },
 
-  /* PART 3 · DEBATE (2 Qs · 180s) */
   {
-    id: 6, part: 3,
-    sectionTitle: 'Part 3 · Debate (Maritime)',
-    badge: 'Part 3', badgeClass: 'badge-debate',
-    category: 'Maritime Debate',
-    prompt: "Some people say that technology and automation will replace seafarers on ships in the future. Do you agree or disagree? Give your reasons.",
-    timeLimit: 180,
-    answerEng: "In my opinion, I partly agree and partly disagree with this statement. On one hand, technology and automation have already changed many aspects of shipping. Modern ships use autopilot systems, GPS navigation, and automated engine monitoring, which reduce the workload for seafarers. In the future, autonomous ships may handle some routine tasks without a crew. However, I do not believe that technology will completely replace seafarers. Ships still need human judgment, especially in emergencies like bad weather, engine failure, or medical situations. Seafarers also provide leadership, teamwork, and the ability to make ethical decisions that machines cannot. Furthermore, international regulations and safety standards still require skilled crew on board. In conclusion, technology will change the role of seafarers and reduce crew numbers, but it will not fully replace them. Seafarers will need to learn new skills to work alongside technology in the future.",
-    hint: 'Agree/Disagree ရှင်းရှင်းလင်းလင်း ဖော်ပြ၊ အကြောင်းပြချက် ၂-၃ ချက်၊ ဥပမာ ပေးပါ။'
+    id:3,
+    type:"GENERAL",
+    duration:60,
+
+    prompt:
+      "Tell me about a famous food or a famous place in Myanmar. Explain why you would recommend it to a foreign visitor.",
+
+    followUps:[
+      "Which Myanmar food would you recommend to a foreign visitor?",
+      "Which place in Myanmar would you most like to visit again?"
+    ],
+
+    keywords:[
+      "Myanmar",
+      "food",
+      "rice",
+      "noodle",
+      "Mohinga",
+      "Yangon",
+      "Bagan",
+      "Mandalay",
+      "Shwedagon",
+      "visitor",
+      "tourist"
+    ]
   },
+
   {
-    id: 7, part: 3,
-    sectionTitle: 'Part 3 · Debate (General)',
-    badge: 'Part 3', badgeClass: 'badge-debate',
-    category: 'General Debate · Sleep',
-    prompt: "Do you think getting enough sleep is important? Why or why not? What happens if people do not sleep enough?",
-    timeLimit: 180,
-    answerEng: "Yes, I strongly believe that getting enough sleep is extremely important for everyone. Sleep is not just a time of rest; it is when our body and brain repair themselves. During sleep, our brain processes memories, our body heals muscles, and our immune system becomes stronger. If people do not sleep enough, many problems can happen. First, they feel tired and cannot focus on work or study. Second, their memory becomes weaker and they may make more mistakes. Third, long-term sleep problems can lead to serious health issues like heart disease, diabetes, and depression. For example, students who sleep less than six hours often perform worse in exams, and drivers who are sleep-deprived are more likely to have accidents. In my opinion, adults should try to sleep at least seven to eight hours every night. In conclusion, sleep is as important as food and exercise for our health, and we must take it seriously.",
-    hint: 'Sleep ရဲ့ အရေးကြီးပုံ၊ မအိပ်ရင် ဖြစ်တဲ့ ဆိုးကျိုး၊ ဥပမာနဲ့ နိဂုံး ဖော်ပြပါ။'
+    id:4,
+    type:"MARITIME · PICTURE DESCRIPTION",
+    duration:120,
+
+    prompt:
+      "Look at the picture. Describe what you can see. Explain the safety risks and what a crew member should do before entering this restricted area.",
+
+    picture:"restricted",
+
+    followUps:[
+      "Why should unauthorized personnel stay away from this area?",
+      "What safety equipment should crew members use before entering a restricted area?"
+    ],
+
+    keywords:[
+      "restricted",
+      "area",
+      "danger",
+      "safety",
+      "warning",
+      "crew",
+      "permit",
+      "helmet",
+      "PPE",
+      "authorized",
+      "risk",
+      "entry",
+      "sign",
+      "barrier"
+    ]
+  },
+
+  {
+    id:5,
+    type:"GENERAL · PICTURE DESCRIPTION",
+    duration:120,
+
+    prompt:
+      "Look at the picture and describe the scene. Explain what the people are doing, where they are, and what might happen next.",
+
+    picture:"bus",
+
+    followUps:[
+      "What do you think the people are waiting for?",
+      "What might happen next in this scene?"
+    ],
+
+    keywords:[
+      "bus",
+      "stop",
+      "people",
+      "waiting",
+      "road",
+      "street",
+      "station",
+      "traffic",
+      "passenger",
+      "vehicle",
+      "arrive",
+      "leave"
+    ]
+  },
+
+  {
+    id:6,
+    type:"MARITIME · DISCUSSION",
+    duration:180,
+
+    prompt:
+      "Do you think automation and artificial intelligence will replace seafarers in the future? Give your opinion and explain your reasons.",
+
+    followUps:[
+      "What skills should seafarers develop if automation increases?",
+      "Can you give an example of a situation where human judgment is still necessary?"
+    ],
+
+    keywords:[
+      "automation",
+      "AI",
+      "artificial",
+      "intelligence",
+      "seafarer",
+      "crew",
+      "ship",
+      "technology",
+      "safety",
+      "human",
+      "judgment",
+      "skill",
+      "future",
+      "training"
+    ]
+  },
+
+  {
+    id:7,
+    type:"GENERAL · DISCUSSION",
+    duration:180,
+
+    prompt:
+      "Some people say that getting enough sleep is more important than working or studying for long hours. Do you agree or disagree? Explain your opinion.",
+
+    followUps:[
+      "What can people do to improve their sleep?",
+      "Do you think young people get enough sleep? Why or why not?"
+    ],
+
+    keywords:[
+      "sleep",
+      "health",
+      "rest",
+      "work",
+      "study",
+      "important",
+      "body",
+      "brain",
+      "energy",
+      "stress",
+      "young",
+      "people"
+    ]
   }
+
 ];
 
-/* ================================================================
-   PICTURE SVGs
-================================================================ */
-const PICTURE_RESTRICTED = `
-<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#64748b"/><stop offset="100%" stop-color="#334155"/></linearGradient>
-    <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#78716c"/><stop offset="100%" stop-color="#44403c"/></linearGradient>
-  </defs>
-  <rect width="800" height="480" fill="url(#wallG)"/>
-  <rect y="380" width="800" height="100" fill="url(#floorG)"/>
-  <line x1="0" y1="380" x2="800" y2="380" stroke="#1e293b" stroke-width="3"/>
-  <line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="2" opacity="0.5"/>
-  <line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="2" opacity="0.5"/>
-  <line x1="200" y1="0" x2="200" y2="380" stroke="#1e293b" stroke-width="2" opacity="0.4"/>
-  <line x1="600" y1="0" x2="600" y2="380" stroke="#1e293b" stroke-width="2" opacity="0.4"/>
-  <rect x="280" y="130" width="240" height="250" fill="#0f172a" stroke="#1e293b" stroke-width="4"/>
-  <rect x="290" y="140" width="100" height="230" fill="#1e293b"/>
-  <rect x="410" y="140" width="100" height="230" fill="#1e293b"/>
-  <line x1="400" y1="140" x2="400" y2="370" stroke="#0ea5e9" stroke-width="2" opacity="0.3"/>
-  <rect x="230" y="330" width="340" height="18" fill="#dc2626"/>
-  <rect x="230" y="355" width="340" height="18" fill="#dc2626"/>
-  <line x1="230" y1="330" x2="570" y2="348" stroke="#fff" stroke-width="3"/>
-  <line x1="230" y1="348" x2="570" y2="366" stroke="#fff" stroke-width="3"/>
-  <rect x="225" y="325" width="12" height="60" fill="#991b1b"/>
-  <rect x="563" y="325" width="12" height="60" fill="#991b1b"/>
-  <rect x="300" y="60" width="200" height="55" fill="#fff" stroke="#dc2626" stroke-width="4" rx="6"/>
-  <text x="400" y="85" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#dc2626">⚠ RESTRICTED AREA</text>
-  <text x="400" y="103" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#0f172a">AUTHORIZED PERSONNEL ONLY</text>
-  <rect x="120" y="180" width="110" height="70" fill="#facc15" stroke="#000" stroke-width="3" rx="4"/>
-  <path d="M175,195 L160,225 L172,225 L155,255" stroke="#000" stroke-width="4" fill="none" stroke-linejoin="round"/>
-  <text x="175" y="240" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#000">HIGH VOLTAGE</text>
-  <rect x="575" y="180" width="110" height="70" fill="#fff" stroke="#dc2626" stroke-width="4" rx="4"/>
-  <circle cx="630" cy="215" r="22" fill="#dc2626"/>
-  <line x1="612" y1="197" x2="648" y2="233" stroke="#fff" stroke-width="6"/>
-  <text x="630" y="245" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#dc2626">NO ENTRY</text>
-  <rect x="90" y="290" width="30" height="70" fill="#dc2626" rx="6"/>
-  <rect x="98" y="283" width="14" height="14" fill="#991b1b" rx="3"/>
-  <rect x="95" y="300" width="20" height="6" fill="#fff"/>
-  <rect x="98" y="340" width="14" height="18" fill="#1e293b"/>
-  <circle cx="700" cy="270" r="16" fill="#fcd9b6"/>
-  <path d="M684,268 Q700,245 716,268 Z" fill="#facc15" stroke="#a16207" stroke-width="2"/>
-  <rect x="682" y="266" width="36" height="6" fill="#facc15" rx="3"/>
-  <rect x="688" y="288" width="24" height="42" fill="#f97316"/>
-  <rect x="692" y="288" width="4" height="42" fill="#facc15"/>
-  <rect x="704" y="288" width="4" height="42" fill="#facc15"/>
-  <rect x="680" y="290" width="8" height="34" fill="#fcd9b6"/>
-  <rect x="712" y="290" width="8" height="34" fill="#fcd9b6"/>
-  <rect x="678" y="322" width="12" height="10" fill="#1e293b" rx="2"/>
-  <rect x="710" y="322" width="12" height="10" fill="#1e293b" rx="2"/>
-  <rect x="692" y="330" width="7" height="50" fill="#1e293b"/>
-  <rect x="703" y="330" width="7" height="50" fill="#1e293b"/>
-  <circle cx="740" cy="180" r="18" fill="#dc2626" stroke="#7f1d1d" stroke-width="3"/>
-  <circle cx="740" cy="180" r="8" fill="#fecaca"/>
-  <text x="740" y="215" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#fca5a5">ALARM</text>
-</svg>`;
 
-const PICTURE_BUSSTOP = `
-<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="skyBS" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#fef3c7"/>
-    </linearGradient>
-  </defs>
-  <rect width="800" height="360" fill="url(#skyBS)"/>
-  <circle cx="680" cy="90" r="42" fill="#fbbf24"/>
-  <circle cx="680" cy="90" r="58" fill="#fbbf24" opacity="0.22"/>
-  <g fill="#ffffff" opacity="0.9">
-    <ellipse cx="150" cy="70" rx="65" ry="22"/>
-    <ellipse cx="200" cy="60" rx="50" ry="18"/>
-    <ellipse cx="480" cy="100" rx="55" ry="18"/>
-    <ellipse cx="520" cy="95" rx="40" ry="14"/>
-  </g>
-  <rect x="0" y="180" width="90" height="180" fill="#94a3b8"/>
-  <rect x="100" y="140" width="70" height="220" fill="#64748b"/>
-  <rect x="180" y="200" width="60" height="160" fill="#94a3b8"/>
-  <rect x="700" y="160" width="80" height="200" fill="#64748b"/>
-  <rect x="640" y="200" width="50" height="160" fill="#94a3b8"/>
-  <g fill="#fef3c7">
-    <rect x="15" y="200" width="12" height="15"/><rect x="40" y="200" width="12" height="15"/>
-    <rect x="15" y="230" width="12" height="15"/><rect x="40" y="230" width="12" height="15"/>
-    <rect x="115" y="160" width="12" height="15"/><rect x="140" y="160" width="12" height="15"/>
-    <rect x="115" y="190" width="12" height="15"/><rect x="140" y="190" width="12" height="15"/>
-    <rect x="715" y="185" width="12" height="15"/><rect x="740" y="185" width="12" height="15"/>
-    <rect x="715" y="215" width="12" height="15"/><rect x="740" y="215" width="12" height="15"/>
-  </g>
-  <rect x="255" y="270" width="10" height="90" fill="#78350f"/>
-  <circle cx="260" cy="260" r="35" fill="#16a34a"/>
-  <circle cx="245" cy="275" r="25" fill="#22c55e"/>
-  <circle cx="275" cy="275" r="25" fill="#22c55e"/>
-  <rect x="610" y="270" width="10" height="90" fill="#78350f"/>
-  <circle cx="615" cy="255" r="35" fill="#16a34a"/>
-  <circle cx="600" cy="270" r="25" fill="#22c55e"/>
-  <circle cx="630" cy="270" r="25" fill="#22c55e"/>
-  <rect y="360" width="800" height="30" fill="#a3a3a3"/>
-  <line x1="0" y1="360" x2="800" y2="360" stroke="#737373" stroke-width="2"/>
-  <line x1="0" y1="390" x2="800" y2="390" stroke="#737373" stroke-width="2"/>
-  <rect y="390" width="800" height="110" fill="#525252"/>
-  <g fill="#facc15">
-    <rect x="30" y="443" width="40" height="6"/><rect x="120" y="443" width="40" height="6"/>
-    <rect x="210" y="443" width="40" height="6"/><rect x="300" y="443" width="40" height="6"/>
-    <rect x="390" y="443" width="40" height="6"/><rect x="480" y="443" width="40" height="6"/>
-    <rect x="570" y="443" width="40" height="6"/><rect x="660" y="443" width="40" height="6"/>
-    <rect x="750" y="443" width="40" height="6"/>
-  </g>
-  <rect x="60" y="220" width="220" height="14" fill="#dc2626" rx="3"/>
-  <rect x="60" y="216" width="220" height="6" fill="#b91c1c" rx="2"/>
-  <rect x="70" y="234" width="8" height="130" fill="#374151"/>
-  <rect x="262" y="234" width="8" height="130" fill="#374151"/>
-  <rect x="78" y="240" width="184" height="80" fill="#e5e7eb" opacity="0.65"/>
-  <rect x="78" y="240" width="184" height="80" fill="none" stroke="#374151" stroke-width="2"/>
-  <rect x="90" y="330" width="160" height="10" fill="#a16207"/>
-  <rect x="90" y="340" width="8" height="24" fill="#78350f"/>
-  <rect x="242" y="340" width="8" height="24" fill="#78350f"/>
-  <rect x="320" y="180" width="8" height="200" fill="#374151"/>
-  <rect x="300" y="180" width="80" height="55" fill="#1d4ed8" rx="6"/>
-  <text x="340" y="205" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#fff">BUS</text>
-  <text x="340" y="222" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#fff">STOP</text>
-  <circle cx="130" cy="255" r="12" fill="#fcd9b6"/>
-  <path d="M118,255 Q130,240 142,255 Z" fill="#1f2937"/>
-  <rect x="122" y="267" width="16" height="30" fill="#e879a4"/>
-  <rect x="119" y="297" width="6" height="40" fill="#1e293b"/>
-  <rect x="135" y="297" width="6" height="40" fill="#1e293b"/>
-  <rect x="140" y="278" width="14" height="20" fill="#dc2626" rx="3"/>
-  <rect x="140" y="278" width="2" height="8" fill="#7f1d1d"/>
-  <circle cx="200" cy="260" r="12" fill="#fcd9b6"/>
-  <rect x="188" y="248" width="24" height="8" fill="#7c2d12" rx="3"/>
-  <rect x="192" y="272" width="16" height="30" fill="#0891b2"/>
-  <rect x="189" y="302" width="6" height="35" fill="#1e293b"/>
-  <rect x="205" y="302" width="6" height="35" fill="#1e293b"/>
-  <rect x="212" y="272" width="14" height="22" fill="#374151" rx="3"/>
-  <circle cx="260" cy="262" r="11" fill="#fcd9b6"/>
-  <path d="M249,262 Q260,248 271,262 Z" fill="#94a3b8"/>
-  <rect x="253" y="273" width="14" height="28" fill="#16a34a"/>
-  <rect x="250" y="301" width="6" height="36" fill="#1e293b"/>
-  <rect x="264" y="301" width="6" height="36" fill="#1e293b"/>
-  <line x1="275" y1="278" x2="278" y2="345" stroke="#78350f" stroke-width="3"/>
-  <rect x="420" y="395" width="200" height="70" fill="#facc15" rx="6"/>
-  <rect x="420" y="395" width="200" height="10" fill="#eab308" rx="3"/>
-  <rect x="435" y="408" width="35" height="25" fill="#0ea5e9" rx="2"/>
-  <rect x="480" y="408" width="35" height="25" fill="#0ea5e9" rx="2"/>
-  <rect x="525" y="408" width="35" height="25" fill="#0ea5e9" rx="2"/>
-  <rect x="570" y="408" width="35" height="25" fill="#0ea5e9" rx="2"/>
-  <rect x="612" y="408" width="8" height="25" fill="#0ea5e9" rx="2"/>
-  <rect x="420" y="440" width="200" height="4" fill="#dc2626"/>
-  <circle cx="465" cy="465" r="12" fill="#1e293b"/><circle cx="465" cy="465" r="5" fill="#94a3b8"/>
-  <circle cx="575" cy="465" r="12" fill="#1e293b"/><circle cx="575" cy="465" r="5" fill="#94a3b8"/>
-  <rect x="680" y="420" width="100" height="35" fill="#dc2626" rx="6"/>
-  <path d="M690,420 L700,400 L760,400 L775,420 Z" fill="#dc2626"/>
-  <rect x="700" y="405" width="18" height="12" fill="#0ea5e9" rx="1"/>
-  <rect x="725" y="405" width="18" height="12" fill="#0ea5e9" rx="1"/>
-  <rect x="748" y="405" width="18" height="12" fill="#0ea5e9" rx="1"/>
-  <circle cx="700" cy="457" r="9" fill="#1e293b"/><circle cx="700" cy="457" r="4" fill="#94a3b8"/>
-  <circle cx="760" cy="457" r="9" fill="#1e293b"/><circle cx="760" cy="457" r="4" fill="#94a3b8"/>
-</svg>`;
-
-/* ================================================================
+/* ============================================================
    STATE
-================================================================ */
-const STORAGE_KEY = 'mept_testspeak101_state_v1';
-let currentSlide = 0;
-let answers = [];
-let liveText = '';
-let interimText = '';
-let manualMode = false;
-let showLiveTranscript = false;
-let saveAudio = true;
+============================================================ */
 
-let recognition = null;
+let currentSlide = 0;
+
+let timerSeconds = 0;
+let timerInterval = null;
+
+let isRunning = false;
+let isPaused = false;
+
 let recRunning = false;
-let mediaRecorder = null;
+let recognition = null;
+
+let liveText = "";
+let interimText = "";
+
+let manualMode = false;
+
 let mediaStream = null;
+let mediaRecorder = null;
 let audioChunks = [];
 let currentAudioBlob = null;
-let currentAudioURL = null;
 
-let timerInterval = null;
-let timeLeft = 0, timeTotal = 0, timerRunning = false;
+let speechEnabled = true;
+let speechVoice = null;
 
-const $ = (id) => document.getElementById(id);
+let currentFollowUp = -1;
+let answeringFollowUp = false;
 
-/* ================================================================
-   CAPABILITY UI
-================================================================ */
-function renderCapabilities() {
-  const list = $('capList');
-  const items = [
-    { label: 'Live Speech Recognition', ok: CAP.liveSR },
-    { label: 'Audio Recording', ok: CAP.MR },
-    { label: 'Microphone (HTTPS)', ok: CAP.GUM && CAP.isSecure },
-    { label: 'Text Input', ok: true }
-  ];
-  list.innerHTML = items.map(i =>
-    `<span class="cap-pill ${i.ok ? 'cap-yes' : 'cap-no'}">${i.ok ? '✅' : '❌'} ${i.label}</span>`
-  ).join('');
+let followUpAnswers = [];
 
-  let mode, cls, msg;
-  if (CAP.liveSR && CAP.MR) { mode = 'LIVE + REC'; cls = 'mode-live'; msg = '✅ Live Speech Recognition နဲ့ Audio Recording နှစ်မျိုးလုံး အလုပ်လုပ်ပါတယ်။'; }
-  else if (CAP.MR) { mode = 'REC + TYPE'; cls = 'mode-rec'; msg = '⚠️ Live Speech Recognition မရပါ။ အသံ record လုပ်ပြီး အဖြေကို စာဖြင့် ရိုက်ထည့်ပါ။'; }
-  else if (CAP.liveSR) { mode = 'LIVE ONLY'; cls = 'mode-live'; msg = 'ℹ️ Live Speech Recognition ကိုသာ သုံးနိုင်ပါမည်။'; }
-  else { mode = 'TEXT ONLY'; cls = 'mode-text'; msg = '⚠️ Speech Recognition / Recording မရပါ။ အဖြေကို စာဖြင့်သာ ရိုက်ထည့်ပါ။'; }
-  if (!CAP.isSecure) msg = '⚠️ HTTPS မဟုတ်သောကြောင့် Microphone အလုပ်မလုပ်ပါ။';
-  $('modeInfo').textContent = msg;
-  return { mode, cls };
+let answers = [];
+
+
+/* ============================================================
+   DOM
+============================================================ */
+
+const $ = id => document.getElementById(id);
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+
+let toastTimer = null;
+
+function toast(message){
+
+  const el = $("toast");
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    el.classList.remove("show");
+  }, 2800);
 }
 
-/* ================================================================
-   SCREENS
-================================================================ */
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  $(name).classList.add('active');
+
+/* ============================================================
+   SPEECH SYNTHESIS
+============================================================ */
+
+function loadSpeechVoice(){
+
+  if(!("speechSynthesis" in window)){
+    return;
+  }
+
+  const voices =
+    window.speechSynthesis.getVoices();
+
+  if(!voices.length){
+    return;
+  }
+
+  speechVoice =
+    voices.find(v =>
+      /en-US/i.test(v.lang) &&
+      /female|samantha|google us english/i.test(v.name)
+    ) ||
+
+    voices.find(v =>
+      /en-US/i.test(v.lang)
+    ) ||
+
+    voices.find(v =>
+      /^en/i.test(v.lang)
+    ) ||
+
+    voices[0];
 }
 
-/* ================================================================
-   PERSIST
-================================================================ */
-function saveState() {
-  try {
-    const data = {
-      currentSlide,
-      answers: answers.map(a => a ? { transcript: a.transcript, score: a.score, wc: a.wc, hits: a.hits, kwTotal: a.kwTotal, matched: a.matched, maxMarks: a.maxMarks, section: a.section, sectionTitle: a.sectionTitle, badge: a.badge, badgeClass: a.badgeClass, q: a.q, category: a.category } : null),
-      liveText, interimText, manualMode, timeLeft, timeTotal,
-      savedAt: Date.now()
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {}
-}
-function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw);
-    if (Date.now() - (data.savedAt || 0) > 12 * 60 * 60 * 1000) { localStorage.removeItem(STORAGE_KEY); return null; }
-    return data;
-  } catch { return null; }
-}
-function clearState() { localStorage.removeItem(STORAGE_KEY); }
 
-/* ================================================================
-   SPEECH RECOGNITION
-================================================================ */
-function createRecognition() {
-  if (!CAP.SR) return null;
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const rec = new SR();
-  rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US'; rec.maxAlternatives = 1;
-  rec.onresult = (e) => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      const t = e.results[i][0].transcript;
-      if (e.results[i].isFinal) liveText = (liveText + ' ' + t).replace(/\s+/g, ' ').trim();
-      else interim += t;
-    }
-    interimText = interim;
-    renderTranscript();
+if("speechSynthesis" in window){
+
+  window.speechSynthesis.onvoiceschanged =
+    loadSpeechVoice;
+
+  loadSpeechVoice();
+}
+
+
+function speakText(text, options = {}){
+
+  if(!speechEnabled){
+    return;
+  }
+
+  if(!("speechSynthesis" in window)){
+    toast("This browser does not support examiner voice.");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+  utterance.lang =
+    options.lang || "en-US";
+
+  utterance.rate =
+    options.rate || 0.88;
+
+  utterance.pitch =
+    options.pitch || 1;
+
+  utterance.volume =
+    options.volume ?? 1;
+
+  if(speechVoice){
+    utterance.voice = speechVoice;
+  }
+
+  utterance.onstart = () => {
+    $("examinerStatus").textContent =
+      "Examiner is speaking...";
   };
-  rec.onerror = (e) => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { recRunning = false; alert('Microphone ခွင့်ပြုချက် လိုအပ်ပါသည်။'); } };
-  rec.onend = () => { if (recRunning) { try { rec.start(); } catch {} } };
-  return rec;
-}
-function startRecognition() {
-  if (!CAP.liveSR) return;
-  if (!recognition) recognition = createRecognition();
-  if (!recognition) return;
-  recRunning = true;
-  try { recognition.start(); } catch {}
-}
-function stopRecognition() { recRunning = false; if (recognition) { try { recognition.stop(); } catch {} } }
 
-/* ================================================================
+  utterance.onend = () => {
+    $("examinerStatus").textContent =
+      "Examiner finished. Press Start Answering.";
+  };
+
+  utterance.onerror = () => {
+    $("examinerStatus").textContent =
+      "Examiner voice unavailable.";
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+
+function stopSpeaking(){
+
+  if("speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+  }
+
+  $("examinerStatus").textContent =
+    "Examiner is ready.";
+}
+
+
+function speakCurrentQuestion(){
+
+  if(answeringFollowUp){
+
+    const q =
+      QUESTIONS[currentSlide]
+        ?.followUps?.[currentFollowUp];
+
+    if(q){
+      speakText(q);
+    }
+
+    return;
+  }
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  if(q){
+    speakText(q.prompt);
+  }
+}
+
+
+/* ============================================================
+   PICTURES
+============================================================ */
+
+function getPicture(type){
+
+  if(type === "restricted"){
+
+    return `
+      <svg viewBox="0 0 800 450"
+           xmlns="http://www.w3.org/2000/svg">
+
+        <rect width="800" height="450" fill="#0a1524"/>
+
+        <rect x="0" y="330"
+              width="800"
+              height="120"
+              fill="#122235"/>
+
+        <rect x="80" y="100"
+              width="640"
+              height="230"
+              rx="12"
+              fill="#1a2d43"
+              stroke="#526a85"
+              stroke-width="5"/>
+
+        <rect x="300" y="145"
+              width="200"
+              height="120"
+              rx="8"
+              fill="#111d2d"
+              stroke="#7187a2"
+              stroke-width="4"/>
+
+        <circle cx="400"
+                cy="205"
+                r="35"
+                fill="#9b2e3b"/>
+
+        <path d="M382 187 L418 223 M418 187 L382 223"
+              stroke="#fff"
+              stroke-width="8"/>
+
+        <rect x="130" y="300"
+              width="540"
+              height="20"
+              fill="#b8a23d"/>
+
+        <rect x="130" y="300"
+              width="540"
+              height="20"
+              fill="none"
+              stroke="#e3ca56"
+              stroke-width="3"/>
+
+        <text x="400"
+              y="385"
+              text-anchor="middle"
+              fill="#f0d85d"
+              font-size="34"
+              font-family="Arial"
+              font-weight="bold">
+          RESTRICTED AREA
+        </text>
+
+        <text x="400"
+              y="420"
+              text-anchor="middle"
+              fill="#aebdd0"
+              font-size="18"
+              font-family="Arial">
+          AUTHORIZED PERSONNEL ONLY
+        </text>
+
+      </svg>
+    `;
+  }
+
+
+  if(type === "bus"){
+
+    return `
+      <svg viewBox="0 0 800 450"
+           xmlns="http://www.w3.org/2000/svg">
+
+        <rect width="800" height="450" fill="#b9d8ec"/>
+
+        <rect y="270"
+              width="800"
+              height="180"
+              fill="#303b48"/>
+
+        <rect y="300"
+              width="800"
+              height="12"
+              fill="#d4c15d"/>
+
+        <rect x="80" y="100"
+              width="230"
+              height="165"
+              rx="10"
+              fill="#6d8191"/>
+
+        <rect x="105" y="125"
+              width="180"
+              height="80"
+              fill="#15283b"/>
+
+        <rect x="365" y="125"
+              width="290"
+              height="125"
+              rx="20"
+              fill="#e0e4e7"/>
+
+        <rect x="390" y="145"
+              width="115"
+              height="65"
+              fill="#45637a"/>
+
+        <rect x="520" y="145"
+              width="110"
+              height="65"
+              fill="#45637a"/>
+
+        <circle cx="430"
+                cy="270"
+                r="38"
+                fill="#151b22"/>
+
+        <circle cx="600"
+                cy="270"
+                r="38"
+                fill="#151b22"/>
+
+        <circle cx="180"
+                cy="300"
+                r="16"
+                fill="#d9a03c"/>
+
+        <circle cx="235"
+                cy="300"
+                r="16"
+                fill="#6c85a2"/>
+
+        <rect x="110" y="210"
+              width="160"
+              height="55"
+              fill="#273e54"/>
+
+        <text x="190"
+              y="245"
+              text-anchor="middle"
+              fill="#fff"
+              font-size="22"
+              font-family="Arial"
+              font-weight="bold">
+          BUS STOP
+        </text>
+
+        <text x="400"
+              y="65"
+              text-anchor="middle"
+              fill="#203247"
+              font-size="27"
+              font-family="Arial"
+              font-weight="bold">
+          CITY STREET
+        </text>
+
+      </svg>
+    `;
+  }
+
+  return "";
+}
+
+
+/* ============================================================
+   MICROPHONE
+============================================================ */
+
+async function ensureMicrophone(){
+
+  if(!CAP.GUM){
+
+    throw new Error(
+      "getUserMedia is not supported."
+    );
+  }
+
+  if(mediaStream &&
+     mediaStream.getAudioTracks().some(t =>
+       t.readyState === "live"
+     )){
+
+    return mediaStream;
+  }
+
+  mediaStream =
+    await navigator.mediaDevices.getUserMedia({
+
+      audio:{
+        echoCancellation:true,
+        noiseSuppression:true,
+        autoGainControl:true
+      },
+
+      video:false
+
+    });
+
+  return mediaStream;
+}
+
+
+/* ============================================================
    MEDIA RECORDER
-================================================================ */
-async function startMediaRecorder() {
-  if (!CAP.MR || !saveAudio) return;
-  try {
-    if (!mediaStream) mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    audioChunks = [];
-    let mime = '';
-    const prefs = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'];
-    for (const m of prefs) if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) { mime = m; break; }
-    mediaRecorder = mime ? new MediaRecorder(mediaStream, { mimeType: mime }) : new MediaRecorder(mediaStream);
-    mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
-    mediaRecorder.onstop = () => {
-      if (audioChunks.length) {
-        currentAudioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-        if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
-        currentAudioURL = URL.createObjectURL(currentAudioBlob);
+============================================================ */
+
+function getSupportedMime(){
+
+  if(!window.MediaRecorder){
+    return "";
+  }
+
+  const types = [
+
+    "audio/webm;codecs=opus",
+    "audio/webm",
+    "audio/mp4",
+    "audio/ogg;codecs=opus",
+    "audio/ogg"
+
+  ];
+
+  return types.find(type =>
+    MediaRecorder.isTypeSupported(type)
+  ) || "";
+}
+
+
+async function startMediaRecorder(){
+
+  if(!CAP.MR){
+    return;
+  }
+
+  await ensureMicrophone();
+
+  audioChunks = [];
+
+  currentAudioBlob = null;
+
+  const mimeType =
+    getSupportedMime();
+
+  mediaRecorder =
+    mimeType
+      ? new MediaRecorder(
+          mediaStream,
+          {mimeType}
+        )
+      : new MediaRecorder(mediaStream);
+
+  mediaRecorder.ondataavailable =
+    event => {
+
+      if(event.data &&
+         event.data.size > 0){
+
+        audioChunks.push(event.data);
       }
     };
-    mediaRecorder.start(1000);
-  } catch (e) { console.warn('MediaRecorder error:', e); }
-}
-function stopMediaRecorder() {
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch {} }
+
+  mediaRecorder.onstop = () => {
+
+    const type =
+      mediaRecorder.mimeType ||
+      "audio/webm";
+
+    currentAudioBlob =
+      new Blob(
+        audioChunks,
+        {type}
+      );
+
+  };
+
+  mediaRecorder.start(250);
 }
 
-/* ================================================================
-   TRANSCRIPT DISPLAY
-================================================================ */
-function renderTranscript() {
-  const view = $('transcriptView');
-  const input = $('transcriptInput');
-  const full = (manualMode ? input.value : (liveText + ' ' + interimText)).trim();
 
-  if (manualMode) {
-    view.classList.add('hidden'); input.classList.remove('hidden');
-    if (input.value !== liveText) input.value = liveText;
-    $('transcriptTitle').textContent = 'Your Answer (Type)';
-    $('editTag').textContent = '✏️ Editable';
-  } else {
-    view.classList.remove('hidden'); input.classList.add('hidden');
-    $('transcriptTitle').textContent = showLiveTranscript ? 'Live Transcript' : 'Transcript (Hidden)';
-    $('editTag').textContent = showLiveTranscript ? '' : '👁️ hidden';
-    if (!full) {
-      view.innerHTML = '<span class="placeholder">"Start Answering" ကို နှိပ်ပြီး စတင်ပြောပါ...</span>';
-    } else if (!showLiveTranscript) {
-      const wc = countWords(full);
-      view.innerHTML = '<span style="color:#f59e0b;font-weight:700;">🔒 Transcript ဖုံးထားပါသည် (' + wc + ' words)</span><br><span style="color:#64748b;font-size:12px;">Settings မှာ "Show live transcript" ကို ဖွင့်နိုင်ပါသည်။</span>';
-    } else {
-      let html = escapeHtml(liveText);
-      if (interimText) html += ' <span class="interim">' + escapeHtml(interimText) + '</span>';
-      view.innerHTML = html;
-      view.scrollTop = view.scrollHeight;
-    }
-  }
-  $('wordCount').textContent = countWords(full);
-}
-function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function countWords(text) { return text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length; }
+function stopMediaRecorder(){
 
-/* ================================================================
-   TIMER
-================================================================ */
-function updateTimerUI() {
-  const pct = timeTotal > 0 ? (timeLeft / timeTotal) * 100 : 0;
-  const bar = $('timerBar');
-  bar.style.width = pct + '%';
-  bar.classList.remove('warn', 'danger');
-  if (pct <= 15) bar.classList.add('danger');
-  else if (pct <= 40) bar.classList.add('warn');
-  $('timeLeft').textContent = Math.max(0, Math.ceil(timeLeft));
-}
-function startTimer() {
-  if (timerRunning) return;
-  timerRunning = true;
-  timerInterval = setInterval(() => {
-    if (!timerRunning) return;
-    timeLeft -= 0.2;
-    if (timeLeft <= 0) {
-      timeLeft = 0; updateTimerUI(); stopTimer();
-      setTimeout(() => nextSlide(true), 400);
+  return new Promise(resolve => {
+
+    if(!mediaRecorder ||
+       mediaRecorder.state === "inactive"){
+
+      resolve(currentAudioBlob);
       return;
     }
-    updateTimerUI();
-    if (Math.round(timeLeft * 5) % 10 === 0) saveState();
-  }, 200);
+
+    const mr = mediaRecorder;
+
+    const done = () => {
+
+      setTimeout(() => {
+        resolve(currentAudioBlob);
+      }, 50);
+
+    };
+
+    mr.addEventListener(
+      "stop",
+      done,
+      {once:true}
+    );
+
+    try{
+      mr.stop();
+    }catch{
+      resolve(currentAudioBlob);
+    }
+
+  });
 }
-function stopTimer() { timerRunning = false; if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
 
-/* ================================================================
-   RENDER SLIDE
-================================================================ */
-function renderSlide(isResume = false) {
-  const slide = QUESTIONS[currentSlide];
-  if (!slide) return;
-  $('qNum').textContent = slide.id;
-  $('qTotal').textContent = QUESTIONS.length;
 
-  const sBadge = $('sectionBadge');
-  sBadge.textContent = slide.badge;
-  sBadge.className = 'section-badge' + (slide.part === 2 ? ' p2' : slide.part === 3 ? ' p3' : '');
+/* ============================================================
+   SPEECH RECOGNITION
+============================================================ */
 
-  const sTitle = $('sectionTitle');
-  sTitle.textContent = slide.sectionTitle;
-  sTitle.className = 'q-section-title' + (slide.part === 2 ? ' p2' : slide.part === 3 ? ' p3' : '');
+function createRecognition(){
 
-  $('questionText').textContent = `${slide.id}. ${slide.prompt}`;
-  $('qHint').textContent = slide.hint || '';
-
-  const pw = $('pictureWrap');
-  if (slide.picture) {
-    pw.classList.remove('hidden');
-    pw.innerHTML = slide.picture === 'restricted' ? PICTURE_RESTRICTED : PICTURE_BUSSTOP;
-  } else {
-    pw.classList.add('hidden'); pw.innerHTML = '';
+  if(!CAP.SR){
+    return null;
   }
 
-  if (!isResume) { timeTotal = slide.timeLimit; timeLeft = slide.timeLimit; }
-  updateTimerUI();
+  const SR =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-  stopRecognition(); stopMediaRecorder();
-  if (!isResume) { liveText = ''; interimText = ''; manualMode = false; currentAudioBlob = null; currentAudioURL = null; }
+  const rec =
+    new SR();
+
+  rec.continuous = true;
+
+  rec.interimResults = true;
+
+  rec.lang = "en-US";
+
+  rec.maxAlternatives = 1;
+
+
+  rec.onresult = event => {
+
+    let interim = "";
+
+    for(
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ){
+
+      const text =
+        event.results[i][0].transcript;
+
+      if(event.results[i].isFinal){
+
+        liveText =
+          (
+            liveText +
+            " " +
+            text
+          )
+          .replace(/\s+/g," ")
+          .trim();
+
+      }else{
+
+        interim += text;
+      }
+    }
+
+    interimText = interim;
+
+    renderTranscript();
+  };
+
+
+  rec.onerror = event => {
+
+    console.warn(
+      "SpeechRecognition error:",
+      event.error
+    );
+
+    if(
+      event.error === "not-allowed" ||
+      event.error === "service-not-allowed"
+    ){
+
+      recRunning = false;
+
+      updateRecIndicator(false);
+
+      toast(
+        "🎤 Microphone permission is required."
+      );
+
+      enableManualMode();
+
+      return;
+    }
+
+    if(event.error === "no-speech"){
+      return;
+    }
+
+    if(event.error === "network"){
+
+      toast(
+        "Speech recognition network service is unavailable."
+      );
+    }
+  };
+
+
+  rec.onend = () => {
+
+    if(!recRunning){
+      return;
+    }
+
+    setTimeout(() => {
+
+      if(!recRunning){
+        return;
+      }
+
+      try{
+
+        rec.start();
+
+      }catch(error){
+
+        console.warn(
+          "Recognition restart:",
+          error
+        );
+      }
+
+    },300);
+  };
+
+
+  return rec;
+}
+
+
+function startRecognition(){
+
+  if(!CAP.liveSR){
+
+    enableManualMode();
+
+    toast(
+      "Live speech recognition is unavailable. Manual typing is enabled."
+    );
+
+    return;
+  }
+
+  if(!recognition){
+    recognition =
+      createRecognition();
+  }
+
+  if(!recognition){
+    return;
+  }
+
+  try{
+
+    recRunning = true;
+
+    recognition.start();
+
+  }catch(error){
+
+    console.warn(
+      "Recognition start:",
+      error
+    );
+  }
+}
+
+
+function stopRecognition(){
+
+  recRunning = false;
+
+  if(recognition){
+
+    try{
+      recognition.stop();
+    }catch{}
+  }
+}
+
+
+/* ============================================================
+   TRANSCRIPT
+============================================================ */
+
+function renderTranscript(){
+
+  const box =
+    $("transcript");
+
+  const finalText =
+    liveText ||
+    "";
+
+  const interim =
+    interimText
+      ? `<span class="interim"> ${escapeHtml(interimText)}</span>`
+      : "";
+
+  if(!finalText && !interimText){
+
+    box.innerHTML =
+      "Your spoken answer will appear here.";
+
+    return;
+  }
+
+  box.innerHTML =
+    escapeHtml(finalText) +
+    interim;
+}
+
+
+function escapeHtml(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function getCurrentAnswerText(){
+
+  if(manualMode){
+
+    return $("manualText")
+      .value
+      .replace(/\s+/g," ")
+      .trim();
+  }
+
+  return (
+    liveText +
+    " " +
+    interimText
+  )
+  .replace(/\s+/g," ")
+  .trim();
+}
+
+
+function resetTranscript(){
+
+  liveText = "";
+
+  interimText = "";
+
+  $("manualText").value = "";
+
   renderTranscript();
+}
 
-  $('startBtn').classList.remove('hidden');
-  $('startBtn').textContent = '🎤 Start Answering';
-  $('pauseBtn').classList.add('hidden');
-  $('nextBtn').classList.add('hidden');
-  $('skipBtn').classList.remove('hidden');
-  $('recIndicator').classList.add('hidden');
-  $('recIndicator2').textContent = 'Ready';
-  $('recIndicator2').style.color = '#475569';
+
+/* ============================================================
+   MANUAL MODE
+============================================================ */
+
+function enableManualMode(){
+
+  manualMode = true;
+
+  $("manualBox")
+    .classList.remove("hidden");
+
+  $("transcriptBox")
+    .classList.add("hidden");
+
+}
+
+
+function disableManualMode(){
+
+  manualMode = false;
+
+  $("manualBox")
+    .classList.add("hidden");
+
+  $("transcriptBox")
+    .classList.remove("hidden");
+}
+
+
+/* ============================================================
+   TIMER
+============================================================ */
+
+function formatTime(seconds){
+
+  const min =
+    Math.floor(seconds / 60)
+      .toString()
+      .padStart(2,"0");
+
+  const sec =
+    (seconds % 60)
+      .toString()
+      .padStart(2,"0");
+
+  return `${min}:${sec}`;
+}
+
+
+function updateTimer(){
+
+  $("timer").textContent =
+    formatTime(timerSeconds);
+
+  $("timer")
+    .classList.toggle(
+      "warning",
+      timerSeconds <= 20 &&
+      timerSeconds > 10
+    );
+
+  $("timer")
+    .classList.toggle(
+      "danger",
+      timerSeconds <= 10
+    );
+}
+
+
+function startTimer(){
+
+  clearInterval(timerInterval);
+
+  timerInterval =
+    setInterval(() => {
+
+      if(!isRunning || isPaused){
+        return;
+      }
+
+      timerSeconds--;
+
+      updateTimer();
+
+      if(timerSeconds <= 0){
+
+        clearInterval(timerInterval);
+
+        nextSlide();
+      }
+
+    },1000);
+}
+
+
+function stopTimer(){
+
+  clearInterval(timerInterval);
+
+  timerInterval = null;
+}
+
+
+/* ============================================================
+   UI STATUS
+============================================================ */
+
+function updateRecIndicator(live){
+
+  const dot =
+    $("statusDot");
+
+  dot.classList.remove(
+    "live",
+    "paused"
+  );
+
+  if(live){
+
+    dot.classList.add("live");
+
+    $("statusText").textContent =
+      "Listening... Speak clearly.";
+
+  }else if(isPaused){
+
+    dot.classList.add("paused");
+
+    $("statusText").textContent =
+      "Paused.";
+
+  }else{
+
+    $("statusText").textContent =
+      "Press Start Answering.";
+  }
+}
+
+
+/* ============================================================
+   RENDER SLIDE
+============================================================ */
+
+function renderSlide(isResume = false){
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  if(!q){
+    finishTest();
+    return;
+  }
+
+  answeringFollowUp = false;
+
+  currentFollowUp = -1;
+
+  followUpAnswers[currentSlide] =
+    followUpAnswers[currentSlide] || [];
+
+  $("questionCounter").textContent =
+    `QUESTION ${currentSlide + 1} / ${QUESTIONS.length}`;
+
+  $("progressBar").style.width =
+    `${((currentSlide) / QUESTIONS.length) * 100}%`;
+
+  $("questionType").textContent =
+    `🎤 ${q.type}`;
+
+  $("followLabel")
+    .classList.add("hidden");
+
+  $("questionText").textContent =
+    q.prompt;
+
+  if(q.picture){
+
+    $("pictureBox")
+      .classList.remove("hidden");
+
+    $("pictureBox").innerHTML =
+      getPicture(q.picture);
+
+  }else{
+
+    $("pictureBox")
+      .classList.add("hidden");
+
+    $("pictureBox").innerHTML =
+      "";
+  }
+
+  timerSeconds =
+    q.duration;
+
+  updateTimer();
+
+  resetTranscript();
+
+  disableManualMode();
+
+  isRunning = false;
+
+  isPaused = false;
+
+  stopTimer();
+
+  stopRecognition();
+
+  stopSpeaking();
+
+  updateRecIndicator(false);
+
+  $("startBtn")
+    .classList.remove("hidden");
+
+  $("pauseBtn")
+    .classList.add("hidden");
+
+  $("nextBtn")
+    .classList.add("hidden");
+
+  $("skipBtn")
+    .classList.add("hidden");
+
+  $("manualBtn")
+    .classList.remove("hidden");
+
+  $("replayBtn")
+    .classList.remove("hidden");
+
+  $("examinerStatus").textContent =
+    "Examiner is ready.";
+
+  if(!isResume){
+
+    setTimeout(() => {
+
+      speakCurrentQuestion();
+
+    },500);
+
+  }
+
   saveState();
 }
 
-/* ================================================================
-   ACTIONS
-================================================================ */
-async function handleStart() {
-  if (CAP.MR && saveAudio) { try { await startMediaRecorder(); } catch {} }
-  if (CAP.liveSR) startRecognition();
+
+/* ============================================================
+   START ANSWERING
+============================================================ */
+
+async function handleStart(){
+
+  stopSpeaking();
+
+  try{
+
+    if(CAP.GUM){
+
+      await ensureMicrophone();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "🎤 Microphone permission was not granted. Manual typing is available."
+    );
+
+    enableManualMode();
+
+    if(
+      !CAP.liveSR &&
+      !manualMode
+    ){
+      return;
+    }
+  }
+
+
+  if(CAP.MR){
+
+    try{
+
+      await startMediaRecorder();
+
+    }catch(error){
+
+      console.warn(
+        "MediaRecorder unavailable:",
+        error
+      );
+    }
+  }
+
+
+  if(CAP.liveSR){
+
+    startRecognition();
+
+  }else{
+
+    enableManualMode();
+  }
+
+
+  isRunning = true;
+
+  isPaused = false;
+
   startTimer();
-  $('startBtn').classList.add('hidden');
-  $('pauseBtn').classList.remove('hidden');
-  $('nextBtn').classList.remove('hidden');
-  $('skipBtn').classList.add('hidden');
-  $('pauseBtn').textContent = '⏸ Pause';
+
+  $("startBtn")
+    .classList.add("hidden");
+
+  $("pauseBtn")
+    .classList.remove("hidden");
+
+  $("nextBtn")
+    .classList.remove("hidden");
+
+  $("skipBtn")
+    .classList.add("hidden");
+
+  $("pauseBtn").textContent =
+    "⏸ Pause";
+
   updateRecIndicator(true);
 }
-function handlePause() {
-  if (timerRunning) {
-    stopTimer(); stopRecognition(); stopMediaRecorder();
-    $('pauseBtn').textContent = '▶ Resume';
+
+
+/* ============================================================
+   PAUSE
+============================================================ */
+
+async function handlePause(){
+
+  if(!isRunning){
+    return;
+  }
+
+  if(!isPaused){
+
+    isPaused = true;
+
+    stopRecognition();
+
+    await stopMediaRecorder();
+
+    $("pauseBtn").textContent =
+      "▶ Resume";
+
     updateRecIndicator(false);
-  } else {
-    startTimer();
-    if (CAP.liveSR) startRecognition();
-    if (CAP.MR && saveAudio) startMediaRecorder();
-    $('pauseBtn').textContent = '⏸ Pause';
-    updateRecIndicator(true);
+
+    $("statusText").textContent =
+      "Paused.";
+
+    return;
   }
-}
-function updateRecIndicator(recording) {
-  if (recording) {
-    $('recIndicator').classList.remove('hidden');
-    $('recIndicator2').textContent = 'Recording...';
-    $('recIndicator2').style.color = '#ef4444';
-  } else {
-    $('recIndicator').classList.add('hidden');
-    $('recIndicator2').textContent = 'Paused';
-    $('recIndicator2').style.color = '#94a3b8';
+
+
+  isPaused = false;
+
+  if(CAP.MR){
+
+    try{
+      await startMediaRecorder();
+    }catch{}
   }
+
+  if(CAP.liveSR){
+    startRecognition();
+  }
+
+  $("pauseBtn").textContent =
+    "⏸ Pause";
+
+  updateRecIndicator(true);
 }
 
-function finalizeCurrentSlide() {
-  const slide = QUESTIONS[currentSlide];
-  const transcript = (manualMode ? $('transcriptInput').value : (liveText + ' ' + interimText)).trim();
-  const scored = scoreSlide(transcript, slide);
-  answers[currentSlide] = {
-    transcript, audioBlob: currentAudioBlob, audioBlobURL: currentAudioURL,
-    score: scored.score, wc: scored.wc, hits: scored.hits, kwTotal: scored.kwTotal, matched: scored.matched,
-    maxMarks: 100,
-    section: slide.part, sectionTitle: slide.sectionTitle,
-    badge: slide.badge, badgeClass: slide.badgeClass,
-    q: slide.prompt, category: slide.category
+
+/* ============================================================
+   START FOLLOW-UP
+============================================================ */
+
+function startFollowUp(){
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  if(
+    !q.followUps ||
+    currentFollowUp >= q.followUps.length
+  ){
+
+    finishCurrentQuestion();
+
+    return;
+  }
+
+  answeringFollowUp = true;
+
+  isRunning = false;
+
+  isPaused = false;
+
+  stopTimer();
+
+  stopRecognition();
+
+  stopSpeaking();
+
+  $("questionType").textContent =
+    `➕ FOLLOW-UP · ${q.type}`;
+
+  $("followLabel")
+    .classList.remove("hidden");
+
+  $("questionText").textContent =
+    q.followUps[currentFollowUp];
+
+  $("pictureBox")
+    .classList.add("hidden");
+
+  resetTranscript();
+
+  disableManualMode();
+
+  timerSeconds = 45;
+
+  updateTimer();
+
+  $("startBtn").textContent =
+    "🎤 Start Follow-up";
+
+  $("startBtn")
+    .classList.remove("hidden");
+
+  $("pauseBtn")
+    .classList.add("hidden");
+
+  $("nextBtn")
+    .classList.add("hidden");
+
+  $("skipBtn")
+    .classList.remove("hidden");
+
+  $("manualBtn")
+    .classList.remove("hidden");
+
+  $("replayBtn")
+    .classList.remove("hidden");
+
+  $("examinerStatus").textContent =
+    "Follow-up question ready.";
+
+  setTimeout(() => {
+
+    speakText(
+      q.followUps[currentFollowUp]
+    );
+
+  },400);
+}
+
+
+/* ============================================================
+   SAVE FOLLOW-UP
+============================================================ */
+
+async function saveFollowUpAnswer(){
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  const text =
+    getCurrentAnswerText();
+
+  if(!followUpAnswers[currentSlide]){
+    followUpAnswers[currentSlide] = [];
+  }
+
+  followUpAnswers[currentSlide].push({
+
+    question:
+      q.followUps[currentFollowUp],
+
+    text,
+
+    wordCount:
+      countWords(text)
+
+  });
+}
+
+
+/* ============================================================
+   FINISH MAIN QUESTION
+============================================================ */
+
+async function finalizeMainAnswer(){
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  stopRecognition();
+
+  const blob =
+    await stopMediaRecorder();
+
+  const text =
+    getCurrentAnswerText();
+
+  const result = {
+
+    question:
+      q.prompt,
+
+    type:
+      q.type,
+
+    text,
+
+    wordCount:
+      countWords(text),
+
+    sentenceCount:
+      countSentences(text),
+
+    score:
+      calculateQuestionScore(
+        q,
+        text
+      ),
+
+    audio:
+      blob || null
   };
+
+  answers[currentSlide] =
+    result;
 }
 
-function nextSlide() {
-  finalizeCurrentSlide();
-  stopTimer(); stopRecognition(); stopMediaRecorder();
-  liveText = ''; interimText = ''; manualMode = false;
-  currentAudioBlob = null;
-  if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
-  currentAudioURL = null;
-  renderTranscript();
+
+/* ============================================================
+   FINISH CURRENT QUESTION
+============================================================ */
+
+async function finishCurrentQuestion(){
+
+  stopSpeaking();
+
+  stopTimer();
+
+  stopRecognition();
+
+  await stopMediaRecorder();
+
+  isRunning = false;
+
+  isPaused = false;
+
+  answeringFollowUp = false;
+
+  currentFollowUp = -1;
+
+  $("progressBar").style.width =
+    `${((currentSlide + 1) / QUESTIONS.length) * 100}%`;
+
+  if(
+    currentSlide >=
+    QUESTIONS.length - 1
+  ){
+
+    finishTest();
+
+    return;
+  }
+
   currentSlide++;
-  saveState();
-  if (currentSlide >= QUESTIONS.length) { finishTest(); return; }
+
+  $("startBtn").textContent =
+    "🎤 Start Answering";
+
   renderSlide(false);
 }
-function skipSlide() { nextSlide(); }
 
-/* ================================================================
-   SMART SCORING
-================================================================ */
-const STOP_WORDS = new Set(["is","am","are","was","were","be","been","being","have","has","had","do","does","did","a","an","the","and","but","if","or","because","as","until","while","of","at","by","for","with","about","against","between","into","through","during","before","after","above","below","to","from","up","down","in","out","on","off","over","under","again","further","then","once","here","there","when","where","why","how","all","any","both","each","few","more","most","other","some","such","no","nor","not","only","own","same","so","than","too","very","can","will","just","should","now","i","you","he","she","it","we","they","me","him","her","us","them","my","your","his","its","our","their","this","that","these","those","also","would","could","may","might","must","shall","one","two","three"]);
 
-function extractKeywords(text) {
-  const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
-  return [...new Set(words.filter(w => w.length > 2 && !STOP_WORDS.has(w)))];
-}
+/* ============================================================
+   NEXT
+============================================================ */
 
-function scoreSlide(transcript, slide) {
-  const cleanText = transcript.trim();
-  if (!cleanText) return { score: 0, wc: 0, hits: 0, kwTotal: 0, matched: [] };
-  const wc = countWords(cleanText);
-  const keywords = extractKeywords(slide.answerEng);
-  const lower = cleanText.toLowerCase();
-  let hits = 0; const matched = [];
-  keywords.forEach(kw => { if (lower.includes(kw)) { hits++; matched.push(kw); } });
-  const kwRatio = keywords.length ? hits / keywords.length : 0;
-  const modelWC = countWords(slide.answerEng);
-  const wcRatio = Math.min(1, wc / Math.max(15, modelWC * 0.6));
-  let raw = 0.55 * kwRatio + 0.35 * wcRatio;
-  const sentences = cleanText.split(/[.!?]+/).filter(s => s.trim().length > 3).length;
-  raw += Math.min(0.10, sentences * 0.02);
-  let score = Math.round(Math.min(1, raw) * 100);
-  if (wc >= 10 && score < 15) score = 15;
-  if (wc >= 25 && score < 25) score = 25;
-  return { score, wc, hits, kwTotal: keywords.length, matched };
-}
+async function nextSlide(){
 
-/* ================================================================
-   FINISH
-================================================================ */
-function finishTest() {
-  stopTimer(); stopRecognition(); stopMediaRecorder();
-  let total = 0, answered = 0, totalWords = 0, totalKw = 0, totalKwMax = 0;
-  answers.forEach(a => {
-    if (a && a.transcript && a.transcript.trim()) {
-      answered++; total += a.score; totalWords += a.wc;
-      totalKw += a.hits; totalKwMax += a.kwTotal;
+  if(answeringFollowUp){
+
+    if(isRunning){
+
+      await saveFollowUpAnswer();
+
     }
-  });
-  const finalScore = answered > 0 ? Math.round(total / answered) : 0;
-  const avgWords = answered > 0 ? Math.round(totalWords / answered) : 0;
-  const kwPct = totalKwMax > 0 ? Math.round((totalKw / totalKwMax) * 100) : 0;
 
-  let grade, gradeLabel, gradeClass;
-  if (finalScore >= 85) { grade = 'A+'; gradeLabel = 'Outstanding 🌟'; gradeClass = 'grade-Ap'; }
-  else if (finalScore >= 70) { grade = 'A'; gradeLabel = 'Excellent 🎉'; gradeClass = 'grade-A'; }
-  else if (finalScore >= 55) { grade = 'B'; gradeLabel = 'Good 👍'; gradeClass = 'grade-B'; }
-  else if (finalScore >= 40) { grade = 'C'; gradeLabel = 'Fair 🙂'; gradeClass = 'grade-C'; }
-  else { grade = 'D'; gradeLabel = 'Needs Improvement'; gradeClass = 'grade-D'; }
+    stopRecognition();
 
-  const gc = $('gradeCircle');
-  gc.textContent = grade; gc.className = 'grade-circle ' + gradeClass;
-  $('finalScore').textContent = finalScore;
-  $('gradeLabel').textContent = gradeLabel;
-  $('statWords').textContent = avgWords;
-  $('statKw').textContent = kwPct + '%';
-  $('statAns').textContent = answered + '/' + QUESTIONS.length;
+    await stopMediaRecorder();
 
-  const list = $('resultList');
-  list.innerHTML = answers.map((a, i) => {
-    if (!a) return '';
-    const transcript = a.transcript ? escapeHtml(a.transcript) : '<i style="color:#475569;">(no answer)</i>';
-    const audioHTML = a.audioBlobURL ? `<div class="result-audio"><audio controls src="${a.audioBlobURL}" preload="metadata"></audio></div>` : '';
-    const matchedHTML = a.matched && a.matched.length ? `<div style="margin-top:6px;font-size:11px;color:#86efac;line-height:1.6;">✓ Matched: ${a.matched.slice(0, 12).join(', ')}${a.matched.length > 12 ? '...' : ''}</div>` : '';
-    return `
-      <div class="result-item">
-        <div class="result-item-head">
-          <span><span class="badge ${a.badgeClass}">${a.category || a.badge}</span> &nbsp;Q${i + 1}</span>
-          <span class="marks">${a.score} / 100</span>
-        </div>
-        <div class="result-q">${escapeHtml(a.q)}</div>
-        <div class="result-meta">
-          <span>Words: <b>${a.wc}</b></span>
-          <span>Keywords: <b>${a.hits}/${a.kwTotal}</b></span>
-        </div>
-        ${audioHTML}
-        <div class="result-transcript">${transcript}</div>
-        ${matchedHTML}
-      </div>`;
-  }).join('');
+    isRunning = false;
 
-  clearState();
-  showScreen('result');
+    currentFollowUp++;
+
+    const q =
+      QUESTIONS[currentSlide];
+
+    if(
+      q.followUps &&
+      currentFollowUp < q.followUps.length
+    ){
+
+      startFollowUp();
+
+    }else{
+
+      await finishCurrentQuestion();
+    }
+
+    return;
+  }
+
+
+  if(isRunning){
+
+    await finalizeMainAnswer();
+
+    isRunning = false;
+
+    stopTimer();
+
+  }else{
+
+    /*
+      If user presses Next without answering,
+      save an empty answer.
+    */
+
+    const q =
+      QUESTIONS[currentSlide];
+
+    answers[currentSlide] = {
+
+      question:q.prompt,
+
+      type:q.type,
+
+      text:"",
+
+      wordCount:0,
+
+      sentenceCount:0,
+
+      score:0,
+
+      audio:null
+    };
+  }
+
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  if(
+    q.followUps &&
+    q.followUps.length
+  ){
+
+    currentFollowUp = 0;
+
+    startFollowUp();
+
+  }else{
+
+    await finishCurrentQuestion();
+  }
 }
 
-/* ================================================================
-   MANUAL MODE
-================================================================ */
-function enableManualMode() { manualMode = true; $('transcriptInput').value = (liveText + ' ' + interimText).trim(); renderTranscript(); $('transcriptInput').focus(); }
-function enableAutoMode() { manualMode = false; liveText = $('transcriptInput').value; interimText = ''; renderTranscript(); }
 
-/* ================================================================
+/* ============================================================
+   SKIP
+============================================================ */
+
+async function skipFollowUp(){
+
+  stopRecognition();
+
+  stopTimer();
+
+  await stopMediaRecorder();
+
+  isRunning = false;
+
+  currentFollowUp++;
+
+  const q =
+    QUESTIONS[currentSlide];
+
+  if(
+    q.followUps &&
+    currentFollowUp < q.followUps.length
+  ){
+
+    startFollowUp();
+
+  }else{
+
+    await finishCurrentQuestion();
+  }
+}
+
+
+/* ============================================================
+   SCORING
+============================================================ */
+
+function countWords(text){
+
+  if(!text){
+    return 0;
+  }
+
+  return text
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .length;
+}
+
+
+function countSentences(text){
+
+  if(!text){
+    return 0;
+  }
+
+  return text
+    .split(/[.!?]+/)
+    .map(x => x.trim())
+    .filter(Boolean)
+    .length;
+}
+
+
+function calculateQuestionScore(
+  question,
+  text
+){
+
+  if(!text){
+    return 0;
+  }
+
+  const lower =
+    text.toLowerCase();
+
+  const words =
+    countWords(text);
+
+  const sentences =
+    countSentences(text);
+
+  let keywordHits = 0;
+
+  for(const keyword of question.keywords){
+
+    if(
+      lower.includes(
+        keyword.toLowerCase()
+      )
+    ){
+
+      keywordHits++;
+    }
+  }
+
+  const keywordScore =
+    Math.min(
+      50,
+      (keywordHits /
+        Math.max(1,Math.min(8,question.keywords.length)))
+      * 50
+    );
+
+  const lengthScore =
+    Math.min(
+      30,
+      words >= 60
+        ? 30
+        : words >= 40
+          ? 25
+          : words >= 25
+            ? 18
+            : words >= 12
+              ? 10
+              : words * .6
+    );
+
+  const fluencyScore =
+    Math.min(
+      20,
+      sentences >= 5
+        ? 20
+        : sentences >= 3
+          ? 15
+          : sentences >= 2
+            ? 10
+            : sentences >= 1
+              ? 5
+              : 0
+    );
+
+  return Math.round(
+    Math.min(
+      100,
+      keywordScore +
+      lengthScore +
+      fluencyScore
+    )
+  );
+}
+
+
+/* ============================================================
+   RESULT
+============================================================ */
+
+function finishTest(){
+
+  stopTimer();
+
+  stopRecognition();
+
+  stopSpeaking();
+
+  isRunning = false;
+
+  isPaused = false;
+
+  $("welcomeScreen")
+    .classList.add("hidden");
+
+  $("testScreen")
+    .classList.add("hidden");
+
+  $("resultScreen")
+    .classList.remove("hidden");
+
+  $("progressBar").style.width =
+    "100%";
+
+  const validAnswers =
+    answers.filter(Boolean);
+
+  const mainTotal =
+    validAnswers.reduce(
+      (sum,a) =>
+        sum + (a.score || 0),
+      0
+    );
+
+  const mainAverage =
+    validAnswers.length
+      ? mainTotal / validAnswers.length
+      : 0;
+
+  const allFollowUps =
+    followUpAnswers.flat();
+
+  const followWords =
+    allFollowUps.reduce(
+      (sum,a) =>
+        sum + (a.wordCount || 0),
+      0
+    );
+
+  const mainWords =
+    validAnswers.reduce(
+      (sum,a) =>
+        sum + (a.wordCount || 0),
+      0
+    );
+
+  const totalWords =
+    mainWords + followWords;
+
+  const finalScore =
+    Math.round(mainAverage);
+
+  $("scoreNumber").textContent =
+    `${finalScore}%`;
+
+  $("scoreLabel").textContent =
+    getScoreLabel(finalScore);
+
+  $("totalWords").textContent =
+    totalWords;
+
+  $("answeredCount").textContent =
+    validAnswers.filter(
+      a => a.text
+    ).length;
+
+  $("followCount").textContent =
+    allFollowUps.filter(
+      a => a.text
+    ).length;
+
+  renderResults();
+
+  saveState();
+}
+
+
+function getScoreLabel(score){
+
+  if(score >= 85){
+    return "Excellent speaking performance";
+  }
+
+  if(score >= 70){
+    return "Good speaking performance";
+  }
+
+  if(score >= 55){
+    return "Fair speaking performance";
+  }
+
+  if(score >= 40){
+    return "Needs more speaking practice";
+  }
+
+  return "Please practice and try again";
+}
+
+
+/* ============================================================
+   RESULT CARDS
+============================================================ */
+
+function renderResults(){
+
+  const list =
+    $("answerList");
+
+  list.innerHTML = "";
+
+  QUESTIONS.forEach(
+    (q,index) => {
+
+      const answer =
+        answers[index];
+
+      if(!answer){
+        return;
+      }
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "answer-card";
+
+      let html = `
+
+        <div class="answer-head">
+
+          <div class="answer-number">
+            Q${index + 1}
+          </div>
+
+          <div class="answer-wc">
+            ${answer.wordCount || 0} words
+            · ${answer.score || 0}%
+          </div>
+
+        </div>
+
+        <div class="answer-q">
+          ${escapeHtml(answer.question)}
+        </div>
+
+        <div class="answer-text">
+          ${
+            escapeHtml(
+              answer.text ||
+              "No answer recorded."
+            )
+          }
+        </div>
+      `;
+
+
+      const followUps =
+        followUpAnswers[index] || [];
+
+      followUps.forEach(
+        (f,fi) => {
+
+          html += `
+
+            <div class="follow-answer">
+
+              <b>
+                Follow-up ${fi + 1}
+              </b>
+
+              <div>
+                ${escapeHtml(f.question)}
+              </div>
+
+              <div class="answer-text">
+                ${
+                  escapeHtml(
+                    f.text ||
+                    "No answer recorded."
+                  )
+                }
+              </div>
+
+            </div>
+
+          `;
+        }
+      );
+
+
+      if(answer.audio){
+
+        try{
+
+          const url =
+            URL.createObjectURL(
+              answer.audio
+            );
+
+          html += `
+            <audio
+              controls
+              preload="metadata"
+              src="${url}">
+            </audio>
+          `;
+
+        }catch{}
+      }
+
+
+      card.innerHTML =
+        html;
+
+      list.appendChild(card);
+
+    }
+  );
+}
+
+
+/* ============================================================
+   STORAGE
+============================================================ */
+
+const STORAGE_KEY =
+  "MEPT_SPEAKING_TEST_V2";
+
+
+function saveState(){
+
+  try{
+
+    const serializableAnswers =
+      answers.map(a => {
+
+        if(!a){
+          return null;
+        }
+
+        return {
+
+          question:a.question,
+
+          type:a.type,
+
+          text:a.text,
+
+          wordCount:a.wordCount,
+
+          sentenceCount:a.sentenceCount,
+
+          score:a.score
+
+        };
+
+      });
+
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+
+        currentSlide,
+
+        answers:
+          serializableAnswers,
+
+        followUpAnswers
+
+      })
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Save state failed:",
+      error
+    );
+  }
+}
+
+
+function loadState(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+    if(!raw){
+      return;
+    }
+
+    const state =
+      JSON.parse(raw);
+
+    if(
+      Array.isArray(state.answers)
+    ){
+
+      answers =
+        state.answers;
+    }
+
+    if(
+      Array.isArray(
+        state.followUpAnswers
+      )
+    ){
+
+      followUpAnswers =
+        state.followUpAnswers;
+    }
+
+  }catch(error){
+
+    console.warn(
+      "Load state failed:",
+      error
+    );
+  }
+}
+
+
+/* ============================================================
+   START TEST
+============================================================ */
+
+async function startTest(){
+
+  /*
+    IMPORTANT:
+    The browser's permission popup cannot be
+    automatically clicked by JavaScript.
+
+    We request it immediately from this user
+    click so Chrome/Edge can show the popup.
+  */
+
+  if(CAP.GUM){
+
+    try{
+
+      await ensureMicrophone();
+
+      toast(
+        "🎤 Microphone ready."
+      );
+
+    }catch(error){
+
+      console.warn(
+        "Microphone permission:",
+        error
+      );
+
+      toast(
+        "Microphone not allowed. You can still use Type Answer."
+      );
+    }
+
+  }else{
+
+    toast(
+      "This browser does not provide microphone access."
+    );
+  }
+
+
+  $("welcomeScreen")
+    .classList.add("hidden");
+
+  $("testScreen")
+    .classList.remove("hidden");
+
+  $("resultScreen")
+    .classList.add("hidden");
+
+  currentSlide = 0;
+
+  answers = [];
+
+  followUpAnswers = [];
+
+  currentFollowUp = -1;
+
+  answeringFollowUp = false;
+
+  saveState();
+
+  renderSlide(false);
+}
+
+
+/* ============================================================
+   RESTART
+============================================================ */
+
+function restartTest(){
+
+  stopTimer();
+
+  stopRecognition();
+
+  stopSpeaking();
+
+  currentSlide = 0;
+
+  answers = [];
+
+  followUpAnswers = [];
+
+  currentFollowUp = -1;
+
+  answeringFollowUp = false;
+
+  liveText = "";
+
+  interimText = "";
+
+  currentAudioBlob = null;
+
+  $("resultScreen")
+    .classList.add("hidden");
+
+  $("welcomeScreen")
+    .classList.remove("hidden");
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+}
+
+
+function clearSavedData(){
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+
+  answers = [];
+
+  followUpAnswers = [];
+
+  toast(
+    "Saved test data cleared."
+  );
+}
+
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+$("startTestBtn")
+  .addEventListener(
+    "click",
+    startTest
+  );
+
+
+$("testVoiceBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      speakText(
+        "Hello. Welcome to the MEPT speaking test. Please listen carefully and answer each question clearly.",
+        {
+          rate:.88
+        }
+      );
+
+    }
+  );
+
+
+$("startBtn")
+  .addEventListener(
+    "click",
+    handleStart
+  );
+
+
+$("pauseBtn")
+  .addEventListener(
+    "click",
+    handlePause
+  );
+
+
+$("nextBtn")
+  .addEventListener(
+    "click",
+    nextSlide
+  );
+
+
+$("skipBtn")
+  .addEventListener(
+    "click",
+    skipFollowUp
+  );
+
+
+$("manualBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(manualMode){
+
+        disableManualMode();
+
+        if(isRunning && CAP.liveSR){
+          startRecognition();
+        }
+
+        $("manualBtn").textContent =
+          "⌨️ Type Answer";
+
+      }else{
+
+        stopRecognition();
+
+        enableManualMode();
+
+        $("manualBtn").textContent =
+          "🎤 Voice Answer";
+
+      }
+
+    }
+  );
+
+
+$("replayBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      stopSpeaking();
+
+      setTimeout(
+        speakCurrentQuestion,
+        150
+      );
+
+    }
+  );
+
+
+$("restartBtn")
+  .addEventListener(
+    "click",
+    restartTest
+  );
+
+
+$("clearBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(
+        confirm(
+          "Clear all saved test data?"
+        )
+      ){
+
+        clearSavedData();
+
+        restartTest();
+      }
+
+    }
+  );
+
+
+/* ============================================================
+   KEYBOARD SHORTCUTS
+============================================================ */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.code === "Space" &&
+      $("testScreen")
+        .classList
+        .contains("hidden") === false
+    ){
+
+      const target =
+        event.target;
+
+      if(
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "INPUT"
+      ){
+        return;
+      }
+
+      event.preventDefault();
+
+      if(!isRunning){
+
+        handleStart();
+
+      }else{
+
+        handlePause();
+      }
+    }
+
+  }
+);
+
+
+/* ============================================================
+   PAGE VISIBILITY
+============================================================ */
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if(document.hidden){
+
+      if(
+        isRunning &&
+        !isPaused
+      ){
+
+        /*
+          Do not automatically stop the
+          test because some browsers pause
+          speech recognition when backgrounded.
+        */
+
+        stopSpeaking();
+      }
+    }
+
+  }
+);
+
+
+/* ============================================================
    INIT
-================================================================ */
-function init() {
-  const cap = renderCapabilities();
-  $('modeBadge').textContent = cap.mode;
-  $('modeBadge').className = 'mode-badge ' + cap.cls;
-  $('qTotal').textContent = QUESTIONS.length;
+============================================================ */
 
-  const saved = loadState();
-  if (saved && saved.answers && saved.answers.some(a => a) && saved.currentSlide < QUESTIONS.length) {
-    if (confirm('📌 ယခင် ဖြေဆိုထားသော အဖြေများ ရှိပါသည်။ ဆက်လက်ဖြေဆိုမလား?\n(OK = ဆက်ဖြေ, Cancel = အသစ်စ)')) {
-      currentSlide = saved.currentSlide || 0;
-      answers = (saved.answers || []).map(a => a ? { ...a, audioBlob: null, audioBlobURL: null } : null);
-      liveText = saved.liveText || ''; interimText = saved.interimText || '';
-      manualMode = saved.manualMode || false;
-      timeTotal = saved.timeTotal || QUESTIONS[currentSlide].timeLimit;
-      timeLeft = saved.timeLeft || timeTotal;
-      showScreen('test'); renderSlide(true); return;
-    } else { clearState(); answers = []; currentSlide = 0; }
-  }
-  showScreen('welcome');
+loadState();
+
+if(!CAP.liveSR){
+
+  console.info(
+    "Live speech recognition is not available."
+  );
 }
 
-/* ================================================================
-   EVENT LISTENERS
-================================================================ */
-$('startTestBtn').addEventListener('click', () => {
-  showLiveTranscript = $('optShowTranscript').checked;
-  saveAudio = $('optSaveAudio').checked;
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ audio: true }).catch(() => {});
-  }
-  answers = []; currentSlide = 0;
-  liveText = ''; interimText = ''; manualMode = false;
-  clearState();
-  showScreen('test'); renderSlide(false);
-});
+if(!CAP.GUM){
 
-$('startBtn').addEventListener('click', handleStart);
-$('pauseBtn').addEventListener('click', handlePause);
-$('nextBtn').addEventListener('click', () => nextSlide());
-$('skipBtn').addEventListener('click', skipSlide);
+  console.info(
+    "getUserMedia is not available."
+  );
+}
 
-(function injectManualToggle() {
-  const card = document.querySelector('.transcript-card');
-  const btn = document.createElement('button');
-  btn.type = 'button'; btn.className = 'btn btn-ghost btn-sm'; btn.id = 'manualToggle';
-  btn.style.marginTop = '6px'; btn.textContent = '✏️ Type manually instead';
-  btn.addEventListener('click', () => {
-    if (manualMode) { enableAutoMode(); btn.textContent = '✏️ Type manually instead'; }
-    else { enableManualMode(); btn.textContent = '🎤 Use microphone instead'; }
-  });
-  card.appendChild(btn);
-})();
+if(!CAP.isSecure){
 
-(function injectLiveToggle() {
-  const label = document.querySelector('.transcript-label');
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.style.cssText = 'background:#0f172a;border:1px solid #334155;color:#94a3b8;font-size:10.5px;padding:3px 8px;border-radius:8px;cursor:pointer;font-weight:700;';
-  btn.id = 'liveToggle'; btn.textContent = '👁️ Show';
-  btn.addEventListener('click', () => {
-    showLiveTranscript = !showLiveTranscript;
-    btn.textContent = showLiveTranscript ? '🙈 Hide' : '👁️ Show';
-    renderTranscript();
-  });
-  label.appendChild(btn);
-})();
+  console.warn(
+    "Microphone access may fail because this page is not HTTPS/localhost."
+  );
+}
 
-$('transcriptInput').addEventListener('input', () => { $('wordCount').textContent = countWords($('transcriptInput').value); });
-
-$('retakeBtn').addEventListener('click', () => {
-  clearState(); answers = []; currentSlide = 0;
-  liveText = ''; interimText = ''; manualMode = false;
-  showScreen('welcome');
-});
-
-window.addEventListener('beforeunload', (e) => {
-  if ($('test').classList.contains('active')) { saveState(); e.preventDefault(); e.returnValue = ''; }
-});
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && $('test').classList.contains('active')) saveState();
-});
-
-init();
 </script>
+
 </body>
 </html>
