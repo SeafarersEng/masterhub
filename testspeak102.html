@@ -734,22 +734,32 @@ function saveState() {
   try {
     const data = {
       currentSlide,
-      answers: answers.map(a => a ? { transcript: a.transcript, score: a.score, wc: a.wc, hits: a.hits, kwTotal: a.kwTotal, matched: a.matched, maxMarks: a.maxMarks, section: a.section, sectionTitle: a.sectionTitle, badge: a.badge, badgeClass: a.badgeClass, q: a.q, category: a.category } : null),
+      answers: answers.map(a => a ? {
+        transcript: a.transcript, score: a.score, wc: a.wc, hits: a.hits,
+        kwTotal: a.kwTotal, matched: a.matched, maxMarks: a.maxMarks,
+        section: a.section, sectionTitle: a.sectionTitle,
+        badge: a.badge, badgeClass: a.badgeClass, q: a.q, category: a.category
+      } : null),
       liveText, interimText, manualMode, timeLeft, timeTotal,
       savedAt: Date.now()
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {}
+  } catch (e) { /* ignore quota errors */ }
 }
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw);
-    if (Date.now() - (data.savedAt || 0) > 12 * 60 * 60 * 1000) { localStorage.removeItem(STORAGE_KEY); return null; }
+    if (Date.now() - (data.savedAt || 0) > 12 * 60 * 60 * 1000) {
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
     return data;
   } catch { return null; }
 }
+
 function clearState() { localStorage.removeItem(STORAGE_KEY); }
 
 /* ================================================================
@@ -759,29 +769,59 @@ function createRecognition() {
   if (!CAP.SR) return null;
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new SR();
-  rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US'; rec.maxAlternatives = 1;
+  rec.continuous = true;
+  rec.interimResults = true;
+  rec.lang = 'en-US';
+  rec.maxAlternatives = 1;
+
   rec.onresult = (e) => {
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const t = e.results[i][0].transcript;
-      if (e.results[i].isFinal) liveText = (liveText + ' ' + t).replace(/\s+/g, ' ').trim();
-      else interim += t;
+      if (e.results[i].isFinal) {
+        liveText = (liveText + ' ' + t).replace(/\s+/g, ' ').trim();
+      } else {
+        interim += t;
+      }
     }
     interimText = interim;
     renderTranscript();
   };
-  rec.onerror = (e) => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { recRunning = false; alert('Microphone ခွင့်ပြုချက် လိုအပ်ပါသည်။'); } };
-  rec.onend = () => { if (recRunning) { try { rec.start(); } catch {} } };
+
+  rec.onerror = (e) => {
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      recRunning = false;
+      updateRecIndicator(false);
+      alert('Microphone ခွင့်ပြုချက် လိုအပ်ပါသည်။ Type manually ကို သုံးနိုင်ပါသည်။');
+    }
+  };
+
+  rec.onend = () => {
+    if (recRunning) {
+      setTimeout(() => {
+        if (!recRunning) return;
+        try { rec.start(); } catch (e) { /* ignore */ }
+      }, 300);
+    }
+  };
+
   return rec;
 }
+
 function startRecognition() {
   if (!CAP.liveSR) return;
   if (!recognition) recognition = createRecognition();
   if (!recognition) return;
   recRunning = true;
-  try { recognition.start(); } catch {}
+  try { recognition.start(); } catch (e) { /* already started */ }
 }
-function stopRecognition() { recRunning = false; if (recognition) { try { recognition.stop(); } catch {} } }
+
+function stopRecognition() {
+  recRunning = false;
+  if (recognition) {
+    try { recognition.stop(); } catch (e) { /* ignore */ }
+  }
+}
 
 /* ================================================================
    MEDIA RECORDER
@@ -789,25 +829,45 @@ function stopRecognition() { recRunning = false; if (recognition) { try { recogn
 async function startMediaRecorder() {
   if (!CAP.MR || !saveAudio) return;
   try {
-    if (!mediaStream) mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (!mediaStream) {
+      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    }
     audioChunks = [];
     let mime = '';
-    const prefs = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'];
-    for (const m of prefs) if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) { mime = m; break; }
+    const prefs = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg'];
+    for (const m of prefs) {
+      if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) {
+        mime = m;
+        break;
+      }
+    }
     mediaRecorder = mime ? new MediaRecorder(mediaStream, { mimeType: mime }) : new MediaRecorder(mediaStream);
-    mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) audioChunks.push(e.data);
+    };
+
     mediaRecorder.onstop = () => {
       if (audioChunks.length) {
         currentAudioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-        if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
+        // URL အဟောင်းကို revoke လုပ်တယ် (ဒါပေမယ့် result မှာ သိမ်းထားတဲ့ URL ကို မထိဘူး)
+        if (currentAudioURL) {
+          try { URL.revokeObjectURL(currentAudioURL); } catch (e) { /* ignore */ }
+        }
         currentAudioURL = URL.createObjectURL(currentAudioBlob);
       }
     };
+
     mediaRecorder.start(1000);
-  } catch (e) { console.warn('MediaRecorder error:', e); }
+  } catch (e) {
+    console.warn('MediaRecorder error:', e);
+  }
 }
+
 function stopMediaRecorder() {
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch {} }
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    try { mediaRecorder.stop(); } catch (e) { /* ignore */ }
+  }
 }
 
 /* ================================================================
@@ -819,14 +879,17 @@ function renderTranscript() {
   const full = (manualMode ? input.value : (liveText + ' ' + interimText)).trim();
 
   if (manualMode) {
-    view.classList.add('hidden'); input.classList.remove('hidden');
-    if (input.value !== liveText) input.value = liveText;
+    view.classList.add('hidden');
+    input.classList.remove('hidden');
+    // BUG FIX: input.value ကို liveText နဲ့ မနှိုင်းယှဉ်တော့ဘူး
     $('transcriptTitle').textContent = 'Your Answer (Type)';
     $('editTag').textContent = '✏️ Editable';
   } else {
-    view.classList.remove('hidden'); input.classList.add('hidden');
+    view.classList.remove('hidden');
+    input.classList.add('hidden');
     $('transcriptTitle').textContent = showLiveTranscript ? 'Live Transcript' : 'Transcript (Hidden)';
     $('editTag').textContent = showLiveTranscript ? '' : '👁️ hidden';
+
     if (!full) {
       view.innerHTML = '<span class="placeholder">"Start Answering" ကို နှိပ်ပြီး စတင်ပြောပါ...</span>';
     } else if (!showLiveTranscript) {
@@ -834,15 +897,24 @@ function renderTranscript() {
       view.innerHTML = '<span style="color:#f59e0b;font-weight:700;">🔒 Transcript ဖုံးထားပါသည် (' + wc + ' words)</span><br><span style="color:#64748b;font-size:12px;">Settings မှာ "Show live transcript" ကို ဖွင့်နိုင်ပါသည်။</span>';
     } else {
       let html = escapeHtml(liveText);
-      if (interimText) html += ' <span class="interim">' + escapeHtml(interimText) + '</span>';
+      if (interimText) {
+        html += ' <span class="interim">' + escapeHtml(interimText) + '</span>';
+      }
       view.innerHTML = html;
       view.scrollTop = view.scrollHeight;
     }
   }
+
   $('wordCount').textContent = countWords(full);
 }
-function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function countWords(text) { return text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length; }
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function countWords(text) {
+  return text.trim().split(/\s+/).filter(w => /[a-zA-Z]/.test(w)).length;
+}
 
 /* ================================================================
    TIMER
@@ -856,6 +928,7 @@ function updateTimerUI() {
   else if (pct <= 40) bar.classList.add('warn');
   $('timeLeft').textContent = Math.max(0, Math.ceil(timeLeft));
 }
+
 function startTimer() {
   if (timerRunning) return;
   timerRunning = true;
@@ -863,15 +936,25 @@ function startTimer() {
     if (!timerRunning) return;
     timeLeft -= 0.2;
     if (timeLeft <= 0) {
-      timeLeft = 0; updateTimerUI(); stopTimer();
-      setTimeout(() => nextSlide(true), 400);
+      timeLeft = 0;
+      updateTimerUI();
+      stopTimer();
+      // BUG FIX: nextSlide(true) → nextSlide()
+      setTimeout(() => nextSlide(), 400);
       return;
     }
     updateTimerUI();
     if (Math.round(timeLeft * 5) % 10 === 0) saveState();
   }, 200);
 }
-function stopTimer() { timerRunning = false; if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
+
+function stopTimer() {
+  timerRunning = false;
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
 
 /* ================================================================
    RENDER SLIDE
@@ -879,6 +962,7 @@ function stopTimer() { timerRunning = false; if (timerInterval) { clearInterval(
 function renderSlide(isResume = false) {
   const slide = QUESTIONS[currentSlide];
   if (!slide) return;
+
   $('qNum').textContent = slide.id;
   $('qTotal').textContent = QUESTIONS.length;
 
@@ -899,24 +983,55 @@ function renderSlide(isResume = false) {
     if (slide.picture === 'bridge') pw.innerHTML = PICTURE_BRIDGE;
     else if (slide.picture === 'travel') pw.innerHTML = PICTURE_TRAVEL;
   } else {
-    pw.classList.add('hidden'); pw.innerHTML = '';
+    pw.classList.add('hidden');
+    pw.innerHTML = '';
   }
 
-  if (!isResume) { timeTotal = slide.timeLimit; timeLeft = slide.timeLimit; }
+  // BUG FIX: Resume လုပ်ရင် timer ကို ပြန်မသတ်မှတ်ဘူး
+  if (!isResume) {
+    timeTotal = slide.timeLimit;
+    timeLeft = slide.timeLimit;
+  }
   updateTimerUI();
 
-  stopRecognition(); stopMediaRecorder();
-  if (!isResume) { liveText = ''; interimText = ''; manualMode = false; currentAudioBlob = null; currentAudioURL = null; }
+  stopRecognition();
+  stopMediaRecorder();
+  stopTimer();
+
+  if (!isResume) {
+    liveText = '';
+    interimText = '';
+    manualMode = false;
+    currentAudioBlob = null;
+    if (currentAudioURL) {
+      try { URL.revokeObjectURL(currentAudioURL); } catch (e) { /* ignore */ }
+    }
+    currentAudioURL = null;
+  }
   renderTranscript();
 
-  $('startBtn').classList.remove('hidden');
-  $('startBtn').textContent = '🎤 Start Answering';
-  $('pauseBtn').classList.add('hidden');
-  $('nextBtn').classList.add('hidden');
-  $('skipBtn').classList.remove('hidden');
-  $('recIndicator').classList.add('hidden');
-  $('recIndicator2').textContent = 'Ready';
-  $('recIndicator2').style.color = '#475569';
+  // BUG FIX: Resume လုပ်ရင် Start button ကို မပြဘူး (သို့) ပြထားတဲ့ state ကို ထိန်း
+  if (!isResume) {
+    $('startBtn').classList.remove('hidden');
+    $('startBtn').textContent = '🎤 Start Answering';
+    $('pauseBtn').classList.add('hidden');
+    $('nextBtn').classList.add('hidden');
+    $('skipBtn').classList.remove('hidden');
+    $('recIndicator').classList.add('hidden');
+    $('recIndicator2').textContent = 'Ready';
+    $('recIndicator2').style.color = '#475569';
+  } else {
+    // Resume: Start button ကို ပြထားတယ်
+    $('startBtn').classList.remove('hidden');
+    $('startBtn').textContent = '🎤 Start Answering';
+    $('pauseBtn').classList.add('hidden');
+    $('nextBtn').classList.add('hidden');
+    $('skipBtn').classList.remove('hidden');
+    $('recIndicator').classList.add('hidden');
+    $('recIndicator2').textContent = 'Ready (Resumed)';
+    $('recIndicator2').style.color = '#94a3b8';
+  }
+
   saveState();
 }
 
@@ -924,9 +1039,23 @@ function renderSlide(isResume = false) {
    ACTIONS
 ================================================================ */
 async function handleStart() {
-  if (CAP.MR && saveAudio) { try { await startMediaRecorder(); } catch {} }
+  // BUG FIX: Microphone permission ကို Start နှိပ်တဲ့အခါ ချက်ချင်းတောင်း
+  if (CAP.GUM) {
+    try {
+      if (!mediaStream) {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+    } catch (e) {
+      console.warn('Mic permission denied:', e);
+    }
+  }
+
+  if (CAP.MR && saveAudio) {
+    try { await startMediaRecorder(); } catch (e) { /* ignore */ }
+  }
   if (CAP.liveSR) startRecognition();
   startTimer();
+
   $('startBtn').classList.add('hidden');
   $('pauseBtn').classList.remove('hidden');
   $('nextBtn').classList.remove('hidden');
@@ -934,11 +1063,16 @@ async function handleStart() {
   $('pauseBtn').textContent = '⏸ Pause';
   updateRecIndicator(true);
 }
+
 function handlePause() {
   if (timerRunning) {
-    stopTimer(); stopRecognition(); stopMediaRecorder();
+    stopTimer();
+    stopRecognition();
+    stopMediaRecorder();
     $('pauseBtn').textContent = '▶ Resume';
     updateRecIndicator(false);
+    $('recIndicator2').textContent = 'Paused';
+    $('recIndicator2').style.color = '#f59e0b';
   } else {
     startTimer();
     if (CAP.liveSR) startRecognition();
@@ -947,6 +1081,7 @@ function handlePause() {
     updateRecIndicator(true);
   }
 }
+
 function updateRecIndicator(recording) {
   if (recording) {
     $('recIndicator').classList.remove('hidden');
@@ -954,7 +1089,7 @@ function updateRecIndicator(recording) {
     $('recIndicator2').style.color = '#ef4444';
   } else {
     $('recIndicator').classList.add('hidden');
-    $('recIndicator2').textContent = 'Paused';
+    $('recIndicator2').textContent = 'Ready';
     $('recIndicator2').style.color = '#94a3b8';
   }
 }
@@ -963,30 +1098,90 @@ function finalizeCurrentSlide() {
   const slide = QUESTIONS[currentSlide];
   const transcript = (manualMode ? $('transcriptInput').value : (liveText + ' ' + interimText)).trim();
   const scored = scoreSlide(transcript, slide);
+
   answers[currentSlide] = {
-    transcript, audioBlob: currentAudioBlob, audioBlobURL: currentAudioURL,
-    score: scored.score, wc: scored.wc, hits: scored.hits, kwTotal: scored.kwTotal, matched: scored.matched,
+    transcript,
+    audioBlob: currentAudioBlob,
+    audioBlobURL: currentAudioURL,  // result မှာ ဖွင့်ဖို့ သိမ်းထားတယ်
+    score: scored.score,
+    wc: scored.wc,
+    hits: scored.hits,
+    kwTotal: scored.kwTotal,
+    matched: scored.matched,
     maxMarks: 100,
-    section: slide.part, sectionTitle: slide.sectionTitle,
-    badge: slide.badge, badgeClass: slide.badgeClass,
-    q: slide.prompt, category: slide.category
+    section: slide.part,
+    sectionTitle: slide.sectionTitle,
+    badge: slide.badge,
+    badgeClass: slide.badgeClass,
+    q: slide.prompt,
+    category: slide.category
   };
 }
 
 function nextSlide() {
+  // BUG FIX: nextSlide ကို timer နဲ့ ခေါ်တဲ့အခါ currentAudioURL ကို မဖျက်ဘူး
   finalizeCurrentSlide();
-  stopTimer(); stopRecognition(); stopMediaRecorder();
-  liveText = ''; interimText = ''; manualMode = false;
+  stopTimer();
+  stopRecognition();
+  stopMediaRecorder();
+
+  liveText = '';
+  interimText = '';
+  manualMode = false;
+
+  // NOTE: currentAudioBlob/URL ကို မဖျက်ဘူး — result မှာ ဖွင့်ဖို့ လိုတယ်
+  // ဒါပေမယ့် နောက် slide အတွက် အသစ်စတင်ဖို့ လိုတယ်
   currentAudioBlob = null;
-  if (currentAudioURL) { try { URL.revokeObjectURL(currentAudioURL); } catch {} }
   currentAudioURL = null;
+
   renderTranscript();
   currentSlide++;
   saveState();
-  if (currentSlide >= QUESTIONS.length) { finishTest(); return; }
+
+  if (currentSlide >= QUESTIONS.length) {
+    finishTest();
+    return;
+  }
   renderSlide(false);
 }
-function skipSlide() { nextSlide(); }
+
+function skipSlide() {
+  // BUG FIX: skip လုပ်ရင် score 0 ဖြစ်တာကို ရှင်းပြီး သိမ်းတယ်
+  const slide = QUESTIONS[currentSlide];
+  answers[currentSlide] = {
+    transcript: '',
+    audioBlob: null,
+    audioBlobURL: null,
+    score: 0,
+    wc: 0,
+    hits: 0,
+    kwTotal: 0,
+    matched: [],
+    maxMarks: 100,
+    section: slide.part,
+    sectionTitle: slide.sectionTitle,
+    badge: slide.badge,
+    badgeClass: slide.badgeClass,
+    q: slide.prompt,
+    category: slide.category,
+    skipped: true
+  };
+  stopTimer();
+  stopRecognition();
+  stopMediaRecorder();
+  currentAudioBlob = null;
+  currentAudioURL = null;
+  liveText = '';
+  interimText = '';
+  manualMode = false;
+  currentSlide++;
+  saveState();
+  if (currentSlide >= QUESTIONS.length) {
+    finishTest();
+    return;
+  }
+  renderSlide(false);
+}
 
 /* ================================================================
    SMART SCORING
@@ -1001,20 +1196,31 @@ function extractKeywords(text) {
 function scoreSlide(transcript, slide) {
   const cleanText = transcript.trim();
   if (!cleanText) return { score: 0, wc: 0, hits: 0, kwTotal: 0, matched: [] };
+
   const wc = countWords(cleanText);
   const keywords = extractKeywords(slide.answerEng);
   const lower = cleanText.toLowerCase();
-  let hits = 0; const matched = [];
-  keywords.forEach(kw => { if (lower.includes(kw)) { hits++; matched.push(kw); } });
+  let hits = 0;
+  const matched = [];
+  keywords.forEach(kw => {
+    if (lower.includes(kw)) {
+      hits++;
+      matched.push(kw);
+    }
+  });
+
   const kwRatio = keywords.length ? hits / keywords.length : 0;
   const modelWC = countWords(slide.answerEng);
   const wcRatio = Math.min(1, wc / Math.max(15, modelWC * 0.6));
+
   let raw = 0.55 * kwRatio + 0.35 * wcRatio;
   const sentences = cleanText.split(/[.!?]+/).filter(s => s.trim().length > 3).length;
   raw += Math.min(0.10, sentences * 0.02);
+
   let score = Math.round(Math.min(1, raw) * 100);
   if (wc >= 10 && score < 15) score = 15;
   if (wc >= 25 && score < 25) score = 25;
+
   return { score, wc, hits, kwTotal: keywords.length, matched };
 }
 
@@ -1022,14 +1228,21 @@ function scoreSlide(transcript, slide) {
    FINISH
 ================================================================ */
 function finishTest() {
-  stopTimer(); stopRecognition(); stopMediaRecorder();
+  stopTimer();
+  stopRecognition();
+  stopMediaRecorder();
+
   let total = 0, answered = 0, totalWords = 0, totalKw = 0, totalKwMax = 0;
   answers.forEach(a => {
     if (a && a.transcript && a.transcript.trim()) {
-      answered++; total += a.score; totalWords += a.wc;
-      totalKw += a.hits; totalKwMax += a.kwTotal;
+      answered++;
+      total += a.score;
+      totalWords += a.wc;
+      totalKw += a.hits;
+      totalKwMax += a.kwTotal;
     }
   });
+
   const finalScore = answered > 0 ? Math.round(total / answered) : 0;
   const avgWords = answered > 0 ? Math.round(totalWords / answered) : 0;
   const kwPct = totalKwMax > 0 ? Math.round((totalKw / totalKwMax) * 100) : 0;
@@ -1042,7 +1255,8 @@ function finishTest() {
   else { grade = 'D'; gradeLabel = 'Needs Improvement'; gradeClass = 'grade-D'; }
 
   const gc = $('gradeCircle');
-  gc.textContent = grade; gc.className = 'grade-circle ' + gradeClass;
+  gc.textContent = grade;
+  gc.className = 'grade-circle ' + gradeClass;
   $('finalScore').textContent = finalScore;
   $('gradeLabel').textContent = gradeLabel;
   $('statWords').textContent = avgWords;
@@ -1053,12 +1267,15 @@ function finishTest() {
   list.innerHTML = answers.map((a, i) => {
     if (!a) return '';
     const transcript = a.transcript ? escapeHtml(a.transcript) : '<i style="color:#475569;">(no answer)</i>';
+    // BUG FIX: audioBlobURL ကို result မှာ ဖွင့်နိုင်အောင် သိမ်းထားတယ်
     const audioHTML = a.audioBlobURL ? `<div class="result-audio"><audio controls src="${a.audioBlobURL}" preload="metadata"></audio></div>` : '';
-    const matchedHTML = a.matched && a.matched.length ? `<div style="margin-top:6px;font-size:11px;color:#86efac;line-height:1.6;">✓ Matched: ${a.matched.slice(0, 12).join(', ')}${a.matched.length > 12 ? '...' : ''}</div>` : '';
+    const matchedHTML = a.matched && a.matched.length
+      ? `<div style="margin-top:6px;font-size:11px;color:#86efac;line-height:1.6;">✓ Matched: ${a.matched.slice(0, 12).join(', ')}${a.matched.length > 12 ? '...' : ''}</div>`
+      : '';
     return `
       <div class="result-item">
         <div class="result-item-head">
-          <span><span class="badge ${a.badgeClass}">${a.category || a.badge}</span> &nbsp;Q${i + 1}</span>
+          <span><span class="badge ${a.badgeClass}">${a.category || a.badge}</span> &nbsp;Q${i + 1}${a.skipped ? ' (skipped)' : ''}</span>
           <span class="marks">${a.score} / 100</span>
         </div>
         <div class="result-q">${escapeHtml(a.q)}</div>
@@ -1079,8 +1296,19 @@ function finishTest() {
 /* ================================================================
    MANUAL MODE
 ================================================================ */
-function enableManualMode() { manualMode = true; $('transcriptInput').value = (liveText + ' ' + interimText).trim(); renderTranscript(); $('transcriptInput').focus(); }
-function enableAutoMode() { manualMode = false; liveText = $('transcriptInput').value; interimText = ''; renderTranscript(); }
+function enableManualMode() {
+  manualMode = true;
+  $('transcriptInput').value = (liveText + ' ' + interimText).trim();
+  renderTranscript();
+  $('transcriptInput').focus();
+}
+
+function enableAutoMode() {
+  manualMode = false;
+  liveText = $('transcriptInput').value;
+  interimText = '';
+  renderTranscript();
+}
 
 /* ================================================================
    INIT
@@ -1096,12 +1324,19 @@ function init() {
     if (confirm('📌 ယခင် ဖြေဆိုထားသော အဖြေများ ရှိပါသည်။ ဆက်လက်ဖြေဆိုမလား?\n(OK = ဆက်ဖြေ, Cancel = အသစ်စ)')) {
       currentSlide = saved.currentSlide || 0;
       answers = (saved.answers || []).map(a => a ? { ...a, audioBlob: null, audioBlobURL: null } : null);
-      liveText = saved.liveText || ''; interimText = saved.interimText || '';
+      liveText = saved.liveText || '';
+      interimText = saved.interimText || '';
       manualMode = saved.manualMode || false;
       timeTotal = saved.timeTotal || QUESTIONS[currentSlide].timeLimit;
       timeLeft = saved.timeLeft || timeTotal;
-      showScreen('test'); renderSlide(true); return;
-    } else { clearState(); answers = []; currentSlide = 0; }
+      showScreen('test');
+      renderSlide(true);
+      return;
+    } else {
+      clearState();
+      answers = [];
+      currentSlide = 0;
+    }
   }
   showScreen('welcome');
 }
@@ -1112,13 +1347,18 @@ function init() {
 $('startTestBtn').addEventListener('click', () => {
   showLiveTranscript = $('optShowTranscript').checked;
   saveAudio = $('optSaveAudio').checked;
+  // BUG FIX: mic permission ကို ဒီနေရာမှာ ကြိုတောင်းတယ်
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ audio: true }).catch(() => {});
   }
-  answers = []; currentSlide = 0;
-  liveText = ''; interimText = ''; manualMode = false;
+  answers = [];
+  currentSlide = 0;
+  liveText = '';
+  interimText = '';
+  manualMode = false;
   clearState();
-  showScreen('test'); renderSlide(false);
+  showScreen('test');
+  renderSlide(false);
 });
 
 $('startBtn').addEventListener('click', handleStart);
@@ -1126,24 +1366,35 @@ $('pauseBtn').addEventListener('click', handlePause);
 $('nextBtn').addEventListener('click', () => nextSlide());
 $('skipBtn').addEventListener('click', skipSlide);
 
+/* Manual mode toggle */
 (function injectManualToggle() {
   const card = document.querySelector('.transcript-card');
   const btn = document.createElement('button');
-  btn.type = 'button'; btn.className = 'btn btn-ghost btn-sm'; btn.id = 'manualToggle';
-  btn.style.marginTop = '6px'; btn.textContent = '✏️ Type manually instead';
+  btn.type = 'button';
+  btn.className = 'btn btn-ghost btn-sm';
+  btn.id = 'manualToggle';
+  btn.style.marginTop = '6px';
+  btn.textContent = '✏️ Type manually instead';
   btn.addEventListener('click', () => {
-    if (manualMode) { enableAutoMode(); btn.textContent = '✏️ Type manually instead'; }
-    else { enableManualMode(); btn.textContent = '🎤 Use microphone instead'; }
+    if (manualMode) {
+      enableAutoMode();
+      btn.textContent = '✏️ Type manually instead';
+    } else {
+      enableManualMode();
+      btn.textContent = '🎤 Use microphone instead';
+    }
   });
   card.appendChild(btn);
 })();
 
+/* Live transcript toggle */
 (function injectLiveToggle() {
   const label = document.querySelector('.transcript-label');
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.style.cssText = 'background:#0f172a;border:1px solid #334155;color:#94a3b8;font-size:10.5px;padding:3px 8px;border-radius:8px;cursor:pointer;font-weight:700;';
-  btn.id = 'liveToggle'; btn.textContent = '👁️ Show';
+  btn.id = 'liveToggle';
+  btn.textContent = '👁️ Show';
   btn.addEventListener('click', () => {
     showLiveTranscript = !showLiveTranscript;
     btn.textContent = showLiveTranscript ? '🙈 Hide' : '👁️ Show';
@@ -1152,17 +1403,25 @@ $('skipBtn').addEventListener('click', skipSlide);
   label.appendChild(btn);
 })();
 
-$('transcriptInput').addEventListener('input', () => { $('wordCount').textContent = countWords($('transcriptInput').value); });
+$('transcriptInput').addEventListener('input', () => {
+  $('wordCount').textContent = countWords($('transcriptInput').value);
+});
 
 $('retakeBtn').addEventListener('click', () => {
-  clearState(); answers = []; currentSlide = 0;
-  liveText = ''; interimText = ''; manualMode = false;
+  clearState();
+  answers = [];
+  currentSlide = 0;
+  liveText = '';
+  interimText = '';
+  manualMode = false;
   showScreen('welcome');
 });
 
-window.addEventListener('beforeunload', (e) => {
-  if ($('test').classList.contains('active')) { saveState(); e.preventDefault(); e.returnValue = ''; }
+/* BUG FIX: beforeunload ကို dialog မပြဘဲ save လုပ်တယ် */
+window.addEventListener('beforeunload', () => {
+  if ($('test').classList.contains('active')) saveState();
 });
+
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && $('test').classList.contains('active')) saveState();
 });
