@@ -1,478 +1,35 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Old Questions - MEPT Master Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Myanmar Text', system-ui, sans-serif;
-        }
-
-        body {
-            background: #f0f4f9;
-            min-height: 100vh;
-            padding: 12px;
-        }
-
-        /* ===== TOP BAR ===== */
-        .top-bar {
-            background: #1a4d8f;
-            color: white;
-            padding: 14px 18px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(26, 77, 143, 0.25);
-        }
-
-        .top-bar h1 {
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-align: center;
-        }
-
-        .top-bar h1 i {
-            font-size: 22px;
-        }
-
-        .back-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 18px;
-            border-radius: 50px;
-            transition: 0.2s;
-            text-align: center;
-        }
-
-        .back-link:active {
-            background: rgba(255, 255, 255, 0.30);
-            transform: scale(0.97);
-        }
-
-        /* ===== CONTAINER ===== */
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        /* ===== FILTER BOX ===== */
-        .filter-box {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-            background: #ffffff;
-            padding: 14px 16px;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .filter-box .search-input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.25s;
-        }
-
-        .filter-box .search-input:focus {
-            border-color: #1a4d8f;
-            box-shadow: 0 0 0 4px rgba(26, 77, 143, 0.08);
-        }
-
-        .filter-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .filter-btn,
-        .cat-btn {
-            padding: 5px 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
-            background: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
-            touch-action: manipulation;
-        }
-
-        .filter-btn:active,
-        .cat-btn:active {
-            transform: scale(0.95);
-        }
-
-        .filter-btn:hover,
-        .cat-btn:hover {
-            border-color: #1a4d8f;
-            color: #1a4d8f;
-        }
-
-        .filter-btn.active,
-        .cat-btn.active {
-            background: #1a4d8f;
-            border-color: #1a4d8f;
-            color: #fff;
-        }
-
-        .filter-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-right: 2px;
-        }
-
-        /* ===== QUESTION LIST ===== */
-        .question-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .question-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 16px 18px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid #1a4d8f;
-            transition: 0.2s;
-        }
-
-        .question-card:active {
-            transform: scale(0.99);
-        }
-
-        .question-card .type {
-            font-size: 11px;
-            font-weight: 700;
-            color: #1a4d8f;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .question-card .batch-tag {
-            display: inline-block;
-            background: #e8edf5;
-            color: #1a4d8f;
-            padding: 1px 12px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-right: 4px;
-        }
-
-        .question-card .category-tag {
-            display: inline-block;
-            background: #fef3c7;
-            color: #92400e;
-            padding: 1px 12px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .question-card .en {
-            font-size: 15px;
-            font-weight: 700;
-            color: #0a2a4a;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        .question-card .my {
-            font-size: 14px;
-            color: #475569;
-            margin-top: 4px;
-            padding: 6px 10px;
-            background: #f8fafc;
-            border-radius: 8px;
-            line-height: 1.5;
-        }
-
-        .question-card .sub-details {
-            list-style: none;
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: #f8fafc;
-            border-radius: 10px;
-            border: 1px solid #e8edf5;
-        }
-
-        .question-card .sub-details li {
-            padding: 3px 0;
-            font-size: 13px;
-            color: #1f3a5f;
-            border-bottom: 1px dashed #e8edf5;
-            line-height: 1.5;
-        }
-
-        .question-card .sub-details li:last-child {
-            border-bottom: none;
-        }
-
-        .question-card .sub-details li::before {
-            content: "▸ ";
-            color: #1a4d8f;
-            font-weight: 700;
-        }
-
-        /* ===== ANSWER SECTION ===== */
-        .answer-section {
-            margin-top: 12px;
-            border-top: 2px dashed #e2e8f0;
-            padding-top: 12px;
-        }
-
-        .answer-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #0a2a4a;
-            font-size: 13px;
-        }
-
-        .toggle-btn {
-            background: #1a4d8f;
-            border: none;
-            color: #fff;
-            padding: 4px 16px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            touch-action: manipulation;
-        }
-
-        .toggle-btn:active {
-            background: #0f3a6b;
-            transform: scale(0.95);
-        }
-
-        .answer-content {
-            display: none;
-            margin-top: 10px;
-            background: #f0f7ff;
-            border-radius: 12px;
-            padding: 12px 14px;
-            border: 1px solid #d4e2f0;
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .answer-content.show {
-            display: flex;
-        }
-
-        .answer-content .en-answer {
-            font-size: 14px;
-            color: #0a2a4a;
-            padding: 6px 10px;
-            background: #ffffff;
-            border-radius: 8px;
-            border-left: 4px solid #1a4d8f;
-            line-height: 1.7;
-        }
-
-        .answer-content .my-answer {
-            font-size: 14px;
-            color: #1f3a5f;
-            padding: 6px 10px;
-            background: #ffffff;
-            border-radius: 8px;
-            border-left: 4px solid #d4891e;
-            line-height: 1.7;
-        }
-
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #94a3b8;
-            font-size: 15px;
-        }
-
-        .empty-state i {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-
-        /* ===== STATS ===== */
-        .stats-bar {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px 16px;
-            background: #ffffff;
-            padding: 10px 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .stats-bar .stat-item {
-            font-size: 13px;
-            color: #475569;
-        }
-
-        .stats-bar .stat-item strong {
-            color: #0a2a4a;
-        }
-
-        .stats-bar .stat-item i {
-            color: #1a4d8f;
-            margin-right: 4px;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .filter-btn,
-            .cat-btn {
-                font-size: 11px;
-                padding: 4px 10px;
-            }
-            .question-card {
-                padding: 14px 14px;
-            }
-            .question-card .en {
-                font-size: 14px;
-            }
-            .question-card .my {
-                font-size: 13px;
-            }
-            .answer-content .en-answer,
-            .answer-content .my-answer {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .filter-group {
-                gap: 4px;
-            }
-            .filter-btn,
-            .cat-btn {
-                font-size: 10px;
-                padding: 3px 8px;
-            }
-            .top-bar h1 {
-                font-size: 16px;
-            }
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f0f4f9;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #b8c9e0;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8aa3c0;
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEPT Master Hub — 7M → 10M</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
+:root{--bg:#070b16;--panel:#11182a;--text:#eef4ff;--muted:#9eabc2;--line:#26324a;--p:#7c5cff;--c:#21d4fd;--g:#38e29b;--o:#ffb84d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#221a55,transparent 30%),radial-gradient(circle at 90% 10%,#12364a,transparent 28%),var(--bg);color:var(--text);font-family:Inter,'Noto Sans Myanmar',sans-serif}
+button,input{font:inherit}.app{display:grid;grid-template-columns:255px 1fr;min-height:100vh}.side{padding:22px 15px;border-right:1px solid var(--line);background:#070b14e8;backdrop-filter:blur(20px);position:sticky;top:0;height:100vh}.brand{display:flex;gap:10px;align-items:center;padding:8px}.logo{width:43px;height:43px;border-radius:15px;background:linear-gradient(135deg,var(--p),var(--c));display:grid;place-items:center;font-size:21px}.brand b{display:block}.brand small{color:var(--muted)}.label{font-size:10px;color:#66738b;text-transform:uppercase;letter-spacing:1.5px;margin:24px 9px 7px}.nav button{display:flex;width:100%;border:0;background:transparent;color:#aeb9ce;padding:11px;border-radius:13px;text-align:left;gap:9px;margin:3px 0}.nav button:hover,.nav button.active{background:#7c5cff20;color:#fff}.nav button span:last-child{margin-left:auto;color:#697791;font-size:11px}.note{position:absolute;bottom:18px;left:15px;right:15px;padding:13px;border:1px solid var(--line);border-radius:16px;color:var(--muted);font-size:11px;line-height:1.6}
+.main{max-width:1500px;width:100%;margin:auto;padding:28px 32px 60px}.top{display:flex;justify-content:space-between;gap:20px;margin-bottom:22px}.ey{color:#aa9cff;font-size:11px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}.top h1{font-size:clamp(28px,4vw,48px);margin:7px 0;letter-spacing:-1.8px}.grad{background:linear-gradient(90deg,#9e8dff,#5fe6ff);color:transparent;background-clip:text}.sub{color:var(--muted);max-width:780px;line-height:1.65}.actions{display:flex;gap:8px}.btn,.filter{border:1px solid var(--line);background:#ffffff08;color:#dce6fa;padding:10px 12px;border-radius:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:17px}.stat{padding:16px;border:1px solid var(--line);border-radius:19px;background:#10182aab}.stat b{font-size:27px}.stat small{display:block;color:var(--muted);margin-top:4px}.controls{display:flex;gap:9px;flex-wrap:wrap;padding:13px;border:1px solid var(--line);border-radius:18px;background:#0d1424e8;backdrop-filter:blur(15px);position:sticky;top:10px;z-index:5;margin-bottom:17px}.search{flex:1;min-width:220px}.search input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#080e1b;color:white;outline:0}.filters{display:flex;gap:6px;flex-wrap:wrap}.filter{font-size:11px;font-weight:700}.filter.active{background:linear-gradient(135deg,var(--p),#5f8dff);color:white;border-color:transparent}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.card{padding:18px;border:1px solid var(--line);border-radius:21px;background:linear-gradient(145deg,#141d31ee,#0b1220ee);box-shadow:0 18px 45px #0004}.meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tag{font-size:9px;font-weight:800;padding:5px 8px;border-radius:99px;background:#7c5cff18;color:#bcb0ff}.tag.cat{background:#21d4fd12;color:#75e8ff}.title{font-size:17px;font-weight:800;line-height:1.4}.mytitle{color:#8e9bb2;font-size:12px;margin-top:4px}.qs{margin-top:13px;display:grid;gap:7px}.q{padding:9px 11px;border-radius:11px;background:#ffffff06;border:1px solid #ffffff08;font-size:12px;line-height:1.55}.q strong{color:#91a1ff;margin-right:5px}.answer{border-top:1px dashed var(--line);margin-top:13px;padding-top:11px}.answer button,.reveal{width:100%;border:0;background:#38e29b12;color:#9dffd2;padding:9px;border-radius:10px;font-weight:800;font-size:11px}.answerbox{display:none;margin-top:8px;gap:8px}.answerbox.show{display:grid}.lang{padding:10px;border-radius:10px;font-size:12px;line-height:1.7}.en{background:#7c5cff0c;border-left:3px solid var(--p)}.my{background:#ffb84d0b;border-left:3px solid var(--o);font-family:'Noto Sans Myanmar',sans-serif}.exercise{margin-top:11px;padding:11px;border:1px solid #38e29b22;border-radius:12px;background:#38e29b08}.exercise h4{margin:0 0 6px;color:#7df3bc;font-size:11px}.exercise li{font-size:11px;color:#cdd7e8;margin:5px 0;line-height:1.5}.practice{display:none;margin-top:7px;color:#b9c8df;font-size:11px;line-height:1.7}.practice.show{display:block}.empty{text-align:center;padding:50px;color:#718099;border:1px dashed var(--line);border-radius:20px;grid-column:1/-1}.foot{text-align:center;color:#59677e;font-size:10px;margin-top:26px}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.side{height:auto;position:relative;border-right:0;border-bottom:1px solid var(--line)}.nav{display:flex;overflow:auto;gap:4px}.nav button{white-space:nowrap;width:auto}.nav button span:last-child{display:none}.note{display:none}.label{display:none}}
+@media(max-width:760px){.main{padding:18px 13px}.top{display:block}.actions{margin-top:12px}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.controls{position:static}}
+</style>
 </head>
 <body>
-
-    <!-- ===== TOP BAR ===== -->
-    <header class="top-bar">
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
-            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Main Dashboard</a>
-        </div>
-        <h1><i class="fas fa-archive"></i> MEPT Old Questions Archive (Updated 9 လပိုင်း 4W )</h1>
-    </header>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="container">
-
-        <!-- Stats -->
-        <div class="stats-bar" id="statsBar">
-            <span class="stat-item"><i class="fas fa-file-alt"></i> စုစုပေါင်း <strong id="totalCount">0</strong> ခု</span>
-            <span class="stat-item"><i class="fas fa-check-circle"></i> အဖြေပါ <strong id="answerCount">0</strong> ခု</span>
-            <span class="stat-item"><i class="fas fa-layer-group"></i> အုပ်စု <strong id="batchCount">0</strong> ခု</span>
-        </div>
-
-        <!-- Filter -->
-        <div class="filter-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 မေးခွန်းရှာဖွေရန် (ဥပမာ - Listening, safety, coworker...)">
-
-            <div class="filter-group">
-                <span class="filter-label"><i class="fas fa-tag"></i> Batch</span>
-                <button class="filter-btn active" data-batch="all">အားလုံး</button>
-                <button class="filter-btn" data-batch="7m_exam1">7M Exam 1</button>
-                <button class="filter-btn" data-batch="7m_exam2">7M Exam 2</button>
-                <button class="filter-btn" data-batch="7m_exam3">7M Exam 3</button>
-                <button class="filter-btn" data-batch="7m_exam4">7M Exam 4</button>
-                <button class="filter-btn" data-batch="8m_exam1">8M Exam 1</button>
-                <button class="filter-btn" data-batch="8m_exam2">8M Exam 2</button>
-                <button class="filter-btn" data-batch="8m_exam3">8M Exam 3</button>
-                <button class="filter-btn" data-batch="9m_exam1">9M Exam 1</button>
-                <button class="filter-btn" data-batch="9m_exam4">9M Exam 4</button>
-            </div>
-
-            <div class="filter-group">
-                <span class="filter-label"><i class="fas fa-folder"></i> Category</span>
-                <button class="cat-btn active" data-category="all">အားလုံး</button>
-                <button class="cat-btn" data-category="personal">ကိုယ်ရေး</button>
-                <button class="cat-btn" data-category="safety">လုံခြုံရေး</button>
-                <button class="cat-btn" data-category="debate">ဆွေးနွေးခြင်း</button>
-                <button class="cat-btn" data-category="speaking">စကားပြော</button>
-                <button class="cat-btn" data-category="writing">အရေးအသား</button>
-            </div>
-        </div>
-
-        <!-- Question List -->
-        <div class="question-list" id="questionList">
-            <!-- Dynamically rendered -->
-        </div>
-    </main>
-    
-    <script>
-        // ============================================================
-        // 1. QUESTIONS DATA (Includes ALL 7M + 8M + 9M Exam 1 + 9M Exam 4)
-        // ============================================================
-        const questionsData = [
-            // =========================================================
+<div class="app">
+<aside class="side">
+<div class="brand"><div class="logo">⚓</div><div><b>MEPT Master Hub</b><small>Old Questions</small></div></div>
+<div class="label">Batches</div><div class="nav" id="bnav"></div>
+<div class="label">Categories</div><div class="nav" id="cnav"></div>
+<div class="note">✨ <b>Updated to 10M</b><br>Listening ကို ဖယ်ထားပြီး Picture follow-up, Debate, Grammar practical exercise နဲ့ Writing answer တွေကို study-first UI နဲ့ စုစည်းထားပါတယ်။</div>
+</aside>
+<main class="main">
+<section class="top"><div><div class="ey">Study smarter • Speak better</div><h1>Old Questions <span class="grad">7M → 10M</span></h1><div class="sub">မေးခွန်းဟောင်းတွေကို batch/category အလိုက်ရှာနိုင်ပြီး English + မြန်မာ answer, picture follow-up, debate answer နဲ့ grammar practical exercise ကို တစ်နေရာတည်းမှာ လေ့ကျင့်နိုင်ပါတယ်။</div></div><div class="actions"><button class="btn" id="expand">↕ Expand</button><button class="btn" id="clear">✕ Clear</button></div></section>
+<section class="stats"><div class="stat"><b id="total">0</b><small>Visible Questions</small></div><div class="stat"><b id="ans">0</b><small>With Answers</small></div><div class="stat"><b id="pic">0</b><small>Picture / Speaking</small></div><div class="stat"><b id="deb">0</b><small>Debate / Discussion</small></div></section>
+<section class="controls"><div class="search"><input id="search" placeholder="🔍 Search questions..."></div><div class="filters" id="bf"></div><div class="filters" id="cf"></div></section>
+<section class="grid" id="grid"></section>
+<div class="foot">MEPT Master Hub • Source question bank preserved • 10M topics added as an update</div>
+</main></div>
+<script>
+const questionsData=[// =========================================================
             // 7M EXAM 1
             // =========================================================
             {
@@ -1494,183 +1051,94 @@
                     en: 'In this listening passage, the Bridge Officer and the Deck Officer are communicating about an alarm on the ship. The Deck Officer reports that a fire alarm has activated in the cargo hold area. The Bridge Officer asks for the exact location and the type of alarm. The Deck Officer confirms it is a smoke detector alarm. The Bridge Officer orders the crew to investigate immediately and report back. This type of communication is very important for ship safety. Clear and accurate reporting helps the crew respond quickly to emergencies and prevent accidents.',
                     my: 'ဒီ listening စာပိုဒ်မှာ Bridge Officer နဲ့ Deck Officer တို့ဟာ သင်္ဘောပေါ်က alarm တစ်ခုအကြောင်း ဆက်သွယ်ပြောဆိုနေကြတယ်။ Deck Officer က cargo hold ဧရိယာမှာ မီးသတိပေးသံ (fire alarm) မြည်နေတယ်လို့ report လုပ်တယ်။ Bridge Officer က တိကျတဲ့တည်နေရာနဲ့ alarm အမျိုးအစားကို မေးတယ်။ Deck Officer က ဒါက မီးခိုးရှာဖွေစက် (smoke detector) alarm ဖြစ်တယ်လို့ အတည်ပြုတယ်။ Bridge Officer က အမှုထမ်းတွေကို ချက်ချင်းစစ်ဆေးပြီး ပြန်လည်သတင်းပို့ဖို့ အမိန့်ပေးတယ်။ ဒီလိုဆက်သွယ်ပြောဆိုမှုဟာ သင်္ဘောဘေးကင်းရေးအတွက် အလွန်အရေးကြီးတယ်။ ရှင်းလင်းတိကျတဲ့ report ပေးခြင်းက အမှုထမ်းတွေကို အရေးပေါ်အခြေအနေတွေကို လျင်မြန်စွာ တုံ့ပြန်နိုင်စေပြီး မတော်တဆမှုတွေကို ကာကွယ်ပေးတယ်။'
                 }
-            }
-        ];
-
-        // ============================================================
-        // 2. RENDER FUNCTION
-        // ============================================================
-        function renderQuestions(batch, category, searchTerm) {
-            const container = document.getElementById('questionList');
-            let filtered = questionsData;
-
-            if (batch && batch !== 'all') {
-                filtered = filtered.filter(q => q.batch === batch);
-            }
-
-            if (category && category !== 'all') {
-                filtered = filtered.filter(q => q.category === category);
-            }
-
-            if (searchTerm && searchTerm.trim() !== '') {
-                const term = searchTerm.trim().toLowerCase();
-                filtered = filtered.filter(q =>
-                    q.en.toLowerCase().includes(term) ||
-                    q.my.includes(term) ||
-                    q.type.toLowerCase().includes(term) ||
-                    (q.sub && q.sub.some(s => s.toLowerCase().includes(term))) ||
-                    (q.answer && q.answer.en.toLowerCase().includes(term)) ||
-                    (q.answer && q.answer.my.includes(term))
-                );
-            }
-
-            document.getElementById('totalCount').textContent = filtered.length;
-            const withAnswers = filtered.filter(q => q.answer !== undefined).length;
-            document.getElementById('answerCount').textContent = withAnswers;
-            const uniqueBatches = new Set(filtered.map(q => q.batch));
-            document.getElementById('batchCount').textContent = uniqueBatches.size;
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-search"></i>
-                            ဤရွေးချယ်မှုအတွက် မေးခွန်းမရှိသေးပါ။
-                        </div>
-                    `;
-                return;
-            }
-
-            let html = '';
-            filtered.forEach((q, index) => {
-                const batchName = getBatchName(q.batch);
-                const categoryName = getCategoryName(q.category);
-                const hasAnswer = q.answer !== undefined;
-                const answerId = `answer_${index}_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
-
-                html += `
-                        <div class="question-card">
-                            <div class="type">${q.type}</div>
-                            <span class="batch-tag">${batchName}</span>
-                            <span class="category-tag">${categoryName}</span>
-                            <div class="en">📘 ${q.en}</div>
-                            <div class="my">📗 ${q.my}</div>
-                            ${q.sub ? `<ul class="sub-details">${q.sub.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
-                            ${hasAnswer ? `
-                                <div class="answer-section">
-                                    <div class="answer-label">
-                                        📝 အဖြေ (Answer Key)
-                                        <button class="toggle-btn" onclick="toggleAnswer('${answerId}')">ကြည့်မည်</button>
-                                    </div>
-                                    <div id="${answerId}" class="answer-content">
-                                        <div class="en-answer">🇬🇧 ${q.answer.en}</div>
-                                        <div class="my-answer">🇲🇲 ${q.answer.my}</div>
-                                    </div>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-            });
-
-            container.innerHTML = html;
-
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.batch === (batch || 'all'));
-            });
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.category === (category || 'all'));
-            });
-        }
-
-        function toggleAnswer(answerId) {
-            const answerDiv = document.getElementById(answerId);
-            if (answerDiv) {
-                answerDiv.classList.toggle('show');
-                const btn = answerDiv.parentElement.querySelector('.toggle-btn');
-                if (btn) {
-                    btn.textContent = answerDiv.classList.contains('show') ? 'ပိတ်မည်' : 'ကြည့်မည်';
-                }
-            }
-        }
-
-        // ✅ FIXED: Added 9m_exam4 mapping
-        function getBatchName(batchCode) {
-            const map = {
-                '7m_exam1': '7M Exam 1',
-                '7m_exam2': '7M Exam 2',
-                '7m_exam3': '7M Exam 3',
-                '7m_exam4': '7M Exam 4',
-                '8m_exam1': '8M Exam 1',
-                '8m_exam2': '8M Exam 2',
-                '8m_exam3': '8M Exam 3',
-                '9m_exam1': '9M Exam 1',
-                '9m_exam4': '9M Exam 4'
-            };
-            return map[batchCode] || batchCode;
-        }
-
-        function getCategoryName(catCode) {
-            const map = {
-                'personal': 'ကိုယ်ရေး',
-                'safety': 'လုံခြုံရေး',
-                'debate': 'ဆွေးနွေးခြင်း',
-                'writing': 'အရေးအသား',
-                'speaking': 'စကားပြော'
-            };
-            return map[catCode] || catCode;
-        }
-
-        // ============================================================
-        // 3. EVENT LISTENERS
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            renderQuestions('all', 'all', '');
-
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const batch = this.dataset.batch;
-                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
-                    const search = document.getElementById('searchInput').value;
-                    renderQuestions(batch, category, search);
-                });
-            });
-
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
-                    const search = document.getElementById('searchInput').value;
-                    renderQuestions(batch, category, search);
-                });
-            });
-
-            const searchInput = document.getElementById('searchInput');
-            let searchTimeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    const batch = document.querySelector('.filter-btn.active')?.dataset.batch || 'all';
-                    const category = document.querySelector('.cat-btn.active')?.dataset.category || 'all';
-                    renderQuestions(batch, category, this.value);
-                }, 300);
-            });
-        });
-
-        // ============================================================
-        // 4. COPY PROTECTION (basic)
-        // ============================================================
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('selectstart', e => e.preventDefault());
-        document.addEventListener('keydown', e => {
-            if (e.ctrlKey || e.metaKey) {
-                if (['c', 'C', 'a', 'A', 'u', 'U', 's', 'S'].includes(e.key)) e.preventDefault();
-            }
-            if (e.key === 'F12') e.preventDefault();
-        });
-
-        console.log('📂 Old Questions loaded successfully!');
-        console.log('📚 Total questions:', questionsData.length);
-        console.log('✅ 9M Exam 1 (၉ လပိုင်း အပိုင်း ၁) added!');
-        console.log('✅ 9M Exam 4 (၉ လပိုင်း အပိုင်း ၄) added with 16 new questions!');
-    </script>
-</body>
-</html>
+            },{
+ batch:'10m',category:'speaking',type:'Speaking (Picture Description)',en:'Swimming',my:'ရေကူးခြင်း',
+ sub:['What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?','What are the people doing? / လူတွေ ဘာလုပ်နေကြလဲ?','Why is swimming good for our health? / ရေကူးတာက ကျန်းမာရေးအတွက် ဘာကြောင့်ကောင်းသလဲ?'],
+ answer:{en:'In the picture, I can see people swimming in a pool. They are enjoying the activity. Swimming is good for our health because it exercises the whole body, improves fitness, and helps reduce stress. It is also a useful life skill.',my:'ပုံထဲမှာ လူတွေ ရေကူးကန်ထဲမှာ ရေကူးနေကြတာကို မြင်ရတယ်။ သူတို့က လှုပ်ရှားမှုကို ပျော်ပျော်ရွှင်ရွှင် လုပ်နေကြတယ်။ ရေကူးတာက ကိုယ်ခန္ဓာတစ်ခုလုံးကို လေ့ကျင့်ပေးပြီး ကျန်းမာကြံ့ခိုင်မှုကို ကောင်းစေတဲ့အပြင် စိတ်ဖိစီးမှုကိုလည်း လျှော့ချပေးလို့ ကျန်းမာရေးအတွက် ကောင်းပါတယ်။ အသုံးဝင်တဲ့ life skill တစ်ခုလည်း ဖြစ်ပါတယ်။'}
+},
+{
+ batch:'10m',category:'speaking',type:'Speaking (Picture Description)',en:'Fire Extinguisher',my:'မီးသတ်ဆေးဘူး အသုံးပြုခြင်း',
+ sub:['What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?','What is the person doing? / လူက ဘာလုပ်နေသလဲ?','How do you use a fire extinguisher? / မီးသတ်ဆေးဘူးကို ဘယ်လိုအသုံးပြုမလဲ?','Why is fire safety important? / မီးဘေးလုံခြုံရေးက ဘာကြောင့်အရေးကြီးသလဲ?'],
+ answer:{en:'In the picture, I can see a person using a fire extinguisher. The basic steps are PASS: Pull the pin, Aim at the base of the fire, Squeeze the handle, and Sweep from side to side. Fire safety is important because a small fire can spread quickly and cause serious damage.',my:'ပုံထဲမှာ လူတစ်ယောက် မီးသတ်ဆေးဘူးကို အသုံးပြုပြီး မီးငြှိမ်းသတ်နေတာကို မြင်ရတယ်။ အခြေခံအဆင့်တွေကို PASS လို့ မှတ်နိုင်တယ် — Pull, Aim, Squeeze, Sweep။ မီးဘေးလုံခြုံရေးက အရေးကြီးတယ်၊ မီးက လျင်မြန်စွာ ပျံ့နှံ့ပြီး လူနဲ့ပစ္စည်းတွေကို ထိခိုက်စေနိုင်လို့ပါ။'}
+},
+{
+ batch:'10m',category:'speaking',type:'Speaking (Picture Description)',en:'Prepare to Travel',my:'ခရီးသွားရန် ပြင်ဆင်ခြင်း',
+ sub:['What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?','What things do you prepare before travelling? / ခရီးမထွက်ခင် ဘာတွေပြင်ဆင်လဲ?','Where would you like to travel? / ဘယ်နေရာကို ခရီးသွားချင်လဲ?','What do you always take when you travel? / ခရီးသွားတဲ့အခါ ဘာတွေကို အမြဲယူသွားလဲ?'],
+ answer:{en:'In the picture, I can see a person preparing luggage for a trip. Before travelling, I check my passport, tickets, clothes, money, phone charger, and other important items. I would like to travel to Japan because I want to see its culture and beautiful places. I always take my passport, phone, charger, and basic medicine.',my:'ပုံထဲမှာ လူတစ်ယောက် ခရီးသွားဖို့ အိတ်ပြင်ဆင်နေတာကို မြင်ရတယ်။ ခရီးမထွက်ခင် နိုင်ငံကူးလက်မှတ်၊ လက်မှတ်၊ အဝတ်အစား၊ ငွေ၊ ဖုန်းအားသွင်းကြိုးနဲ့ အရေးကြီးတဲ့ပစ္စည်းတွေကို စစ်ဆေးတတ်တယ်။ ဂျပန်ကို သွားချင်တယ်။ ခရီးသွားတိုင်း နိုင်ငံကူးလက်မှတ်၊ ဖုန်း၊ charger နဲ့ အခြေခံဆေးဝါးတွေ ယူသွားတယ်။'}
+},
+{
+ batch:'10m',category:'speaking',type:'Speaking (Picture Description)',en:'Drinking Water',my:'ရေသောက်ခြင်း',
+ sub:['What do you see in the picture? / ပုံထဲမှာ ဘာတွေမြင်ရလဲ?','How much water do you drink every day? / နေ့တိုင်း ရေဘယ်လောက်သောက်လဲ?','Why is drinking enough water important? / ရေလုံလောက်အောင်သောက်ဖို့ ဘာကြောင့်အရေးကြီးသလဲ?','What happens if we do not drink enough water? / ရေလုံလောက်အောင်မသောက်ရင် ဘာဖြစ်နိုင်လဲ?'],
+ answer:{en:'In the picture, I can see a person drinking a glass of water. I try to drink enough water every day. Water helps our body work properly and keeps us hydrated. If we do not drink enough water, we may feel tired, thirsty, or dehydrated.',my:'ပုံထဲမှာ လူတစ်ယောက် ရေတစ်ခွက်သောက်နေတာကို မြင်ရတယ်။ နေ့တိုင်း ရေလုံလောက်အောင် သောက်ဖို့ ကြိုးစားတယ်။ ရေက ခန္ဓာကိုယ်ကို ပုံမှန်အလုပ်လုပ်စေပြီး ရေဓာတ်မခန်းခြောက်အောင် ကူညီပေးတယ်။ ရေမလုံလောက်ရင် ပင်ပန်းတာ၊ ရေဆာတာ ဒါမှမဟုတ် ရေဓာတ်ခမ်းခြောက်တာ ဖြစ်နိုင်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Junk Food',my:'Junk Food',
+ sub:['Do you think junk food is good or bad for our health? / Junk food က ကျန်းမာရေးအတွက် ကောင်းလား မကောင်းလား?','How often do you eat junk food? / Junk food ကို ဘယ်လောက်မကြာခဏ စားလဲ?','What are the disadvantages of eating too much junk food? / Junk food အများကြီးစားရင် ဘာဆိုးကျိုးတွေရှိလဲ?'],
+ answer:{en:'I think junk food is unhealthy if we eat too much of it. I sometimes eat fast food, but I try not to eat it every day. Eating too much junk food can cause weight gain and other health problems. We should eat more fruits, vegetables, and balanced meals.',my:'Junk food ကို အလွန်အကျွံစားရင် ကျန်းမာရေးအတွက် မကောင်းဘူးလို့ ထင်တယ်။ တစ်ခါတလေ fast food စားပေမယ့် နေ့တိုင်းတော့ မစားဖို့ ကြိုးစားတယ်။ Junk food အများကြီးစားရင် ကိုယ်အလေးချိန်တက်တာနဲ့ အခြားကျန်းမာရေးပြဿနာတွေ ဖြစ်နိုင်တယ်။ သစ်သီး၊ ဟင်းသီးဟင်းရွက်နဲ့ အာဟာရမျှတတဲ့အစားအစာတွေ ပိုစားသင့်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Best Friend',my:'အကောင်းဆုံးသူငယ်ချင်း',
+ sub:['Who is your best friend? / မင်းရဲ့အကောင်းဆုံးသူငယ်ချင်းက ဘယ်သူလဲ?','Why is he/she your best friend? / ဘာကြောင့် အကောင်းဆုံးသူငယ်ချင်းလို့ သတ်မှတ်လဲ?','What do you usually do together? / အတူတူ ဘာတွေလုပ်လေ့ရှိလဲ?','What qualities should a good friend have? / သူငယ်ချင်းကောင်းတစ်ယောက်မှာ ဘယ်လိုအရည်အသွေးတွေ ရှိသင့်လဲ?'],
+ answer:{en:'My best friend is someone I can trust and talk to openly. We usually study, eat, or spend free time together. A good friend should be honest, kind, helpful, and trustworthy.',my:'ကျွန်တော့်အကောင်းဆုံးသူငယ်ချင်းက ယုံကြည်ပြီး ပွင့်ပွင့်လင်းလင်း စကားပြောလို့ရတဲ့သူပါ။ ကျွန်တော်တို့ အတူတူစာလေ့လာတာ၊ အစားစားတာ ဒါမှမဟုတ် အားချိန်ကုန်ဆုံးတာတွေ လုပ်လေ့ရှိတယ်။ သူငယ်ချင်းကောင်းတစ်ယောက်မှာ ရိုးသားမှု၊ ကြင်နာမှု၊ ကူညီတတ်မှုနဲ့ ယုံကြည်စိတ်ချရမှုတွေ ရှိသင့်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Communication Apps',my:'Communication Apps',
+ sub:['What communication apps do you use? / ဘယ် communication app တွေ သုံးလဲ?','How do communication apps help people? / Communication app တွေက လူတွေကို ဘယ်လိုကူညီလဲ?','What are the advantages and disadvantages of communication apps? / အားသာချက်နဲ့ အားနည်းချက်တွေက ဘာတွေလဲ?'],
+ answer:{en:'I usually use Messenger, Viber, and Telegram. They help me communicate quickly with my family, friends, and coworkers. The advantages are speed, convenience, and easy communication over long distances. However, people may spend too much time on their phones and may face privacy or security problems. We should use these apps responsibly.',my:'ကျွန်တော် Messenger, Viber နဲ့ Telegram တွေကို အများဆုံးသုံးတယ်။ မိသားစု၊ သူငယ်ချင်းနဲ့ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ မြန်မြန်ဆန်ဆန် ဆက်သွယ်နိုင်အောင် ကူညီပေးတယ်။ အားသာချက်က မြန်ဆန်မှုနဲ့ အဆင်ပြေမှုပါ။ ဒါပေမယ့် ဖုန်းကို အချိန်အများကြီးသုံးမိတာနဲ့ privacy/security ပြဿနာတွေ ရှိနိုင်တယ်။ တာဝန်ယူမှုရှိရှိ အသုံးပြုသင့်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Clothes',my:'အဝတ်အစား',
+ sub:['What kind of clothes do you usually wear? / ပုံမှန် ဘယ်လိုအဝတ်အစားတွေ ဝတ်လဲ?','What clothes do you like most? / ဘယ်လိုအဝတ်အစားတွေကို အကြိုက်ဆုံးလဲ?','Why is it important to wear suitable clothes? / သင့်တော်တဲ့အဝတ်အစား ဝတ်ဖို့ ဘာကြောင့်အရေးကြီးလဲ?','Do you prefer comfortable clothes or fashionable clothes? Why? / သက်တောင့်သက်သာနဲ့ ဖက်ရှင်ကျတဲ့အဝတ်အစား ဘယ်ဟာပိုကြိုက်လဲ?'],
+ answer:{en:'I usually wear simple and comfortable clothes. I like T-shirts, jeans, and casual shirts. Wearing suitable clothes is important because different situations require different clothing. I prefer comfortable clothes because they help me feel relaxed, but I also try to look neat and appropriate.',my:'ကျွန်တော် ရိုးရှင်းပြီး သက်တောင့်သက်သာရှိတဲ့ အဝတ်အစားတွေ ဝတ်တယ်။ T-shirt, jeans နဲ့ casual shirt တွေကို ကြိုက်တယ်။ အခြေအနေအလိုက် သင့်တော်တဲ့အဝတ်အစားတွေ လိုအပ်လို့ သင့်တော်အောင် ဝတ်ဖို့ အရေးကြီးတယ်။ ကျွန်တော်က သက်တောင့်သက်သာရှိတာကို ပိုကြိုက်ပေမယ့် သပ်ရပ်ပြီး သင့်တော်အောင်လည်း ဝတ်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Online Shopping – Saves Time',my:'Online Shopping – အချိန်သက်သာစေခြင်း',
+ sub:['Do you think online shopping saves time? / Online shopping က အချိန်သက်သာစေတယ်လို့ ထင်လား?','Why do people like shopping online? / လူတွေ ဘာကြောင့် online shopping ကြိုက်ကြလဲ?','What are the advantages and disadvantages of online shopping? / အားသာချက်နဲ့ အားနည်းချက်တွေက ဘာတွေလဲ?','Do you prefer online shopping or shopping at a store? Why? / Online shopping နဲ့ ဆိုင်မှာ shopping လုပ်တာ ဘယ်ဟာပိုကြိုက်လဲ?'],
+ answer:{en:'Yes, online shopping saves time because we can buy things without travelling to a store. We can compare prices, read reviews, and order from home. However, we cannot always check quality directly and delivery may take time. I prefer online shopping for simple items, but I visit a store when I need to see the product first.',my:'ဟုတ်ကဲ့၊ online shopping က အချိန်သက်သာစေတယ်။ ဆိုင်ကိုသွားစရာမလိုဘဲ အိမ်ကနေ ပစ္စည်းဝယ်နိုင်လို့ပါ။ ဈေးနှုန်းနှိုင်းယှဉ်နိုင်တယ်၊ review ဖတ်နိုင်တယ်၊ အိမ်ကနေ order လုပ်နိုင်တယ်။ ဒါပေမယ့် အရည်အသွေးကို တိုက်ရိုက်မစစ်နိုင်တာနဲ့ delivery ကြာနိုင်တာတွေ ရှိတယ်။ ရိုးရှင်းတဲ့ပစ္စည်းတွေအတွက် online shopping ကို ပိုကြိုက်တယ်။'}
+},
+{
+ batch:'10m',category:'debate',type:'Speaking (Debate / Discussion)',en:'Using the Internet Too Much These Days',my:'ယနေ့ခေတ် Internet ကို အလွန်အကျွံအသုံးပြုခြင်း',
+ sub:['Do you think people use the Internet too much these days? / ယနေ့ခေတ်မှာ လူတွေ Internet ကို အလွန်အကျွံသုံးနေကြတယ်လို့ ထင်လား?','How much time do you spend on the Internet every day? / နေ့တိုင်း Internet ကို ဘယ်လောက်ကြာကြာသုံးလဲ?','What are the advantages and disadvantages of using the Internet? / Internet သုံးခြင်းရဲ့ အားသာချက်နဲ့ အားနည်းချက်တွေက ဘာတွေလဲ?','How can we reduce the time we spend online? / Online သုံးတဲ့အချိန်ကို ဘယ်လိုလျှော့ချနိုင်လဲ?'],
+ answer:{en:'Yes, I think many people use the Internet too much these days. I use it every day for study, communication, news, and entertainment. It gives us quick access to information, but too much use can waste time and affect sleep, concentration, and real-life communication. We can reduce screen time by setting limits, taking breaks, exercising, and spending more time with family.',my:'ဟုတ်ကဲ့၊ ယနေ့ခေတ်မှာ လူအများအပြား Internet ကို အလွန်အကျွံသုံးနေကြတယ်လို့ ထင်တယ်။ ကျွန်တော်က စာလေ့လာဖို့၊ ဆက်သွယ်ဖို့၊ သတင်းဖတ်ဖို့နဲ့ အပန်းဖြေဖို့ နေ့တိုင်းသုံးတယ်။ အချက်အလက်ကို မြန်မြန်ရစေပေမယ့် အလွန်အကျွံသုံးရင် အချိန်ဖြုန်းမိနိုင်ပြီး အိပ်စက်မှု၊ အာရုံစူးစိုက်မှုနဲ့ လက်တွေ့ဆက်ဆံရေးကို ထိခိုက်နိုင်တယ်။ Screen time ကို ကန့်သတ်တာ၊ နားတာ၊ လေ့ကျင့်ခန်းလုပ်တာနဲ့ မိသားစုအတွက် အချိန်ပိုပေးတာက ကူညီနိုင်တယ်။'}
+},
+{
+ batch:'10m',category:'grammar',type:'Grammar Practical Exercise',en:'Grammar Practice — 4 Useful Structures',my:'Grammar လက်တွေ့လေ့ကျင့်ခန်း — Structure ၄ မျိုး',
+ sub:['interested + in + V-ing / Noun — I am interested in learning English.','am/is/are + V-ing — She is reading a book now.','has/have + V3 — I have finished my homework.','Remember + to + V1 — Remember to bring your passport.'],
+ exercises:['1) I am interested in ______ (learn) English.','2) They ______ (study) English now.','3) She ______ already ______ (finish) her homework.','4) Remember ______ (bring) your passport.','5) Make a sentence using “interested in + V-ing”.','6) Make a sentence using Present Continuous.'],
+ practiceAnswers:['1) learning','2) are studying','3) has / finished','4) to bring','5) Example: I am interested in learning English.','6) Example: I am studying English now.'],
+ answer:{en:'Use interested in + V-ing/Noun; am/is/are + V-ing for actions happening now; has/have + V3 for present perfect; remember + to + V1 for reminders.',my:'မှတ်ရန် — interested in နောက်မှာ noun/V-ing သုံးပါ။ အခုဖြစ်နေတဲ့အလုပ်မှာ am/is/are + V-ing သုံးပါ။ Present Perfect မှာ has/have + V3 သုံးပါ။ သတိပေးရာမှာ remember + to + V1 သုံးပါ။'}
+}];
+const data=questionsData.filter(q=>!String(q.type||'').toLowerCase().includes('listening'));
+const follow={
+'Swimming':['How often do you go swimming? / ဘယ်လောက်မကြာခဏ ရေကူးလဲ?','Do you prefer a pool or the beach? Why? / ရေကူးကန်နဲ့ ကမ်းခြေ ဘယ်ဟာပိုကြိုက်လဲ?','What safety rules should swimmers follow? / ဘယ်လို safety rules တွေလိုက်နာသင့်လဲ?'],
+'Fire Extinguisher':['Where can you find fire extinguishers? / မီးသတ်ဆေးဘူးတွေ ဘယ်မှာရှိလဲ?','What should you do first when you discover a fire? / မီးတွေ့ရင် ပထမဆုံး ဘာလုပ်မလဲ?','Who should you inform during a fire emergency? / ဘယ်သူ့ကို အကြောင်းကြားမလဲ?'],
+'Prepare to Travel':['How do you check your travel documents? / ခရီးသွားစာရွက်စာတမ်းတွေကို ဘယ်လိုစစ်မလဲ?','What should you do if you lose your passport? / Passport ပျောက်ရင် ဘာလုပ်မလဲ?','Do you prefer travelling alone or with friends? Why? / တစ်ယောက်တည်းနဲ့ သူငယ်ချင်းတွေနဲ့ ဘယ်ဟာပိုကြိုက်လဲ?'],
+'Drinking Water':['When do you drink more water? / ဘယ်အချိန်မှာ ရေပိုသောက်လဲ?','Do you prefer cold water or room-temperature water? / ရေအေးနဲ့ သာမန်အပူချိန်ရေ ဘယ်ဟာပိုကြိုက်လဲ?','What healthy habits can you combine with drinking enough water? / ဘယ်ကျန်းမာရေးအလေ့အထတွေနဲ့ တွဲလုပ်နိုင်လဲ?']
+};
+let st={b:'all',c:'all',s:'',open:false};
+const bs=['all','7m_exam1','7m_exam2','7m_exam3','7m_exam4','8m_exam1','8m_exam2','8m_exam3','9m_exam1','9m_exam4','10m'];
+const cs=['all','speaking','debate','personal','safety','grammar','writing'];
+const cl={speaking:'Speaking',debate:'Debate',personal:'Personal',safety:'Safety',grammar:'Grammar',writing:'Writing'};
+function bl(x){return x==='all'?'All':x==='10m'?'10M':x.replace('_exam',' Exam ').replace('m','M').toUpperCase()}
+function makeFilters(){
+let ub=[...new Set(data.map(q=>q.batch))],uc=[...new Set(data.map(q=>q.category))];
+bf.innerHTML=bs.filter(x=>x==='all'||ub.includes(x)).map(x=>`<button class="filter ${st.b===x?'active':''}" onclick="st.b='${x}';render()">${bl(x)}</button>`).join('');
+cf.innerHTML=cs.filter(x=>x==='all'||uc.includes(x)).map(x=>`<button class="filter ${st.c===x?'active':''}" onclick="st.c='${x}';render()">${x==='all'?'All':cl[x]}</button>`).join('');
+bnav.innerHTML=bs.filter(x=>x==='all'||ub.includes(x)).map(x=>`<button class="${st.b===x?'active':''}" onclick="st.b='${x}';render()">◈ ${bl(x)} <span>${x==='all'?data.length:data.filter(q=>q.batch===x).length}</span></button>`).join('');
+cnav.innerHTML=cs.filter(x=>x==='all'||uc.includes(x)).map(x=>`<button class="${st.c===x?'active':''}" onclick="st.c='${x}';render()">◌ ${x==='all'?'All':cl[x]}</button>`).join('');
+}
+function list(){let s=st.s.toLowerCase();return data.filter(q=>(st.b==='all'||q.batch===st.b)&&(st.c==='all'||q.category===st.c)&&(!s||JSON.stringify(q).toLowerCase().includes(s)))}
+function card(q){
+let qs=(q.sub||[]).map((x,i)=>`<div class="q"><strong>${i+1}</strong>${x}</div>`).join('');
+let fu=(follow[q.en]||[]).map((x,i)=>`<div class="q"><strong>F${i+1}</strong>${x}</div>`).join('');
+let f=fu?`<div class="exercise"><h4>↪ Picture Follow-up</h4>${fu}</div>`:'';
+let ex=q.exercises?`<div class="exercise"><h4>🧩 Practical Grammar Exercise</h4><ol>${q.exercises.map(x=>`<li>${x}</li>`).join('')}</ol><button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">Show exercise answers</button><div class="practice">${q.practiceAnswers.join('<br>')}</div></div>`:'';
+let a=q.answer?`<div class="answer"><button onclick="this.nextElementSibling.classList.toggle('show')">👁 Show / Hide Answer</button><div class="answerbox ${st.open?'show':''}"><div class="lang en"><b>EN</b><br>${q.answer.en}</div><div class="lang my"><b>မြန်မာ</b><br>${q.answer.my}</div></div></div>`:'';
+return `<article class="card"><div class="meta"><span class="tag">${bl(q.batch)}</span><span class="tag cat">${cl[q.category]||q.category}</span></div><div class="title">${q.en}</div><div class="mytitle">${q.my||''}</div><div class="qs">${qs}</div>${f}${ex}${a}</article>`
+}
+function render(){
+makeFilters();let l=list();grid.innerHTML=l.length?l.map(card).join(''):`<div class="empty">🔎<br><br>No matching questions.<br><small>Search / filter ကို ပြန်စမ်းကြည့်ပါ။</small></div>`;
+total.textContent=l.length;ans.textContent=l.filter(x=>x.answer).length;pic.textContent=l.filter(x=>String(x.type).includes('Picture')).length;deb.textContent=l.filter(x=>x.category==='debate').length;
+}
+search.oninput=e=>{st.s=e.target.value;render()};clear.onclick=()=>{st={b:'all',c:'all',s:'',open:false};search.value='';render()};expand.onclick=()=>{st.open=!st.open;expand.textContent=st.open?'↕ Collapse':'↕ Expand';render()};render();
+</script></body></html>
