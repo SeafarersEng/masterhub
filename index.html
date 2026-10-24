@@ -1,1433 +1,27 @@
-<!DOCTYPE html>
-<html lang="my">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEPT Master Hub — Maritime English Test</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* ============ BASE ============ */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
-      background: #050b18;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      color: #eef2ff;
-      line-height: 1.7;
-    }
-
-    /* animated background orbs */
-    body::before, body::after {
-      content: "";
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.5;
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::before {
-      width: 600px; height: 600px;
-      background: #1d4ed8;
-      top: -220px; left: -180px;
-      animation: floatA 20s ease-in-out infinite;
-    }
-    body::after {
-      width: 540px; height: 540px;
-      background: #0891b2;
-      bottom: -220px; right: -180px;
-      animation: floatB 24s ease-in-out infinite;
-    }
-    @keyframes floatA {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50% { transform: translate(60px, 50px) scale(1.1); }
-    }
-    @keyframes floatB {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50% { transform: translate(-50px, -60px) scale(1.08); }
-    }
-
-    .grid-overlay {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size: 70px 70px;
-      -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%);
-      mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%);
-    }
-
-    .hidden { display: none !important; }
-    .container { max-width: 1150px; margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
-
-    /* ================================================================
-       NAVBAR
-       ================================================================ */
-    .landing-nav {
-      padding: 18px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-    .land-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-    .land-logo .mark {
-      width: 44px; height: 44px; border-radius: 14px;
-      background: linear-gradient(135deg, #3b82f6, #06b6d4);
-      display: grid; place-items: center;
-      font-weight: 800; font-size: 20px; color: #fff;
-      box-shadow: 0 10px 30px -8px rgba(59, 130, 246, 0.9);
-      position: relative;
-    }
-    .land-logo .mark::after {
-      content: "⚓"; position: absolute; font-size: 10px; bottom: 2px; right: 3px;
-    }
-    .land-logo .brand-text {
-      font-weight: 800; font-size: 16px; letter-spacing: 0.5px;
-      line-height: 1.15;
-    }
-    .land-logo .brand-text small {
-      display: block; font-size: 9.5px; color: #8fa6c4;
-      letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
-    }
-    .land-nav-links {
-      display: flex; gap: 26px; font-size: 14px; font-weight: 500;
-    }
-    .land-nav-links a {
-      color: #8fa6c4; text-decoration: none; transition: 0.25s;
-    }
-    .land-nav-links a:hover { color: #fff; }
-
-    /* ================================================================
-       HERO
-       ================================================================ */
-    .hero {
-      padding: 60px 0 80px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 9px;
-      padding: 8px 20px;
-      border-radius: 100px; font-size: 13px; font-weight: 500;
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.4);
-      color: #c7d2fe;
-      margin-bottom: 26px;
-    }
-    .hero-badge .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #22d3ee; box-shadow: 0 0 12px #22d3ee;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.4); }
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3.6rem);
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      line-height: 1.2;
-      color: #fff;
-      margin-bottom: 22px;
-    }
-    .hero h1 .grad {
-      background: linear-gradient(120deg, #38bdf8, #06b6d4);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p.lead {
-      font-size: clamp(13.5px, 1.8vw, 16px);
-      color: #a8b8d4;
-      max-width: 780px;
-      margin: 0 auto 38px;
-      line-height: 1.85;
-    }
-    .hero-cta {
-      display: flex; gap: 16px; justify-content: center;
-      flex-wrap: wrap; margin-bottom: 60px;
-    }
-    .btn-hero {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 10px;
-      padding: 16px 34px;
-      border-radius: 100px;
-      font-size: 15px; font-weight: 800;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-      font-family: inherit;
-      border: none;
-    }
-    .btn-hero-gold {
-      background: linear-gradient(120deg, #f59e0b, #fbbf24);
-      color: #1a1208;
-      box-shadow: 0 14px 34px -12px rgba(245, 158, 11, 0.9);
-    }
-    .btn-hero-gold:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 44px -12px rgba(245, 158, 11, 1);
-    }
-    .btn-hero-ghost {
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .btn-hero-ghost:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-3px);
-    }
-
-    /* ================================================================
-       SECTION HEADERS
-       ================================================================ */
-    .sec-head {
-      text-align: center;
-      max-width: 780px;
-      margin: 0 auto 56px;
-    }
-    .sec-tag {
-      display: inline-block;
-      font-size: 12px; font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #38bdf8;
-      margin-bottom: 14px;
-    }
-    .sec-head h2 {
-      font-size: clamp(1.7rem, 4vw, 2.6rem);
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -1px;
-      line-height: 1.3;
-      margin-bottom: 14px;
-    }
-    .sec-head h2 .grad {
-      background: linear-gradient(120deg, #38bdf8, #06b6d4);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .sec-head p {
-      color: #a8b8d4;
-      font-size: 15px;
-      line-height: 1.8;
-    }
-    .sec-head p b { color: #fff; font-weight: 700; }
-
-    /* ================================================================
-       ABOUT MEPT — 5 SKILLS
-       ================================================================ */
-    .about-section { padding: 60px 0; }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 1000px) { .skills-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 700px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .skills-grid { grid-template-columns: 1fr; } }
-
-    .skill-card {
-      background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 22px 20px;
-      transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .skill-card:hover {
-      transform: translateY(-6px);
-      background: linear-gradient(160deg, rgba(56, 189, 248, 0.1), rgba(255,255,255,0.03));
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 24px 50px -22px rgba(56, 189, 248, 0.5);
-    }
-    .skill-icon {
-      width: 52px; height: 52px;
-      border-radius: 15px;
-      display: grid; place-items: center;
-      font-size: 22px;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(59, 130, 246, 0.12));
-      border: 1px solid rgba(56, 189, 248, 0.3);
-    }
-    .skill-card h3 {
-      font-size: 16.5px;
-      color: #fff;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .skill-card p {
-      font-size: 12.8px;
-      color: #a8b8d4;
-      line-height: 1.7;
-    }
-
-    /* ================================================================
-       WHY MEPT
-       ================================================================ */
-    .why-section { padding: 60px 0; }
-
-    .why-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 26px 44px;
-    }
-    @media (max-width: 768px) { .why-list { grid-template-columns: 1fr; } }
-
-    .why-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .why-check {
-      width: 30px; height: 30px;
-      border-radius: 9px;
-      flex-shrink: 0;
-      display: grid; place-items: center;
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      color: #fff;
-      font-weight: 800;
-      font-size: 14px;
-      box-shadow: 0 6px 16px -6px rgba(56, 189, 248, 0.8);
-      margin-top: 4px;
-    }
-    .why-item h4 {
-      font-size: 16px;
-      color: #fff;
-      font-weight: 800;
-      margin-bottom: 8px;
-      line-height: 1.5;
-    }
-    .why-item p {
-      font-size: 13.5px;
-      color: #a8b8d4;
-      line-height: 1.8;
-    }
-
-    /* ================================================================
-       PLATFORM FEATURES SECTION
-       ================================================================ */
-    .platform-section { padding: 60px 0; }
-    .platform-head {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-    .platform-head h2 {
-      font-size: clamp(1.4rem, 3vw, 1.9rem);
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -0.5px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .platform-head h2 .spark {
-      background: linear-gradient(120deg, #f59e0b, #fbbf24);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 1.3em;
-    }
-
-    .platform-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 768px) {
-      .platform-grid { grid-template-columns: 1fr; }
-    }
-
-    .platform-card {
-      background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 22px 22px 20px;
-      transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .platform-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(56, 189, 248, 0.4);
-      background: linear-gradient(160deg, rgba(56, 189, 248, 0.1), rgba(255,255,255,0.03));
-      box-shadow: 0 20px 44px -20px rgba(56, 189, 248, 0.45);
-    }
-
-    .platform-card-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .platform-card-head .pf-icon {
-      width: 40px; height: 40px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 20px;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(59, 130, 246, 0.12));
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      flex-shrink: 0;
-    }
-    .platform-card-head h3 {
-      font-size: 16px;
-      color: #fff;
-      font-weight: 800;
-      flex: 1;
-      letter-spacing: 0.2px;
-    }
-    .platform-badge {
-      display: inline-block;
-      background: #22c55e;
-      color: #fff;
-      font-size: 9.5px;
-      padding: 3px 9px;
-      border-radius: 10px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-    }
-    .platform-badge.hot {
-      background: #f59e0b;
-    }
-
-    .platform-list {
-      list-style: none;
-      padding-left: 0;
-    }
-    .platform-list li {
-      font-size: 13.5px;
-      color: #b8c8e0;
-      line-height: 1.7;
-      padding: 6px 0 6px 22px;
-      position: relative;
-    }
-    .platform-list li::before {
-      content: "▸";
-      position: absolute;
-      left: 4px;
-      color: #38bdf8;
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .platform-list li strong {
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .platform-card.full-width {
-      grid-column: 1 / -1;
-    }
-    @media (max-width: 768px) {
-      .platform-card.full-width { grid-column: auto; }
-    }
-
-    /* ================================================================
-       FREE TEST SECTION
-       ================================================================ */
-    .free-section { padding: 60px 0 80px; }
-
-    .free-cta-wrap {
-      background: linear-gradient(160deg, rgba(56, 189, 248, 0.08), rgba(245, 158, 11, 0.05));
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      border-radius: 28px;
-      padding: 48px 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .free-cta-wrap::before {
-      content: "";
-      position: absolute;
-      top: -120px; right: -120px;
-      width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%);
-      pointer-events: none;
-    }
-    .free-cta-wrap h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-      color: #fff;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      margin-bottom: 14px;
-    }
-    .free-cta-wrap p {
-      font-size: 15px;
-      color: #a8b8d4;
-      max-width: 620px;
-      margin: 0 auto 32px;
-      line-height: 1.8;
-    }
-    .free-features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 34px;
-      text-align: left;
-    }
-    @media (max-width: 768px) { .free-features { grid-template-columns: 1fr; } }
-    .free-feat {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px;
-      transition: 0.3s;
-    }
-    .free-feat:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(56, 189, 248, 0.3);
-      transform: translateY(-3px);
-    }
-    .free-feat h4 {
-      font-size: 15px;
-      color: #fff;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .free-feat p {
-      font-size: 12.5px;
-      color: #a8b8d4;
-      line-height: 1.65;
-    }
-
-    .free-buttons {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ================================================================
-       LOGIN OVERLAY
-       ================================================================ */
-    .login-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 200;
-    }
-    .login-overlay.open {
-      display: flex;
-      animation: fadeIn 0.3s;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .login-card {
-      width: 100%;
-      max-width: 440px;
-      background: linear-gradient(160deg, rgba(17, 30, 56, 0.98), rgba(8, 17, 35, 0.98));
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 26px;
-      padding: 40px 32px 32px;
-      box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 1);
-      animation: cardIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-      position: relative;
-      max-height: 92vh;
-      overflow-y: auto;
-    }
-    @keyframes cardIn {
-      from { opacity: 0; transform: scale(0.92) translateY(20px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .login-close {
-      position: absolute;
-      top: 16px; right: 18px;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: 0.25s;
-      font-family: inherit;
-      line-height: 1;
-    }
-    .login-close:hover {
-      background: rgba(239, 68, 68, 0.25);
-      transform: rotate(90deg);
-    }
-    .login-card h2 {
-      font-size: 22px;
-      color: #fff;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-    .login-card h2::before {
-      content: "⚓";
-      display: block;
-      font-size: 36px;
-      margin-bottom: 4px;
-    }
-    .login-card .sub {
-      text-align: center;
-      color: #8fa6c4;
-      font-size: 13px;
-      margin-bottom: 26px;
-      line-height: 1.65;
-    }
-    .input-group { margin-bottom: 16px; }
-    .input-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #bfdbfe;
-      margin-bottom: 7px;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 15px;
-      font-family: inherit;
-      outline: none;
-      transition: 0.25s;
-    }
-    .input-group input::placeholder { color: #5a6889; }
-    .input-group input:focus {
-      border-color: rgba(56, 189, 248, 0.75);
-      background: rgba(56, 189, 248, 0.08);
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
-    }
-    .input-group .hint {
-      display: block;
-      font-size: 11.5px;
-      color: #8fa6c4;
-      margin-top: 7px;
-    }
-
-    .login-error {
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 13px;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fecaca;
-      display: none;
-      text-align: center;
-    }
-    .login-error.show { display: block; }
-
-    .login-success {
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 13px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.4);
-      color: #bbf7d0;
-      display: none;
-      text-align: center;
-    }
-    .login-success.show { display: block; }
-
-    /* Spinner */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(26, 18, 8, 0.3);
-      border-top-color: #1a1208;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 6px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .btn-hero:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    .tg-note {
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-      font-size: 12.5px;
-      color: #b8c8e0;
-      line-height: 1.75;
-    }
-    .tg-note a {
-      color: #60a5fa;
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .tg-note a:hover { text-decoration: underline; }
-
-    /* Device ID Badge */
-    .device-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      background: rgba(34, 197, 94, 0.08);
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      border-radius: 100px;
-      font-size: 11px;
-      color: #bbf7d0;
-      font-family: 'SF Mono', monospace;
-      margin-top: 16px;
-      justify-content: center;
-    }
-    .device-badge i { color: #22c55e; }
-    .device-badge b { color: #fff; }
-
-    /* ================================================================
-       DASHBOARD
-       ================================================================ */
-    #dashboard {
-      padding: 20px 0;
-      min-height: 100vh;
-    }
-    .dash-navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      backdrop-filter: blur(20px);
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .dash-navbar h1 {
-      font-size: 19px;
-      color: #fff;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .dash-navbar h1::before { content: "⚓"; font-size: 20px; }
-
-    .btn-logout {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fecaca;
-      padding: 9px 20px;
-      border-radius: 100px;
-      font-size: 13.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.25s;
-      font-family: inherit;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-logout:hover {
-      background: rgba(239, 68, 68, 0.28);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    .dash-hero {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 22px;
-      padding: 26px 24px;
-      backdrop-filter: blur(16px);
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .dash-hero::before {
-      content: "";
-      position: absolute;
-      top: -80px; right: -80px;
-      width: 260px; height: 260px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.28), transparent 70%);
-      pointer-events: none;
-    }
-    .dash-hero h2 {
-      font-size: 22px;
-      color: #fff;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .dash-hero marquee {
-      display: block;
-      font-size: 13px;
-      padding: 4px 0;
-      color: #fbbf24;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .dash-hero p {
-      font-size: 14px;
-      color: #c4d2e8;
-      line-height: 1.75;
-      position: relative;
-      z-index: 1;
-    }
-    .welcome-user {
-      margin-top: 14px;
-      padding: 9px 16px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      border-radius: 12px;
-      color: #bbf7d0;
-      font-weight: 700;
-      font-size: 13px;
-      display: inline-block;
-    }
-    .welcome-user:empty { display: none; }
-
-    /* Voice CTA */
-    .voice-cta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-      color: #fff;
-      padding: 20px 24px;
-      border-radius: 18px;
-      box-shadow: 0 14px 34px -12px rgba(14, 165, 233, 0.7);
-      transition: 0.3s;
-      font-weight: 700;
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .voice-cta::before {
-      content: "";
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-      animation: shine 3s infinite linear;
-      pointer-events: none;
-    }
-    @keyframes shine {
-      0% { transform: translate(-30%, -30%); }
-      100% { transform: translate(30%, 30%); }
-    }
-    .voice-cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 44px -12px rgba(14, 165, 233, 1);
-    }
-    .voice-cta .vc-icon {
-      font-size: 2rem;
-      flex-shrink: 0;
-      animation: pulse-mic 1.6s infinite;
-    }
-    @keyframes pulse-mic {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-    }
-    .voice-cta .vc-text { flex: 1; }
-    .voice-cta .vc-title {
-      display: block; font-size: 1.15rem; margin-bottom: 4px; font-weight: 800;
-    }
-    .voice-cta .vc-sub {
-      display: block; font-size: 0.85rem; opacity: 0.9; font-weight: 500;
-    }
-    .voice-cta .vc-arrow { font-size: 1.5rem; flex-shrink: 0; }
-
-    /* Free CTA (dash) */
-    .free-cta-dash {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      color: #fff;
-      padding: 20px 24px;
-      border-radius: 18px;
-      box-shadow: 0 14px 34px -12px rgba(245, 158, 11, 0.7);
-      transition: 0.3s;
-      font-weight: 700;
-      margin-bottom: 22px;
-    }
-    .free-cta-dash:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 44px -12px rgba(245, 158, 11, 1);
-    }
-    .free-cta-dash .fc-icon {
-      font-size: 2rem;
-      flex-shrink: 0;
-      animation: pulse 1.8s infinite;
-    }
-    .free-cta-dash .fc-text { flex: 1; }
-    .free-cta-dash .fc-title {
-      display: block; font-size: 1.15rem; margin-bottom: 4px; font-weight: 800;
-    }
-    .free-cta-dash .fc-sub {
-      display: block; font-size: 0.85rem; opacity: 0.95; font-weight: 500;
-    }
-    .free-cta-dash .fc-arrow { font-size: 1.5rem; flex-shrink: 0; }
-
-    /* Dash Cards */
-    .dash-cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-    @media (max-width: 768px) { .dash-cards { grid-template-columns: 1fr; } }
-
-    .dash-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      padding: 24px 22px;
-      backdrop-filter: blur(16px);
-      transition: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-    .dash-card:hover {
-      transform: translateY(-6px);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 24px 50px -22px rgba(59, 130, 246, 0.5);
-    }
-    .dash-card-icon {
-      font-size: 30px;
-      margin-bottom: 12px;
-    }
-    .dash-card h3 {
-      font-size: 17px;
-      color: #fff;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .dash-card p {
-      font-size: 13.5px;
-      color: #b8c8e0;
-      line-height: 1.7;
-      margin-bottom: 18px;
-      flex: 1;
-    }
-    .dash-card-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 11px 22px;
-      border-radius: 100px;
-      background: linear-gradient(120deg, #3b82f6, #06b6d4);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: 0.25s;
-      align-self: flex-start;
-      box-shadow: 0 10px 24px -10px rgba(59, 130, 246, 0.8);
-    }
-    .dash-card-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 34px -12px rgba(59, 130, 246, 1);
-    }
-    .dash-card-btn.gold {
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      box-shadow: 0 10px 24px -10px rgba(245, 158, 11, 0.8);
-    }
-    .dash-card.featured-voice {
-      border: 1.5px solid rgba(14, 165, 233, 0.5);
-      background: linear-gradient(145deg, rgba(14, 165, 233, 0.1), rgba(255, 255, 255, 0.04));
-    }
-    .dash-card.featured-free {
-      border: 1.5px solid rgba(245, 158, 11, 0.5);
-      background: linear-gradient(145deg, rgba(245, 158, 11, 0.1), rgba(255, 255, 255, 0.04));
-    }
-    .badge-new {
-      position: absolute;
-      top: 16px; right: 16px;
-      background: #22c55e;
-      color: #fff;
-      font-size: 0.68rem;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-    }
-    .badge-hot {
-      background: #f59e0b;
-    }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 600px) {
-      .container { padding: 0 16px; }
-      .land-nav-links { display: none; }
-      .hero { padding: 40px 0 60px; }
-      .hero h1 { font-size: 1.9rem; }
-      .btn-hero { padding: 14px 26px; font-size: 14px; }
-      .free-cta-wrap { padding: 34px 22px; }
-      .login-card { padding: 32px 22px 26px; border-radius: 22px; }
-    }
-
-    /* Footer */
-    .land-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 30px 0 20px;
-      text-align: center;
-      font-size: 12.5px;
-      color: #8fa6c4;
-      margin-top: 40px;
-    }
-    .land-footer b { color: #38bdf8; }
-  </style>
-</head>
-<body>
-
-<div class="grid-overlay"></div>
-
-<!-- ================================================================
-     LANDING PAGE
-     ================================================================ -->
-<div id="landing-container">
-
-  <div class="container">
-    <!-- NAV -->
-    <nav class="landing-nav">
-      <a href="#" class="land-logo">
-        <span class="mark">M</span>
-        <span class="brand-text">
-          MEPT
-          <small>Maritime English Test</small>
-        </span>
-      </a>
-      <div class="land-nav-links">
-        <a href="#about">MEPT ဆိုတာဘာလဲ</a>
-        <a href="#why">ဘာကြောင့်ဖြေရ</a>
-        <a href="#free">Free Test</a>
-      </div>
-    </nav>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        သင်္ဘောသားများအတွက် မဖြစ်မနေ ဖြေဆိုရမည့် စစ်ဆေးမှု
-      </div>
-      <h1>
-        ပင်လယ်ပြင်ကို သွားမယ်ဆို<br>
-        <span class="grad">MEPT</span> ကို<br>
-        ကျော်ဖြတ်ရမယ်
-      </h1>
-      <p class="lead">
-        <b style="color:#fff">Maritime English Proficiency Test (MEPT)</b> သည်
-        သင်္ဘောသားလူသစ်များအတွက် မဖြစ်မနေ ဖြေဆိုရသော အင်္ဂလိပ်စာစစ်ဆေးမှုဖြစ်ပြီး
-        နိုင်ငံတကာ သင်္ဘောသားများနှင့် ဆက်သွယ်ပြောဆိုနိုင်ရန်၊
-        သင်္ဘောပေါ်တွင် ဘေးကင်းလုံခြုံရေးအတွက် အရေးပါဆုံး အရည်အချင်းတစ်ခု ဖြစ်ပါသည်။
-      </p>
-      <div class="hero-cta">
-        <a href="#free" class="btn-hero btn-hero-gold">
-          <i class="fas fa-bullseye"></i> Free Test စမ်းသပ်ရန်
-        </a>
-        <button onclick="openLogin()" class="btn-hero btn-hero-ghost">
-          Login ဝင်ရန်
-        </button>
-      </div>
-    </section>
-
-    <!-- ABOUT MEPT -->
-    <section class="about-section" id="about">
-      <div class="sec-head">
-        <span class="sec-tag">About MEPT</span>
-        <h2>MEPT <span class="grad">ဆိုတာ ဘာလဲ?</span></h2>
-        <p>
-          MEPT (Maritime English Proficiency Test) သည် သင်္ဘောသားလူသစ်များအတွက်
-          <b>Maritime English</b> နှင့် <b>General English</b> ကို ပေါင်းစပ်မေးသော
-          စစ်ဆေးမှုဖြစ်ပြီး နိုင်ငံတကာ IMO / SMCP စံနှုန်းအတိုင်း ရေးဆွဲထားပါသည်။
-        </p>
-      </div>
-
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">🎧</div>
-          <h3>Listening</h3>
-          <p>Bridge communication, VHF radio နှင့် သင်္ဘောပေါ်အသံဖိုင်များကို နားထောင်နိုင်မှု။</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">📖</div>
-          <h3>Reading</h3>
-          <p>Maritime manual, safety notice, သင်္ဘောစာရွက်စာတမ်းများကို ဖတ်ရှုနားလည်မှု။</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">📐</div>
-          <h3>Grammar</h3>
-          <p>ဝါကျဖွဲ့စည်းပုံ၊ tense, preposition, modal verb စသည့် အခြေခံသဒ္ဒါများ။</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">✍️</div>
-          <h3>Writing</h3>
-          <p>Report ရေးခြင်း၊ Log Entry နှင့် Email ရေးသားခြင်းတို့ ပါဝင်သည်။</p>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">🎤</div>
-          <h3>Speaking</h3>
-          <p>Personal Information, Picture Description နှင့် Debate ပိုင်း ၃ ပိုင်း ပါဝင်သည်။</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY MEPT -->
-    <section class="why-section" id="why">
-      <div class="sec-head">
-        <span class="sec-tag">Why MEPT</span>
-        <h2>ဘာကြောင့် MEPT ဖြေဆိုသင့်လဲ?</h2>
-        <p>
-          သင်္ဘောသားတစ်ယောက်အတွက် MEPT သည် အလုပ်အကိုင်နှင့်
-          အသက်ဘေးကင်းရေးအတွက် အရေးပါဆုံး အရည်အချင်း ဖြစ်သည်။
-        </p>
-      </div>
-
-      <div class="why-list">
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>🌍 နိုင်ငံတကာ သင်္ဘောသားများနှင့် ဆက်သွယ်နိုင်ရန်</h4>
-            <p>သင်္ဘောပေါ်တွင် ဖိလစ်ပိုင်၊ အိန္ဒိယ၊ ယူကရိန်း၊ ရုရှား စသည့် နိုင်ငံအသီးသီးမှ အဖွဲ့ဝင်များနှင့် တွဲဖက်လုပ်ကိုင်ရသည်။ ဘုံဘာသာစကားမှာ Maritime English ဖြစ်သည်။</p>
-          </div>
-        </div>
-
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>🚨 အသက်ဘေးကင်းရေးအတွက်</h4>
-            <p>Emergency, Fire Drill, Man Overboard, Abandon Ship အခြေအနေများတွင် အင်္ဂလိပ်လို မှန်ကန်စွာ ဆက်သွယ်နိုင်ခြင်းသည် အသက်ကို ကယ်တင်နိုင်သည်။</p>
-          </div>
-        </div>
-
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>📜 STCW / IMO လိုအပ်ချက်</h4>
-            <p>STCW Convention အရ သင်္ဘောသားတိုင်း အနည်းဆုံး English စွမ်းရည်အဆင့်တစ်ခု ရှိရမည်ဟု သတ်မှတ်ထားသည်။ MEPT သည် ထိုလိုအပ်ချက်ကို ဖြည့်ဆည်းပေးသည်။</p>
-          </div>
-        </div>
-
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>💼 အလုပ်အကိုင် အခွင့်အလမ်း</h4>
-            <p>သင်္ဘောကုမ္ပဏီကြီးများ (Maersk, MSC, NYK, Evergreen စသည်) သည် အင်္ဂလိပ်စာကောင်းသော သင်္ဘောသားများကို ဦးစားပေးခန့်အပ်သည်။</p>
-          </div>
-        </div>
-
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>📈 ရာထူး တိုးမြှင့်ရန်</h4>
-            <p>Ordinary Seaman → Able Seaman → Bosun → Officer သို့ တက်လှမ်းရာတွင် English စွမ်းရည်သည် အဓိကအခန်းကဏ္ဍမှ ပါဝင်သည်။</p>
-          </div>
-        </div>
-
-        <div class="why-item">
-          <div class="why-check">✓</div>
-          <div>
-            <h4>🎯 အခမဲ့ စမ်းသပ်နိုင်ခြင်း</h4>
-            <p>ငွေမကုန်ဘဲ Free Test ဖြင့် သင့်အဆင့်ကို စစ်ဆေးနိုင်ပြီး လိုအပ်မှသာ Premium သို့ အဆင့်မြှင့်နိုင်သည်။</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================================
-         PLATFORM FEATURES
-         ================================================================ -->
-    <section class="platform-section">
-      <div class="platform-head">
-        <h2><span class="spark">✨</span> ဤ Platform တွင် ဘာတွေ လေ့လာနိုင်သလဲ။</h2>
-      </div>
-
-      <div class="platform-grid">
-
-        <div class="platform-card">
-          <div class="platform-card-head">
-            <div class="pf-icon">📚</div>
-            <h3>Learning Hub</h3>
-          </div>
-          <ul class="platform-list">
-            <li>Grammar, Speaking, Writing, Listening စသည့် Skill အားလုံးပါဝင်ခြင်း</li>
-            <li>မေးခွန်းတစ်ခုချင်းစီအတွက် အသေးစိတ် Answer Keys များပါဝင်ခြင်း</li>
-            <li>Self-Study အတွက် ဖြေဆိုနည်းလမ်းညွှန်များပါဝင်ခြင်း</li>
-          </ul>
-        </div>
-
-        <div class="platform-card">
-          <div class="platform-card-head">
-            <div class="pf-icon">📝</div>
-            <h3>MEPT Mock Test</h3>
-          </div>
-          <ul class="platform-list">
-            <li>စာမေးပွဲမဖြေမီ အစမ်းဖြေဆိုပြီး Level စစ်ဆေးနိုင်ခြင်း</li>
-            <li>အားနည်းချက်၊ အားသာချက်များကို ကြိုတင်သိရှိနိုင်ခြင်း</li>
-            <li>ဖြေဆိုပြီးသည်နှင့် Result Grade များကို ပြသပေးခြင်း</li>
-          </ul>
-        </div>
-
-        <div class="platform-card">
-          <div class="platform-card-head">
-            <div class="pf-icon">🎙️</div>
-            <h3>Speaking Voice Test</h3>
-            <span class="platform-badge">NEW</span>
-          </div>
-          <ul class="platform-list">
-            <li>Voice System ဖြင့် စကားပြောစွမ်းရည် စစ်ဆေးနိုင်ခြင်း</li>
-            <li>Test 101 – 104 အထိ အဆင့်လိုက် ဖြေဆိုနိုင်ခြင်း</li>
-            <li>Auto Grade (A+, A, B, C, D) နှင့် Audio Playback</li>
-          </ul>
-        </div>
-
-        <div class="platform-card">
-          <div class="platform-card-head">
-            <div class="pf-icon">🖼️</div>
-            <h3>Picture Speaking</h3>
-          </div>
-          <ul class="platform-list">
-            <li>ပုံများမှတစ်ဆင့် Speaking စွမ်းရည် တိုးတက်စေခြင်း</li>
-            <li>စနစ်တကျ စကားပြောလေ့ကျင့်နိုင်ခြင်း</li>
-          </ul>
-        </div>
-
-        <div class="platform-card full-width">
-          <div class="platform-card-head">
-            <div class="pf-icon">📂</div>
-            <h3>Old Questions</h3>
-          </div>
-          <ul class="platform-list">
-            <li>ယခင်နှစ်များက MEPT မေးခွန်းဟောင်းများ လေ့လာနိုင်ခြင်း</li>
-            <li>မေးခွန်းပုံစံများနှင့် Pattern များ ကြိုတင်လေ့ကျင့်နိုင်ခြင်း</li>
-          </ul>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- FREE TEST SECTION -->
-    <section class="free-section" id="free">
-      <div class="free-cta-wrap">
-        <h2>အခမဲ့ စမ်းသပ်ကြည့်ပါ ⚓</h2>
-        <p>
-          Login မလိုဘဲ မေးခွန်း ၁၅ ခုဖြင့် သင့် Maritime English အဆင့်ကို
-          စမ်းသပ်ကြည့်နိုင်ပါသည်။
-        </p>
-
-        <div class="free-features">
-          <div class="free-feat">
-            <h4>⚡ ချက်ချင်း စတင်နိုင်သည်</h4>
-            <p>မှတ်ပုံတင်ရန် မလိုအပ်ပါ</p>
-          </div>
-          <div class="free-feat">
-            <h4>📊 အဖြေချက်ချင်း ရရှိမည်</h4>
-            <p>အသေးစိတ် ရှင်းလင်းချက်နှင့်တကွ</p>
-          </div>
-          <div class="free-feat">
-            <h4>🚢 Premium သို့ အဆင့်မြှင့်နိုင်သည်</h4>
-            <p>Mock Test အားလုံး + Speaking Test</p>
-          </div>
-        </div>
-
-        <div class="free-buttons">
-          <a href="free.html" class="btn-hero btn-hero-gold">
-            🎯 Free Test စတင်ရန်
-          </a>
-          <button onclick="openLogin()" class="btn-hero btn-hero-ghost">
-            Login ဝင်ရန်
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <div class="land-footer">
-      <i class="fas fa-anchor" style="color:#38bdf8;"></i>
-      MEPT <b>Master Hub</b> · Maritime English Test
-      <br>
-      <span style="font-size: 11px;">Copyright &copy; 2026 TTNY Team. All rights reserved.</span>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================
-     LOGIN OVERLAY
-     ================================================================ -->
-<div id="login-overlay" class="login-overlay">
-  <div class="login-card">
-    <button class="login-close" onclick="closeLogin()">×</button>
-    <h2>MEPT Login</h2>
-    <p class="sub">သင့် Username နှင့် Key ကို ထည့်သွင်းပါ</p>
-
-    <form id="loginForm">
-      <div class="input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="အမည် ရိုက်ထည့်ပါ" maxlength="60" required>
-      </div>
-
-      <div class="input-group">
-        <label for="password">Key (သော့)</label>
-        <input type="password" id="password" placeholder="သတ်မှတ်ထားသော သော့ကို ရိုက်ထည့်ပါ" autocomplete="off" required>
-        <small class="hint">✅ Key တစ်ခုကို Device တစ်ခုမှာသာ Activate လုပ်နိုင်ပါသည်။</small>
-      </div>
-
-      <button type="submit" class="btn-hero btn-hero-gold" style="width:100%;" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Login ဝင်မည်
-      </button>
-      <div id="loginError" class="login-error"></div>
-      <div id="loginSuccess" class="login-success"></div>
-    </form>
-
-    <div class="device-badge">
-      <i class="fas fa-shield-alt"></i>
-      <span>Device:</span>
-      <b id="deviceIdDisplay">...</b>
-    </div>
-
-    <div class="tg-note">
-      📱 Account ဖွင့်ရန်
-      <a href="https://t.me/devppk" target="_blank" rel="noopener">@devppk Telegram</a>
-      သို့ ဆက်သွယ်ပါ။
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================
-     DASHBOARD
-     ================================================================ -->
-<div id="dashboard" class="hidden">
-  <div class="container">
-
-    <div class="dash-navbar">
-      <h1>MEPT Master Hub</h1>
-      <button id="logoutBtn" class="btn-logout">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
-    </div>
-
-    <div class="dash-hero">
-      <h2>Welcome to MEPT Master Hub! 👋</h2>
-      <marquee behavior="scroll" direction="left">
-        Copyright &copy; 2026 TTNY Team. All rights reserved.
-      </marquee>
-      <p>
-        MEPT စာမေးပွဲအတွက် စာတွေ့လေ့လာခြင်း၊ အစမ်းမေးခွန်းများ ဖြေဆိုခြင်း၊ Voice Test
-        နှင့် မေးခွန်းဟောင်းများကို တစ်နေရာတည်းမှာ လေ့ကျင့်နိုင်ပါသည်။
-      </p>
-      <p id="welcomeUser" class="welcome-user"></p>
-    </div>
-
-    <!-- Voice CTA -->
-    <a href="voice-test.html" class="voice-cta">
-      <div class="vc-icon">🎙️</div>
-      <div class="vc-text">
-        <span class="vc-title">Speaking Voice Test <span style="background:#22c55e; font-size:0.65rem; padding:2px 8px; border-radius:10px; margin-left:6px;">NEW</span></span>
-        <span class="vc-sub">Voice System ဖြင့် စကားပြောစွမ်းရည် စစ်ဆေးပါ — Test 101 – 104 အထိ</span>
-      </div>
-      <span class="vc-arrow">→</span>
-    </a>
-
-    <!-- Free CTA -->
-    <a href="debate.html" class="free-cta-dash">
-      <div class="fc-icon">🎯</div>
-      <div class="fc-text">
-        <span class="fc-title">Debate လေ့လာကြမယ်</span>
-        <span class="fc-sub">အမေးများတဲ့ MEPT Debate လေ့လာကြမယ်</span>
-      </div>
-      <span class="fc-arrow">→</span>
-    </a>
-
-    <div class="dash-cards">
-
-      <div class="dash-card">
-        <div class="dash-card-icon">📚</div>
-        <h3>Learning Hub</h3>
-        <p>Grammar, Speaking, Writing, Listening စသည့် စာများကို လေ့လာနိုင်ပြီး Answer Keys များပါ ကြည့်ရှုနိုင်ပါသည်။</p>
-        <a href="learning.html" class="dash-card-btn">
-          <span>လေ့လာမည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-card-icon">📝</div>
-        <h3>MEPT Mock Test</h3>
-        <p>Exam မဖြေမီ အစမ်းဖြေကြည့်ပြီး ကိုယ့် Level ဘယ်လောက်ရှိလဲ မှန်းဆနိုင်ပါသည်။</p>
-        <a href="mocktest.html" class="dash-card-btn">
-          <span>အစမ်းဖြေမည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="dash-card featured-voice">
-        <span class="badge-new">NEW</span>
-        <div class="dash-card-icon" style="color:#38bdf8;">🎙️</div>
-        <h3>Speaking Voice Test</h3>
-        <p><strong style="color:#fbbf24;">🎉 ၃ လ နှင့် အထက် Package များအတွက်!</strong><br>
-        Voice System ဖြင့် စကားပြောစွမ်းရည်ကို Test 101 – 104 အထိ အဆင့်လိုက် စစ်ဆေးနိုင်ပါသည်။</p>
-        <a href="voice-test.html" class="dash-card-btn" style="background:linear-gradient(135deg,#0ea5e9,#3b82f6);">
-          <span>ဖြေဆိုမည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-card-icon">🖼️</div>
-        <h3>Picture Speaking</h3>
-        <p>ပုံများကို လေ့လာကြည့်ရှုပြီး Speaking စွမ်းရည်အတွက် လေ့ကျင့်နိုင်ပါသည်။</p>
-        <a href="picturespeaking.html" class="dash-card-btn">
-          <span>လေ့ကျင့်မည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-card-icon">📂</div>
-        <h3>Old Questions</h3>
-        <p>ယခင်နှစ်များက မေးခဲ့သော MEPT မေးခွန်းဟောင်းများနှင့် မေးခွန်းပုံစံများကို လေ့လာနိုင်ပါသည်။</p>
-        <a href="oldquestions.html" class="dash-card-btn">
-          <span>ကြည့်ရှုမည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="dash-card featured-free">
-        <span class="badge-new badge-hot">HOT</span>
-        <div class="dash-card-icon" style="color:#fbbf24;">🎯</div>
-        <h3>Hot Topic</h3>
-        <p>အမေးများတဲ့ MEPT HOT Topic သင်ခန်းစာများ</p>
-        <a href="hot.html" class="dash-card-btn gold">
-          <span>လေ့လာမည်</span> <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
 <!-- ================= SCRIPT ================= -->
 <script>
   // ================================================================
   // ⚙️ CONFIGURATION — Apps Script URL + Token
   // ================================================================
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwwIIgohqmAtcm6YefKkWrhthy7scTnuorlke0Amt6cUFJ7ltYfpwohicrkl56K7fP/exec";
-  const SECRET_TOKEN = "MySecretToken123";  // ⚠️ Apps Script ထဲက Token နဲ့ တူညီရမည်
+  const SECRET_TOKEN = "MySecretToken123";
 
   // ================================================================
-  // 🔐 SESSION / EXPIRY CONFIG
+  // 🔐 SESSION / TIMING CONFIG
   // ================================================================
   const SESSION_KEY        = 'mept_session';
-  const DEFAULT_EXPIRE_DAYS = 30;              // server မှ expiry မပြန်လျှင် ရက်
-  const EXPIRY_CHECK_MS    = 30 * 1000;        // ၃၀ စက္ကန့်တစ်ခါ စစ်မည်
-  const WARN_BEFORE_MS     = 3 * 24 * 60 * 60 * 1000; // ၃ ရက် ကျန်ရင် သတိပေး
+  const LAST_ACTIVITY_KEY  = 'mept_last_activity';
+  const LAST_VERIFY_KEY    = 'mept_last_verify';
+
+  const DEFAULT_EXPIRE_DAYS = 30;
+  const EXPIRY_CHECK_MS     = 30 * 1000;              // local expiry check every 30s
+  const WARN_BEFORE_MS      = 3 * 24 * 60 * 60 * 1000; // warn 3 days before expiry
+
+  const IDLE_TIMEOUT_MS     = 15 * 60 * 1000;          // 15 minutes idle → logout
+  const IDLE_CHECK_MS       = 15 * 1000;               // check every 15s
+  const IDLE_WARN_MS        = 60 * 1000;               // warn 1 min before idle logout
+
+  const SERVER_VERIFY_MS    = 5 * 60 * 1000;           // re-verify with server every 5 min
 
   // ================================================================
   // 🔐 DEVICE ID GENERATOR
@@ -1495,39 +89,34 @@
   function saveSession(s) { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
   function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
-  // သက်တမ်းကုန်ပြီလား?
   function sessionExpired(s) {
     if (!s) return true;
     const t = Date.parse(s.expireAt || '');
-    if (isNaN(t)) return false;   // expiry မရှိသေးရင် မကုန်သေးဟု သတ်မှတ်
+    if (isNaN(t)) return false;
     return Date.now() >= t;
   }
 
   // ================================================================
   // 📅 EXPIRY DATE PARSER
   // ================================================================
-  // Server မှ ပြန်လာနိုင်သော format များအားလုံးကို ISO string သို့ ပြောင်း
   function normalizeExpiry(raw, baseISO) {
     const base = Date.parse(baseISO) || Date.now();
     const fallback = new Date(base + DEFAULT_EXPIRE_DAYS * 86400000).toISOString();
 
     if (raw === null || raw === undefined || raw === '') return fallback;
 
-    // Unix timestamp (seconds / milliseconds)
     if (typeof raw === 'number' || /^\d{10,13}$/.test(String(raw).trim())) {
       let n = Number(raw);
-      if (n < 1e12) n *= 1000;               // seconds → ms
+      if (n < 1e12) n *= 1000;
       const d = new Date(n);
       return isNaN(d) ? fallback : d.toISOString();
     }
 
     const s = String(raw).trim();
 
-    // YYYY-MM-DD (သို့) YYYY/MM/DD  → ထို ရက် ညနေ ၂၃:၅၉ အထိ
     let m = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/);
     if (m) return new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 59, 999).toISOString();
 
-    // DD/MM/YYYY (သို့) DD-MM-YYYY
     m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);
     if (m) return new Date(+m[3], +m[2] - 1, +m[1], 23, 59, 59, 999).toISOString();
 
@@ -1535,12 +124,11 @@
     return isNaN(t) ? fallback : new Date(t).toISOString();
   }
 
-  // Server response ထဲက expiry ကို ဆွဲယူ (field အမည် အမျိုးမျိုး ဖြစ်နိုင်)
   function extractExpiry(data, loginAtISO) {
     const src = (data && typeof data.data === 'object' && data.data !== null) ? data.data : (data || {});
     const raw =
       src.expireDate   ?? src.expiryDate ?? src.expiredAt  ?? src.expired_at ??
-      src.expire_at    ?? src.expiry     ?? src.exp        ?? src.expireAt   ??
+      src.expire_at    ?? src.expiry     ?? src.exp      ?? src.expireAt   ??
       src.validUntil   ?? src.valid_until ?? src.endDate   ?? null;
     return normalizeExpiry(raw, loginAtISO);
   }
@@ -1571,6 +159,77 @@
       el.style.opacity = '0';
       el.style.transform = 'translateX(-50%) translateY(20px)';
     }, ms);
+  }
+
+  // ================================================================
+  // 💤 ACTIVITY TRACKING
+  // ================================================================
+  let lastActivity  = 0;
+  let lastSavedAt   = 0;
+  let idleWarned    = false;
+
+  // Restore last activity from storage on load
+  (function restoreActivity() {
+    const v = parseInt(localStorage.getItem(LAST_ACTIVITY_KEY) || '0', 10);
+    if (v > 0) lastActivity = v;
+  })();
+
+  function touchActivity() {
+    lastActivity = Date.now();
+    idleWarned = false;
+    // Throttle writes — every 20s max
+    if (lastActivity - lastSavedAt > 20000) {
+      lastSavedAt = lastActivity;
+      try { localStorage.setItem(LAST_ACTIVITY_KEY, String(lastActivity)); } catch (e) {}
+    }
+  }
+
+  // Attach activity listeners (only count when logged in via dashboard visibility)
+  ['mousedown', 'keydown', 'touchstart', 'click', 'scroll'].forEach(ev => {
+    document.addEventListener(ev, touchActivity, { passive: true });
+  });
+  let mmTick = 0;
+  document.addEventListener('mousemove', () => {
+    const now = Date.now();
+    if (now - mmTick > 2000) { mmTick = now; touchActivity(); }
+  }, { passive: true });
+
+  // Save last activity on pagehide
+  window.addEventListener('pagehide', () => {
+    if (lastActivity) {
+      try { localStorage.setItem(LAST_ACTIVITY_KEY, String(lastActivity)); } catch (e) {}
+    }
+  });
+
+  // ================================================================
+  // 🌐 SERVER VERIFICATION
+  // Re-call the login endpoint — if the key is still valid it returns
+  // success:true. If it's expired/revoked it returns success:false.
+  // ================================================================
+  let verifying = false;
+  let lastServerVerify = parseInt(localStorage.getItem(LAST_VERIFY_KEY) || '0', 10);
+
+  async function verifyWithServer(session) {
+    try {
+      const resp = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          token: SECRET_TOKEN,
+          key: session.key,
+          username: session.username,
+          deviceId: session.deviceId
+        }),
+        redirect: 'follow'
+      });
+      const data = await resp.json();
+      lastServerVerify = Date.now();
+      try { localStorage.setItem(LAST_VERIFY_KEY, String(lastServerVerify)); } catch (e) {}
+      return data;
+    } catch (e) {
+      console.warn('Server verify failed:', e);
+      return null;   // offline / network error
+    }
   }
 
   // ================================================================
@@ -1615,7 +274,7 @@
   }
 
   // ================================================================
-  // LOGIN SUBMIT — Apps Script ချိတ်ဆက်
+  // LOGIN SUBMIT
   // ================================================================
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1658,7 +317,6 @@
           expireAt: extractExpiry(data, loginAtISO)
         };
 
-        // Server က သက်တမ်းကုန်နေတဲ့ key ကို အောင်မြင်တယ်လို့ ပြန်ပေးခဲ့ရင် ပိတ်မည်
         if (sessionExpired(session)) {
           clearSession();
           showError('❌ ဤ Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ Key အသစ် ပြန်ယူပါ။');
@@ -1666,6 +324,12 @@
         }
 
         saveSession(session);
+
+        // Reset activity right after successful login
+        touchActivity();
+        try { localStorage.setItem(LAST_ACTIVITY_KEY, String(lastActivity)); } catch (e) {}
+        lastServerVerify = Date.now();
+        try { localStorage.setItem(LAST_VERIFY_KEY, String(lastServerVerify)); } catch (e) {}
 
         const expStr = new Date(session.expireAt).toLocaleDateString('en-GB',
           { day: '2-digit', month: 'short', year: 'numeric' });
@@ -1695,7 +359,8 @@
     landingEl.classList.add('hidden');
     dashEl.classList.remove('hidden');
     renderWelcome(session);
-    startExpiryWatcher();
+    touchActivity();
+    startWatchers();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -1713,35 +378,39 @@
   }
 
   // ================================================================
-  // ⏰ EXPIRY WATCHER (Auto Logout)
+  // ⏰ WATCHERS (expiry + idle + server verify)
   // ================================================================
   let expiryTimer = null;
+  let idleTimer   = null;
 
-  function startExpiryWatcher() {
-    stopExpiryWatcher();
-    checkExpiry();                              // ချက်ချင်း တစ်ခါ စစ်
-    expiryTimer = setInterval(checkExpiry, EXPIRY_CHECK_MS);
+  function startWatchers() {
+    stopWatchers();
+    checkExpiryAndVerify();                          // immediate
+    checkIdle();                                     // immediate
+    expiryTimer = setInterval(checkExpiryAndVerify, EXPIRY_CHECK_MS);
+    idleTimer   = setInterval(checkIdle, IDLE_CHECK_MS);
   }
-  function stopExpiryWatcher() {
+  function stopWatchers() {
     if (expiryTimer) { clearInterval(expiryTimer); expiryTimer = null; }
+    if (idleTimer)   { clearInterval(idleTimer);   idleTimer   = null; }
   }
 
-  function checkExpiry() {
+  // --- Expiry + server verify ---
+  async function checkExpiryAndVerify() {
     const s = getSession();
     if (!s || !s.username) return;
 
-    // expiry မရှိသေး (session အဟောင်း) → default သတ်မှတ်ပြီး ပြန်သိမ်း
+    // Local expiry (fast)
     if (!s.expireAt) {
       s.expireAt = normalizeExpiry(null, s.loginAt || new Date().toISOString());
       saveSession(s);
     }
-
     if (sessionExpired(s)) {
       forceLogout('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ရန် လိုအပ်ပါသည်။');
       return;
     }
 
-    // သက်တမ်းကုန်ခါနီး သတိပေး (တစ်ခါတည်း)
+    // Warning
     const t = Date.parse(s.expireAt);
     const left = t - Date.now();
     if (left > 0 && left <= WARN_BEFORE_MS && !s.warned) {
@@ -1751,8 +420,48 @@
       showToast(`⚠️ သင့် Key သက်တမ်း ${days} ရက် အတွင်း ကုန်ဆုံးတော့မည်။`);
     }
 
-    // Dashboard ပေါ်ရှိရင် ကျန်ရက် ကို update
+    // Periodic server verify — this is the KEY fix that catches
+    // keys that have expired on the server but whose local
+    // expireAt still looks valid (e.g. the 30-day fallback).
+    if (!verifying && (Date.now() - lastServerVerify >= SERVER_VERIFY_MS)) {
+      verifying = true;
+      try {
+        const data = await verifyWithServer(s);
+        if (data && data.success !== true) {
+          forceLogout('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ရန် လိုအပ်ပါသည်။');
+          return;
+        }
+        if (data && data.success === true) {
+          // Refresh expireAt from server in case it changed
+          const newExp = extractExpiry(data, s.loginAt || new Date().toISOString());
+          s.expireAt = newExp;
+          saveSession(s);
+        }
+      } finally {
+        verifying = false;
+      }
+    }
+
     if (!dashEl.classList.contains('hidden')) renderWelcome(s);
+  }
+
+  // --- Idle timeout (15 min) ---
+  function checkIdle() {
+    const s = getSession();
+    if (!s || !s.username) return;
+
+    const idle = Date.now() - lastActivity;
+
+    if (idle >= IDLE_TIMEOUT_MS) {
+      forceLogout('💤 ၁၅ မိနစ်ကျော် မသုံးခဲ့သဖြင့် Auto Logout ဖြစ်ပါသည်။ ပြန်လည် Login ဝင်ပါ။');
+      return;
+    }
+
+    const warnAt = IDLE_TIMEOUT_MS - IDLE_WARN_MS;
+    if (!idleWarned && idle >= warnAt) {
+      idleWarned = true;
+      showToast('⏳ နောက်ထပ် ၁ မိနစ်အတွင်း မသုံးပါက Auto Logout ဖြစ်ပါမည်။', 5500);
+    }
   }
 
   // ================================================================
@@ -1760,7 +469,13 @@
   // ================================================================
   function forceLogout(message) {
     clearSession();
-    stopExpiryWatcher();
+    stopWatchers();
+    try { localStorage.removeItem(LAST_ACTIVITY_KEY); } catch (e) {}
+    try { localStorage.removeItem(LAST_VERIFY_KEY);   } catch (e) {}
+    lastActivity = 0;
+    lastServerVerify = 0;
+    idleWarned = false;
+
     dashEl.classList.add('hidden');
     landingEl.classList.remove('hidden');
     if (welcomeUser) welcomeUser.textContent = '';
@@ -1778,9 +493,11 @@
   });
 
   // ================================================================
-  // AUTO-LOGIN (expiry စစ်ပြီး)
+  // AUTO-LOGIN on refresh / page load
+  // Show dashboard instantly from local session (if valid locally),
+  // then verify with server in the background.
   // ================================================================
-  (function autoLogin() {
+  (async function autoLogin() {
     const s = getSession();
     if (!s || !s.username) return;
 
@@ -1789,22 +506,60 @@
       saveSession(s);
     }
 
+    // 1) Local expiry check
     if (sessionExpired(s)) {
       clearSession();
       showToast('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။', 8000);
       return;
     }
 
+    // 2) Idle check (e.g. user closed tab 20 min ago and reopened)
+    const savedAct = parseInt(localStorage.getItem(LAST_ACTIVITY_KEY) || '0', 10);
+    if (savedAct > 0) {
+      lastActivity = savedAct;
+      if (Date.now() - savedAct >= IDLE_TIMEOUT_MS) {
+        clearSession();
+        showToast('💤 ၁၅ မိနစ်ကျော် မသုံးခဲ့သဖြင့် Auto Logout ဖြစ်ပါသည်။ ပြန်လည် Login ဝင်ပါ။', 8000);
+        return;
+      }
+    } else {
+      // No stored activity — start fresh
+      touchActivity();
+    }
+
+    // 3) Show dashboard immediately (fast perceived load)
     showDashboard(s);
+
+    // 4) Verify with server in background
+    const data = await verifyWithServer(s);
+    if (data && data.success !== true) {
+      forceLogout('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ရန် လိုအပ်ပါသည်။');
+      return;
+    }
+    if (data && data.success === true) {
+      const newExp = extractExpiry(data, s.loginAt || new Date().toISOString());
+      s.expireAt = newExp;
+      saveSession(s);
+      renderWelcome(s);
+    }
   })();
 
   // ================================================================
-  // 🔄 TAB ပြန်ဝင်လာတိုင်း စစ် (timer ကို မစောင့်ဘဲ)
+  // 🔄 Tab visibility / focus → re-check + re-verify
   // ================================================================
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) checkExpiry();
+    if (document.hidden) return;
+    const s = getSession();
+    if (!s) return;
+    checkIdle();
+    checkExpiryAndVerify();
   });
-  window.addEventListener('focus', checkExpiry);
+  window.addEventListener('focus', () => {
+    const s = getSession();
+    if (!s) return;
+    checkIdle();
+    checkExpiryAndVerify();
+  });
 
   // ================================================================
   // SMOOTH SCROLL
@@ -1819,6 +574,3 @@
     });
   });
 </script>
-
-</body>
-</html>
