@@ -1,17 +1,307 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="my">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020"><title>MEPT Hot Topics | Old Questions Practice</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="MEPT Hot Topics — old-question based practice for Personal Information, Picture Speaking, Debate, Grammar, Reading and Writing.">
+<title>MEPT Hot Topics — Best UI</title>
 <style>
-:root{--bg:#0b1020;--panel:#111a2e;--panel2:#17233b;--text:#edf3ff;--muted:#a6b4cf;--line:#293854;--accent:#7c9cff;--cyan:#57e1d2;--pink:#ff8ec7;--yellow:#ffd479;--green:#80e0a5;--shadow:0 18px 55px #0004}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#202c54 0,transparent 35%),radial-gradient(ellipse at 90% 15%,#123c4c 0,transparent 28%),var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input{font:inherit}.wrap{max-width:1240px;margin:auto;padding:24px}.hero{border:1px solid #ffffff1a;background:linear-gradient(125deg,#182746dd,#142c3add);border-radius:28px;padding:clamp(24px,5vw,54px);position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:'MEPT';position:absolute;right:-10px;bottom:-64px;font-size:clamp(100px,22vw,260px);font-weight:950;letter-spacing:-.09em;color:#ffffff07;pointer-events:none}.eyebrow{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:12px}.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.04;letter-spacing:-.04em;margin:12px 0}.hero p{max-width:730px;color:#c5d1e9;font-size:16px}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}.pill{border:1px solid #ffffff25;background:#ffffff0a;border-radius:99px;padding:7px 12px;font-size:12px;color:#e2eaff}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat,.toolbar,.side,.topic{background:#111a2eee;border:1px solid var(--line);border-radius:18px}.stat{padding:17px}.stat b{display:block;font-size:27px;letter-spacing:-.04em}.stat span{color:var(--muted);font-size:12px}.toolbar{padding:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:sticky;top:8px;z-index:5;backdrop-filter:blur(16px)}.search{flex:1;min-width:190px;background:#0a1223;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 14px;outline:none}.search:focus{border-color:var(--accent)}.filter{border:1px solid var(--line);background:#17233b;color:#dbe6ff;border-radius:12px;padding:11px 13px;cursor:pointer}.filter.active{background:var(--accent);color:#091126;border-color:transparent;font-weight:800}.layout{display:grid;grid-template-columns:220px 1fr;gap:18px;margin-top:18px}.side{padding:14px;height:max-content;position:sticky;top:82px}.side h3{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:0 9px}.navbtn{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:transparent;color:#c7d4ef;padding:11px 10px;border-radius:11px;text-align:left;cursor:pointer}.navbtn:hover,.navbtn.active{background:#273657;color:white}.count{font-size:11px;background:#ffffff12;border-radius:99px;padding:2px 7px}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:8px 2px 14px}.sectionhead h2{margin:0;font-size:25px;letter-spacing:-.03em}.sectionhead p{margin:3px 0 0;color:var(--muted);font-size:13px}.topiclist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.topic{overflow:hidden;transition:transform .18s,border-color .18s}.topic:hover{transform:translateY(-2px);border-color:#6079b3}.topic-top{padding:17px 18px 12px;display:flex;gap:12px;align-items:flex-start}.emoji{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:23px;flex-shrink:0;background:#7c9cff1a}.topic h3{margin:0;font-size:17px;line-height:1.3}.meta{color:var(--muted);font-size:12px;margin-top:5px}.tag{display:inline-block;margin-top:8px;border-radius:99px;padding:3px 8px;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:#57e1d21a;color:var(--cyan)}.topic-body{padding:0 18px 17px}.topic-body details{border-top:1px solid var(--line);padding:11px 0}.topic-body summary{cursor:pointer;font-weight:700;font-size:13px;color:#dbe6ff}.questions{padding:8px 0 0 20px;margin:0;color:#c3d0e8}.questions li{padding:3px 0}.ans{margin-top:8px;padding:11px 12px;background:#0b1426;border:1px solid #253651;border-radius:11px;color:#a9bedc;font-size:13px}.ans strong{color:var(--cyan)}.empty{padding:45px;text-align:center;border:1px dashed var(--line);border-radius:18px;color:var(--muted);display:none}.footer{color:var(--muted);font-size:12px;text-align:center;padding:28px 0 12px}.smallbtn{border:1px solid var(--line);background:#17233b;color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer;font-size:12px}.question-label{font-size:11px;color:var(--yellow);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-top:12px}.bilingual{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bilingual div{padding:10px;border-radius:10px;background:#0b1426;font-size:12px;color:#bdcbe3}.bilingual b{display:block;color:var(--cyan);margin-bottom:4px}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.side{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}.side h3{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}.topiclist{grid-template-columns:1fr}.toolbar{position:static}}@media(max-width:520px){.wrap{padding:12px}.hero{border-radius:21px}.stats{gap:8px}.stat{padding:13px}.stat b{font-size:23px}.side{grid-template-columns:1fr 1fr}.bilingual{grid-template-columns:1fr}.sectionhead{align-items:start;flex-direction:column}}
-</style></head><body><div class="wrap">
-<header class="hero"><div class="eyebrow">Old Questions • 7M–10M Collection</div><h1>MEPT <span style="color:var(--cyan)">Hot Topics</span></h1><p>အမေးများတဲ့ topic တွေကို Personal Information, Picture Speaking, Debate, Grammar, Reading နဲ့ Writing အလိုက် ခွဲထားပါတယ်။ Old-question wording ကို အခြေခံထားပြီး Listening ကို ဖယ်ထားပါတယ်။</p><div class="pills"><span class="pill">✓ Follow-up questions</span><span class="pill">✓ English + မြန်မာ အဖြေဥပမာ</span><span class="pill">✓ Search & category filters</span><span class="pill">✓ Mobile friendly</span></div></header>
-<div class="stats"><div class="stat"><b id="totalTopics">0</b><span>Practice topics</span></div><div class="stat"><b id="totalQuestions">0</b><span>Questions included</span></div><div class="stat"><b>6</b><span>Study categories</span></div><div class="stat"><b>7M–10M</b><span>Old-question range</span></div></div>
-<div class="toolbar"><input id="search" class="search" placeholder="Search topic or question… (e.g. fire, friend, travel)"><button class="filter active" data-month="all">All months</button><button class="filter" data-month="10M">10M</button><button class="filter" data-month="9M">9M</button><button class="filter" data-month="7M">7M–8M</button><button class="smallbtn" id="expandAll">Expand all</button></div>
-<div class="layout"><aside class="side"><h3>Study categories</h3><button class="navbtn active" data-cat="all">✨ All hot topics <span class="count" id="allCount">0</span></button><button class="navbtn" data-cat="personal">👤 Personal Information <span class="count">3</span></button><button class="navbtn" data-cat="picture">🖼️ Picture Speaking <span class="count">8+</span></button><button class="navbtn" data-cat="debate">🗣️ Debate / Discussion <span class="count">10+</span></button><button class="navbtn" data-cat="grammar">✍️ Grammar Practice <span class="count">4</span></button><button class="navbtn" data-cat="reading">📖 Reading <span class="count">3</span></button><button class="navbtn" data-cat="writing">📝 Writing Tasks <span class="count">4</span></button><div style="padding:12px 9px;color:var(--muted);font-size:11px">Tip: ဖြေပြီးတိုင်း ကိုယ့်အဖြေကို အသံထွက်ပြောပြီး 1–2 follow-up ကို ထပ်လေ့ကျင့်ပါ။</div></aside>
-<main><div class="sectionhead"><div><h2 id="listTitle">All hot topics</h2><p id="resultText">Old questions, grouped for focused practice.</p></div><button class="smallbtn" id="clearSearch">Reset filters</button></div><div class="topiclist" id="topiclist"></div><div class="empty" id="empty">No matching topics. Try another keyword or category.</div></main></div><div class="footer">MEPT Hot Topics Practice • Based on supplied 9M and 10M old questions and available earlier collection notes. Not an official prediction of future exam questions.</div></div>
+:root{
+  --bg:#07111f;
+  --bg2:#0b1729;
+  --panel:rgba(16,29,49,.78);
+  --panel2:rgba(20,37,61,.72);
+  --line:rgba(148,181,224,.18);
+  --text:#f3f7ff;
+  --muted:#9eb0c9;
+  --blue:#7ea2ff;
+  --cyan:#54e4d2;
+  --gold:#ffd37a;
+  --pink:#ff8fc8;
+  --green:#7ee2a3;
+  --shadow:0 24px 70px rgba(0,0,0,.30);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 8% -5%,rgba(74,105,190,.30),transparent 65%),
+    radial-gradient(700px 450px at 100% 10%,rgba(30,174,160,.18),transparent 65%),
+    linear-gradient(180deg,#07111f 0%,#091526 45%,#07111f 100%);
+  font-family:Inter,"Segoe UI","Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif;
+  line-height:1.65;
+}
+button{font:inherit}
+.container{width:min(1180px,calc(100% - 28px));margin:auto}
+.hero{
+  margin-top:18px;
+  padding:clamp(28px,6vw,58px);
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:
+    linear-gradient(135deg,rgba(24,45,77,.90),rgba(11,27,47,.82)),
+    radial-gradient(circle at 90% 15%,rgba(84,228,210,.12),transparent 35%);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+.hero:before{
+  content:"";
+  position:absolute;inset:auto -8% -55% 45%;
+  height:300px;
+  background:radial-gradient(circle,rgba(126,162,255,.20),transparent 68%);
+  pointer-events:none;
+}
+.eyebrow{
+  position:relative;
+  color:var(--cyan);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.hero h1{
+  position:relative;
+  margin:10px 0 12px;
+  font-size:clamp(34px,6vw,64px);
+  line-height:1.02;
+  letter-spacing:-.045em;
+}
+.hero h1 span{color:var(--cyan)}
+.hero p{
+  position:relative;
+  max-width:800px;
+  margin:0;
+  color:#c6d3e8;
+  font-size:clamp(14px,2vw,16px);
+}
+.hero-note{
+  position:relative;
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:22px;
+}
+.badge{
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  color:#dce7f9;
+  font-size:11px;font-weight:700;
+}
+.content{padding:30px 0 70px}
+.category{
+  scroll-margin-top:20px;
+  margin-top:28px;
+}
+.category-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 2px 14px;
+}
+.category-title{
+  display:flex;align-items:center;gap:12px;
+}
+.category-icon{
+  width:44px;height:44px;border-radius:14px;
+  display:grid;place-items:center;font-size:22px;
+  background:linear-gradient(135deg,rgba(126,162,255,.18),rgba(84,228,210,.10));
+  border:1px solid var(--line);
+}
+.category h2{
+  margin:0;
+  font-size:clamp(21px,3vw,28px);
+  letter-spacing:-.025em;
+}
+.category-head p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.category-count{
+  color:var(--muted);font-size:11px;
+  padding:6px 10px;border:1px solid var(--line);
+  border-radius:999px;background:rgba(255,255,255,.035);
+  white-space:nowrap;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(180deg,rgba(17,31,52,.86),rgba(12,24,42,.82));
+  box-shadow:0 12px 34px rgba(0,0,0,.16);
+  overflow:hidden;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(126,162,255,.42);
+  box-shadow:0 18px 45px rgba(0,0,0,.24);
+}
+.card-top{
+  padding:18px 18px 14px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.topic-icon{
+  width:46px;height:46px;border-radius:14px;
+  display:grid;place-items:center;flex:none;
+  font-size:23px;
+  background:rgba(126,162,255,.11);
+  border:1px solid rgba(126,162,255,.15);
+}
+.card h3{
+  margin:0;
+  font-size:17px;
+  line-height:1.35;
+  letter-spacing:-.015em;
+}
+.meta{
+  margin-top:5px;color:var(--muted);
+  font-size:11px;
+}
+.hot{
+  display:inline-block;margin-top:8px;
+  padding:3px 8px;border-radius:999px;
+  background:rgba(84,228,210,.10);
+  color:var(--cyan);font-size:9px;font-weight:900;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.visual{
+  margin:0 18px 14px;
+  min-height:94px;
+  border-radius:15px;
+  border:1px solid rgba(126,162,255,.14);
+  background:
+    radial-gradient(circle at 20% 40%,rgba(84,228,210,.13),transparent 25%),
+    linear-gradient(135deg,#0c1b30,#132743);
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;letter-spacing:10px;
+  overflow:hidden;
+}
+.body{padding:0 18px 18px}
+details{
+  border-top:1px solid rgba(148,181,224,.13);
+  padding:11px 0;
+}
+summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;justify-content:space-between;gap:12px;
+  align-items:center;
+  color:#e5edfc;
+  font-size:13px;font-weight:800;
+}
+summary::-webkit-details-marker{display:none}
+summary:after{
+  content:"+";
+  color:var(--cyan);font-size:18px;line-height:1;
+}
+details[open] summary:after{content:"−"}
+.list{
+  margin:9px 0 0;
+  padding-left:21px;
+  color:#c2d0e5;
+  font-size:13px;
+}
+.list li{padding:3px 0}
+.follow li::marker{color:var(--gold)}
+.answer{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:9px;
+}
+.answer-box{
+  padding:11px 12px;
+  border-radius:12px;
+  background:#091526;
+  border:1px solid rgba(148,181,224,.13);
+  font-size:12px;
+  color:#c7d5e9;
+}
+.answer-box b{
+  display:block;
+  margin-bottom:5px;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.answer-box.en b{color:var(--cyan)}
+.answer-box.mm b{color:var(--gold)}
+.practical{
+  margin-top:9px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(126,162,255,.07);
+  border:1px dashed rgba(126,162,255,.25);
+  color:#cbd8ec;font-size:12px;
+}
+.practical strong{color:#fff}
+.footer{
+  margin-top:26px;padding:22px 0 10px;
+  color:#778aa5;font-size:11px;text-align:center;
+  border-top:1px solid rgba(148,181,224,.10);
+}
+.top{
+  position:fixed;right:16px;bottom:16px;
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(13,27,47,.88);
+  color:#fff;cursor:pointer;
+  box-shadow:0 12px 28px rgba(0,0,0,.25);
+  backdrop-filter:blur(12px);
+}
+@media(max-width:780px){
+  .grid{grid-template-columns:1fr}
+  .answer{grid-template-columns:1fr}
+  .category-head{align-items:flex-start}
+}
+@media(max-width:520px){
+  .container{width:min(100% - 20px,1180px)}
+  .hero{margin-top:10px;border-radius:23px;padding:25px 20px}
+  .content{padding-top:18px}
+  .category{margin-top:24px}
+  .category-head{margin-bottom:11px}
+  .category-count{font-size:10px;padding:5px 8px}
+  .card{border-radius:18px}
+  .card-top{padding:15px 14px 12px}
+  .body{padding:0 14px 15px}
+  .visual{margin:0 14px 12px;min-height:82px;font-size:34px}
+  .topic-icon{width:42px;height:42px;font-size:21px}
+  .card h3{font-size:15px}
+  .list{font-size:12px}
+  .answer-box{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <div class="eyebrow">Old Questions • Hot Topic Practice</div>
+    <h1>MEPT <span>Hot Topics</span></h1>
+    <p>အမေးများတဲ့ topic တွေကို Personal Information, Picture Speaking, Debate, Grammar, Reading နဲ့ Writing အလိုက် ခွဲထားပါတယ်။ Old-question wording ကို အခြေခံထားပြီး Listening ကို ဖယ်ထားပါတယ်။</p>
+    <div class="hero-note">
+      <span class="badge">✓ Follow-up Questions</span>
+      <span class="badge">✓ English + မြန်မာ Answers</span>
+      <span class="badge">✓ Mobile First</span>
+      <span class="badge">✓ 7M–10M Old Questions</span>
+    </div>
+  </header>
+
+  <main class="content" id="app"></main>
+
+  <div class="footer">
+    MEPT Hot Topics Practice • Based on the supplied old-question collection and the 9M/10M topics provided in this study set.
+    Listening is intentionally excluded.
+  </div>
+</div>
+<button class="top" id="topBtn" aria-label="Back to top">↑</button>
+
 <script>
 const data=[
 {title:'Personal Information & Daily Life',cat:'personal',month:'9M',icon:'👤',tag:'High priority',questions:['What is your name?','How old are you?','Where are you from?','What are the popular places in your hometown?','What do you usually do on your phone?','Who motivates you?'],follow:['What do you like most about your hometown?','What do you usually do in your free time?','How do you use your phone for learning?'],en:'My name is ____. I am from ____. In my free time, I usually study English, use my phone to learn new things, and spend time with my family.',mm:'ကျွန်တော့်နာမည် ____ ပါ။ ____ ကလာတာပါ။ အားလပ်ချိန်မှာ အင်္ဂလိပ်စာလေ့လာတာ၊ ဖုန်းနဲ့ ဗဟုသုတရှာတာ၊ မိသားစုနဲ့အချိန်ကုန်ဆုံးတာတွေ လုပ်လေ့ရှိပါတယ်.'},
@@ -42,8 +332,102 @@ const data=[
 {title:'Writing – Moving to Another City for a New Job',cat:'writing',month:'9M',icon:'🏙️',tag:'80–100 words',questions:['Write about moving to another city for a new job (80–100 words).'],follow:['Why are you moving?','What challenges might you face?','How will you prepare?'],en:'Moving to another city for a new job can be exciting and challenging. I would need to find a place to live, plan my expenses, and learn how to travel around the city. At first, I might miss my family and friends, but I would try to make new friends and adapt to the new environment. I believe the experience would help me become more independent and develop my career.',mm:'အလုပ်အသစ်အတွက် အခြားမြို့တစ်မြို့ကို ပြောင်းရွှေ့ခြင်းက စိတ်လှုပ်ရှားစရာကောင်းသလို စိန်ခေါ်မှုလည်း ရှိနိုင်ပါတယ်။ နေစရာရှာဖို့၊ ကုန်ကျစရိတ်စီစဉ်ဖို့နဲ့ မြို့အတွင်း သွားလာနည်းကို လေ့လာဖို့ လိုပါမယ်။ အစပိုင်းမှာ မိသားစုနဲ့ သူငယ်ချင်းတွေကို လွမ်းနိုင်ပေမယ့် မိတ်ဆွေအသစ်တွေဖွဲ့ပြီး ပတ်ဝန်းကျင်အသစ်နဲ့ လိုက်လျောညီထွေဖြစ်အောင် ကြိုးစားပါမယ်။'},
 {title:'Writing – Maintaining Work-Life Balance',cat:'writing',month:'9M',icon:'⚖️',tag:'80–100 words',questions:['Write about maintaining work-life balance (80–100 words).'],follow:['Why is work-life balance important?','What do you do to relax after work?','How can workers manage their time?'],en:'Maintaining a good work-life balance is important for our health and happiness. People should organise their time and finish important tasks during working hours. After work, they can exercise, spend time with family, or enjoy a hobby. Getting enough sleep is also important. I believe that taking breaks and setting clear boundaries between work and personal life can reduce stress and help people work more effectively.',mm:'အလုပ်နဲ့ ကိုယ်ပိုင်ဘဝကို မျှတအောင် ထိန်းသိမ်းခြင်းက ကျန်းမာရေးနဲ့ ပျော်ရွှင်မှုအတွက် အရေးကြီးပါတယ်။ အချိန်ကို စနစ်တကျစီမံပြီး အလုပ်ချိန်အတွင်း အရေးကြီးတဲ့တာဝန်တွေကို ပြီးစီးအောင်လုပ်သင့်ပါတယ်။ အလုပ်ပြီးရင် လေ့ကျင့်ခန်းလုပ်တာ၊ မိသားစုနဲ့အချိန်ကုန်တာ၊ ဝါသနာပါတာလုပ်တာတွေ လုပ်နိုင်ပါတယ်။ အနားယူချိန်ယူပြီး အလုပ်နဲ့ ကိုယ်ပိုင်ဘဝကြား စည်းမျဉ်းထားခြင်းက စိတ်ဖိစီးမှုကို လျော့စေပါတယ်.'}
 ];
-const cats={all:'All hot topics',personal:'Personal Information',picture:'Picture Speaking',debate:'Debate / Discussion',grammar:'Grammar Practice',reading:'Reading',writing:'Writing Tasks'};let cat='all',month='all';const $=id=>document.getElementById(id);function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function card(d,i){return `<article class="topic" data-cat="${d.cat}" data-month="${d.month}" data-search="${esc((d.title+' '+d.questions.join(' ')+' '+d.follow.join(' ')).toLowerCase())}"><div class="topic-top"><div class="emoji">${d.icon}</div><div style="flex:1"><h3>${esc(d.title)}</h3><div class="meta">${d.month} • ${d.questions.length} core question${d.questions.length===1?'':'s'} + ${d.follow.length} follow-ups</div><span class="tag">${esc(d.tag)}</span></div></div><div class="topic-body"><details><summary>Core questions (${d.questions.length})</summary><ol class="questions">${d.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></details><details><summary>Follow-up questions (${d.follow.length})</summary><ol class="questions">${d.follow.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></details><details><summary>Sample answer • English + မြန်မာ</summary><div class="bilingual"><div><b>English</b>${esc(d.en)}</div><div><b>မြန်မာ</b>${esc(d.mm)}</div></div></details></div></article>`}
-function render(){const q=$('search').value.toLowerCase().trim();const found=data.filter(d=>(cat==='all'||d.cat===cat)&&(month==='all'||d.month.includes(month)||(month==='7M'&&/7M|8M/.test(d.month)))&&(!q||(d.title+' '+d.questions.join(' ')+' '+d.follow.join(' ')+' '+d.en).toLowerCase().includes(q)));$('topiclist').innerHTML=found.map(card).join('');$('empty').style.display=found.length?'none':'block';$('totalTopics').textContent=found.length;$('totalQuestions').textContent=found.reduce((n,d)=>n+d.questions.length+d.follow.length,0);$('allCount').textContent=data.length;$('resultText').textContent=`Showing ${found.length} of ${data.length} topics • ${found.reduce((n,d)=>n+d.questions.length,0)} core questions and ${found.reduce((n,d)=>n+d.follow.length,0)} follow-ups`;document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.month===month));$('listTitle').textContent=cats[cat];}
-document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;render()});document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{month=b.dataset.month;render()});$('search').addEventListener('input',render);$('clearSearch').onclick=()=>{$('search').value='';cat='all';month='all';render()};let expanded=false;$('expandAll').onclick=()=>{expanded=!expanded;document.querySelectorAll('#topiclist details').forEach(d=>d.open=expanded);$('expandAll').textContent=expanded?'Collapse all':'Expand all'};render();
-</script></body></html>
+const categoryInfo = {
+  personal:{name:"Personal Information",icon:"👤",desc:"Basic introduction, hometown, daily life and personal experience."},
+  picture:{name:"Picture Speaking",icon:"🖼️",desc:"Picture description + natural follow-up questions."},
+  debate:{name:"Debate / Discussion",icon:"🗣️",desc:"Opinion questions with practical English + မြန်မာ sample answers."},
+  grammar:{name:"Grammar",icon:"✍️",desc:"Practical structures with quick exercises and answer keys."},
+  reading:{name:"Reading",icon:"📖",desc:"Old-question reading topics and comprehension practice."},
+  writing:{name:"Writing",icon:"📝",desc:"Old writing tasks with ready-to-study sample answers."}
+};
+
+const order=["personal","picture","debate","grammar","reading","writing"];
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function visualFor(d){
+  if(d.cat!=="picture") return "";
+  const t=d.title.toLowerCase();
+  let v="🖼️";
+  if(t.includes("swimming")||t.includes("exercise")||t.includes("healthy")) v="🏊 🥗 💪";
+  else if(t.includes("fire")) v="🧯 🔥 👨‍🚒";
+  else if(t.includes("travel")||t.includes("luggage")) v="✈️ 🧳 🗺️";
+  else if(t.includes("water")) v="💧 🥤";
+  else if(t.includes("bus")) v="🚌 🚏 👥";
+  else if(t.includes("family")) v="👨‍👩‍👧‍👦 🍽️";
+  else if(t.includes("football")) v="⚽ 🏃 🥅";
+  else if(t.includes("map")) v="🗺️ 🌍";
+  else if(t.includes("safety training")) v="🦺 ⛑️";
+  else if(t.includes("slips")) v="⚠️ 👟";
+  return `<div class="visual" aria-hidden="true">${v}</div>`;
+}
+function list(items, extra=""){
+  if(!items || !items.length) return "";
+  return `<ol class="list ${extra}">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`;
+}
+function answer(d){
+  if(!d.en && !d.mm) return "";
+  return `<div class="answer">
+    <div class="answer-box en"><b>English</b>${esc(d.en||"")}</div>
+    <div class="answer-box mm"><b>မြန်မာ</b>${esc(d.mm||"")}</div>
+  </div>`;
+}
+function card(d){
+  const follow = d.follow && d.follow.length ? d.follow : [];
+  const practical = d.cat==="grammar" ? `<div class="practical"><strong>Quick Practice</strong><br>ဖြေပြီးရင် အဖြေကို ဖုံးထားပြီး ကိုယ်တိုင် sentence ပြန်တည်ဆောက်ပါ။ Answer key ကို နောက်မှစစ်ပါ။</div>` : "";
+  return `<article class="card">
+    <div class="card-top">
+      <div class="topic-icon">${esc(d.icon||"•")}</div>
+      <div>
+        <h3>${esc(d.title)}</h3>
+        <div class="meta">${esc(d.month||"Old question")} · ${d.questions.length} core question${d.questions.length===1?"":"s"}${follow.length?` · ${follow.length} follow-up${follow.length===1?"":"s"}`:""}</div>
+        <span class="hot">${esc(d.tag||"Hot topic")}</span>
+      </div>
+    </div>
+    ${visualFor(d)}
+    <div class="body">
+      <details open>
+        <summary>Core Questions</summary>
+        ${list(d.questions)}
+      </details>
+      ${follow.length ? `<details>
+        <summary>Follow-up Questions</summary>
+        ${list(follow,"follow")}
+      </details>` : ""}
+      ${(d.en||d.mm) ? `<details>
+        <summary>Sample Answer</summary>
+        ${answer(d)}
+        ${practical}
+      </details>` : practical}
+    </div>
+  </article>`;
+}
+function render(){
+  const app=document.getElementById("app");
+  app.innerHTML=order.map(cat=>{
+    const items=data.filter(d=>d.cat===cat);
+    if(!items.length) return "";
+    const info=categoryInfo[cat];
+    return `<section class="category" id="${cat}">
+      <div class="category-head">
+        <div>
+          <div class="category-title">
+            <div class="category-icon">${info.icon}</div>
+            <div>
+              <h2>${info.name}</h2>
+              <p>${info.desc}</p>
+            </div>
+          </div>
+        </div>
+        <div class="category-count">${items.length} topics</div>
+      </div>
+      <div class="grid">${items.map(card).join("")}</div>
+    </section>`;
+  }).join("");
+}
+render();
+document.getElementById("topBtn").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+</script>
+</body>
+</html>
