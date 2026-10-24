@@ -868,10 +868,6 @@
       flex-shrink: 0;
       animation: pulse 1.8s infinite;
     }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-    }
     .free-cta-dash .fc-text { flex: 1; }
     .free-cta-dash .fc-title {
       display: block; font-size: 1.15rem; margin-bottom: 4px; font-weight: 800;
@@ -1426,6 +1422,14 @@
   const SECRET_TOKEN = "MySecretToken123";  // ⚠️ Apps Script ထဲက Token နဲ့ တူညီရမည်
 
   // ================================================================
+  // 🔐 SESSION / EXPIRY CONFIG
+  // ================================================================
+  const SESSION_KEY        = 'mept_session';
+  const DEFAULT_EXPIRE_DAYS = 30;              // server မှ expiry မပြန်လျှင် ရက်
+  const EXPIRY_CHECK_MS    = 30 * 1000;        // ၃၀ စက္ကန့်တစ်ခါ စစ်မည်
+  const WARN_BEFORE_MS     = 3 * 24 * 60 * 60 * 1000; // ၃ ရက် ကျန်ရင် သတိပေး
+
+  // ================================================================
   // 🔐 DEVICE ID GENERATOR
   // ================================================================
   function generateDeviceId() {
@@ -1480,6 +1484,94 @@
   const logoutBtn     = document.getElementById('logoutBtn');
 
   if (deviceIdDisp) deviceIdDisp.textContent = DEVICE_ID;
+
+  // ================================================================
+  // 💾 SESSION HELPERS
+  // ================================================================
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
+    catch (e) { return null; }
+  }
+  function saveSession(s) { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
+  function clearSession() { localStorage.removeItem(SESSION_KEY); }
+
+  // သက်တမ်းကုန်ပြီလား?
+  function sessionExpired(s) {
+    if (!s) return true;
+    const t = Date.parse(s.expireAt || '');
+    if (isNaN(t)) return false;   // expiry မရှိသေးရင် မကုန်သေးဟု သတ်မှတ်
+    return Date.now() >= t;
+  }
+
+  // ================================================================
+  // 📅 EXPIRY DATE PARSER
+  // ================================================================
+  // Server မှ ပြန်လာနိုင်သော format များအားလုံးကို ISO string သို့ ပြောင်း
+  function normalizeExpiry(raw, baseISO) {
+    const base = Date.parse(baseISO) || Date.now();
+    const fallback = new Date(base + DEFAULT_EXPIRE_DAYS * 86400000).toISOString();
+
+    if (raw === null || raw === undefined || raw === '') return fallback;
+
+    // Unix timestamp (seconds / milliseconds)
+    if (typeof raw === 'number' || /^\d{10,13}$/.test(String(raw).trim())) {
+      let n = Number(raw);
+      if (n < 1e12) n *= 1000;               // seconds → ms
+      const d = new Date(n);
+      return isNaN(d) ? fallback : d.toISOString();
+    }
+
+    const s = String(raw).trim();
+
+    // YYYY-MM-DD (သို့) YYYY/MM/DD  → ထို ရက် ညနေ ၂၃:၅၉ အထိ
+    let m = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 59, 999).toISOString();
+
+    // DD/MM/YYYY (သို့) DD-MM-YYYY
+    m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})$/);
+    if (m) return new Date(+m[3], +m[2] - 1, +m[1], 23, 59, 59, 999).toISOString();
+
+    const t = Date.parse(s);
+    return isNaN(t) ? fallback : new Date(t).toISOString();
+  }
+
+  // Server response ထဲက expiry ကို ဆွဲယူ (field အမည် အမျိုးမျိုး ဖြစ်နိုင်)
+  function extractExpiry(data, loginAtISO) {
+    const src = (data && typeof data.data === 'object' && data.data !== null) ? data.data : (data || {});
+    const raw =
+      src.expireDate   ?? src.expiryDate ?? src.expiredAt  ?? src.expired_at ??
+      src.expire_at    ?? src.expiry     ?? src.exp        ?? src.expireAt   ??
+      src.validUntil   ?? src.valid_until ?? src.endDate   ?? null;
+    return normalizeExpiry(raw, loginAtISO);
+  }
+
+  // ================================================================
+  // 🔔 TOAST
+  // ================================================================
+  function showToast(msg, ms = 6500) {
+    let el = document.getElementById('mept-toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'mept-toast';
+      el.style.cssText =
+        'position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);' +
+        'background:linear-gradient(135deg,#ef4444,#f59e0b);color:#fff;padding:14px 22px;' +
+        'border-radius:14px;font-size:13.5px;font-weight:700;z-index:9999;' +
+        'box-shadow:0 18px 40px -14px rgba(0,0,0,.9);max-width:92vw;text-align:center;' +
+        'opacity:0;transition:.35s;line-height:1.6;';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(-50%) translateY(0)';
+    });
+    clearTimeout(el._t);
+    el._t = setTimeout(() => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-50%) translateY(20px)';
+    }, ms);
+  }
 
   // ================================================================
   // LOGIN OVERLAY
@@ -1541,7 +1633,6 @@
     setLoading(true);
 
     try {
-      // Apps Script သို့ POST
       const response = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1558,16 +1649,27 @@
       setLoading(false);
 
       if (data.success === true) {
-        // ✅ Login အောင်မြင်
-        showSuccess('✅ ' + (data.message || 'Login အောင်မြင်ပါသည်။'));
-
+        const loginAtISO = new Date().toISOString();
         const session = {
           username: username,
           key: key,
           deviceId: DEVICE_ID,
-          loginAt: new Date().toISOString()
+          loginAt: loginAtISO,
+          expireAt: extractExpiry(data, loginAtISO)
         };
-        localStorage.setItem('mept_session', JSON.stringify(session));
+
+        // Server က သက်တမ်းကုန်နေတဲ့ key ကို အောင်မြင်တယ်လို့ ပြန်ပေးခဲ့ရင် ပိတ်မည်
+        if (sessionExpired(session)) {
+          clearSession();
+          showError('❌ ဤ Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ Key အသစ် ပြန်ယူပါ။');
+          return;
+        }
+
+        saveSession(session);
+
+        const expStr = new Date(session.expireAt).toLocaleDateString('en-GB',
+          { day: '2-digit', month: 'short', year: 'numeric' });
+        showSuccess(`✅ ${data.message || 'Login အောင်မြင်ပါသည်။'} (သက်တမ်း: ${expStr} အထိ)`);
 
         setTimeout(() => {
           showDashboard(session);
@@ -1576,7 +1678,6 @@
         }, 800);
 
       } else {
-        // ❌ Login မအောင်မြင်
         showError('❌ ' + (data.message || 'Login မအောင်မြင်ပါ။'));
       }
 
@@ -1593,38 +1694,117 @@
   function showDashboard(session) {
     landingEl.classList.add('hidden');
     dashEl.classList.remove('hidden');
-    if (welcomeUser) {
-      welcomeUser.textContent = `👤 ${session.username} · Welcome!`;
-    }
+    renderWelcome(session);
+    startExpiryWatcher();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function renderWelcome(session) {
+    if (!welcomeUser || !session) return;
+    let txt = `👤 ${session.username} · Welcome!`;
+    const t = Date.parse(session.expireAt || '');
+    if (!isNaN(t)) {
+      const days = Math.ceil((t - Date.now()) / 86400000);
+      const dstr = new Date(t).toLocaleDateString('en-GB',
+        { day: '2-digit', month: 'short', year: 'numeric' });
+      txt += `  ·  သက်တမ်း: ${dstr} အထိ (${days > 0 ? days + ' ရက် ကျန်' : 'ကုန်ဆုံး'})`;
+    }
+    welcomeUser.textContent = txt;
+  }
+
   // ================================================================
-  // LOGOUT
+  // ⏰ EXPIRY WATCHER (Auto Logout)
+  // ================================================================
+  let expiryTimer = null;
+
+  function startExpiryWatcher() {
+    stopExpiryWatcher();
+    checkExpiry();                              // ချက်ချင်း တစ်ခါ စစ်
+    expiryTimer = setInterval(checkExpiry, EXPIRY_CHECK_MS);
+  }
+  function stopExpiryWatcher() {
+    if (expiryTimer) { clearInterval(expiryTimer); expiryTimer = null; }
+  }
+
+  function checkExpiry() {
+    const s = getSession();
+    if (!s || !s.username) return;
+
+    // expiry မရှိသေး (session အဟောင်း) → default သတ်မှတ်ပြီး ပြန်သိမ်း
+    if (!s.expireAt) {
+      s.expireAt = normalizeExpiry(null, s.loginAt || new Date().toISOString());
+      saveSession(s);
+    }
+
+    if (sessionExpired(s)) {
+      forceLogout('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ရန် လိုအပ်ပါသည်။');
+      return;
+    }
+
+    // သက်တမ်းကုန်ခါနီး သတိပေး (တစ်ခါတည်း)
+    const t = Date.parse(s.expireAt);
+    const left = t - Date.now();
+    if (left > 0 && left <= WARN_BEFORE_MS && !s.warned) {
+      s.warned = true;
+      saveSession(s);
+      const days = Math.ceil(left / 86400000);
+      showToast(`⚠️ သင့် Key သက်တမ်း ${days} ရက် အတွင်း ကုန်ဆုံးတော့မည်။`);
+    }
+
+    // Dashboard ပေါ်ရှိရင် ကျန်ရက် ကို update
+    if (!dashEl.classList.contains('hidden')) renderWelcome(s);
+  }
+
+  // ================================================================
+  // 🚪 FORCE LOGOUT
+  // ================================================================
+  function forceLogout(message) {
+    clearSession();
+    stopExpiryWatcher();
+    dashEl.classList.add('hidden');
+    landingEl.classList.remove('hidden');
+    if (welcomeUser) welcomeUser.textContent = '';
+    closeLogin();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (message) showToast(message, 8000);
+  }
+
+  // ================================================================
+  // LOGOUT (manual)
   // ================================================================
   logoutBtn.addEventListener('click', () => {
     if (!confirm('Logout လုပ်ရန် သေချာပါသလား?')) return;
-    localStorage.removeItem('mept_session');
-    dashEl.classList.add('hidden');
-    landingEl.classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    forceLogout(null);
   });
 
   // ================================================================
-  // AUTO-LOGIN
+  // AUTO-LOGIN (expiry စစ်ပြီး)
   // ================================================================
-  (function () {
-    const raw = localStorage.getItem('mept_session');
-    if (!raw) return;
-    try {
-      const session = JSON.parse(raw);
-      if (session && session.username) {
-        showDashboard(session);
-      }
-    } catch (e) {
-      localStorage.removeItem('mept_session');
+  (function autoLogin() {
+    const s = getSession();
+    if (!s || !s.username) return;
+
+    if (!s.expireAt) {
+      s.expireAt = normalizeExpiry(null, s.loginAt || new Date().toISOString());
+      saveSession(s);
     }
+
+    if (sessionExpired(s)) {
+      clearSession();
+      showToast('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။', 8000);
+      return;
+    }
+
+    showDashboard(s);
   })();
+
+  // ================================================================
+  // 🔄 TAB ပြန်ဝင်လာတိုင်း စစ် (timer ကို မစောင့်ဘဲ)
+  // ================================================================
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkExpiry();
+  });
+  window.addEventListener('focus', checkExpiry);
 
   // ================================================================
   // SMOOTH SCROLL
