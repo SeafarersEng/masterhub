@@ -1,252 +1,414 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>MEPT Learning Hub</title>
+    <title>Listening – MEPT Learning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ============ BASE & RESET ============ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', 'Myanmar Text', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a1a3a 0%, #0f2f5f 50%, #0a1a3a 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow-x: hidden;
+        /* ===== RESET & BASE (mobile-first) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        body::before, body::after {
-            content: "";
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.35;
-            pointer-events: none;
-            z-index: 0;
-        }
-        body::before {
-            width: 500px; height: 500px;
-            background: #1d4ed8;
-            top: -180px; left: -150px;
-            animation: floatA 18s ease-in-out infinite;
-        }
-        body::after {
-            width: 460px; height: 460px;
-            background: #0891b2;
-            bottom: -180px; right: -150px;
-            animation: floatB 22s ease-in-out infinite;
-        }
-        @keyframes floatA {
-            0%,100% { transform: translate(0,0); }
-            50% { transform: translate(50px, 40px); }
-        }
-        @keyframes floatB {
-            0%,100% { transform: translate(0,0); }
-            50% { transform: translate(-40px, -50px); }
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 480px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
-            padding: 28px 24px 34px;
-            position: relative;
-            z-index: 1;
-            animation: cardIn 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
-        }
-        @keyframes cardIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 12px 40px rgba(0, 20, 50, 0.10);
+            padding: 20px 16px 30px;
         }
 
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            padding-bottom: 16px;
-            margin-bottom: 22px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 6px;
         }
+
         .header h2 {
             font-size: 20px;
-            color: #fff;
+            color: #0a2a4a;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-        }
-        .header h2 i { color: #38bdf8; font-size: 22px; }
-
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11.5px;
-            color: #bbf7d0;
-            background: rgba(34, 197, 94, 0.15);
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-weight: 700;
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-        .user-badge i { font-size: 8px; color: #22c55e; }
-
-        .home-btn {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            color: #bfdbfe;
-            padding: 7px 16px;
-            border-radius: 50px;
-            font-size: 12.5px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            transition: 0.25s;
-        }
-        .home-btn:hover {
-            background: rgba(59, 130, 246, 0.3);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-        .home-btn:active { transform: scale(0.95); }
-
-        .welcome { text-align: center; padding: 4px 0 20px; }
-        .welcome .icon-big {
-            font-size: 42px;
-            width: 72px; height: 72px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            border-radius: 20px;
-            display: grid; place-items: center;
-            margin: 0 auto 12px;
-            box-shadow: 0 10px 25px -8px rgba(59, 130, 246, 0.8);
-        }
-        .welcome h1 {
-            font-size: 22px;
-            color: #fff;
-            font-weight: 800;
-            letter-spacing: 0.2px;
-        }
-        .welcome p {
-            font-size: 13.5px;
-            color: #93b4dd;
-            margin-top: 6px;
-            line-height: 1.6;
-        }
-
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            margin-top: 10px;
-        }
-        .nav-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
-            padding: 18px 10px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 8px;
         }
-        .nav-card:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 15px 30px -12px rgba(59, 130, 246, 0.4);
+
+        .header h2 i {
+            color: #1e7e34;
+            font-size: 22px;
         }
-        .nav-card:active { transform: scale(0.96); }
-        .nav-card i {
-            font-size: 24px;
-            color: #38bdf8;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(56, 189, 248, 0.12);
-            border-radius: 14px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
-        }
-        .nav-card .label {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.3;
-        }
-        .nav-card .badge {
-            font-size: 10.5px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #93b4dd;
-            padding: 3px 10px;
+
+        .btn-back {
+            background: #eef2f7;
+            border: none;
+            padding: 6px 16px;
             border-radius: 50px;
             font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 13px;
+            color: #1f3a5f;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
         }
 
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .btn-back:hover {
+            background: #dce3ed;
         }
-        .stats .stat-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 14px;
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== SUB TABS ===== */
+        .sub-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 4px;
+        }
+
+        .sub-tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 14px;
+            color: #6b7a8f;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .sub-tab-btn:active {
+            transform: scale(0.96);
+        }
+
+        .sub-tab-btn.active {
+            background: #1e7e34;
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .sub-tab-btn:hover:not(.active) {
+            background: #f0f4f9;
+            color: #1a4d8f;
+        }
+
+        .sub-tab-btn i {
+            font-size: 14px;
+        }
+
+        .sub-content {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .sub-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== LISTENING CARD ===== */
+        .listening-card {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border-left: 6px solid #1e7e34;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .listening-tag {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 2px 14px;
             border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .listening-card h3 {
+            font-size: 17px;
+            color: #0a2a4a;
+            margin-bottom: 4px;
+        }
+
+        .listening-card .desc {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        /* ===== AUDIO PLAYER ===== */
+        .audio-player-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #f8faff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 1px solid #e8edf5;
+        }
+
+        .audio-player-wrapper audio {
+            flex: 1;
+            min-width: 160px;
+            height: 40px;
+            width: 100%;
+        }
+
+        .play-badge {
             font-size: 12px;
             font-weight: 600;
-            color: #cbd5e1;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: #1e7e34;
+            background: #dcfce7;
+            padding: 4px 14px;
+            border-radius: 50px;
+            white-space: nowrap;
         }
-        .stats .stat-item i { color: #38bdf8; font-size: 11px; }
 
+        /* ===== QUESTIONS ===== */
+        .listening-question-item {
+            background: #f8faff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e8edf5;
+        }
+
+        .listening-question-item .q-text {
+            font-weight: 600;
+            font-size: 15px;
+            color: #0a2a4a;
+            margin-bottom: 8px;
+        }
+
+        .listening-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .listening-options .opt {
+            padding: 6px 16px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1f3a5f;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .listening-options .opt:active {
+            transform: scale(0.95);
+        }
+
+        .listening-options .opt.selected {
+            border-color: #1a4d8f;
+            background: #dbeafe;
+        }
+
+        .listening-options .opt.correct-show {
+            border-color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .listening-options .opt.wrong-show {
+            border-color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .feedback {
+            font-size: 13px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* ===== CHECK BUTTON ===== */
+        .check-answers-btn {
+            background: #1e7e34;
+            border: none;
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .check-answers-btn:active {
+            background: #146b2a;
+            transform: scale(0.97);
+        }
+
+        .check-answers-btn:disabled {
+            background: #a0b3cc;
+            cursor: not-allowed;
+        }
+
+        /* ===== TASK 4 CARD (info card) ===== */
+        .task4-card {
+            background: #f0fdf4;
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 2px dashed #1e7e34;
+            margin-top: 10px;
+        }
+
+        .task4-card .icon-big {
+            font-size: 48px;
+            color: #1e7e34;
+            margin-bottom: 12px;
+        }
+
+        .task4-card h3 {
+            font-size: 20px;
+            color: #0a2a4a;
+            margin-bottom: 8px;
+        }
+
+        .task4-card p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .task4-btn {
+            background: #1e7e34;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .task4-btn:active {
+            background: #146b2a;
+            transform: scale(0.96);
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             margin-top: 20px;
             padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 2px solid #eef2f7;
             text-align: center;
             font-size: 11px;
-            color: #6b83a8;
-            letter-spacing: 0.5px;
+            color: #94a3b8;
         }
-        .footer i { color: #38bdf8; margin: 0 4px; }
 
-        @media (max-width: 520px) {
-            body { padding: 12px; }
-            .container { padding: 20px 16px 26px; border-radius: 20px; }
-            .nav-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .nav-card { padding: 14px 8px; }
-            .header h2 { font-size: 18px; }
-            .welcome h1 { font-size: 20px; }
+        .footer i {
+            color: #1e7e34;
+            margin: 0 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 420px) {
+            .container {
+                padding: 14px 12px 20px;
+            }
+            .listening-card {
+                padding: 14px 12px;
+            }
+            .listening-card h3 {
+                font-size: 15px;
+            }
+            .listening-question-item .q-text {
+                font-size: 14px;
+            }
+            .listening-options .opt {
+                font-size: 13px;
+                padding: 5px 14px;
+            }
+            .header h2 {
+                font-size: 17px;
+            }
+            .btn-back {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            .audio-player-wrapper audio {
+                min-width: 120px;
+            }
+            .sub-tab-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+            .task4-card {
+                padding: 18px 14px;
+            }
+            .task4-btn {
+                font-size: 14px;
+                padding: 10px 24px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .listening-options .opt {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+            .sub-tab-btn {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
@@ -254,122 +416,630 @@
 
     <div class="container">
 
+        <!-- ===== HEADER ===== -->
         <div class="header">
-            <h2><i class="fas fa-ship"></i> MEPT Hub</h2>
-            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                <span class="user-badge" id="userBadge">
-                    <i class="fas fa-circle"></i> Loading...
-                </span>
-                <a href="index.html" class="home-btn">
-                    <i class="fas fa-home"></i> Home
+            <h2><i class="fas fa-headphones"></i> Listening</h2>
+            <a href="learning.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+
+        <!-- ===== SUB TABS ===== -->
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" data-tab="regular">
+                <i class="fas fa-microphone"></i> Regular
+            </button>
+            <a href="listeningtask4.html" class="sub-tab-btn">
+                <i class="fas fa-tasks"></i> Task 4
+            </a>
+        </div>
+
+        <!-- ===== REGULAR CONTENT ===== -->
+        <div id="regularContent" class="sub-content active">
+            <div id="listeningList"></div>
+        </div>
+
+        <!-- ===== TASK 4 CONTENT (info + link) ===== -->
+        <div id="task4Content" class="sub-content">
+            <div class="task4-card">
+                <div class="icon-big">📋</div>
+                <h3>Task 4 Listening</h3>
+                <p>
+                    This section contains dedicated Task 4 listening exercises.
+                    These are longer conversations with more detailed questions to test your comprehension.
+                </p>
+                <a href="listeningtask4.html" class="task4-btn">
+                    <i class="fas fa-arrow-right"></i> Go to Task 4
                 </a>
             </div>
         </div>
 
-        <div class="welcome">
-            <div class="icon-big">📚</div>
-            <h1>Learning Hub</h1>
-            <p>Maritime English practice — all in one place</p>
-        </div>
-
-        <div class="nav-grid">
-            <a href="grammar.html" class="nav-card">
-                <i class="fas fa-book"></i>
-                <span class="label">Grammar</span>
-                <span class="badge">50 Qs</span>
-            </a>
-
-            <a href="reading.html" class="nav-card">
-                <i class="fas fa-book-open"></i>
-                <span class="label">Reading</span>
-                <span class="badge">7 Passages</span>
-            </a>
-
-            <a href="writing.html" class="nav-card">
-                <i class="fas fa-pen-fancy"></i>
-                <span class="label">Writing</span>
-                <span class="badge">15 Topics</span>
-            </a>
-
-            <a href="speaking.html" class="nav-card">
-                <i class="fas fa-comment"></i>
-                <span class="label">Speaking</span>
-                <span class="badge">62 Qs</span>
-            </a>
-
-            <a href="picturespeaking.html" class="nav-card">
-                <i class="fas fa-image"></i>
-                <span class="label">Picture</span>
-                <span class="badge">12 Topics</span>
-            </a>
-
-            <a href="listening.html" class="nav-card">
-                <i class="fas fa-headphones"></i>
-                <span class="label">Listening</span>
-                <span class="badge">34 Qs</span>
-            </a>
-        </div>
-
-        <div class="stats">
-            <span class="stat-item"><i class="fas fa-check-circle"></i> 6 Modules</span>
-            <span class="stat-item"><i class="fas fa-tasks"></i> 180+ Exercises</span>
-            <span class="stat-item"><i class="fas fa-microphone"></i> Speaking</span>
-            <span class="stat-item"><i class="fas fa-headphones"></i> Audio</span>
-        </div>
-
+        <!-- ===== FOOTER ===== -->
         <div class="footer">
-            <i class="fas fa-anchor"></i> MEPT &bull; Maritime English <i class="fas fa-anchor"></i>
+            <i class="fas fa-check-circle"></i> Regular: 12 exercises &bull; Task 4: dedicated page &bull; MEPT
         </div>
 
     </div>
 
-    <!-- ================================================================
-         🔐 LOGIN GUARD — DEBUG VERSION
-         ================================================================ -->
     <script>
-        console.log('=== Learning Hub Guard Started ===');
-        console.log('mept_session:', localStorage.getItem('mept_session'));
-        console.log('isLoggedIn:', localStorage.getItem('isLoggedIn'));
-        console.log('user:', localStorage.getItem('user'));
+        // ============================================================
+        // TAB TOGGLE (Regular vs Task 4)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const subTabs = document.querySelectorAll('.sub-tab-btn');
+            const contents = {
+                regular: document.getElementById('regularContent'),
+                task4: document.getElementById('task4Content')
+            };
 
-        (function () {
-            const raw = localStorage.getItem('mept_session');
+            // Handle click on regular tab (the anchor tag handles itself)
+            subTabs.forEach(tab => {
+                if (tab.tagName === 'BUTTON') {
+                    tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Remove active from all tabs
+                        subTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
 
-            // ⚠️ ဒီနေရာမှာ debug — ဘာ key ရှိလဲ စစ်ပါ
-            console.log('Guard checking mept_session:', raw);
+                        // Show regular content, hide task4
+                        contents.regular.classList.add('active');
+                        contents.task4.classList.remove('active');
+                    });
+                }
+            });
 
-            if (!raw) {
-                // session မရှိ → index.html (Login) သို့
-                console.warn('❌ mept_session မရှိ → index.html သို့ redirect');
-                window.location.replace('index.html');
-                return;
-            }
+            // If the user clicks the Task 4 link, it navigates away, so we don't need to handle it here.
+            // But if they somehow land here, the tab state is managed by the anchor default behavior.
+            // We'll just ensure regular is active by default (which it is).
+        });
 
-            try {
-                const session = JSON.parse(raw);
-                console.log('Parsed session:', session);
+        // ============================================================
+        // LISTENING DATA (12 exercises – Exercise 2: Family, plus Celebrity & Hometown)
+        // ============================================================
+        const LISTENING_DATA = [{
+            id: 1,
+            type: "short",
+            title: "Exercise 1: Morning Briefing (Part 1)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen to the morning briefing between the bosun and the deckhand.",
+            questions: [{
+                id: 1,
+                question: "1. What is the first task for today?",
+                options: ["a) Clean the deck and check mooring ropes", "b) Check the lifeboat", "c) Have a safety meeting"],
+                correct: "a) Clean the deck and check mooring ropes"
+            }, {
+                id: 2,
+                question: "2. What time should the deck be cleaned?",
+                options: ["a) Before 08:00", "b) Before 09:00", "c) Before 10:00"],
+                correct: "b) Before 09:00"
+            }, {
+                id: 3,
+                question: "3. What time will the chief officer inspect?",
+                options: ["a) 08:30", "b) 09:00", "c) 09:30"],
+                correct: "c) 09:30"
+            }]
+        }, {
+            // ===== EXERCISE 2: FAMILY =====
+            id: 2,
+            type: "short",
+            title: "Exercise 2: Family",
+            audioUrl: "family.mp3",
+            description: "Listen to the conversation about family and answer the questions.",
+            questions: [{
+                id: 4,
+                question: "1. How often does Todd see his family?",
+                options: ["a) Twice a year", "b) Once a year", "c) Every few months"],
+                correct: "b) Once a year"
+            }, {
+                id: 5,
+                question: "2. Where does Todd's family meet when he visits?",
+                options: ["a) His sister's house", "b) His dad's house", "c) His mom's house"],
+                correct: "c) His mom's house"
+            }, {
+                id: 6,
+                question: "3. What does Todd do when he sees his sister?",
+                options: ["a) Goes to a café or shopping", "b) Goes hiking or cooking", "c) Watches movies or plays sports"],
+                correct: "a) Goes to a café or shopping"
+            }, {
+                id: 7,
+                question: "4. How often does Shantel Skype her family?",
+                options: ["a) Once a week", "b) Once a month", "c) Once every two months"],
+                correct: "b) Once a month"
+            }, {
+                id: 8,
+                question: "5. Why does Shantel Skype her father most?",
+                options: ["a) He stays up very late", "b) He wakes up very early", "c) He works from home"],
+                correct: "b) He wakes up very early"
+            }, {
+                id: 9,
+                question: "6. How often does Shantel contact her brother?",
+                options: ["a) Once or twice a week", "b) Once or twice a month", "c) Once every two months"],
+                correct: "b) Once or twice a month"
+            }, {
+                id: 10,
+                question: "7. How often does Todd check Facebook?",
+                options: ["a) Every day", "b) Twice a week", "c) Three times a week"],
+                correct: "c) Three times a week"
+            }, {
+                id: 11,
+                question: "8. Which social media does Todd use on his phone?",
+                options: ["a) Facebook only", "b) Twitter only", "c) Neither Facebook nor Twitter"],
+                correct: "c) Neither Facebook nor Twitter"
+            }]
+        }, {
+            id: 3,
+            type: "short",
+            title: "Exercise 3: Morning Briefing (Part 3)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen again and focus on the weather and safety meeting.",
+            questions: [{
+                id: 12,
+                question: "7. What does the weather forecast say?",
+                options: ["a) Heavy rain", "b) Strong wind", "c) Fog"],
+                correct: "b) Strong wind"
+            }, {
+                id: 13,
+                question: "8. What must they do because of the strong wind?",
+                options: ["a) Stay in the cabin", "b) Secure all loose equipment", "c) Stop working"],
+                correct: "b) Secure all loose equipment"
+            }, {
+                id: 14,
+                question: "9. Where will the safety meeting be held?",
+                options: ["a) On the bridge", "b) In the conference room", "c) On the boat deck"],
+                correct: "b) In the conference room"
+            }]
+        }, {
+            id: 4,
+            type: "short",
+            title: "Exercise 4: Morning Briefing (Part 4)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Listen again and answer these questions.",
+            questions: [{
+                id: 15,
+                question: "10. What time is the safety meeting?",
+                options: ["a) 13:00", "b) 14:00", "c) 15:00"],
+                correct: "b) 14:00"
+            }, {
+                id: 16,
+                question: "11. Who wants the safety meeting?",
+                options: ["a) The bosun", "b) The chief officer", "c) The captain"],
+                correct: "c) The captain"
+            }, {
+                id: 17,
+                question: "12. What must all crew members attend?",
+                options: ["a) The morning briefing", "b) The safety meeting", "c) The lifeboat drill"],
+                correct: "b) The safety meeting"
+            }]
+        }, {
+            id: 5,
+            type: "short",
+            title: "Exercise 5: Morning Briefing (Part 5)",
+            audioUrl: "listening_ex1_5.mp3",
+            description: "Final set of questions from the morning briefing.",
+            questions: [{
+                id: 18,
+                question: "13. What is the bosun's final instruction?",
+                options: ["a) Start the work and stay safe", "b) Have lunch together", "c) Go to the bridge"],
+                correct: "a) Start the work and stay safe"
+            }, {
+                id: 19,
+                question: "14. What did the bosun say about the lifeboat maintenance time?",
+                options: ["a) It will be at 09:00", "b) It will be at 10:00", "c) It will be at 11:00"],
+                correct: "b) It will be at 10:00"
+            }, {
+                id: 20,
+                question: "15. What should the crew do about loose equipment?",
+                options: ["a) Report to the captain", "b) Secure it properly", "c) Remove it from the deck"],
+                correct: "b) Secure it properly"
+            }]
+        }, {
+            id: 6,
+            type: "short",
+            title: "Exercise 6: Cargo Operation",
+            audioUrl: "listening_ex6.mp3",
+            description: "Listen to the conversation between the Chief Officer and the Bosun about cargo loading.",
+            questions: [{
+                id: 21,
+                question: "16. How many containers are they expecting?",
+                options: ["a) 50 containers", "b) 100 containers", "c) 150 containers"],
+                correct: "b) 100 containers"
+            }, {
+                id: 22,
+                question: "17. How many containers will be loaded?",
+                options: ["a) 25", "b) 50", "c) 75"],
+                correct: "b) 50"
+            }, {
+                id: 23,
+                question: "18. What must the bosun check carefully after loading?",
+                options: ["a) The mooring ropes", "b) The lashings", "c) The lifeboat"],
+                correct: "b) The lashings"
+            }]
+        }, {
+            id: 7,
+            type: "short",
+            title: "Exercise 7: Safety Drill",
+            audioUrl: "listening_ex7.mp3",
+            description: "Listen to the conversation between the Captain and the Chief Engineer about the fire drill.",
+            questions: [{
+                id: 24,
+                question: "19. What time will the fire drill be?",
+                options: ["a) 10:00", "b) 11:00", "c) 12:00"],
+                correct: "b) 11:00"
+            }, {
+                id: 25,
+                question: "20. Who will inform the engine room team?",
+                options: ["a) The captain", "b) The chief engineer", "c) The bosun"],
+                correct: "b) The chief engineer"
+            }, {
+                id: 26,
+                question: "21. What equipment must be tested before the drill?",
+                options: ["a) The lifeboat", "b) The fire pumps and alarm system", "c) The navigation lights"],
+                correct: "b) The fire pumps and alarm system"
+            }]
+        }, {
+            id: 8,
+            type: "short",
+            title: "Exercise 8: Watchkeeping Duty",
+            audioUrl: "listening_ex8.mp3",
+            description: "Listen to the conversation between the Officer and the Lookout.",
+            questions: [{
+                id: 27,
+                question: "22. How is the visibility?",
+                options: ["a) Poor", "b) Good", "c) Very good"],
+                correct: "b) Good"
+            }, {
+                id: 28,
+                question: "23. How far is the fishing boat from the ship?",
+                options: ["a) 1 mile", "b) 2 miles", "c) 3 miles"],
+                correct: "c) 3 miles"
+            }, {
+                id: 29,
+                question: "24. What is the fishing boat's speed?",
+                options: ["a) 3 knots", "b) 5 knots", "c) 7 knots"],
+                correct: "b) 5 knots"
+            }]
+        }, {
+            id: 9,
+            type: "long",
+            title: "Exercise 9: Galley Hygiene (Long)",
+            audioUrl: "listening_ex9.mp3",
+            description: "Listen to the detailed conversation about galley hygiene between the Chief Steward and the Cook.",
+            questions: [{
+                id: 30,
+                question: "25. What does the chief steward need to check?",
+                options: ["a) The engine room", "b) The galley hygiene", "c) The lifeboat"],
+                correct: "b) The galley hygiene"
+            }, {
+                id: 31,
+                question: "26. What is the condition of the garbage bins?",
+                options: ["a) They are full", "b) They are covered with lids and emptied", "c) They are broken"],
+                correct: "b) They are covered with lids and emptied"
+            }, {
+                id: 32,
+                question: "27. What should the crew members do before eating?",
+                options: ["a) Wear a uniform", "b) Wash their hands", "c) Report to the chief steward"],
+                correct: "b) Wash their hands"
+            }, {
+                id: 33,
+                question: "28. What did the cook say about the refrigerator temperatures?",
+                options: ["a) They are too cold", "b) They are perfect", "c) They are too warm"],
+                correct: "b) They are perfect"
+            }, {
+                id: 34,
+                question: "29. What is the chief steward's final instruction?",
+                options: ["a) Check the food quality", "b) Remind crew to wash hands", "c) Clean the kitchen again"],
+                correct: "b) Remind crew to wash hands"
+            }]
+        }, {
+            id: 10,
+            type: "long",
+            title: "Exercise 10: Mooring Operation (Long)",
+            audioUrl: "listening_ex10.mp3",
+            description: "Listen to the detailed conversation about mooring operation.",
+            questions: [{
+                id: 35,
+                question: "30. What are the crew preparing for?",
+                options: ["a) Cargo loading", "b) Mooring operation", "c) Safety drill"],
+                correct: "b) Mooring operation"
+            }, {
+                id: 36,
+                question: "31. What must the crew wear?",
+                options: ["a) Lifejacket and helmet", "b) Gloves and hard hat", "c) Safety glasses and coveralls"],
+                correct: "b) Gloves and hard hat"
+            }, {
+                id: 37,
+                question: "32. What time will the pilot arrive?",
+                options: ["a) 14:30", "b) 15:00", "c) 15:30"],
+                correct: "c) 15:30"
+            }, {
+                id: 38,
+                question: "33. What is the bosun's warning to the crew?",
+                options: ["a) Work quickly", "b) Never stand in the bight of a rope", "c) Check the engine"],
+                correct: "b) Never stand in the bight of a rope"
+            }, {
+                id: 39,
+                question: "34. What should the team do when the pilot is on board?",
+                options: ["a) Start the cargo operation", "b) Start the mooring operation", "c) Have a meeting"],
+                correct: "b) Start the mooring operation"
+            }]
+        }, {
+            // ===== EXERCISE 11: CELEBRITY =====
+            id: 11,
+            type: "short",
+            title: "Exercise 11: Celebrity",
+            audioUrl: "Celebrity.mp3",
+            description: "Listen to the conversation about celebrities and answer the questions.",
+            questions: [{
+                id: 40,
+                question: "1. Who is the first person?",
+                options: ["a) A singer", "b) An athlete", "c) An actress"],
+                correct: "a) A singer"
+            }, {
+                id: 41,
+                question: "2. Who is the second person?",
+                options: ["a) A singer", "b) An athlete", "c) An actor"],
+                correct: "b) An athlete"
+            }, {
+                id: 42,
+                question: "3. Who is the third person?",
+                options: ["a) A singer", "b) An athlete", "c) An actor"],
+                correct: "b) An athlete"
+            }, {
+                id: 43,
+                question: "4. Who does she talk about first?",
+                options: ["a) A model", "b) A rapper", "c) A singer"],
+                correct: "c) A singer"
+            }, {
+                id: 44,
+                question: "5. Who famous man does she talk about?",
+                options: ["a) An American", "b) A Jamaican", "c) An Australian"],
+                correct: "b) A Jamaican"
+            }]
+        }, {
+            // ===== EXERCISE 12: HOMETOWN =====
+            id: 12,
+            type: "long",
+            title: "Exercise 12: Hometown",
+            audioUrl: "Hometown.mp3",
+            description: "Listen to the conversation about hometowns and answer the questions.",
+            questions: [{
+                id: 45,
+                question: "1. What is Todd's hometown?",
+                options: ["a) Chicago", "b) San Francisco", "c) Los Angeles"],
+                correct: "b) San Francisco"
+            }, {
+                id: 46,
+                question: "2. Is San Francisco beautiful?",
+                options: ["a) Yes", "b) No", "c) Sometimes"],
+                correct: "a) Yes"
+            }, {
+                id: 47,
+                question: "3. Is the city clean?",
+                options: ["a) Always", "b) Never", "c) Usually"],
+                correct: "c) Usually"
+            }, {
+                id: 48,
+                question: "4. Is San Francisco expensive?",
+                options: ["a) Yes", "b) No", "c) Cheap"],
+                correct: "a) Yes"
+            }, {
+                id: 49,
+                question: "5. What is it famous for?",
+                options: ["a) The bridge", "b) The airport", "c) The stadium"],
+                correct: "a) The bridge"
+            }, {
+                id: 50,
+                question: "6. Is it hot in San Francisco?",
+                options: ["a) Never hot", "b) Always hot", "c) Very hot"],
+                correct: "a) Never hot"
+            }, {
+                id: 51,
+                question: "7. What is Meg's city?",
+                options: ["a) Chicago", "b) Boston", "c) Seattle"],
+                correct: "a) Chicago"
+            }, {
+                id: 52,
+                question: "8. Where is Chicago dangerous?",
+                options: ["a) No parts", "b) Some parts", "c) All parts"],
+                correct: "b) Some parts"
+            }, {
+                id: 53,
+                question: "9. Is Chicago expensive?",
+                options: ["a) Yes", "b) No", "c) Only food"],
+                correct: "a) Yes"
+            }, {
+                id: 54,
+                question: "10. Is Chicago by the ocean?",
+                options: ["a) Yes", "b) No", "c) Sometimes"],
+                correct: "b) No"
+            }]
+        }];
 
-                // username ကို စစ်
-                if (!session || !session.username) {
-                    console.warn('❌ session.username မရှိ → index.html သို့ redirect');
-                    localStorage.removeItem('mept_session');
-                    window.location.replace('index.html');
+        // ============================================================
+        // STATE: selected answers per exercise
+        // ============================================================
+        const selectedAnswers = {};
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function renderListening() {
+            const container = document.getElementById('listeningList');
+            if (!container) return;
+
+            container.innerHTML = LISTENING_DATA.map(ex => {
+                // Determine label dynamically
+                let label = '';
+                if (ex.type === 'short') {
+                    label = `Short Conversation (${ex.questions.length} Qs)`;
+                } else {
+                    label = `Long Conversation (${ex.questions.length} Qs)`;
+                }
+                return `
+                    <div class="listening-card" data-exercise="${ex.id}">
+                        <span class="listening-tag"><i class="fas fa-tag"></i> ${label}</span>
+                        <h3><i class="fas fa-headphones"></i> ${ex.title}</h3>
+                        <div class="desc">${ex.description}</div>
+
+                        <div class="audio-player-wrapper">
+                            <audio id="audio_${ex.id}" src="${ex.audioUrl}" controls preload="metadata"></audio>
+                            <span class="play-badge"><i class="fas fa-play"></i> Unlimited</span>
+                        </div>
+
+                        <div class="listening-questions" id="questions_${ex.id}">
+                            ${ex.questions.map((q, idx) => `
+                                <div class="listening-question-item" id="q_${ex.id}_${q.id}">
+                                    <div class="q-text">${q.question}</div>
+                                    <div class="listening-options" data-ex="${ex.id}" data-qid="${q.id}">
+                                        ${q.options.map(opt => `
+                                            <span class="opt" data-opt="${opt}" onclick="selectOption(${ex.id}, ${q.id}, '${opt}')">
+                                                ${opt}
+                                            </span>
+                                        `).join('')}
+                                    </div>
+                                    <div class="feedback" id="feedback_${ex.id}_${q.id}"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <button class="check-answers-btn" id="checkBtn_${ex.id}" onclick="checkAnswers(${ex.id})">
+                            <i class="fas fa-check-circle"></i> Check Answers
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Initialize selected answers state
+            LISTENING_DATA.forEach(ex => {
+                selectedAnswers[ex.id] = {};
+                ex.questions.forEach(q => {
+                    selectedAnswers[ex.id][q.id] = null;
+                });
+            });
+        }
+
+        // ============================================================
+        // SELECT OPTION
+        // ============================================================
+        function selectOption(exId, qId, optText) {
+            const container = document.querySelector(`#q_${exId}_${qId}`);
+            if (!container) return;
+
+            const options = container.querySelectorAll('.opt');
+            const feedback = container.querySelector(`#feedback_${exId}_${qId}`);
+
+            // Clear previous selection
+            options.forEach(opt => opt.classList.remove('selected', 'correct-show', 'wrong-show'));
+
+            // Mark selected
+            let selectedEl = null;
+            options.forEach(opt => {
+                if (opt.dataset.opt === optText) {
+                    opt.classList.add('selected');
+                    selectedEl = opt;
+                }
+            });
+
+            // Store selection
+            selectedAnswers[exId][qId] = optText;
+
+            // Clear feedback
+            if (feedback) feedback.textContent = '';
+        }
+
+        // ============================================================
+        // CHECK ANSWERS
+        // ============================================================
+        function checkAnswers(exId) {
+            const exercise = LISTENING_DATA.find(e => e.id === exId);
+            if (!exercise) return;
+
+            const btn = document.getElementById(`checkBtn_${exId}`);
+            if (btn) btn.disabled = true;
+
+            let allAnswered = true;
+            let correctCount = 0;
+
+            exercise.questions.forEach(q => {
+                const selected = selectedAnswers[exId]?.[q.id] || null;
+                const container = document.querySelector(`#q_${exId}_${q.id}`);
+                if (!container) return;
+
+                const options = container.querySelectorAll('.opt');
+                const feedback = container.querySelector(`#feedback_${exId}_${q.id}`);
+
+                // Reset styles
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct-show', 'wrong-show');
+                });
+
+                if (!selected) {
+                    allAnswered = false;
+                    if (feedback) {
+                        feedback.textContent = '⚠️ Please select an answer.';
+                        feedback.style.color = '#dc2626';
+                    }
                     return;
                 }
 
-                // ✅ Success
-                console.log('✅ Session OK. User:', session.username);
+                // Check correctness
+                const isCorrect = selected === q.correct;
+                if (isCorrect) correctCount++;
 
-                const badge = document.getElementById('userBadge');
-                if (badge) {
-                    badge.innerHTML = '<i class="fas fa-circle"></i> ' + session.username;
+                options.forEach(opt => {
+                    const optText = opt.dataset.opt;
+                    if (optText === q.correct) {
+                        opt.classList.add('correct-show');
+                    } else if (optText === selected && !isCorrect) {
+                        opt.classList.add('wrong-show');
+                    }
+                    if (optText === selected) {
+                        opt.classList.add('selected');
+                    }
+                });
+
+                if (feedback) {
+                    if (isCorrect) {
+                        feedback.textContent = '✅ Correct!';
+                        feedback.style.color = '#16a34a';
+                    } else {
+                        feedback.textContent = `❌ Incorrect. Correct answer: ${q.correct}`;
+                        feedback.style.color = '#dc2626';
+                    }
                 }
-            } catch (e) {
-                console.error('❌ Parse error:', e);
-                localStorage.removeItem('mept_session');
-                window.location.replace('index.html');
+            });
+
+            // Show summary
+            const total = exercise.questions.length;
+            const summary = document.querySelector(`#questions_${exId}`);
+            if (summary) {
+                let summaryEl = summary.querySelector('.summary-feedback');
+                if (!summaryEl) {
+                    summaryEl = document.createElement('div');
+                    summaryEl.className = 'summary-feedback';
+                    summaryEl.style.cssText = 'margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-weight: 600; text-align: center; background: #f8faff; border: 1px solid #e8edf5;';
+                    summary.appendChild(summaryEl);
+                }
+                if (!allAnswered) {
+                    summaryEl.textContent = `⚠️ Some questions unanswered. Score: ${correctCount}/${total}`;
+                    summaryEl.style.color = '#d97706';
+                    summaryEl.style.background = '#fef3c7';
+                    summaryEl.style.borderColor = '#fde68a';
+                } else {
+                    summaryEl.textContent = `✅ Score: ${correctCount}/${total} (${Math.round(correctCount/total*100)}%)`;
+                    summaryEl.style.color = '#0a2a4a';
+                    summaryEl.style.background = '#dcfce7';
+                    summaryEl.style.borderColor = '#86efac';
+                }
             }
-        })();
+
+            setTimeout(() => {
+                if (btn) btn.disabled = false;
+            }, 800);
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', renderListening);
     </script>
 
 </body>
