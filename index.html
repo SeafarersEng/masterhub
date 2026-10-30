@@ -1436,7 +1436,8 @@
   const IDLE_CHECK_MS       = 15 * 1000;               // Check every 15s
   const IDLE_WARN_MS        = 60 * 1000;               // Warn 1 min before idle
 
-  const SERVER_VERIFY_MS    = 5 * 60 * 1000;           // Re-verify with server every 5 min
+  // ⬇️ Reduced from 5 min → 1 min, so a revoked/deleted key logs out quickly
+  const SERVER_VERIFY_MS    = 60 * 1000;               // Re-verify with server every 1 min
 
   // ================================================================
   // 🔐 DEVICE ID GENERATOR
@@ -1664,7 +1665,7 @@
       if (u) u.focus();
     }, 200);
   }
-  
+
   function closeLogin() {
     if (!loginOverlay) return;
     loginOverlay.classList.remove('open');
@@ -1892,7 +1893,7 @@
   }
 
   // ================================================================
-  // 🚪 FORCE LOGOUT
+  // 🚪 FORCE LOGOUT — Opens login overlay + shows the reason inside it
   // ================================================================
   function forceLogout(message) {
     clearSession();
@@ -1906,9 +1907,13 @@
     if (dashEl) dashEl.classList.add('hidden');
     if (landingEl) landingEl.classList.remove('hidden');
     if (welcomeUser) welcomeUser.textContent = '';
-    closeLogin();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (message) showToast(message, 8000);
+
+    // Immediately show the login overlay
+    openLogin();
+
+    // Display the reason (expiry / idle / revoked key) inside the overlay
+    if (message) showError(message);
   }
 
   // ================================================================
@@ -1934,8 +1939,7 @@
     }
 
     if (sessionExpired(s)) {
-      clearSession();
-      showToast('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။', 8000);
+      forceLogout('⏰ သင့် Key ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။ ပြန်လည် Login ဝင်ပါ။');
       return;
     }
 
@@ -1943,8 +1947,7 @@
     if (savedAct > 0) {
       lastActivity = savedAct;
       if (Date.now() - savedAct >= IDLE_TIMEOUT_MS) {
-        clearSession();
-        showToast('💤 ၁၅ မိနစ်ကျော် မသုံးခဲ့သဖြင့် Auto Logout ဖြစ်ပါသည်။ ပြန်လည် Login ဝင်ပါ။', 8000);
+        forceLogout('💤 ၁၅ မိနစ်ကျော် မသုံးခဲ့သဖြင့် Auto Logout ဖြစ်ပါသည်။ ပြန်လည် Login ဝင်ပါ။');
         return;
       }
     } else {
@@ -1983,6 +1986,21 @@
     checkIdle();
     checkExpiryAndVerify();
   });
+
+  // ================================================================
+  // 🔗 ?login=1 → auto-open login overlay
+  // (guarded so it won't wipe an existing error from forceLogout)
+  // ================================================================
+  (function handleLoginParam() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('login') === '1') {
+      setTimeout(() => {
+        if (loginOverlay && !loginOverlay.classList.contains('open')) {
+          openLogin();
+        }
+      }, 250);
+    }
+  })();
 
   // ================================================================
   // SMOOTH SCROLL
