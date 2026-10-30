@@ -454,7 +454,7 @@
 
         <!-- ===== FOOTER ===== -->
         <div class="footer">
-            <i class="fas fa-check-circle"></i> Regular: 10 exercises &bull; Task 4: dedicated page &bull; MEPT
+            <i class="fas fa-check-circle"></i> Regular: 12 exercises &bull; Task 4: dedicated page &bull; MEPT
         </div>
 
     </div>
@@ -492,7 +492,7 @@
         });
 
         // ============================================================
-        // LISTENING DATA (10 exercises – same as before)
+        // LISTENING DATA (12 exercises – Exercise 2: Family, plus Celebrity & Hometown)
         // ============================================================
         const LISTENING_DATA = [{
             id: 1,
@@ -517,26 +517,52 @@
                 correct: "c) 09:30"
             }]
         }, {
+            // ===== EXERCISE 2: FAMILY =====
             id: 2,
             type: "short",
-            title: "Exercise 2: Morning Briefing (Part 2)",
-            audioUrl: "listening_ex1_5.mp3",
-            description: "Listen again to the morning briefing and answer these questions.",
+            title: "Exercise 2: Family",
+            audioUrl: "family.mp3",
+            description: "Listen to the conversation about family and answer the questions.",
             questions: [{
                 id: 4,
-                question: "4. What will happen at 10:00?",
-                options: ["a) The deck will be cleaned", "b) The lifeboat maintenance will start", "c) The safety meeting will begin"],
-                correct: "b) The lifeboat maintenance will start"
+                question: "1. How often does Todd see his family?",
+                options: ["a) Twice a year", "b) Once a year", "c) Every few months"],
+                correct: "b) Once a year"
             }, {
                 id: 5,
-                question: "5. What equipment needs to be checked for the lifeboat?",
-                options: ["a) Engine, steering system, and lifejackets", "b) Mooring ropes and deck", "c) Radar and GPS"],
-                correct: "a) Engine, steering system, and lifejackets"
+                question: "2. Where does Todd's family meet when he visits?",
+                options: ["a) His sister's house", "b) His dad's house", "c) His mom's house"],
+                correct: "c) His mom's house"
             }, {
                 id: 6,
-                question: "6. Who will inform the team?",
-                options: ["a) The bosun", "b) The deckhand", "c) The captain"],
-                correct: "b) The deckhand"
+                question: "3. What does Todd do when he sees his sister?",
+                options: ["a) Goes to a café or shopping", "b) Goes hiking or cooking", "c) Watches movies or plays sports"],
+                correct: "a) Goes to a café or shopping"
+            }, {
+                id: 7,
+                question: "4. How often does Shantel Skype her family?",
+                options: ["a) Once a week", "b) Once a month", "c) Once every two months"],
+                correct: "b) Once a month"
+            }, {
+                id: 8,
+                question: "5. Why does Shantel Skype her father most?",
+                options: ["a) He stays up very late", "b) He wakes up very early", "c) He works from home"],
+                correct: "b) He wakes up very early"
+            }, {
+                id: 9,
+                question: "6. How often does Shantel contact her brother?",
+                options: ["a) Once or twice a week", "b) Once or twice a month", "c) Once every two months"],
+                correct: "b) Once or twice a month"
+            }, {
+                id: 10,
+                question: "7. How often does Todd check Facebook?",
+                options: ["a) Every day", "b) Twice a week", "c) Three times a week"],
+                correct: "c) Three times a week"
+            }, {
+                id: 11,
+                question: "8. Which social media does Todd use on his phone?",
+                options: ["a) Facebook only", "b) Twitter only", "c) Neither Facebook nor Twitter"],
+                correct: "c) Neither Facebook nor Twitter"
             }]
         }, {
             id: 3,
@@ -545,17 +571,17 @@
             audioUrl: "listening_ex1_5.mp3",
             description: "Listen again and focus on the weather and safety meeting.",
             questions: [{
-                id: 7,
+                id: 12,
                 question: "7. What does the weather forecast say?",
                 options: ["a) Heavy rain", "b) Strong wind", "c) Fog"],
                 correct: "b) Strong wind"
             }, {
-                id: 8,
+                id: 13,
                 question: "8. What must they do because of the strong wind?",
                 options: ["a) Stay in the cabin", "b) Secure all loose equipment", "c) Stop working"],
                 correct: "b) Secure all loose equipment"
             }, {
-                id: 9,
+                id: 14,
                 question: "9. Where will the safety meeting be held?",
                 options: ["a) On the bridge", "b) In the conference room", "c) On the boat deck"],
                 correct: "b) In the conference room"
@@ -567,17 +593,17 @@
             audioUrl: "listening_ex1_5.mp3",
             description: "Listen again and answer these questions.",
             questions: [{
-                id: 10,
+                id: 15,
                 question: "10. What time is the safety meeting?",
                 options: ["a) 13:00", "b) 14:00", "c) 15:00"],
                 correct: "b) 14:00"
             }, {
-                id: 11,
+                id: 16,
                 question: "11. Who wants the safety meeting?",
                 options: ["a) The bosun", "b) The chief officer", "c) The captain"],
                 correct: "c) The captain"
             }, {
-                id: 12,
+                id: 17,
                 question: "12. What must all crew members attend?",
                 options: ["a) The morning briefing", "b) The safety meeting", "c) The lifeboat drill"],
                 correct: "b) The safety meeting"
@@ -589,17 +615,17 @@
             audioUrl: "listening_ex1_5.mp3",
             description: "Final set of questions from the morning briefing.",
             questions: [{
-                id: 13,
+                id: 18,
                 question: "13. What is the bosun's final instruction?",
                 options: ["a) Start the work and stay safe", "b) Have lunch together", "c) Go to the bridge"],
                 correct: "a) Start the work and stay safe"
             }, {
-                id: 14,
+                id: 19,
                 question: "14. What did the bosun say about the lifeboat maintenance time?",
                 options: ["a) It will be at 09:00", "b) It will be at 10:00", "c) It will be at 11:00"],
                 correct: "b) It will be at 10:00"
             }, {
-                id: 15,
+                id: 20,
                 question: "15. What should the crew do about loose equipment?",
                 options: ["a) Report to the captain", "b) Secure it properly", "c) Remove it from the deck"],
                 correct: "b) Secure it properly"
@@ -611,17 +637,17 @@
             audioUrl: "listening_ex6.mp3",
             description: "Listen to the conversation between the Chief Officer and the Bosun about cargo loading.",
             questions: [{
-                id: 16,
+                id: 21,
                 question: "16. How many containers are they expecting?",
                 options: ["a) 50 containers", "b) 100 containers", "c) 150 containers"],
                 correct: "b) 100 containers"
             }, {
-                id: 17,
+                id: 22,
                 question: "17. How many containers will be loaded?",
                 options: ["a) 25", "b) 50", "c) 75"],
                 correct: "b) 50"
             }, {
-                id: 18,
+                id: 23,
                 question: "18. What must the bosun check carefully after loading?",
                 options: ["a) The mooring ropes", "b) The lashings", "c) The lifeboat"],
                 correct: "b) The lashings"
@@ -633,17 +659,17 @@
             audioUrl: "listening_ex7.mp3",
             description: "Listen to the conversation between the Captain and the Chief Engineer about the fire drill.",
             questions: [{
-                id: 19,
+                id: 24,
                 question: "19. What time will the fire drill be?",
                 options: ["a) 10:00", "b) 11:00", "c) 12:00"],
                 correct: "b) 11:00"
             }, {
-                id: 20,
+                id: 25,
                 question: "20. Who will inform the engine room team?",
                 options: ["a) The captain", "b) The chief engineer", "c) The bosun"],
                 correct: "b) The chief engineer"
             }, {
-                id: 21,
+                id: 26,
                 question: "21. What equipment must be tested before the drill?",
                 options: ["a) The lifeboat", "b) The fire pumps and alarm system", "c) The navigation lights"],
                 correct: "b) The fire pumps and alarm system"
@@ -655,17 +681,17 @@
             audioUrl: "listening_ex8.mp3",
             description: "Listen to the conversation between the Officer and the Lookout.",
             questions: [{
-                id: 22,
+                id: 27,
                 question: "22. How is the visibility?",
                 options: ["a) Poor", "b) Good", "c) Very good"],
                 correct: "b) Good"
             }, {
-                id: 23,
+                id: 28,
                 question: "23. How far is the fishing boat from the ship?",
                 options: ["a) 1 mile", "b) 2 miles", "c) 3 miles"],
                 correct: "c) 3 miles"
             }, {
-                id: 24,
+                id: 29,
                 question: "24. What is the fishing boat's speed?",
                 options: ["a) 3 knots", "b) 5 knots", "c) 7 knots"],
                 correct: "b) 5 knots"
@@ -677,27 +703,27 @@
             audioUrl: "listening_ex9.mp3",
             description: "Listen to the detailed conversation about galley hygiene between the Chief Steward and the Cook.",
             questions: [{
-                id: 25,
+                id: 30,
                 question: "25. What does the chief steward need to check?",
                 options: ["a) The engine room", "b) The galley hygiene", "c) The lifeboat"],
                 correct: "b) The galley hygiene"
             }, {
-                id: 26,
+                id: 31,
                 question: "26. What is the condition of the garbage bins?",
                 options: ["a) They are full", "b) They are covered with lids and emptied", "c) They are broken"],
                 correct: "b) They are covered with lids and emptied"
             }, {
-                id: 27,
+                id: 32,
                 question: "27. What should the crew members do before eating?",
                 options: ["a) Wear a uniform", "b) Wash their hands", "c) Report to the chief steward"],
                 correct: "b) Wash their hands"
             }, {
-                id: 28,
+                id: 33,
                 question: "28. What did the cook say about the refrigerator temperatures?",
                 options: ["a) They are too cold", "b) They are perfect", "c) They are too warm"],
                 correct: "b) They are perfect"
             }, {
-                id: 29,
+                id: 34,
                 question: "29. What is the chief steward's final instruction?",
                 options: ["a) Check the food quality", "b) Remind crew to wash hands", "c) Clean the kitchen again"],
                 correct: "b) Remind crew to wash hands"
@@ -709,30 +735,121 @@
             audioUrl: "listening_ex10.mp3",
             description: "Listen to the detailed conversation about mooring operation.",
             questions: [{
-                id: 30,
+                id: 35,
                 question: "30. What are the crew preparing for?",
                 options: ["a) Cargo loading", "b) Mooring operation", "c) Safety drill"],
                 correct: "b) Mooring operation"
             }, {
-                id: 31,
+                id: 36,
                 question: "31. What must the crew wear?",
                 options: ["a) Lifejacket and helmet", "b) Gloves and hard hat", "c) Safety glasses and coveralls"],
                 correct: "b) Gloves and hard hat"
             }, {
-                id: 32,
+                id: 37,
                 question: "32. What time will the pilot arrive?",
                 options: ["a) 14:30", "b) 15:00", "c) 15:30"],
                 correct: "c) 15:30"
             }, {
-                id: 33,
+                id: 38,
                 question: "33. What is the bosun's warning to the crew?",
                 options: ["a) Work quickly", "b) Never stand in the bight of a rope", "c) Check the engine"],
                 correct: "b) Never stand in the bight of a rope"
             }, {
-                id: 34,
+                id: 39,
                 question: "34. What should the team do when the pilot is on board?",
                 options: ["a) Start the cargo operation", "b) Start the mooring operation", "c) Have a meeting"],
                 correct: "b) Start the mooring operation"
+            }]
+        }, {
+            // ===== EXERCISE 11: CELEBRITY =====
+            id: 11,
+            type: "short",
+            title: "Exercise 11: Celebrity",
+            audioUrl: "Celebrity.mp3",
+            description: "Listen to the conversation about celebrities and answer the questions.",
+            questions: [{
+                id: 40,
+                question: "1. Who is the first person?",
+                options: ["a) A singer", "b) An athlete", "c) An actress"],
+                correct: "a) A singer"
+            }, {
+                id: 41,
+                question: "2. Who is the second person?",
+                options: ["a) A singer", "b) An athlete", "c) An actor"],
+                correct: "b) An athlete"
+            }, {
+                id: 42,
+                question: "3. Who is the third person?",
+                options: ["a) A singer", "b) An athlete", "c) An actor"],
+                correct: "b) An athlete"
+            }, {
+                id: 43,
+                question: "4. Who does she talk about first?",
+                options: ["a) A model", "b) A rapper", "c) A singer"],
+                correct: "c) A singer"
+            }, {
+                id: 44,
+                question: "5. Who famous man does she talk about?",
+                options: ["a) An American", "b) A Jamaican", "c) An Australian"],
+                correct: "b) A Jamaican"
+            }]
+        }, {
+            // ===== EXERCISE 12: HOMETOWN =====
+            id: 12,
+            type: "long",
+            title: "Exercise 12: Hometown",
+            audioUrl: "Hometown.mp3",
+            description: "Listen to the conversation about hometowns and answer the questions.",
+            questions: [{
+                id: 45,
+                question: "1. What is Todd's hometown?",
+                options: ["a) Chicago", "b) San Francisco", "c) Los Angeles"],
+                correct: "b) San Francisco"
+            }, {
+                id: 46,
+                question: "2. Is San Francisco beautiful?",
+                options: ["a) Yes", "b) No", "c) Sometimes"],
+                correct: "a) Yes"
+            }, {
+                id: 47,
+                question: "3. Is the city clean?",
+                options: ["a) Always", "b) Never", "c) Usually"],
+                correct: "c) Usually"
+            }, {
+                id: 48,
+                question: "4. Is San Francisco expensive?",
+                options: ["a) Yes", "b) No", "c) Cheap"],
+                correct: "a) Yes"
+            }, {
+                id: 49,
+                question: "5. What is it famous for?",
+                options: ["a) The bridge", "b) The airport", "c) The stadium"],
+                correct: "a) The bridge"
+            }, {
+                id: 50,
+                question: "6. Is it hot in San Francisco?",
+                options: ["a) Never hot", "b) Always hot", "c) Very hot"],
+                correct: "a) Never hot"
+            }, {
+                id: 51,
+                question: "7. What is Meg's city?",
+                options: ["a) Chicago", "b) Boston", "c) Seattle"],
+                correct: "a) Chicago"
+            }, {
+                id: 52,
+                question: "8. Where is Chicago dangerous?",
+                options: ["a) No parts", "b) Some parts", "c) All parts"],
+                correct: "b) Some parts"
+            }, {
+                id: 53,
+                question: "9. Is Chicago expensive?",
+                options: ["a) Yes", "b) No", "c) Only food"],
+                correct: "a) Yes"
+            }, {
+                id: 54,
+                question: "10. Is Chicago by the ocean?",
+                options: ["a) Yes", "b) No", "c) Sometimes"],
+                correct: "b) No"
             }]
         }];
 
@@ -749,10 +866,16 @@
             if (!container) return;
 
             container.innerHTML = LISTENING_DATA.map(ex => {
-                const typeLabel = ex.type === 'short' ? 'Short Conversation (3 Qs)' : 'Long Conversation (5 Qs)';
+                // Determine label dynamically
+                let label = '';
+                if (ex.type === 'short') {
+                    label = `Short Conversation (${ex.questions.length} Qs)`;
+                } else {
+                    label = `Long Conversation (${ex.questions.length} Qs)`;
+                }
                 return `
                     <div class="listening-card" data-exercise="${ex.id}">
-                        <span class="listening-tag"><i class="fas fa-tag"></i> ${typeLabel}</span>
+                        <span class="listening-tag"><i class="fas fa-tag"></i> ${label}</span>
                         <h3><i class="fas fa-headphones"></i> ${ex.title}</h3>
                         <div class="desc">${ex.description}</div>
 
