@@ -124,6 +124,17 @@ h2{
   margin:14px 0;
 }
 
+.secure-warn{
+  border:1px solid #7a3a44;
+  background:#3a1a1f;
+  color:#ffb8c2;
+  border-radius:14px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.5;
+  margin:0 0 14px;
+}
+
 .btn-row{
   display:flex;
   gap:10px;
@@ -580,6 +591,10 @@ audio{
         🔊 Test Examiner Voice
       </button>
 
+      <button id="micTestBtn" class="secondary">
+        🎙 Test Microphone
+      </button>
+
       <button id="startTestBtn" class="primary">
         🚀 Start Test
       </button>
@@ -787,6 +802,26 @@ const CAP = (() => {
   };
 
 })();
+
+
+/* ============================================================
+   SECURE CONTEXT BANNER (top of page)
+============================================================ */
+
+if(!window.isSecureContext){
+  try{
+    const warn = document.createElement("div");
+    warn.className = "secure-warn";
+    warn.innerHTML =
+      "⚠️ <b>Microphone & recording will NOT work</b> because this page " +
+      "is not served over <b>HTTPS</b> or <b>localhost</b>.<br>" +
+      "Current protocol: <b>" + location.protocol + "//" + location.host + "</b><br>" +
+      "Open this file via <b>https://</b> or <b>http://localhost</b> to enable voice.";
+    document.querySelector(".app").prepend(warn);
+  }catch(e){
+    console.warn("Could not render secure-context banner:", e);
+  }
+}
 
 
 /* ============================================================
@@ -1023,6 +1058,7 @@ let mediaStream = null;
 let mediaRecorder = null;
 let audioChunks = [];
 let currentAudioBlob = null;
+let storedMimeType = "";
 
 let speechEnabled = true;
 let speechVoice = null;
@@ -1033,6 +1069,9 @@ let answeringFollowUp = false;
 let followUpAnswers = [];
 
 let answers = [];
+
+/* Blob URLs created for audio playback — must be revoked */
+let createdAudioURLs = [];
 
 
 /* ============================================================
@@ -1060,7 +1099,7 @@ function toast(message){
 
   toastTimer = setTimeout(() => {
     el.classList.remove("show");
-  }, 2800);
+  }, 3200);
 }
 
 
@@ -1141,18 +1180,18 @@ function speakText(text, options = {}){
   }
 
   utterance.onstart = () => {
-    $("examinerStatus").textContent =
-      "Examiner is speaking...";
+    const el = $("examinerStatus");
+    if(el) el.textContent = "Examiner is speaking...";
   };
 
   utterance.onend = () => {
-    $("examinerStatus").textContent =
-      "Examiner finished. Press Start Answering.";
+    const el = $("examinerStatus");
+    if(el) el.textContent = "Examiner finished. Press Start Answering.";
   };
 
   utterance.onerror = () => {
-    $("examinerStatus").textContent =
-      "Examiner voice unavailable.";
+    const el = $("examinerStatus");
+    if(el) el.textContent = "Examiner voice unavailable.";
   };
 
   window.speechSynthesis.speak(utterance);
@@ -1165,8 +1204,8 @@ function stopSpeaking(){
     window.speechSynthesis.cancel();
   }
 
-  $("examinerStatus").textContent =
-    "Examiner is ready.";
+  const el = $("examinerStatus");
+  if(el) el.textContent = "Examiner is ready.";
 }
 
 
@@ -1379,9 +1418,12 @@ function getPicture(type){
 async function ensureMicrophone(){
 
   if(!CAP.GUM){
+    throw new Error("Microphone API not available in this browser.");
+  }
 
+  if(!window.isSecureContext){
     throw new Error(
-      "getUserMedia is not supported."
+      "Microphone requires HTTPS or localhost."
     );
   }
 
@@ -1393,17 +1435,30 @@ async function ensureMicrophone(){
     return mediaStream;
   }
 
+  // 1st attempt: enhanced constraints
+  try{
+    mediaStream =
+      await navigator.mediaDevices.getUserMedia({
+        audio:{
+          echoCancellation:true,
+          noiseSuppression:true,
+          autoGainControl:true
+        },
+        video:false
+      });
+    return mediaStream;
+
+  }catch(err){
+    console.warn(
+      "Enhanced audio constraints failed, retrying basic:",
+      err
+    );
+  }
+
+  // 2nd attempt: plain audio (works on virtually every device)
   mediaStream =
     await navigator.mediaDevices.getUserMedia({
-
-      audio:{
-        echoCancellation:true,
-        noiseSuppression:true,
-        autoGainControl:true
-      },
-
-      video:false
-
+      audio:true
     });
 
   return mediaStream;
@@ -1430,60 +1485,78 @@ function getSupportedMime(){
 
   ];
 
-  return types.find(type =>
-    MediaRecorder.isTypeSupported(type)
-  ) || "";
+  return types.find(type => {
+    try{
+      return MediaRecorder.isTypeSupported(type);
+    }catch{
+      return false;
+    }
+  }) || "";
 }
 
 
-async function startMediaRecorder(){
+/*
+  resetChunks = true  →  clears audioChunks (fresh recording)
+  resetChunks = false →  keeps audioChunks (used on Pause → Resume)
+*/
+async function startMediaRecorder(resetChunks = true){
 
   if(!CAP.MR){
-    return;
+    throw new Error(
+      "MediaRecorder not available on this browser/context."
+    );
   }
 
   await ensureMicrophone();
 
-  audioChunks = [];
+  if(resetChunks){
+    audioChunks = [];
+    currentAudioBlob = null;
+  }
 
-  currentAudioBlob = null;
+  storedMimeType = getSupportedMime();
 
-  const mimeType =
-    getSupportedMime();
-
-  mediaRecorder =
-    mimeType
-      ? new MediaRecorder(
-          mediaStream,
-          {mimeType}
-        )
+  try{
+    mediaRecorder = storedMimeType
+      ? new MediaRecorder(mediaStream, { mimeType: storedMimeType })
       : new MediaRecorder(mediaStream);
+  }catch(err){
+    console.warn("MediaRecorder ctor failed, retrying default:", err);
+    mediaRecorder = new MediaRecorder(mediaStream);
+    storedMimeType = mediaRecorder.mimeType || "";
+  }
 
-  mediaRecorder.ondataavailable =
-    event => {
+  const thisRecorder = mediaRecorder;
+  const thisMime = storedMimeType;
 
-      if(event.data &&
-         event.data.size > 0){
-
-        audioChunks.push(event.data);
-      }
-    };
-
-  mediaRecorder.onstop = () => {
-
-    const type =
-      mediaRecorder.mimeType ||
-      "audio/webm";
-
-    currentAudioBlob =
-      new Blob(
-        audioChunks,
-        {type}
-      );
-
+  thisRecorder.ondataavailable = event => {
+    if(event.data && event.data.size > 0){
+      audioChunks.push(event.data);
+    }
   };
 
-  mediaRecorder.start(250);
+  thisRecorder.onstop = () => {
+    const type =
+      thisMime ||
+      thisRecorder.mimeType ||
+      "audio/webm";
+
+    try{
+      currentAudioBlob = new Blob(audioChunks, { type });
+    }catch(err){
+      console.warn("Blob build failed:", err);
+    }
+  };
+
+  thisRecorder.onerror = event => {
+    console.error("MediaRecorder error:", event.error);
+    toast(
+      "⚠️ Recording error: " +
+      (event.error?.name || event.error?.message || "unknown")
+    );
+  };
+
+  thisRecorder.start(250);
 }
 
 
@@ -1501,18 +1574,12 @@ function stopMediaRecorder(){
     const mr = mediaRecorder;
 
     const done = () => {
-
       setTimeout(() => {
         resolve(currentAudioBlob);
-      }, 50);
-
+      }, 60);
     };
 
-    mr.addEventListener(
-      "stop",
-      done,
-      {once:true}
-    );
+    mr.addEventListener("stop", done, { once:true });
 
     try{
       mr.stop();
@@ -1998,6 +2065,9 @@ function renderSlide(isResume = false){
   $("startBtn")
     .classList.remove("hidden");
 
+  $("startBtn").textContent =
+    "🎤 Start Answering";
+
   $("pauseBtn")
     .classList.add("hidden");
 
@@ -2009,6 +2079,9 @@ function renderSlide(isResume = false){
 
   $("manualBtn")
     .classList.remove("hidden");
+
+  $("manualBtn").textContent =
+    "⌨️ Type Answer";
 
   $("replayBtn")
     .classList.remove("hidden");
@@ -2038,58 +2111,43 @@ async function handleStart(){
 
   stopSpeaking();
 
+  let micOk = false;
+
+  // 1) request mic permission
   try{
-
     if(CAP.GUM){
-
       await ensureMicrophone();
-
+      micOk = true;
     }
-
   }catch(error){
-
     console.error(error);
-
     toast(
-      "🎤 Microphone permission was not granted. Manual typing is available."
+      "🎤 " +
+      (error.message || "Microphone permission was not granted.") +
+      " Manual typing is available."
     );
-
     enableManualMode();
-
-    if(
-      !CAP.liveSR &&
-      !manualMode
-    ){
-      return;
-    }
   }
 
-
-  if(CAP.MR){
-
+  // 2) start recorder (fresh chunks)
+  if(micOk && CAP.MR){
     try{
-
-      await startMediaRecorder();
-
+      await startMediaRecorder(true);
     }catch(error){
-
-      console.warn(
-        "MediaRecorder unavailable:",
-        error
+      console.warn("MediaRecorder unavailable:", error);
+      toast(
+        "⚠️ Recording unavailable: " +
+        (error.message || error.name || "unknown")
       );
     }
   }
 
-
-  if(CAP.liveSR){
-
+  // 3) start speech recognition (live transcript)
+  if(micOk && CAP.liveSR){
     startRecognition();
-
-  }else{
-
+  }else if(!CAP.liveSR){
     enableManualMode();
   }
-
 
   isRunning = true;
 
@@ -2117,7 +2175,7 @@ async function handleStart(){
 
 
 /* ============================================================
-   PAUSE
+   PAUSE / RESUME
 ============================================================ */
 
 async function handlePause(){
@@ -2148,11 +2206,13 @@ async function handlePause(){
 
   isPaused = false;
 
+  // ⬇ KEY FIX: preserve already-recorded audio when resuming
   if(CAP.MR){
-
     try{
-      await startMediaRecorder();
-    }catch{}
+      await startMediaRecorder(false);
+    }catch(err){
+      console.warn("Resume recorder failed:", err);
+    }
   }
 
   if(CAP.liveSR){
@@ -2252,13 +2312,17 @@ function startFollowUp(){
 
 
 /* ============================================================
-   SAVE FOLLOW-UP
+   SAVE FOLLOW-UP (now stores audio)
 ============================================================ */
 
 async function saveFollowUpAnswer(){
 
   const q =
     QUESTIONS[currentSlide];
+
+  // Stop recorder FIRST so the blob is finalized
+  const blob =
+    await stopMediaRecorder();
 
   const text =
     getCurrentAnswerText();
@@ -2275,8 +2339,10 @@ async function saveFollowUpAnswer(){
     text,
 
     wordCount:
-      countWords(text)
+      countWords(text),
 
+    audio:
+      blob || null
   });
 }
 
@@ -2383,13 +2449,15 @@ async function nextSlide(){
 
     if(isRunning){
 
+      // stop recognition + save follow-up (recorder stops inside)
+      stopRecognition();
       await saveFollowUpAnswer();
 
+    }else{
+
+      stopRecognition();
+      await stopMediaRecorder();
     }
-
-    stopRecognition();
-
-    await stopMediaRecorder();
 
     isRunning = false;
 
@@ -2658,7 +2726,7 @@ function finishTest(){
       : 0;
 
   const allFollowUps =
-    followUpAnswers.flat();
+    followUpAnswers.flat().filter(Boolean);
 
   const followWords =
     allFollowUps.reduce(
@@ -2728,10 +2796,32 @@ function getScoreLabel(score){
 
 
 /* ============================================================
-   RESULT CARDS
+   RESULT CARDS (with audio for main + follow-ups)
 ============================================================ */
 
+function revokeAudioURLs(){
+  createdAudioURLs.forEach(u => {
+    try{ URL.revokeObjectURL(u); }catch{}
+  });
+  createdAudioURLs = [];
+}
+
+
+function makeAudioURL(blob){
+  try{
+    const url = URL.createObjectURL(blob);
+    createdAudioURLs.push(url);
+    return url;
+  }catch(err){
+    console.warn("createObjectURL failed:", err);
+    return null;
+  }
+}
+
+
 function renderResults(){
+
+  revokeAudioURLs();
 
   const list =
     $("answerList");
@@ -2784,6 +2874,20 @@ function renderResults(){
       `;
 
 
+      if(answer.audio && answer.audio.size > 0){
+        const url = makeAudioURL(answer.audio);
+        if(url){
+          html += `
+            <audio
+              controls
+              preload="metadata"
+              src="${url}">
+            </audio>
+          `;
+        }
+      }
+
+
       const followUps =
         followUpAnswers[index] || [];
 
@@ -2810,33 +2914,24 @@ function renderResults(){
                   )
                 }
               </div>
-
-            </div>
-
           `;
+
+          if(f.audio && f.audio.size > 0){
+            const url = makeAudioURL(f.audio);
+            if(url){
+              html += `
+                <audio
+                  controls
+                  preload="metadata"
+                  src="${url}">
+                </audio>
+              `;
+            }
+          }
+
+          html += `</div>`;
         }
       );
-
-
-      if(answer.audio){
-
-        try{
-
-          const url =
-            URL.createObjectURL(
-              answer.audio
-            );
-
-          html += `
-            <audio
-              controls
-              preload="metadata"
-              src="${url}">
-            </audio>
-          `;
-
-        }catch{}
-      }
 
 
       card.innerHTML =
@@ -2887,6 +2982,17 @@ function saveState(){
       });
 
 
+    // follow-up answers: drop audio before persisting
+    const serializableFollowUps =
+      (followUpAnswers || []).map(list =>
+        (list || []).map(f => ({
+          question: f.question,
+          text: f.text,
+          wordCount: f.wordCount
+        }))
+      );
+
+
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
@@ -2896,7 +3002,8 @@ function saveState(){
         answers:
           serializableAnswers,
 
-        followUpAnswers
+        followUpAnswers:
+          serializableFollowUps
 
       })
     );
@@ -2961,14 +3068,12 @@ function loadState(){
 
 async function startTest(){
 
-  /*
-    IMPORTANT:
-    The browser's permission popup cannot be
-    automatically clicked by JavaScript.
+  if(!window.isSecureContext){
 
-    We request it immediately from this user
-    click so Chrome/Edge can show the popup.
-  */
+    toast(
+      "⚠️ Not on HTTPS/localhost — voice recording will be blocked. You can still use Type Answer."
+    );
+  }
 
   if(CAP.GUM){
 
@@ -2988,7 +3093,9 @@ async function startTest(){
       );
 
       toast(
-        "Microphone not allowed. You can still use Type Answer."
+        "Microphone not allowed: " +
+        (error.message || error.name) +
+        ". You can still use Type Answer."
       );
     }
 
@@ -3037,6 +3144,8 @@ function restartTest(){
 
   stopSpeaking();
 
+  revokeAudioURLs();
+
   currentSlide = 0;
 
   answers = [];
@@ -3082,6 +3191,115 @@ function clearSavedData(){
 
 
 /* ============================================================
+   MICROPHONE TEST (3-second self-check)
+============================================================ */
+
+async function micSelfTest(){
+
+  if(!window.isSecureContext){
+    toast("❌ Not on HTTPS/localhost — mic is blocked by browser.");
+    return;
+  }
+
+  if(!CAP.GUM){
+    toast("❌ This browser has no microphone API.");
+    return;
+  }
+
+  if(!CAP.MR){
+    toast("❌ MediaRecorder is not available in this browser.");
+    return;
+  }
+
+  let stream = null;
+
+  try{
+    toast("🎤 Requesting microphone…");
+    stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+
+    let mime = "";
+    try{
+      if(MediaRecorder.isTypeSupported("audio/webm;codecs=opus"))
+        mime = "audio/webm;codecs=opus";
+      else if(MediaRecorder.isTypeSupported("audio/webm"))
+        mime = "audio/webm";
+      else if(MediaRecorder.isTypeSupported("audio/mp4"))
+        mime = "audio/mp4";
+    }catch{}
+
+    const rec = mime
+      ? new MediaRecorder(stream, { mimeType: mime })
+      : new MediaRecorder(stream);
+
+    const chunks = [];
+    rec.ondataavailable = e => {
+      if(e.data && e.data.size > 0) chunks.push(e.data);
+    };
+
+    rec.onerror = e => {
+      console.error(e);
+      toast("❌ Recorder error: " + (e.error?.name || "unknown"));
+    };
+
+    rec.onstop = () => {
+      try{
+        const blob = new Blob(chunks, { type: rec.mimeType || "audio/webm" });
+
+        if(blob.size === 0){
+          toast("❌ No audio captured. Check your device microphone.");
+        }else{
+          const url = URL.createObjectURL(blob);
+          createdAudioURLs.push(url);
+
+          const audio = new Audio(url);
+          audio.controls = true;
+          audio.onended = () => {};
+
+          // Auto-play for instant feedback
+          audio.play().catch(() => {});
+
+          toast(
+            `✅ Recorded ${(blob.size/1024).toFixed(1)} KB — playing back now.`
+          );
+        }
+      }catch(err){
+        console.error(err);
+        toast("❌ Playback failed: " + (err.message || err.name));
+      }finally{
+        if(stream) stream.getTracks().forEach(t => t.stop());
+      }
+    };
+
+    rec.start();
+    toast("🎤 Recording 3 seconds — please speak…");
+    setTimeout(() => {
+      try{ rec.stop(); }catch{}
+    }, 3000);
+
+  }catch(err){
+    console.error(err);
+
+    if(stream){
+      stream.getTracks().forEach(t => t.stop());
+    }
+
+    const name = err?.name || "Error";
+    let msg = "❌ Microphone blocked: " + name;
+
+    if(name === "NotAllowedError"){
+      msg = "❌ Permission denied. Click the 🔒 icon in the URL bar and allow Microphone.";
+    }else if(name === "NotFoundError"){
+      msg = "❌ No microphone found on this device.";
+    }else if(name === "NotReadableError"){
+      msg = "❌ Microphone busy — close other apps using it and retry.";
+    }
+
+    toast(msg);
+  }
+}
+
+
+/* ============================================================
    EVENTS
 ============================================================ */
 
@@ -3105,6 +3323,13 @@ $("testVoiceBtn")
       );
 
     }
+  );
+
+
+$("micTestBtn")
+  .addEventListener(
+    "click",
+    micSelfTest
   );
 
 
@@ -3267,9 +3492,8 @@ document.addEventListener(
       ){
 
         /*
-          Do not automatically stop the
-          test because some browsers pause
-          speech recognition when backgrounded.
+          Do not automatically stop the test because
+          some browsers pause speech recognition when backgrounded.
         */
 
         stopSpeaking();
