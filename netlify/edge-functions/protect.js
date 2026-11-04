@@ -1,16 +1,11 @@
 /**
  * Netlify Edge Function — proxies login to Google Apps Script
- *
- * Env vars (Netlify → Environment variables):
- *   SHEET_API_URL     = https://script.google.com/macros/s/AKfycbz.../exec
- *   SHEET_TOKEN       = MySecretToken123   (same as SECRET_TOKEN in Apps Script)
- *   MEPT_SECRET       = random hex for cookie signing
+ * Env vars required: SHEET_API_URL, SHEET_TOKEN, MEPT_SECRET
  */
 
 const COOKIE_NAME = "mept_auth";
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
-/* ---------- HMAC cookie helpers ---------- */
 async function hmacSign(text, secret) {
   const key = await crypto.subtle.importKey(
     "raw", new TextEncoder().encode(secret),
@@ -46,17 +41,15 @@ function jsonRes(obj, status = 200) {
   });
 }
 
-/* ---------- Login: proxy to Google Apps Script ---------- */
 async function handleLogin(request) {
   const secret     = Netlify.env.get("MEPT_SECRET");
   const sheetUrl   = Netlify.env.get("SHEET_API_URL");
   const sheetToken = Netlify.env.get("SHEET_TOKEN");
 
   if (!secret || !sheetUrl || !sheetToken) {
-    return jsonRes({ ok: false, message: "Server configuration error" }, 500);
+    return jsonRes({ ok: false, message: "❌ Server config error (Env vars missing)" }, 500);
   }
 
-  // Read client payload
   let body;
   try { body = await request.json(); } catch { return jsonRes({ ok: false, message: "Bad request" }, 400); }
 
@@ -65,7 +58,6 @@ async function handleLogin(request) {
     return jsonRes({ ok: false, message: "Username, Key, Device အားလုံး လိုအပ်ပါသည်" }, 400);
   }
 
-  // ⚠️ Token is added HERE — never exposed to browser
   const payload = {
     token: sheetToken,
     username: String(username).trim(),
@@ -73,9 +65,8 @@ async function handleLogin(request) {
     deviceId: String(deviceId).trim(),
   };
 
-  let sheetRes;
+  let sheetRes = null;
   try {
-    // Apps Script requires redirect:"follow" (it 302-redirects internally)
     const r = await fetch(sheetUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -86,22 +77,18 @@ async function handleLogin(request) {
     const text = await r.text();
     try {
       sheetRes = JSON.parse(text);
-    } catch {
-      return jsonRes({ ok: false, message: "Invalid response from auth server" }, 502);
+    } catch (parseError) {
+      return jsonRes({ ok: false, message: "❌ Apps Script မှ မှားယွင်းသော အချက်အလက် ပြန်လာပါသည်။ Deploy ပြန်လုပ်ပါ။" }, 502);
     }
   } catch (e) {
-    return jsonRes({ ok: false, message: "Auth service unavailable. ခဏနေမှ ထပ်စမ်းပါ" }, 503);
+    return jsonRes({ ok: false, message: "❌ Network Error: Apps Script နှင့် ချိတ်ဆက်၍ မရပါ။" }, 503);
   }
 
-  // Apps Script response shape: { success: bool, message: "..." }
   if (!sheetRes || sheetRes.success !== true) {
-    return jsonRes({
-      ok: false,
-      message: sheetRes.message || "Login မအောင်မြင်ပါ",
-    }, 401);
+    const errMessage = (sheetRes && sheetRes.message) ? sheetRes.message : "❌ Login မအောင်မြင်ပါ";
+    return jsonRes({ ok: false, message: errMessage }, 401);
   }
 
-  // ✅ Success — issue HMAC cookie
   const exp = Date.now() + MAX_AGE * 1000;
   const sig = await hmacSign(String(exp), secret);
   const token = `${exp}.${sig}`;
@@ -115,7 +102,6 @@ async function handleLogin(request) {
   });
 }
 
-/* ---------- Logout ---------- */
 function handleLogout() {
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
@@ -126,7 +112,6 @@ function handleLogout() {
   });
 }
 
-/* ---------- Serve index.html (strip dashboard if not authed) ---------- */
 async function serveIndex(request, context) {
   const secret = Netlify.env.get("MEPT_SECRET");
   const authed = secret ? await verifyAuth(request, secret) : false;
@@ -150,7 +135,6 @@ async function serveIndex(request, context) {
   return new Response(html, { status: response.status, headers });
 }
 
-/* ---------- Router ---------- */
 export default async (request, context) => {
   const path = new URL(request.url).pathname;
   if (path === "/api/login" && request.method === "POST")  return handleLogin(request);
