@@ -1,43 +1,3 @@
-/* =====================================================
-   MEPT Login — username + key + deviceId
-   ===================================================== */
-
-const DEVICE_ID_KEY = "mept_device_id";
-const USERNAME_KEY  = "mept_username";
-
-function getDeviceId() {
-  let id = localStorage.getItem(DEVICE_ID_KEY);
-  if (!id) {
-    // crypto.randomUUID available in all modern browsers
-    id = (crypto.randomUUID && crypto.randomUUID()) ||
-         (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12));
-    localStorage.setItem(DEVICE_ID_KEY, id);
-  }
-  return id;
-}
-
-window.openLogin = function () {
-  document.getElementById("login-overlay").classList.add("open");
-  // pre-fill username if known
-  const saved = localStorage.getItem(USERNAME_KEY);
-  if (saved && !document.getElementById("username-input").value) {
-    document.getElementById("username-input").value = saved;
-  }
-  setTimeout(() => {
-    const u = document.getElementById("username-input");
-    const k = document.getElementById("key-input");
-    (u.value ? k : u).focus();
-  }, 100);
-};
-
-window.closeLogin = function () {
-  document.getElementById("login-overlay").classList.remove("open");
-  const err = document.getElementById("login-error");
-  err.classList.remove("show");
-  err.textContent = "";
-  document.getElementById("key-input").value = "";
-};
-
 async function doLogin(e) {
   e.preventDefault();
 
@@ -67,62 +27,31 @@ async function doLogin(e) {
       body: JSON.stringify({ username, key, deviceId }),
     });
 
-    const data = await res.json().catch(() => ({}));
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch (e) {}
 
     if (!res.ok || !data.ok) {
-      // Show server-side message from Google Sheet verbatim
-      err.textContent = data.message || "Login မအောင်မြင်ပါ";
+      if (data.message) {
+        // Apps Script က ပြန်တဲ့ မူရင်း Error Message
+        err.textContent = data.message;
+      } else {
+        // ဒါက Netlify က 404 (သို့) 500 Error ပြန်တဲ့အခါ ပေါ်လာမယ်
+        err.textContent = `Error ${res.status}: ${text.substring(0, 80).replace(/<[^>]*>?/gm, '')}`;
+      }
       err.classList.add("show");
       btn.disabled = false;
       btn.innerHTML = orig;
       return;
     }
 
-    // ✅ Success
     localStorage.setItem(USERNAME_KEY, username);
     location.reload();
-  } catch {
-    err.textContent = "Network error — ထပ်ကြိုးစားပါ";
+    
+  } catch (networkErr) {
+    err.textContent = "Network Error — အင်တာနက် ချိတ်ဆက်မှု စစ်ပါ";
     err.classList.add("show");
     btn.disabled = false;
     btn.innerHTML = orig;
   }
 }
-
-async function doLogout() {
-  try { await fetch("/api/logout", { method: "POST" }); } catch {}
-  // Clear only username hint; keep deviceId so re-login still works on same browser
-  localStorage.removeItem(USERNAME_KEY);
-  location.reload();
-}
-
-/* ---------- Wire up ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("login-form");
-  if (form) form.addEventListener("submit", doLogin);
-
-  const overlay = document.getElementById("login-overlay");
-  if (overlay) {
-    overlay.addEventListener("click", (e) => {
-      if (e.target.id === "login-overlay") closeLogin();
-    });
-  }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeLogin();
-  });
-
-  const dash = document.getElementById("dashboard");
-  if (dash) {
-    const welcome = dash.querySelector(".welcome-user");
-    if (welcome) {
-      const name = localStorage.getItem(USERNAME_KEY);
-      welcome.textContent = name
-        ? `⚓ ကြိုဆိုပါသည် — ${name}`
-        : "⚓ သင်္ဘောသား — ကြိုဆိုပါသည်";
-    }
-  }
-
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) logoutBtn.addEventListener("click", doLogout);
-});
