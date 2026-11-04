@@ -1,46 +1,3 @@
-/**
- * Netlify Edge Function — proxies login to Google Apps Script
- * Env vars required: SHEET_API_URL, SHEET_TOKEN, MEPT_SECRET
- */
-
-const COOKIE_NAME = "mept_auth";
-const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
-
-async function hmacSign(text, secret) {
-  const key = await crypto.subtle.importKey(
-    "raw", new TextEncoder().encode(secret),
-    { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(text));
-  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function verifyAuth(request, secret) {
-  const cookie = request.headers.get("cookie") || "";
-  const m = cookie.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
-  if (!m) return false;
-
-  const [expStr, given] = m[1].split(".");
-  if (!expStr || !given) return false;
-
-  const exp = parseInt(expStr, 10);
-  if (!exp || exp < Date.now()) return false;
-
-  const expected = await hmacSign(expStr, secret);
-  if (expected.length !== given.length) return false;
-
-  let diff = 0;
-  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ given.charCodeAt(i);
-  return diff === 0;
-}
-
-function jsonRes(obj, status = 200) {
-  return new Response(JSON.stringify(obj), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
 async function handleLogin(request) {
   const secret     = Netlify.env.get("MEPT_SECRET");
   const sheetUrl   = Netlify.env.get("SHEET_API_URL");
@@ -67,14 +24,27 @@ async function handleLogin(request) {
 
   let sheetRes = null;
   try {
-    const r = await fetch(sheetUrl, {
+    // အဆင့် ၁ - POST ပို့ပြီး Redirect ကို ကိုယ်တိုင်ဖမ်းမယ်
+    const r1 = await fetch(sheetUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      redirect: "follow",
+      redirect: "manual", // အလိုအလျောက် လိုက်မသွားစေရ
     });
 
-    const text = await r.text();
+    let finalResponse = r1;
+
+    // အဆင့် ၂ - တကယ်လို့ 302 Redirect ပြန်လာရင် GET နဲ့ ပြန်ခေါ်မယ်
+    if (r1.status === 302) {
+      const redirectUrl = r1.headers.get("Location");
+      if (redirectUrl) {
+        finalResponse = await fetch(redirectUrl, { method: "GET" });
+      } else {
+        return jsonRes({ ok: false, message: "❌ Google မှ Redirect URL မပြန်လာပါ" }, 502);
+      }
+    }
+
+    const text = await finalResponse.text();
     try {
       sheetRes = JSON.parse(text);
     } catch (parseError) {
@@ -84,6 +54,7 @@ async function handleLogin(request) {
     return jsonRes({ ok: false, message: "❌ Network Error: Apps Script နှင့် ချိတ်ဆက်၍ မရပါ။" }, 503);
   }
 
+  // ကျန်တဲ့ Success/Error စစ်ဆေးတဲ့ Code က ဒီအတိုင်းပဲ ဆက်ထားပါ...
   if (!sheetRes || sheetRes.success !== true) {
     const errMessage = (sheetRes && sheetRes.message) ? sheetRes.message : "❌ Login မအောင်မြင်ပါ";
     return jsonRes({ ok: false, message: errMessage }, 401);
@@ -101,48 +72,3 @@ async function handleLogin(request) {
     },
   });
 }
-
-function handleLogout() {
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Set-Cookie": `${COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`,
-    },
-  });
-}
-
-async function serveIndex(request, context) {
-  const secret = Netlify.env.get("MEPT_SECRET");
-  const authed = secret ? await verifyAuth(request, secret) : false;
-
-  const response = await context.next();
-  let html = await response.text();
-
-  if (authed) {
-    html = html
-      .replace(/<div id="landing-container"[^>]*>/, '<div id="landing-container" class="hidden">')
-      .replace(/<div id="dashboard"[^>]*>/, '<div id="dashboard">');
-  } else {
-    html = html.replace(
-      /<!-- =+\s*DASHBOARD_START\s*=+\s*-->[\s\S]*?<!-- =+\s*DASHBOARD_END\s*=+\s*-->/,
-      ""
-    );
-  }
-
-  const headers = new Headers(response.headers);
-  headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-  return new Response(html, { status: response.status, headers });
-}
-
-export default async (request, context) => {
-  const path = new URL(request.url).pathname;
-  if (path === "/api/login" && request.method === "POST")  return handleLogin(request);
-  if (path === "/api/logout" && request.method === "POST") return handleLogout();
-  if (path === "/" || path === "/index.html")              return serveIndex(request, context);
-  return context.next();
-};
-
-export const config = {
-  path: ["/", "/index.html", "/api/login", "/api/logout"],
-};
